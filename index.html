@@ -17,7 +17,7 @@
         .closed-arrow { transform: rotate(180deg); }
         .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px; }
         .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
-        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; cursor: pointer; }
+        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; cursor: pointer; margin-bottom: 6px; }
         .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; }
         .copy-btn { background: var(--teal); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 12px; }
         .hidden { display: none; }
@@ -39,7 +39,9 @@
             <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="スキルや案件名..." style="width:100%; padding:10px; margin-bottom:20px;">
             <div id="tagContainer">
                 <button class="tag" onclick="setSearch('C#')">C#</button>
+                <button class="tag" onclick="setSearch('Aras Innovator')">Aras Innovator</button>
                 <button class="tag" onclick="setSearch('JavaScript')">JavaScript</button>
+                <button class="tag" onclick="setSearch('SQL')">SQL</button>
             </div>
         </aside>
 
@@ -47,18 +49,18 @@
             <div id="arrow" class="toggle-arrow" onclick="toggleSidebar()"></div>
             <h1>新着案件一覧</h1>
             <div class="job-grid" id="jobList">
-                <div class="card" data-skill="C# JavaScript">
+                <div class="card" data-skill="C# Aras Innovator JavaScript SQL">
                     <small>案件元: 確認中 | 掲載日: 2026/07/07</small>
                     <h2 style="margin: 10px 0;">PLM構築支援対応</h2>
                     <div style="margin-bottom: 10px;">
-                        <span class="tag">C#</span><span class="tag">JavaScript</span>
+                        <span class="tag">C#</span><span class="tag">Aras Innovator</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
                     </div>
                     <p>単価: 確認中 | 場所: 浜松町(元請様本社)</p>
                     
                     <div id="detail-1" class="hidden" style="background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; font-size: 14px; white-space: pre-wrap;">
-                        <div id="copy-target-1">【案件名】
+                        <div id="copy-target-1">＜案件名＞
 PLM構築支援対応
-【内容】
+＜内容＞
 【案件概要】
 BOP、M-BOM、品質管理領域の開発を実施する
 また、すでに構築した既存機能の機能追加開発を合わせて実施する
@@ -94,9 +96,7 @@ C# / JavaScript
  ・Aras Innovatorの知見
  ・要件定義の対応経験
 ■備考
- 本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。
-＜商流＞
-確認中</div>
+ 本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。</div>
                         <button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button>
                     </div>
                     <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')" style="margin-top: 15px;">詳細を見る</button>
