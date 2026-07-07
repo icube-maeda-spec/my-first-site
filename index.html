@@ -7,29 +7,32 @@
         :root { --accent: #0f172a; --header-bg: #003366; --teal: #0d9488; --bg: #f4f7f6; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #334155; margin: 0; }
         
-        /* ヘッダー */
+        /* ヘッダーエリア */
         header { background: var(--header-bg); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
         header .logo { font-weight: bold; font-size: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
 
-        /* モーダル */
+        /* プロフィールモーダル */
         #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
 
-        /* ログイン・メイン構成 */
+        /* 認証ログイン */
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; }
+        
+        /* メイン構成 */
         #main-wrapper { display: flex; }
         aside { width: 320px; background: white; height: calc(100vh - 55px); border-right: 1px solid #e2e8f0; padding: 40px; box-sizing: border-box; }
         main { flex: 1; padding: 40px; }
         
-        .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px; }
-        .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
-        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; }
-        .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; }
+        /* カードコンポーネント */
+        .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 24px; }
+        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; cursor: pointer; }
+        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; }
         
-        /* 詳細パネル */
+        /* 詳細パネル内ボタン */
         .top-close-btn { background: transparent; border: 1px solid #64748b; color: #64748b; padding: 4px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 0 auto 15px auto; }
+        .bottom-close-btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; }
         .copy-btn { background: #0d9488; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 15px auto 0 auto; }
         .hidden { display: none; }
     </style>
@@ -66,32 +69,35 @@
     </div>
 
     <div id="main-wrapper" class="hidden">
-        <aside id="sidebar">
+        <aside>
             <h2>案件検索</h2>
-            <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px;">
+            <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px; margin-bottom:20px;">
+            <button class="tag">C#</button><button class="tag">Aras Innovator</button>
+            <button class="tag">JavaScript</button><button class="tag">SQL</button>
         </aside>
         <main>
             <h1>新着案件一覧</h1>
-            <div class="job-grid" id="jobList">
-                <div class="card">
-                    <small>案件元: A社 | 掲載日: 2026/07/07</small>
-                    <h2>PLM構築支援対応</h2>
-                    <span class="tag">C#</span><span class="tag">Aras Innovator</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
-                    <div style="font-size: 14px; margin: 10px 0;">
-                        <div>場所：浜松町（元請本社）</div>
-                        <div>リモート頻度：最低週1出社</div>
-                        <div>単価：75万(10年以上で上振れ検討)</div>
-                    </div>
-                    <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')">詳細を見る</button>
-                    <div id="detail-1" class="hidden" style="margin-top:15px; font-size: 14px; white-space: pre-wrap; background:#f8fafc; padding:15px;">
-                        <button class="top-close-btn" onclick="toggleDetail('detail-1', 'btn-1')">× 詳細を閉じる</button>
-                        <div id="copy-target-1">＜案件名＞
+            <div class="card">
+                <small>案件元: A社 | 掲載日: 2026/07/07</small>
+                <h2>PLM構築支援対応</h2>
+                <span class="tag">C#</span><span class="tag">Aras Innovator</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
+                <div style="font-size: 14px; margin: 10px 0;">
+                    <div>場所：浜松町（元請本社）</div>
+                    <div>リモート頻度：最低週1出社</div>
+                    <div>単価：75万(10年以上で上振れ検討)</div>
+                    <div>商流：貴社社員まで（支援費所属支払いであれば可）</div>
+                    <div>契約：派遣契約</div>
+                </div>
+                <button class="btn-toggle" id="btn-show-1" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を見る</button>
+                
+                <div id="detail-1" class="hidden" style="margin-top:15px; font-size: 14px; white-space: pre-wrap; background:#f8fafc; padding:15px; border-radius:8px;">
+                    <button class="top-close-btn" onclick="toggleDetail('detail-1', 'btn-show-1')">× 詳細を閉じる</button>
+                    <div id="copy-target-1">＜案件名＞
 PLM構築支援対応
 ＜内容＞
 【案件概要】
 BOP、M-BOM、品質管理領域の開発を実施する
 また、すでに構築した既存機能の機能追加開発を合わせて実施する
-
 【作業内容】
 ・工程：詳細設計～結合テストをウォーターフォールで実施
 ・製造業様向けAras Innovatorの開発
@@ -99,33 +105,16 @@ BOP、M-BOM、品質管理領域の開発を実施する
 2026/8 ～ 2026/12
 ＜作業フェーズ＞
 詳細設計、開発、単体テスト、結合テスト
-＜ＯＳ＞
-Windows
-＜ＤＢ、ＭＷ＞
-SQL Server
-＜言語＞
-C# / JavaScript
-＜作業場所＞
-浜松町(元請様本社)
-＜テレワーク状況＞
-テレワーク有 (最低週1日程度の元請様本社への出社を想定)
-＜人数＞
-1名
-＜顔合わせ回数＞
-2回web（1回でOKな場合もあります）
 ＜要求スキル＞
 ■必須スキル
- ・WEBアプリケーション開発経験（C# or Java、JavaScript、html、SQL）
- ・詳細設計～単体テスト工程を単独でできる
- ・コミュニケーションが良く、主体的、能動的に動ける方
- ・製造業の業務への知見（なくてもOKです）
+・WEBアプリケーション開発経験（C# or Java、JavaScript、html、SQL）
+・詳細設計～単体テスト工程を単独でできる
 ■オプションスキル
- ・Aras Innovatorの知見
- ・要件定義の対応経験
+・Aras Innovatorの知見
 ■備考
- 本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。</div>
-                        <button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button>
-                    </div>
+本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。</div>
+                    <button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button>
+                    <button class="bottom-close-btn" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を閉じる</button>
                 </div>
             </div>
         </main>
@@ -142,7 +131,7 @@ C# / JavaScript
             const el = document.getElementById(id);
             const btn = document.getElementById(btnId);
             el.classList.toggle('hidden');
-            btn.innerText = el.classList.contains('hidden') ? "詳細を見る" : "詳細を閉じる";
+            btn.classList.toggle('hidden');
         }
         function copyToClipboard(id) {
             const text = document.getElementById(id).innerText;
