@@ -4,47 +4,23 @@
     <meta charset="UTF-8">
     <title>案件掲示板 | ITプロフェッショナル</title>
     <style>
-        :root {
-            --nav-bg: #ffffff;
-            --main-bg: #f4f7f6;
-            --accent: #0f172a;
-            --teal: #0d9488;
-            --text: #334155;
-        }
-        body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; background-color: var(--main-bg); color: var(--text); display: flex; margin: 0; }
-
-        /* ログイン画面 */
+        :root { --accent: #0f172a; --teal: #0d9488; --bg: #f4f7f6; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #334155; display: flex; margin: 0; }
+        
+        /* ログイン・サイドバー・メイン共通スタイル */
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; }
-
-        /* サイドバー */
         aside { width: 320px; background: white; height: 100vh; border-right: 1px solid #e2e8f0; padding: 40px; box-sizing: border-box; transition: 0.3s; position: relative; }
         aside.closed { width: 0; padding: 40px 0; overflow: hidden; border: none; }
-
-        /* メインエリア */
         main { flex: 1; padding: 40px; position: relative; }
-        
-        /* 矢印 (メイン左上) */
-        .toggle-arrow { 
-            position: absolute; top: 45px; left: -10px; cursor: pointer; background: white;
-            width: 24px; height: 24px; border: 1px solid #e2e8f0; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: 0.3s; z-index: 10;
-        }
+        .toggle-arrow { position: absolute; top: 45px; left: -10px; cursor: pointer; background: white; width: 24px; height: 24px; border: 1px solid #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: 0.3s; z-index: 10; }
         .toggle-arrow::before { content: '◀'; font-size: 10px; color: var(--accent); }
         .closed-arrow { transform: rotate(180deg); }
-
-        /* カードデザイン */
-        .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
-        .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; transition: 0.3s; }
-        .card:hover { border-color: #cbd5e1; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-
-        /* タグ・ボタン */
-        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 8px; margin-bottom: 8px; cursor: pointer; }
-        .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; transition: 0.3s; }
-        .btn:hover { background: var(--accent); color: white; }
-
-        h1 { font-size: 24px; margin-bottom: 30px; color: var(--accent); }
+        .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px; }
+        .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
+        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; cursor: pointer; }
+        .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; }
+        .copy-btn { background: var(--teal); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 12px; }
         .hidden { display: none; }
     </style>
 </head>
@@ -54,74 +30,84 @@
         <div class="login-box">
             <h2>認証が必要です</h2>
             <input type="password" id="password" placeholder="パスワード" style="padding:10px; width:100%; border:1px solid #ccc; border-radius:4px; margin-bottom:15px;">
-            <button id="login-btn" onclick="checkPassword()" style="padding:10px 20px; background:#0f172a; color:white; border:none; border-radius:4px; cursor:pointer; width:100%;">ログイン</button>
+            <button id="login-btn" onclick="checkPassword()" style="padding:10px; background:#0f172a; color:white; border:none; width:100%;">ログイン</button>
         </div>
     </div>
 
     <div id="main-content" class="hidden" style="display: flex; width: 100%;">
         <aside id="sidebar">
             <h2>案件検索</h2>
-            <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="スキルや案件名..." style="width:100%; padding:12px; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:20px;">
-            <button class="tag" onclick="setSearch('Java')">Java</button>
-            <button class="tag" onclick="setSearch('C#')">C#</button>
+            <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="スキルや案件名..." style="width:100%; padding:10px; margin-bottom:20px;">
+            <div id="tagContainer">
+                <button class="tag" onclick="setSearch('PHP')">PHP</button>
+                <button class="tag" onclick="setSearch('GRANDIT')">GRANDIT</button>
+                <button class="tag" onclick="setSearch('ERP')">ERP</button>
+            </div>
         </aside>
 
         <main>
             <div id="arrow" class="toggle-arrow" onclick="toggleSidebar()"></div>
             <h1>新着案件一覧</h1>
             <div class="job-grid" id="jobList">
-                
-                <div class="card" data-skill="C# JavaScript">
-                    <h3 style="margin-top: 0; color: var(--accent);">PLM構築支援対応</h3>
-                    <div>
-                        <span class="tag">C#</span>
-                        <span class="tag">JavaScript</span>
+                <div class="card" data-skill="PHP ERP">
+                    <small>T社様 | 掲載日: 2026/07/07</small>
+                    <h2 style="margin: 10px 0;">PLM構築支援対応</h2>
+                    <div style="margin-bottom: 10px;">
+                        <span class="tag">PHP</span><span class="tag">ERP</span>
                     </div>
-                    <div id="detail-1" class="hidden" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; font-size: 14px; color: #64748b;">
-                        <p><strong>概要:</strong> BOP、M-BOM、品質管理領域の開発</p>
+                    <p>単価: 90万まで | 場所: リモート週3</p>
+                    
+                    <div id="detail-1" class="hidden" style="background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; font-size: 14px;">
+                        <div id="copy-target-1">
+                            【案件情報】<br>
+                            案件名: PLM構築支援対応<br>
+                            案件元: T社様<br>
+                            掲載日: 2026/07/07<br>
+                            スキル: PHP, ERP<br>
+                            単価: 90万まで<br>
+                            場所: リモート週3<br>
+                            精算幅: 確認中<br>
+                            面談回数: 確認中<br>
+                            商流: 確認中
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button>
                     </div>
-                    <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')" style="margin-top:20px;">詳細を見る</button>
+                    <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')" style="margin-top: 15px;">詳細を見る</button>
                 </div>
-
             </div>
         </main>
     </div>
 
     <script>
-        // パスワード入力欄でEnterキーが押されたらログインボタンをクリック
-        document.getElementById('password').addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') { document.getElementById('login-btn').click(); }
-        });
-
-        // パスワード設定
-        const CORRECT_PASSWORD = "admin"; 
-
+        document.getElementById('password').addEventListener('keydown', (e) => { if(e.key === 'Enter') document.getElementById('login-btn').click(); });
+        
         function checkPassword() {
-            if (document.getElementById('password').value === CORRECT_PASSWORD) {
+            // パスワードを admin に設定
+            if (document.getElementById('password').value === "admin") {
                 document.getElementById('login-overlay').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
             } else { alert("パスワードが違います"); }
         }
-
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('closed');
             document.getElementById('arrow').classList.toggle('closed-arrow');
         }
-
         function setSearch(val) { document.getElementById('searchInput').value = val; filterJobs(); }
-
         function filterJobs() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             document.querySelectorAll('.card').forEach(card => {
                 card.style.display = card.dataset.skill.toLowerCase().includes(input) ? "" : "none";
             });
         }
-
         function toggleDetail(detailId, btnId) {
             const detail = document.getElementById(detailId);
             const btn = document.getElementById(btnId);
             detail.classList.toggle('hidden');
             btn.innerText = detail.classList.contains('hidden') ? "詳細を見る" : "詳細を閉じる";
+        }
+        function copyToClipboard(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => alert("詳細をコピーしました！"));
         }
     </script>
 </body>
