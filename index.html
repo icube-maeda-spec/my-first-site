@@ -19,8 +19,7 @@
         .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
         .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; cursor: pointer; margin-bottom: 6px; }
         .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; }
-        .copy-btn { background: var(--teal); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 12px; }
-        .close-btn { background: #64748b; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 12px; margin-left: 5px; }
+        .copy-btn { background: var(--teal); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 15px auto 0 auto; }
         .hidden { display: none; }
     </style>
 </head>
@@ -65,8 +64,7 @@
                     </div>
                     
                     <div id="detail-1" class="hidden" style="background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; font-size: 14px; white-space: pre-wrap;">
-                        <button class="close-btn" onclick="toggleDetail('detail-1', 'btn-1')">詳細を閉じる</button>
-                        <div id="copy-target-1" style="margin-top: 10px;">＜案件名＞
+                        <div id="copy-target-1">＜案件名＞
 PLM構築支援対応
 ＜内容＞
 【案件概要】
@@ -106,7 +104,6 @@ C# / JavaScript
 ■備考
  本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。</div>
                         <button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button>
-                        <button class="close-btn" onclick="toggleDetail('detail-1', 'btn-1')">詳細を閉じる</button>
                     </div>
                     <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')" style="margin-top: 15px;">詳細を見る</button>
                 </div>
