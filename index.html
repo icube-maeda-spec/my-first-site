@@ -37,6 +37,18 @@
         #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
     </style>
+
+    <style>
+        main { display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
+        .card { width: calc(50% - 12px); margin-bottom: 0 !important; box-sizing: border-box; }
+        .modal-view {
+            position: fixed !important; top: 50% !important; left: 50% !important;
+            transform: translate(-50%, -50%); width: 80% !important;
+            max-width: 600px !important; max-height: 80vh !important;
+            overflow-y: auto !important; z-index: 3000 !important;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3) !important; margin: 0 !important;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -70,7 +82,7 @@
             </div>
         </aside>
         <main>
-            <h1>新着案件一覧</h1>
+            <h1 style="width:100%">新着案件一覧</h1>
             <div class="card">
                 <small>案件元: A社 | 掲載日: 2026/07/07</small>
                 <h2>PLM構築支援対応</h2>
@@ -101,39 +113,20 @@ BOP、M-BOM、品質管理領域の開発を実施する
             </div>
         </main>
     </div>
-    <style>
-    /* 詳細要素をモーダル化する追加スタイル */
-    .modal-view {
-        position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%);
-        width: 80% !important;
-        max-width: 600px !important;
-        max-height: 80vh !important;
-        overflow-y: auto !important;
-        z-index: 3000 !important;
-        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3) !important;
-        margin: 0 !important;
-    }
-</style>
-
-<script>
-    // 既存の toggleDetail を上書き・拡張する仕組み
-    const originalToggleDetail = toggleDetail;
-    toggleDetail = function(id, btnId) {
-        const detailEl = document.getElementById(id);
-        detailEl.classList.toggle('modal-view');
-        // 必要に応じて背景を暗くする処理などをここに追加可能
-        originalToggleDetail(id, btnId);
-    };
-</script>
+    
     <script>
         document.getElementById('password').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkPassword(); });
         function toggleSidebar() { const sb = document.getElementById('sidebar'); const btn = document.getElementById('toggle-btn'); sb.classList.toggle('collapsed'); btn.innerText = sb.classList.contains('collapsed') ? '▶' : '◀'; }
         function checkPassword() { if (document.getElementById('password').value === "admin") { document.getElementById('login-overlay').style.display = 'none'; document.getElementById('main-wrapper').classList.remove('hidden'); } else { alert("パスワードが違います"); } }
-        function toggleDetail(id, btnId) { document.getElementById(id).classList.toggle('hidden'); document.getElementById(btnId).classList.toggle('hidden'); }
         function copyToClipboard(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert("コピーしました！")); }
+
+        function toggleDetail(id, btnId) {
+            const detailEl = document.getElementById(id);
+            const btnEl = document.getElementById(btnId);
+            detailEl.classList.toggle('modal-view');
+            detailEl.classList.toggle('hidden');
+            btnEl.classList.toggle('hidden');
+        }
     </script>
 </body>
 </html>
