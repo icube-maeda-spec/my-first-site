@@ -2,21 +2,76 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>私のサイト</title>
+    <title>案件掲示板</title>
     <style>
-        body { 
-            font-family: sans-serif; 
-            background-color: #f4f4f9; 
-            padding: 20px; 
-        }
-        h1 { 
-            color: #333; 
-        }
+        /* --- CSS: デザインの定義 --- */
+        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; }
+        
+        /* サイドバー */
+        aside { width: 250px; background: white; padding: 20px; height: 100vh; border-right: 1px solid #ddd; }
+        
+        /* メインエリア */
+        main { flex: 1; padding: 20px; }
+        
+        /* 案件カード */
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        /* 隠し機能用 */
+        .hidden { display: none; }
+        
+        /* ボタンなど */
+        .btn { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1>案件掲示板へようこそ！</h1>
-    <p>準備中です。</p>
-    <p>7月中に完成予定です。</p>
+
+    <aside>
+        <h2>検索</h2>
+        <input type="text" id="searchInput" placeholder="言語で検索..." onkeyup="filterJobs()">
+        <h3>スキルタグ</h3>
+        <button onclick="filterBySkill('Java')">Java</button>
+        <button onclick="filterBySkill('C#')">C#</button>
+    </aside>
+
+    <main>
+        <h1>案件一覧</h1>
+        <div id="jobList">
+            <div class="card" data-skill="C# JavaScript">
+                <h3>PLM構築支援対応</h3>
+                <p>言語: C#, JavaScript</p>
+                <div id="detail-1" class="hidden">
+                    <p>概要: BOP、M-BOM、品質管理領域の開発</p>
+                    <p>場所: 浜松町</p>
+                </div>
+                <button class="btn" onclick="toggleDetail('detail-1')">詳細を見る</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /* --- JavaScript: 動きの定義 --- */
+        
+        // 1. 検索機能
+        function filterJobs() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('card');
+            for (let card of cards) {
+                let skill = card.getAttribute('data-skill').toLowerCase();
+                card.style.display = skill.includes(input) ? "" : "none";
+            }
+        }
+
+        // 2. 詳細開閉機能
+        function toggleDetail(id) {
+            let detail = document.getElementById(id);
+            detail.classList.toggle('hidden');
+        }
+
+        // 3. タグ選択機能
+        function filterBySkill(skill) {
+            document.getElementById('searchInput').value = skill;
+            filterJobs();
+        }
+    </script>
 </body>
 </html>
