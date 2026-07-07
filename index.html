@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
     <style>
-        :root { --accent: #0f172a; --header-bg: #003366; --teal: #0d9488; --bg: #f4f7f6; --text: #334155; --card-bg: white; }
+        :root { --accent: #0f172a; --header-bg: #003366; --teal: #0d9488; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; }
         /* ダークモード用変数 */
-        .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; }
+        .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #0f172a; }
+        
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; }
         
         /* ヘッダー */
@@ -31,7 +32,7 @@
         main { flex: 1; padding: 40px; }
         
         .card { background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 24px; }
-        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; cursor: pointer; }
+        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; cursor: pointer; border: none; }
         .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; }
         
         .top-close-btn { background: transparent; border: 1px solid #64748b; color: #64748b; padding: 4px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 0 auto 15px auto; }
@@ -87,7 +88,7 @@
                 <small>案件元: A社 | 掲載日: 2026/07/07</small>
                 <h2>PLM構築支援対応</h2>
                 <span class="tag">C#</span><span class="tag">Aras Innovator</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
-                <div style="font-size: 14px; margin: 10px 0;">
+                <div style="font-size: 14px; margin: 10px 0; color: var(--text);">
                     <div>場所：浜松町（元請本社）</div>
                     <div>リモート頻度：最低週1出社</div>
                     <div>単価：75万(10年以上で上振れ検討)</div>
@@ -96,7 +97,7 @@
                 </div>
                 <button class="btn-toggle" id="btn-show-1" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を見る</button>
                 
-                <div id="detail-1" class="hidden" style="margin-top:15px; font-size: 14px; white-space: pre-wrap; background:#f8fafc; padding:15px; border-radius:8px;">
+                <div id="detail-1" class="hidden" style="margin-top:15px; font-size: 14px; white-space: pre-wrap; background: var(--panel-bg); color: var(--text); padding:15px; border-radius:8px;">
                     <button class="top-close-btn" onclick="toggleDetail('detail-1', 'btn-show-1')">× 詳細を閉じる</button>
                     <div id="copy-target-1">＜案件名＞
 PLM構築支援対応
