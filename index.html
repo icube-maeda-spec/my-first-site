@@ -2,69 +2,88 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>案件掲示板 | ITプロフェッショナル</title>
+    <title>案件掲示板 | 株式会社アイキューブ</title>
     <style>
-        :root { --accent: #0f172a; --teal: #0d9488; --bg: #f4f7f6; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #334155; display: flex; margin: 0; }
+        :root { --accent: #0f172a; --header-bg: #003366; --teal: #0d9488; --bg: #f4f7f6; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #334155; margin: 0; }
         
+        /* ヘッダー */
+        header { background: var(--header-bg); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+        header .logo { font-weight: bold; font-size: 20px; }
+        header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
+
+        /* モーダル */
+        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
+
+        /* ログイン・メイン構成 */
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; }
-        aside { width: 320px; background: white; height: 100vh; border-right: 1px solid #e2e8f0; padding: 40px; box-sizing: border-box; transition: 0.3s; position: relative; }
-        aside.closed { width: 0; padding: 40px 0; overflow: hidden; border: none; }
-        main { flex: 1; padding: 40px; position: relative; }
-        .toggle-arrow { position: absolute; top: 45px; left: -10px; cursor: pointer; background: white; width: 24px; height: 24px; border: 1px solid #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: 0.3s; z-index: 10; }
-        .toggle-arrow::before { content: '◀'; font-size: 10px; color: var(--accent); }
-        .closed-arrow { transform: rotate(180deg); }
+        #main-wrapper { display: flex; }
+        aside { width: 320px; background: white; height: calc(100vh - 55px); border-right: 1px solid #e2e8f0; padding: 40px; box-sizing: border-box; }
+        main { flex: 1; padding: 40px; }
+        
         .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px; }
         .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
-        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; cursor: pointer; margin-bottom: 6px; }
-        .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; }
-        .copy-btn { background: #0d9488; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 15px auto 0 auto; }
+        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; }
+        .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; }
+        
+        /* 詳細パネル */
         .top-close-btn { background: transparent; border: 1px solid #64748b; color: #64748b; padding: 4px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 0 auto 15px auto; }
+        .copy-btn { background: #0d9488; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 15px auto 0 auto; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="login-overlay">
-        <div class="login-box">
-            <h2>認証が必要です</h2>
-            <input type="password" id="password" placeholder="パスワード" style="padding:10px; width:100%; border:1px solid #ccc; border-radius:4px; margin-bottom:15px;">
-            <button id="login-btn" onclick="checkPassword()" style="padding:10px; background:#0f172a; color:white; border:none; width:100%;">ログイン</button>
+    <header>
+        <div class="logo">Icube アイキューブ</div>
+        <nav>
+            <a href="https://www.icube-inc.com" target="_blank">会社概要</a>
+            <a onclick="document.getElementById('profile-modal').style.display='flex'">問合せ</a>
+        </nav>
+    </header>
+
+    <div id="profile-modal" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>前田 玄真 (Maeda Genma)</h3>
+            <img src="QRcode.png" alt="LINE WORKS" style="width: 150px; margin: 10px 0;">
+            <p style="text-align: left; font-size: 14px;">
+                Phone: 070-1370-1870<br>
+                Tell: 03-5651-0170<br>
+                Address: 東京都中央区日本橋馬喰町1-3-6 馬喰町三京ビル2F
+            </p>
+            <button onclick="document.getElementById('profile-modal').style.display='none'">閉じる</button>
         </div>
     </div>
 
-    <div id="main-content" class="hidden" style="display: flex; width: 100%;">
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>認証</h2>
+            <input type="password" id="password" placeholder="パスワード" style="padding:10px; width:100%; border:1px solid #ccc; border-radius:4px; margin-bottom:15px;">
+            <button onclick="checkPassword()" style="padding:10px; background:#0f172a; color:white; border:none; width:100%;">ログイン</button>
+        </div>
+    </div>
+
+    <div id="main-wrapper" class="hidden">
         <aside id="sidebar">
             <h2>案件検索</h2>
-            <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="スキルや案件名..." style="width:100%; padding:10px; margin-bottom:20px;">
-            <div id="tagContainer">
-                <button class="tag" onclick="setSearch('C#')">C#</button>
-                <button class="tag" onclick="setSearch('Aras Innovator')">Aras Innovator</button>
-                <button class="tag" onclick="setSearch('JavaScript')">JavaScript</button>
-                <button class="tag" onclick="setSearch('SQL')">SQL</button>
-            </div>
+            <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px;">
         </aside>
-
         <main>
-            <div id="arrow" class="toggle-arrow" onclick="toggleSidebar()"></div>
             <h1>新着案件一覧</h1>
             <div class="job-grid" id="jobList">
-                <div class="card" data-skill="C# Aras Innovator JavaScript SQL">
+                <div class="card">
                     <small>案件元: A社 | 掲載日: 2026/07/07</small>
-                    <h2 style="margin: 10px 0;">PLM構築支援対応</h2>
-                    <div style="margin-bottom: 10px;">
-                        <span class="tag">C#</span><span class="tag">Aras Innovator</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
-                    </div>
-                    <div style="font-size: 14px; line-height: 1.6; color: #475569;">
+                    <h2>PLM構築支援対応</h2>
+                    <span class="tag">C#</span><span class="tag">Aras Innovator</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
+                    <div style="font-size: 14px; margin: 10px 0;">
                         <div>場所：浜松町（元請本社）</div>
                         <div>リモート頻度：最低週1出社</div>
                         <div>単価：75万(10年以上で上振れ検討)</div>
-                        <div>商流：貴社社員まで（支援費所属支払いであれば可）</div>
-                        <div>契約：派遣契約</div>
                     </div>
-                    
-                    <div id="detail-1" class="hidden" style="background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; font-size: 14px; white-space: pre-wrap;">
+                    <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')">詳細を見る</button>
+                    <div id="detail-1" class="hidden" style="margin-top:15px; font-size: 14px; white-space: pre-wrap; background:#f8fafc; padding:15px;">
                         <button class="top-close-btn" onclick="toggleDetail('detail-1', 'btn-1')">× 詳細を閉じる</button>
                         <div id="copy-target-1">＜案件名＞
 PLM構築支援対応
@@ -107,40 +126,27 @@ C# / JavaScript
  本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。</div>
                         <button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button>
                     </div>
-                    <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')" style="margin-top: 15px;">詳細を見る</button>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        document.getElementById('password').addEventListener('keydown', (e) => { if(e.key === 'Enter') document.getElementById('login-btn').click(); });
         function checkPassword() {
             if (document.getElementById('password').value === "admin") {
                 document.getElementById('login-overlay').style.display = 'none';
-                document.getElementById('main-content').classList.remove('hidden');
+                document.getElementById('main-wrapper').classList.remove('hidden');
             } else { alert("パスワードが違います"); }
         }
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('closed');
-            document.getElementById('arrow').classList.toggle('closed-arrow');
-        }
-        function setSearch(val) { document.getElementById('searchInput').value = val; filterJobs(); }
-        function filterJobs() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('.card').forEach(card => {
-                card.style.display = card.dataset.skill.toLowerCase().includes(input) ? "" : "none";
-            });
-        }
-        function toggleDetail(detailId, btnId) {
-            const detail = document.getElementById(detailId);
+        function toggleDetail(id, btnId) {
+            const el = document.getElementById(id);
             const btn = document.getElementById(btnId);
-            detail.classList.toggle('hidden');
-            btn.innerText = detail.classList.contains('hidden') ? "詳細を見る" : "詳細を閉じる";
+            el.classList.toggle('hidden');
+            btn.innerText = el.classList.contains('hidden') ? "詳細を見る" : "詳細を閉じる";
         }
         function copyToClipboard(id) {
             const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text).then(() => alert("詳細をコピーしました！"));
+            navigator.clipboard.writeText(text).then(() => alert("コピーしました！"));
         }
     </script>
 </body>
