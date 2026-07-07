@@ -13,16 +13,18 @@
 
         /* メインエリア */
         main { flex: 1; padding: 40px; position: relative; }
+        
+        /* 【修正箇所】サイドバーとの境目、メインエリアの左上付近に配置 */
+        .toggle-arrow { 
+            position: absolute; top: 30px; left: 10px; cursor: pointer;
+            width: 15px; height: 15px; border-top: 2px solid #adb5bd; border-left: 2px solid #adb5bd; 
+            transform: rotate(-45deg); transition: 0.3s;
+        }
+        .closed-arrow { transform: rotate(135deg); left: 20px; }
+        
         .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
         .card { background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        
-        /* タグ（検索用） */
         .tag-btn { background: #e0f2f1; color: var(--primary); border: none; padding: 6px 12px; border-radius: 20px; font-size: 13px; cursor: pointer; margin: 4px; }
-        .tag-btn:hover { background: #b2dfdb; }
-
-        /* 矢印（右上に配置） */
-        .toggle-arrow { position: absolute; top: 20px; right: 20px; cursor: pointer; width: 15px; height: 15px; border-top: 2px solid #adb5bd; border-right: 2px solid #adb5bd; transform: rotate(45deg); transition: 0.3s; }
-        .closed-arrow { transform: rotate(225deg); }
         .hidden { display: none; }
     </style>
 </head>
@@ -30,17 +32,16 @@
 
     <aside id="sidebar">
         <h2>検索</h2>
-        <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="キーワードを入力..." style="width:100%; padding:8px; margin-bottom:20px;">
+        <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="キーワード..." style="width:100%; padding:8px; margin-bottom:20px;">
         <h3>スキル絞り込み</h3>
         <button class="tag-btn" onclick="setSearch('C#')">C#</button>
         <button class="tag-btn" onclick="setSearch('Java')">Java</button>
-        <button class="tag-btn" onclick="setSearch('')">すべて表示</button>
     </aside>
 
     <main>
         <div id="arrow" class="toggle-arrow" onclick="toggleSidebar()"></div>
-        <h1>案件一覧</h1>
         
+        <h1 style="margin-left: 30px;">案件一覧</h1>
         <div class="job-grid" id="jobList">
             <div class="card" data-skill="C# JavaScript">
                 <h3>PLM構築支援対応</h3>
@@ -58,10 +59,7 @@
             document.getElementById('sidebar').classList.toggle('closed');
             document.getElementById('arrow').classList.toggle('closed-arrow');
         }
-        function setSearch(val) {
-            document.getElementById('searchInput').value = val;
-            filterJobs();
-        }
+        function setSearch(val) { document.getElementById('searchInput').value = val; filterJobs(); }
         function filterJobs() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             document.querySelectorAll('.card').forEach(card => {
