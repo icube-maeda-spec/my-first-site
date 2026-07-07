@@ -101,6 +101,33 @@ BOP、M-BOM、品質管理領域の開発を実施する
             </div>
         </main>
     </div>
+    <style>
+    /* 詳細要素をモーダル化する追加スタイル */
+    .modal-view {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%);
+        width: 80% !important;
+        max-width: 600px !important;
+        max-height: 80vh !important;
+        overflow-y: auto !important;
+        z-index: 3000 !important;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3) !important;
+        margin: 0 !important;
+    }
+</style>
+
+<script>
+    // 既存の toggleDetail を上書き・拡張する仕組み
+    const originalToggleDetail = toggleDetail;
+    toggleDetail = function(id, btnId) {
+        const detailEl = document.getElementById(id);
+        detailEl.classList.toggle('modal-view');
+        // 必要に応じて背景を暗くする処理などをここに追加可能
+        originalToggleDetail(id, btnId);
+    };
+</script>
     <script>
         document.getElementById('password').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkPassword(); });
         function toggleSidebar() { const sb = document.getElementById('sidebar'); const btn = document.getElementById('toggle-btn'); sb.classList.toggle('collapsed'); btn.innerText = sb.classList.contains('collapsed') ? '▶' : '◀'; }
