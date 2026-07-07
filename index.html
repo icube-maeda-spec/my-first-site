@@ -7,7 +7,6 @@
         :root { --accent: #0f172a; --teal: #0d9488; --bg: #f4f7f6; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #334155; display: flex; margin: 0; }
         
-        /* ログイン・サイドバー・メイン共通スタイル */
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; }
         aside { width: 320px; background: white; height: 100vh; border-right: 1px solid #e2e8f0; padding: 40px; box-sizing: border-box; transition: 0.3s; position: relative; }
@@ -39,9 +38,8 @@
             <h2>案件検索</h2>
             <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="スキルや案件名..." style="width:100%; padding:10px; margin-bottom:20px;">
             <div id="tagContainer">
-                <button class="tag" onclick="setSearch('PHP')">PHP</button>
-                <button class="tag" onclick="setSearch('GRANDIT')">GRANDIT</button>
-                <button class="tag" onclick="setSearch('ERP')">ERP</button>
+                <button class="tag" onclick="setSearch('C#')">C#</button>
+                <button class="tag" onclick="setSearch('JavaScript')">JavaScript</button>
             </div>
         </aside>
 
@@ -49,27 +47,56 @@
             <div id="arrow" class="toggle-arrow" onclick="toggleSidebar()"></div>
             <h1>新着案件一覧</h1>
             <div class="job-grid" id="jobList">
-                <div class="card" data-skill="PHP ERP">
-                    <small>T社様 | 掲載日: 2026/07/07</small>
+                <div class="card" data-skill="C# JavaScript">
+                    <small>案件元: 確認中 | 掲載日: 2026/07/07</small>
                     <h2 style="margin: 10px 0;">PLM構築支援対応</h2>
                     <div style="margin-bottom: 10px;">
-                        <span class="tag">PHP</span><span class="tag">ERP</span>
+                        <span class="tag">C#</span><span class="tag">JavaScript</span>
                     </div>
-                    <p>単価: 90万まで | 場所: リモート週3</p>
+                    <p>単価: 確認中 | 場所: 浜松町(元請様本社)</p>
                     
-                    <div id="detail-1" class="hidden" style="background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; font-size: 14px;">
-                        <div id="copy-target-1">
-                            【案件情報】<br>
-                            案件名: PLM構築支援対応<br>
-                            案件元: T社様<br>
-                            掲載日: 2026/07/07<br>
-                            スキル: PHP, ERP<br>
-                            単価: 90万まで<br>
-                            場所: リモート週3<br>
-                            精算幅: 確認中<br>
-                            面談回数: 確認中<br>
-                            商流: 確認中
-                        </div>
+                    <div id="detail-1" class="hidden" style="background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; font-size: 14px; white-space: pre-wrap;">
+                        <div id="copy-target-1">【案件名】
+PLM構築支援対応
+【内容】
+【案件概要】
+BOP、M-BOM、品質管理領域の開発を実施する
+また、すでに構築した既存機能の機能追加開発を合わせて実施する
+
+【作業内容】
+・工程：詳細設計～結合テストをウォーターフォールで実施
+・製造業様向けAras Innovatorの開発
+＜作業期間＞
+2026/8 ～ 2026/12
+＜作業フェーズ＞
+詳細設計、開発、単体テスト、結合テスト
+＜ＯＳ＞
+Windows
+＜ＤＢ、ＭＷ＞
+SQL Server
+＜言語＞
+C# / JavaScript
+＜作業場所＞
+浜松町(元請様本社)
+＜テレワーク状況＞
+テレワーク有 (最低週1日程度の元請様本社への出社を想定)
+＜人数＞
+1名
+＜顔合わせ回数＞
+2回web（1回でOKな場合もあります）
+＜要求スキル＞
+■必須スキル
+ ・WEBアプリケーション開発経験（C# or Java、JavaScript、html、SQL）
+ ・詳細設計～単体テスト工程を単独でできる
+ ・コミュニケーションが良く、主体的、能動的に動ける方
+ ・製造業の業務への知見（なくてもOKです）
+■オプションスキル
+ ・Aras Innovatorの知見
+ ・要件定義の対応経験
+■備考
+ 本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。
+＜商流＞
+確認中</div>
                         <button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button>
                     </div>
                     <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')" style="margin-top: 15px;">詳細を見る</button>
@@ -80,9 +107,7 @@
 
     <script>
         document.getElementById('password').addEventListener('keydown', (e) => { if(e.key === 'Enter') document.getElementById('login-btn').click(); });
-        
         function checkPassword() {
-            // パスワードを admin に設定
             if (document.getElementById('password').value === "admin") {
                 document.getElementById('login-overlay').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
