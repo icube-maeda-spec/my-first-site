@@ -4,68 +4,75 @@
     <meta charset="UTF-8">
     <title>案件掲示板</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f4f9; display: flex; margin: 0; }
+        :root { --primary: #1a7f64; --bg: #f8fafc; --text: #334155; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); display: flex; margin: 0; }
         
-        /* サイドバーの基本設定 */
-        aside { width: 250px; background: white; height: 100vh; border-right: 1px solid #ddd; transition: 0.3s; padding: 20px; }
-        aside.closed { width: 0; padding: 20px 0; overflow: hidden; }
+        /* サイドバー */
+        aside { width: 300px; background: white; height: 100vh; border-right: 1px solid #e0e0e0; padding: 25px; transition: 0.3s; position: relative; }
+        aside.closed { width: 0; padding: 0; overflow: hidden; }
 
-        /* 矢印ボタンの設定 */
-        .toggle-btn { cursor: pointer; font-size: 20px; margin-bottom: 10px; display: inline-block; }
+        /* メインエリア */
+        main { flex: 1; padding: 40px; position: relative; }
+        .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .card { background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         
-        main { flex: 1; padding: 20px; transition: 0.3s; }
-        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        /* タグ（検索用） */
+        .tag-btn { background: #e0f2f1; color: var(--primary); border: none; padding: 6px 12px; border-radius: 20px; font-size: 13px; cursor: pointer; margin: 4px; }
+        .tag-btn:hover { background: #b2dfdb; }
+
+        /* 矢印（右上に配置） */
+        .toggle-arrow { position: absolute; top: 20px; right: 20px; cursor: pointer; width: 15px; height: 15px; border-top: 2px solid #adb5bd; border-right: 2px solid #adb5bd; transform: rotate(45deg); transition: 0.3s; }
+        .closed-arrow { transform: rotate(225deg); }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
     <aside id="sidebar">
-        <span class="toggle-btn" onclick="toggleSidebar()">← 閉じる</span>
         <h2>検索</h2>
-        <input type="text" id="searchInput" onkeyup="filterJobs()">
-        <h3>スキルタグ</h3>
-        <button onclick="filterBySkill('Java')">Java</button>
-        <button onclick="filterBySkill('C#')">C#</button>
+        <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="キーワードを入力..." style="width:100%; padding:8px; margin-bottom:20px;">
+        <h3>スキル絞り込み</h3>
+        <button class="tag-btn" onclick="setSearch('C#')">C#</button>
+        <button class="tag-btn" onclick="setSearch('Java')">Java</button>
+        <button class="tag-btn" onclick="setSearch('')">すべて表示</button>
     </aside>
 
     <main>
-        <span id="openBtn" class="toggle-btn hidden" onclick="toggleSidebar()">→ 開く</span>
+        <div id="arrow" class="toggle-arrow" onclick="toggleSidebar()"></div>
         <h1>案件一覧</h1>
-        <div id="jobList">
+        
+        <div class="job-grid" id="jobList">
             <div class="card" data-skill="C# JavaScript">
                 <h3>PLM構築支援対応</h3>
-                <p>言語: C#, JavaScript</p>
-                <div id="detail-1" class="hidden">
-                    <p>概要: BOP、M-BOM、品質管理領域の開発</p>
+                <div id="detail-1" class="hidden" style="margin-top: 15px; font-size: 14px; color: #666;">
+                    <p><strong>言語:</strong> C#, JavaScript</p>
+                    <p><strong>概要:</strong> BOP、M-BOM、品質管理領域の開発</p>
                 </div>
-                <button onclick="toggleDetail('detail-1')">詳細を見る</button>
+                <button onclick="toggleDetail('detail-1', 'btn-1')" id="btn-1" style="background:#1a7f64; color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; width:100%;">詳細を見る</button>
             </div>
         </div>
     </main>
 
     <script>
-        // 1. サイドバー開閉機能
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const openBtn = document.getElementById('openBtn');
-            sidebar.classList.toggle('closed');
-            openBtn.classList.toggle('hidden');
+            document.getElementById('sidebar').classList.toggle('closed');
+            document.getElementById('arrow').classList.toggle('closed-arrow');
         }
-
-        // 2. 検索機能
+        function setSearch(val) {
+            document.getElementById('searchInput').value = val;
+            filterJobs();
+        }
         function filterJobs() {
             let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('card');
-            for (let card of cards) {
-                let skill = card.getAttribute('data-skill').toLowerCase();
-                card.style.display = skill.includes(input) ? "" : "none";
-            }
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.display = card.dataset.skill.toLowerCase().includes(input) ? "" : "none";
+            });
         }
-
-        // 3. 詳細開閉機能
-        function toggleDetail(id) {
-            document.getElementById(id).classList.toggle('hidden');
+        function toggleDetail(detailId, btnId) {
+            const detail = document.getElementById(detailId);
+            const btn = document.getElementById(btnId);
+            detail.classList.toggle('hidden');
+            btn.innerText = detail.classList.contains('hidden') ? "詳細を見る" : "詳細を閉じる";
         }
     </script>
 </body>
