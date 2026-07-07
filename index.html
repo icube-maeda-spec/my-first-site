@@ -88,8 +88,13 @@
     </div>
 
     <script>
+        // エンターキーでログイン実行
+        document.getElementById('password').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') { checkPassword(); }
+        });
+
         // パスワード設定
-        const CORRECT_PASSWORD = "icube"; 
+        const CORRECT_PASSWORD = "password123"; 
 
         function checkPassword() {
             if (document.getElementById('password').value === CORRECT_PASSWORD) {
