@@ -2,54 +2,74 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>案件掲示板</title>
+    <title>案件掲示板 | ITプロフェッショナル</title>
     <style>
-        :root { --primary: #1a7f64; --bg: #f8fafc; --text: #334155; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); display: flex; margin: 0; }
-        
+        :root {
+            --nav-bg: #ffffff;
+            --main-bg: #f4f7f6;
+            --accent: #0f172a; /* 知的な濃紺 */
+            --teal: #0d9488;
+            --text: #334155;
+        }
+        body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; background-color: var(--main-bg); color: var(--text); display: flex; margin: 0; }
+
         /* サイドバー */
-        aside { width: 300px; background: white; height: 100vh; border-right: 1px solid #e0e0e0; padding: 25px; transition: 0.3s; position: relative; }
-        aside.closed { width: 0; padding: 0; overflow: hidden; }
+        aside { width: 320px; background: white; height: 100vh; border-right: 1px solid #e2e8f0; padding: 40px; box-sizing: border-box; transition: 0.3s; }
+        aside.closed { width: 0; padding: 40px 0; overflow: hidden; border: none; }
 
         /* メインエリア */
         main { flex: 1; padding: 40px; position: relative; }
         
-        /* 【修正箇所】サイドバーとの境目、メインエリアの左上付近に配置 */
+        /* 矢印 (メイン左上) */
         .toggle-arrow { 
-            position: absolute; top: 30px; left: 10px; cursor: pointer;
-            width: 15px; height: 15px; border-top: 2px solid #adb5bd; border-left: 2px solid #adb5bd; 
-            transform: rotate(-45deg); transition: 0.3s;
+            position: absolute; top: 45px; left: -10px; cursor: pointer; background: white;
+            width: 24px; height: 24px; border: 1px solid #e2e8f0; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: 0.3s; z-index: 10;
         }
-        .closed-arrow { transform: rotate(135deg); left: 20px; }
-        
-        .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
-        .card { background: white; border: 1px solid #e9ecef; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .tag-btn { background: #e0f2f1; color: var(--primary); border: none; padding: 6px 12px; border-radius: 20px; font-size: 13px; cursor: pointer; margin: 4px; }
-        .hidden { display: none; }
+        .toggle-arrow::before { content: '◀'; font-size: 10px; color: var(--accent); }
+        .closed-arrow { transform: rotate(180deg); }
+
+        /* カードデザイン */
+        .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 24px; }
+        .card { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; transition: 0.3s; }
+        .card:hover { border-color: #cbd5e1; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        /* タグ・ボタン */
+        .tag { display: inline-block; background: #f1f5f9; color: var(--accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 8px; margin-bottom: 8px; }
+        .btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; transition: 0.3s; }
+        .btn:hover { background: var(--accent); color: white; }
+
+        h1 { font-size: 24px; margin-bottom: 30px; color: var(--accent); }
+        h2 { font-size: 18px; color: var(--accent); margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <aside id="sidebar">
-        <h2>検索</h2>
-        <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="キーワード..." style="width:100%; padding:8px; margin-bottom:20px;">
-        <h3>スキル絞り込み</h3>
-        <button class="tag-btn" onclick="setSearch('C#')">C#</button>
-        <button class="tag-btn" onclick="setSearch('Java')">Java</button>
+        <h2>案件検索</h2>
+        <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="スキルや案件名を入力..." style="width:100%; padding:12px; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:20px;">
+        <button class="tag" onclick="setSearch('Java')">Java</button>
+        <button class="tag" onclick="setSearch('C#')">C#</button>
     </aside>
 
     <main>
         <div id="arrow" class="toggle-arrow" onclick="toggleSidebar()"></div>
+        <h1>新着案件一覧</h1>
         
-        <h1 style="margin-left: 30px;">案件一覧</h1>
         <div class="job-grid" id="jobList">
             <div class="card" data-skill="C# JavaScript">
-                <h3>PLM構築支援対応</h3>
-                <div id="detail-1" class="hidden" style="margin-top: 15px; font-size: 14px; color: #666;">
-                    <p><strong>言語:</strong> C#, JavaScript</p>
-                    <p><strong>概要:</strong> BOP、M-BOM、品質管理領域の開発</p>
+                <span style="color:var(--teal); font-size: 11px; font-weight: bold; text-transform: uppercase;">Primary</span>
+                <h3 style="margin: 10px 0; color: var(--accent);">PLM構築支援対応</h3>
+                <div>
+                    <span class="tag">C#</span>
+                    <span class="tag">JavaScript</span>
                 </div>
-                <button onclick="toggleDetail('detail-1', 'btn-1')" id="btn-1" style="background:#1a7f64; color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; width:100%;">詳細を見る</button>
+                <div id="detail-1" class="hidden" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; font-size: 14px; color: #64748b;">
+                    <p><strong>概要:</strong> BOP、M-BOM、品質管理領域の開発</p>
+                    <p><strong>期間:</strong> 2026/8 ～ 2026/12</p>
+                </div>
+                <button class="btn" id="btn-1" onclick="toggleDetail('detail-1', 'btn-1')">詳細を見る</button>
             </div>
         </div>
     </main>
