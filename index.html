@@ -78,7 +78,12 @@
             <div id="sidebar-inner">
                 <h2>案件検索</h2>
                 <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px; margin-bottom:20px;">
-                <button class="tag">C#</button><button class="tag">Aras Innovator</button><button class="tag">JavaScript</button><button class="tag">SQL</button>
+                <button class="tag" onclick="filterByTag('C#')">C#</button>
+                <button class="tag" onclick="filterByTag('Java')">Java</button>
+                <button class="tag" onclick="filterByTag('SpringFramework')">SpringFramework</button>
+                <button class="tag" onclick="filterByTag('JUnit')">JUnit</button>
+                <button class="tag" onclick="filterByTag('SQL')">SQL</button>
+                <button class="tag" onclick="showAll()">全て表示</button>
                 <hr style="margin:20px 0;">
                 <h4>カレンダー</h4>
                 <div style="text-align:center; background:var(--panel-bg); padding:10px; font-size:12px;">
@@ -93,8 +98,9 @@
         <main>
             <h1 style="width:100%">新着案件一覧</h1>
             
-            <div class="card">
+            <div class="card" data-tags="C#,Java,SQL">
                 <small>案件元: A社 | 掲載日: 2026/07/07</small>
+                <div style="float:right"><span class="tag">C#</span><span class="tag">Java</span><span class="tag">SQL</span></div>
                 <h2 style="margin:10px 0;">PLM構築支援対応</h2>
                 <div style="line-height:1.8;">
                     <div>場所：浜松町（元請本社）</div>
@@ -130,8 +136,9 @@ BOP、M-BOM、品質管理領域の開発を実施する
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-tags="Java,SpringFramework,JUnit">
                 <small>案件元: A社 | 掲載日: 2026/07/08</small>
+                <div style="float:right"><span class="tag">Java</span><span class="tag">SpringFramework</span><span class="tag">JUnit</span></div>
                 <h2 style="margin:10px 0;">テスト自動化（人財プール）</h2>
                 <div style="line-height:1.8;">
                     <div>場所：豊洲／在宅中心</div>
@@ -219,7 +226,10 @@ APIテスト：Karate、Assis、Postman
         }
         function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
         renderCalendar();
+        
         function toggleDetail(id, btnId) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
+        function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
+        function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
     </script>
 </body>
 </html>
