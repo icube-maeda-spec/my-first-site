@@ -30,8 +30,9 @@
         #sidebar-inner { width: 320px; padding: 40px; box-sizing: border-box; }
         
         main { flex: 1; padding: 40px; display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
-        .card { width: calc(50% - 12px); background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 13px; }
-        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 4px; margin-bottom: 4px; cursor: pointer; border: none; }
+        .card { width: calc(50% - 12px); background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 13px; position: relative; }
+        .tag-container { position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
         .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 8px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; font-size: 12px; }
         .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
         .hidden { display: none; }
@@ -96,11 +97,11 @@
         </aside>
         <div id="controller" class="sidebar-controller auth-hidden"><button id="toggle-btn" class="toggle-btn" onclick="toggleSidebar()">◀</button></div>
         <main>
-            <h1 style="width:100%">案件一覧</h1>
+            <h1 style="width:100%">新着案件一覧</h1>
             
             <div class="card" data-tags="C#,Java,SQL">
+                <div class="tag-container"><span class="tag">C#</span><span class="tag">Java</span><span class="tag">SQL</span></div>
                 <small>案件元: A社 | 掲載日: 2026/07/07</small>
-                <div style="float:right"><span class="tag">C#</span><span class="tag">Java</span><span class="tag">SQL</span></div>
                 <h2 style="margin:10px 0;">PLM構築支援対応</h2>
                 <div style="line-height:1.8;">
                     <div>場所：浜松町（元請本社）</div>
@@ -130,22 +131,21 @@ BOP、M-BOM、品質管理領域の開発を実施する
 ■オプションスキル
 ・Aras Innovatorの知見
 ■備考
-本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。
-                    </pre>
+本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。</pre>
                     <button class="btn-toggle" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を閉じる</button>
                 </div>
             </div>
 
             <div class="card" data-tags="Java,SpringFramework,JUnit">
-                <small>案件元: T社 | 掲載日: 2026/07/08</small>
-                <div style="float:right"><span class="tag">Java</span><span class="tag">SpringFramework</span><span class="tag">JUnit</span></div>
+                <div class="tag-container"><span class="tag">Java</span><span class="tag">SpringFramework</span><span class="tag">JUnit</span></div>
+                <small>案件元: A社 | 掲載日: 2026/07/08</small>
                 <h2 style="margin:10px 0;">テスト自動化（人財プール）</h2>
                 <div style="line-height:1.8;">
                     <div>場所：豊洲／在宅中心</div>
                     <div>リモート頻度：基本在宅</div>
-                    <div>単価：<span style="color: orange; font-size: 1.1em; font-weight: bold;">応相談（90前後が理想）</span></div>
+                    <div>単価：<span style="color: orange; font-size: 1.1em; font-weight: bold;">経験・スキル見合いで応相談</span></div>
                     <div>商流：貴社まで（雇用形態不問）</div>
-                    <div>契約：SES(準委任)</div>
+                    <div>契約：派遣またはSES</div>
                 </div>
                 <button class="btn-toggle" id="btn-show-2" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を見る</button>
                 <div id="detail-2" class="hidden">
@@ -190,8 +190,7 @@ APIテスト：Karate、Assis、Postman
 ・事前打合せ回数：2回（元請及びエンド様）
 ・外国籍：不可
 ・在宅勤務：有（基本在宅）
-・商流：貴社まで（雇用形態不問）
-                    </pre>
+・商流：貴社まで（雇用形態不問）</pre>
                     <button class="btn-toggle" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を閉じる</button>
                 </div>
             </div>
@@ -226,7 +225,6 @@ APIテスト：Karate、Assis、Postman
         }
         function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
         renderCalendar();
-        
         function toggleDetail(id, btnId) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
         function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
         function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
