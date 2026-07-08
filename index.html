@@ -196,7 +196,74 @@ APIテスト：Karate、Assis、Postman
             </div>
         </main>
     </div>
-    
+    <div class="card" data-tags="AWS,GCP,Docker">
+                <div class="tag-container"><span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">Docker</span></div>
+                <small>案件元: T社 | 掲載日: 2026/07/08</small>
+                <h2 style="margin:10px 0;">クラウド構築（人財プール）</h2>
+                <div style="line-height:1.8;">
+                    <div>場所：豊洲／在宅中心</div>
+                    <div>単価：<span style="color: orange; font-size: 1.1em; font-weight: bold;">応相談</span></div>
+                </div>
+                <button class="btn-toggle" id="btn-show-3" onclick="toggleDetail('detail-3', 'btn-show-3')">詳細を見る</button>
+                <div id="detail-3" class="hidden">
+                    <button class="btn-copy" onclick="copyText('content-3')">内容をコピー</button>
+                    <pre id="content-3" style="white-space: pre-wrap; font-size: 13px;">
+【業務内容】
+AWS・GCPを利用したクラウド環境構築
+社内横断で様々なプロジェクトのクラウド基盤構築を支援する
+・環境構築(GCP、AWS、Docker、Jenkins、terraform 等)
+
+【勤務地】
+豊洲／在宅中心
+
+【期間】
+随時 ※参画時期は応相談
+
+【スキル・要件・役割】
+＜必要なスキル・経験＞
+・GCP、AWSを利用したクラウド基盤の設計、構築作業、検証の経験3年以上。
+設計：クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、
+サーバ設計、監視設計、セキュリティ設計
+構築・テスト：IaC(CloudFormation、AWS CDK、Azure Bicep、Terraform)
+を使った基盤構築、基盤テスト
+・全て必須ではないが、様々なPJの支援をするので可能範囲が広いほど良い。
+AWS：EC2、S3、IAM、Security Group、Secrets Manager
+コンテナ：Docker、ECR
+DB/データ基盤：RDS for Oracle、Aurora、Redshift等
+
+＜求める人材像、役割＞
+・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方
+・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方
+・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方
+
+＜あれば尚良＞
+・チームをまとめられるリーダー経験
+・OSSサポート(Apache/Tomcat)
+・オンプレ(VMWare)/仮想ネットワーク(SDN)の経験
+・クラウド関連ベンダ系認定保有者(AWS、Azure、GoogleCloud、etc.)
+
+【人数】
+数名 ※1名でも可
+
+【単価・精算】
+経験とスキル見合いで応相談
+
+【稼働】
+随時
+
+【体制】
+3名体制（内社員1名）
+
+【備考】
+人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。
+
+【その他条件】
+・事前打合せ回数：2回（元請様及びエンド様）
+・外国籍：不可
+・在宅勤務：有（基本在宅）</pre>
+                    <button class="btn-toggle" onclick="toggleDetail('detail-3', 'btn-show-3')">詳細を閉じる</button>
+                </div>
+            </div>
     <script>
         document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
         function checkPassword() { if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
