@@ -138,14 +138,14 @@ BOP、M-BOM、品質管理領域の開発を実施する
 
             <div class="card" data-tags="Java,SpringFramework,JUnit">
                 <div class="tag-container"><span class="tag">Java</span><span class="tag">SpringFramework</span><span class="tag">JUnit</span></div>
-                <small>案件元: A社 | 掲載日: 2026/07/08</small>
+                <small>案件元: T社 | 掲載日: 2026/07/08</small>
                 <h2 style="margin:10px 0;">テスト自動化（人財プール）</h2>
                 <div style="line-height:1.8;">
                     <div>場所：豊洲／在宅中心</div>
                     <div>リモート頻度：基本在宅</div>
                     <div>単価：<span style="color: orange; font-size: 1.1em; font-weight: bold;">経験・スキル見合いで応相談</span></div>
                     <div>商流：貴社まで（雇用形態不問）</div>
-                    <div>契約：派遣またはSES</div>
+                    <div>契約：SES(準委任)</div>
                 </div>
                 <button class="btn-toggle" id="btn-show-2" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を見る</button>
                 <div id="detail-2" class="hidden">
@@ -199,7 +199,7 @@ APIテスト：Karate、Assis、Postman
     
     <script>
         document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
-        function checkPassword() { if (document.getElementById('password').value === "admin") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
+        function checkPassword() { if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
         function toggleSidebar() { const sb = document.getElementById('sidebar'); sb.classList.toggle('collapsed'); }
         function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
         
