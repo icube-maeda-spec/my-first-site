@@ -80,9 +80,6 @@
                 <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px; margin-bottom:20px;">
                 <button class="tag">C#</button><button class="tag">Aras Innovator</button><button class="tag">JavaScript</button><button class="tag">SQL</button>
                 <hr style="margin:20px 0;">
-                <h4>ステータス集計</h4>
-                <div style="font-size:12px;">急募: <span id="stat-urgent">0</span> / 募集: <span id="stat-recruiting">0</span> / 停止: <span id="stat-stopped">0</span> / 充足: <span id="stat-full">0</span></div>
-                <hr style="margin:20px 0;">
                 <h4>カレンダー</h4>
                 <div style="text-align:center; background:var(--panel-bg); padding:10px; font-size:12px;">
                     <div style="margin-bottom:5px;">
@@ -95,21 +92,15 @@
         <div id="controller" class="sidebar-controller auth-hidden"><button id="toggle-btn" class="toggle-btn" onclick="toggleSidebar()">◀</button></div>
         <main>
             <h1 style="width:100%">新着案件一覧</h1>
+            
             <div class="card">
                 <small>案件元: A社 | 掲載日: 2026/07/07</small>
                 <h2 style="margin:10px 0;">PLM構築支援対応</h2>
-                <select onchange="updateStats()" style="margin-bottom:10px;">
-                    <option value="">ステータス選択</option>
-                    <option value="urgent">急募</option>
-                    <option value="recruiting">募集中</option>
-                    <option value="stopped">一時停止</option>
-                    <option value="full">充足</option>
-                </select>
-                <div style="line-height:1.6;">
+                <div style="line-height:1.8;">
                     <div>場所：浜松町（元請本社）</div>
                     <div>リモート頻度：最低週1出社</div>
-                    <div>単価：75万(10年以上で上振れ検討)</div>
-                    <div>商流：貴社社員まで（支援費所属支払いであれば可）</div>
+                    <div>単価：<span style="color: orange; font-size: 1.1em; font-weight: bold;">75万(10年以上で上振れ検討)</span></div>
+                    <div>商流：貴社まで（雇用形態不問）</div>
                     <div>契約：派遣契約</div>
                 </div>
                 <button class="btn-toggle" id="btn-show-1" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を見る</button>
@@ -138,50 +129,65 @@ BOP、M-BOM、品質管理領域の開発を実施する
                     <button class="btn-toggle" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を閉じる</button>
                 </div>
             </div>
-            <!-- 新規案件カード：テスト自動化（人財プール） -->
-<div class="card">
-    <small>案件元: A社 | 掲載日: 2026/07/08</small>
-    <h2 style="margin:10px 0;">テスト自動化（人財プール）</h2>
-    <select onchange="updateStats()" style="margin-bottom:10px;">
-        <option value="">ステータス選択</option>
-        <option value="urgent">急募</option>
-        <option value="recruiting">募集中</option>
-        <option value="stopped">一時停止</option>
-        <option value="full">充足</option>
-    </select>
-    <div style="line-height:1.6;">
-        <div>場所：豊洲／在宅中心</div>
-        <div>リモート頻度：基本在宅</div>
-        <div>単価：経験・スキル見合いで応相談</div>
-        <div>商流：貴社要相談</div>
-        <div>契約：派遣またはSES</div>
-    </div>
-    <button class="btn-toggle" id="btn-show-2" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を見る</button>
-    <div id="detail-2" class="hidden">
-        <button class="btn-copy" onclick="copyText('content-2')">内容をコピー</button>
-        <pre id="content-2" style="white-space: pre-wrap; font-size: 13px;">
+
+            <div class="card">
+                <small>案件元: A社 | 掲載日: 2026/07/08</small>
+                <h2 style="margin:10px 0;">テスト自動化（人財プール）</h2>
+                <div style="line-height:1.8;">
+                    <div>場所：豊洲／在宅中心</div>
+                    <div>リモート頻度：基本在宅</div>
+                    <div>単価：<span style="color: orange; font-size: 1.1em; font-weight: bold;">経験・スキル見合いで応相談</span></div>
+                    <div>商流：貴社まで（雇用形態不問）</div>
+                    <div>契約：派遣またはSES</div>
+                </div>
+                <button class="btn-toggle" id="btn-show-2" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を見る</button>
+                <div id="detail-2" class="hidden">
+                    <button class="btn-copy" onclick="copyText('content-2')">内容をコピー</button>
+                    <pre id="content-2" style="white-space: pre-wrap; font-size: 13px;">
 【業務内容】
 社内横断で様々なプロジェクトに参画し、テスト自動化の導入や利用法を確立し推進していく。
 
-【スキル・要件】
-・必須：Java(8以上)+SpringFramework、JUnit(5.e以上)
-・歓迎：C#、Python、TypeScript、Playwright、Selenium等の知見
-・高い技術レベル（リード、標準化、指導経験）が求められます。
+【スキル・要件・役割】
+◆必要なスキル◆
+※全て必須ではないが様々なPJの支援をするので可能範囲が広いほど良い。
+※開発担当者としての利用したことがあるレベルではなく、
+技術リード、メンバー指導、開発標準化など高いレベルが求められる。
+・言語、フレームワーク
+[Java(8以上)+SpringFramework] ※必須、
+[C#、VB.NET、Python、[JavaScript/HTML/CSS、TypeScript]+Next.js]
+・テスト関連ツール
+ユニットテスト：JUnit(5.e以上) ※必須、
+Pytest、Jest、MSTest、NUnit、CppUTest
+E2Eテスト：Playwright、Appium、Selenium
+APIテスト：Karate、Assis、Postman
 
-【工程・役割】
-・Web系オープンシステム開発（詳細設計～結合テスト）
-・大手Sierプロジェクトでの経験
-・テスト計画・設計、自動化導入経験
+◆工程・役割◆
+・Web系オープンシステム開発経験（詳細設計～結合テスト）。
+・大手Sier様が実行するプロジェクトに従事した経験
+（規定の開発プロセスに則った作業、高い品質レベル、説明能力、保守運用の配慮）
+・テスト計画、テスト設計の経験
+（システム特性、開発プロセス、各テスト工程の役割を理解した上での作業）
+・テスト自動化の導入（ツール選定、開発環境構築、等）の経験。
+
+◆人材像、役割◆
+・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方
+・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方
+・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方
 
 【体制・備考】
-・8名体制（内社員1名）
-・プロジェクト終了後も長期参画が可能
-・事前打合せ：2回
-・外国籍不可
-        </pre>
-        <button class="btn-toggle" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を閉じる</button>
-    </div>
-</div>
+・人数: 数名 ※1名でも可
+・単価・精算: 経験とスキル見合いで応相談
+・稼働: 随時
+・体制: 8名体制（内社員1名）
+・備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。
+・事前打合せ回数：2回（元請及びエンド様）
+・外国籍：不可
+・在宅勤務：有（基本在宅）
+・商流：貴社まで（雇用形態不問）
+                    </pre>
+                    <button class="btn-toggle" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を閉じる</button>
+                </div>
+            </div>
         </main>
     </div>
     
@@ -189,12 +195,6 @@ BOP、M-BOM、品質管理領域の開発を実施する
         document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
         function checkPassword() { if (document.getElementById('password').value === "admin") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
         function toggleSidebar() { const sb = document.getElementById('sidebar'); sb.classList.toggle('collapsed'); }
-        function updateStats() {
-            document.getElementById('stat-urgent').innerText = document.querySelectorAll('select option[value="urgent"]:checked').length;
-            document.getElementById('stat-recruiting').innerText = document.querySelectorAll('select option[value="recruiting"]:checked').length;
-            document.getElementById('stat-stopped').innerText = document.querySelectorAll('select option[value="stopped"]:checked').length;
-            document.getElementById('stat-full').innerText = document.querySelectorAll('select option[value="full"]:checked').length;
-        }
         function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
         
         let currentMonth = new Date();
