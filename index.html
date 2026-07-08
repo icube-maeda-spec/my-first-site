@@ -194,9 +194,9 @@ APIテスト：Karate、Assis、Postman
                     <button class="btn-toggle" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を閉じる</button>
                 </div>
             </div>
-        </main>
-    </div>
-    <div class="card" data-tags="AWS,GCP,Docker">
+
+            </div>
+            <div class="card" data-tags="AWS,GCP,Docker">
                 <div class="tag-container"><span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">Docker</span></div>
                 <small>案件元: T社 | 掲載日: 2026/07/08</small>
                 <h2 style="margin:10px 0;">クラウド構築（人財プール）</h2>
@@ -264,6 +264,9 @@ DB/データ基盤：RDS for Oracle、Aurora、Redshift等
                     <button class="btn-toggle" onclick="toggleDetail('detail-3', 'btn-show-3')">詳細を閉じる</button>
                 </div>
             </div>
+
+        </main>
+   
     <script>
         document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
         function checkPassword() { if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
