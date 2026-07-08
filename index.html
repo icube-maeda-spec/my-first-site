@@ -11,9 +11,7 @@
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
         
-        /* 認証中はここを隠す */
         .auth-hidden { visibility: hidden; }
-        
         .mode-switch-wrapper { display: flex; align-items: center; gap: 8px; font-size: 12px; }
         .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -27,48 +25,26 @@
         .toggle-btn { background: var(--header-bg); color: white; border: none; padding: 10px 5px; cursor: pointer; border-radius: 0 5px 5px 0; }
         
         #main-wrapper { display: flex; transition: 0.3s; position: relative; }
-        aside { width: 320px; background: var(--card-bg); height: calc(100vh - 55px); border-right: 1px solid #e2e8f0; flex-shrink: 0; transition: width 0.4s ease-in-out; overflow: hidden; }
+        aside { width: 320px; background: var(--card-bg); height: calc(100vh - 55px); border-right: 1px solid #e2e8f0; flex-shrink: 0; transition: width 0.4s ease-in-out; overflow-y: auto; }
         aside.collapsed { width: 0; }
         #sidebar-inner { width: 320px; padding: 40px; box-sizing: border-box; }
         
-        main { flex: 1; padding: 40px; }
-        .card { background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 24px; }
-        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-right: 6px; margin-bottom: 6px; cursor: pointer; border: none; }
-        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; }
-        .top-close-btn { background: transparent; border: 1px solid #64748b; color: #64748b; padding: 4px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 0 auto 15px auto; }
-        .bottom-close-btn { border: 1px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; }
-        .copy-btn { background: #0d9488; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; display: block; margin: 15px auto 0 auto; }
+        main { flex: 1; padding: 40px; display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
+        .card { width: calc(50% - 12px); background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 13px; }
+        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 4px; margin-bottom: 4px; cursor: pointer; border: none; }
+        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 8px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; font-size: 12px; }
         .hidden { display: none; }
+        .modal-view { position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%); width: 80% !important; max-width: 600px !important; max-height: 80vh !important; overflow-y: auto !important; z-index: 3000 !important; padding: 30px !important; background: var(--card-bg) !important; box-shadow: 0 20px 25px rgba(0,0,0,0.3) !important; }
         
-        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 9999; }
         .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; }
         .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
         .login-box button { width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 6px; cursor: pointer; }
-        
-        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000; }
+        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
-    </style>
-    <style>
-        main { display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
-        .card { width: calc(50% - 12px); margin-bottom: 0 !important; box-sizing: border-box; }
-        .modal-view { position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%); width: 80% !important; max-width: 600px !important; max-height: 80vh !important; overflow-y: auto !important; z-index: 3000 !important; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3) !important; margin: 0 !important; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            Icube アイキューブ
-            <div id="mode-ui" class="mode-switch-wrapper auth-hidden auth-hidden">
-                ダークモード
-                <label class="switch">
-                    <input type="checkbox" onchange="document.body.classList.toggle('dark-mode')">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-        <nav><a href="https://www.icube-inc.com" target="_blank">会社概要</a><a onclick="document.getElementById('profile-modal').style.display='flex'">問合せ</a></nav>
-    </header>
-
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>前田 玄真 (Maeda Genma)</h3>
@@ -76,6 +52,17 @@
             <button onclick="document.getElementById('profile-modal').style.display='none'">閉じる</button>
         </div>
     </div>
+    
+    <header>
+        <div class="logo">
+            Icube アイキューブ
+            <div id="mode-ui" class="mode-switch-wrapper auth-hidden">
+                ダークモード
+                <label class="switch"><input type="checkbox" onchange="document.body.classList.toggle('dark-mode')"><span class="slider"></span></label>
+            </div>
+        </div>
+        <nav><a href="https://www.icube-inc.com" target="_blank">会社概要</a><a onclick="document.getElementById('profile-modal').style.display='flex'" style="cursor:pointer">問合せ</a></nav>
+    </header>
 
     <div id="login-overlay">
         <div class="login-box">
@@ -91,6 +78,17 @@
                 <h2>案件検索</h2>
                 <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px; margin-bottom:20px;">
                 <button class="tag">C#</button><button class="tag">Aras Innovator</button><button class="tag">JavaScript</button><button class="tag">SQL</button>
+                <hr style="margin:20px 0;">
+                <h4>ステータス集計</h4>
+                <div style="font-size:12px;">急募: <span id="stat-urgent">0</span> / 募集: <span id="stat-recruiting">0</span> / 停止: <span id="stat-stopped">0</span> / 充足: <span id="stat-full">0</span></div>
+                <hr style="margin:20px 0;">
+                <h4>カレンダー</h4>
+                <div style="text-align:center; background:var(--panel-bg); padding:10px; font-size:12px;">
+                    <div style="margin-bottom:5px;">
+                        <button onclick="changeMonth(-1)">＜</button> <span id="cal-month"></span> <button onclick="changeMonth(1)">＞</button>
+                    </div>
+                    <div id="cal-grid" style="display:grid; grid-template-columns: repeat(7, 1fr); gap:2px;"></div>
+                </div>
             </div>
         </aside>
         <div id="controller" class="sidebar-controller auth-hidden"><button id="toggle-btn" class="toggle-btn" onclick="toggleSidebar()">◀</button></div>
@@ -98,13 +96,24 @@
             <h1 style="width:100%">新着案件一覧</h1>
             <div class="card">
                 <small>案件元: A社 | 掲載日: 2026/07/07</small>
-                <h2>PLM構築支援対応</h2>
-                <span class="tag">C#</span><span class="tag">Aras Innovator</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
-                <div style="font-size: 14px; margin: 10px 0; color: var(--text);"><div>場所：浜松町（元請本社）</div><div>リモート頻度：最低週1出社</div><div>単価：75万(10年以上で上振れ検討)</div><div>商流：貴社社員まで（支援費所属支払いであれば可）</div><div>契約：派遣契約</div></div>
+                <h2 style="margin:10px 0;">PLM構築支援対応</h2>
+                <select onchange="updateStats()" style="margin-bottom:10px;">
+                    <option value="">ステータス選択</option>
+                    <option value="urgent">急募</option>
+                    <option value="recruiting">募集中</option>
+                    <option value="stopped">一時停止</option>
+                    <option value="full">充足</option>
+                </select>
+                <div style="line-height:1.6;">
+                    <div>場所：浜松町（元請本社）</div>
+                    <div>リモート頻度：最低週1出社</div>
+                    <div>単価：75万(10年以上で上振れ検討)</div>
+                    <div>商流：貴社社員まで（支援費所属支払いであれば可）</div>
+                    <div>契約：派遣契約</div>
+                </div>
                 <button class="btn-toggle" id="btn-show-1" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を見る</button>
-                <div id="detail-1" class="hidden" style="margin-top:15px; font-size: 14px; white-space: pre-wrap; background: var(--panel-bg); color: var(--text); padding:15px; border-radius:8px;"><button class="top-close-btn" onclick="toggleDetail('detail-1', 'btn-show-1')">× 詳細を閉じる</button><div id="copy-target-1">＜案件名＞
-PLM構築支援対応
-＜内容＞
+                <div id="detail-1" class="hidden">
+                    <pre style="white-space: pre-wrap; font-size: 13px;">
 【案件概要】
 BOP、M-BOM、品質管理領域の開発を実施する
 また、すでに構築した既存機能の機能追加開発を合わせて実施する
@@ -122,29 +131,48 @@ BOP、M-BOM、品質管理領域の開発を実施する
 ■オプションスキル
 ・Aras Innovatorの知見
 ■備考
-本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。</div><button class="copy-btn" onclick="copyToClipboard('copy-target-1')">内容をコピー</button><button class="bottom-close-btn" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を閉じる</button></div>
+本案件としては2026/12までの案件となりますが、それ以降は他Aras案件にスライドしての長期参画を想定しております。
+                    </pre>
+                    <button class="btn-toggle" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を閉じる</button>
+                </div>
             </div>
         </main>
     </div>
     
     <script>
-        document.getElementById('password').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkPassword(); });
-        function toggleSidebar() { const sb = document.getElementById('sidebar'); const btn = document.getElementById('toggle-btn'); sb.classList.toggle('collapsed'); btn.innerText = sb.classList.contains('collapsed') ? '▶' : '◀'; }
-        function checkPassword() { if (document.getElementById('password').value === "admin") { 
-            document.getElementById('login-overlay').style.display = 'none'; 
-            document.getElementById('main-wrapper').classList.remove('hidden'); 
-            document.getElementById('mode-ui').classList.remove('auth-hidden');
-            document.getElementById('controller').classList.remove('auth-hidden');
-        } else { alert("パスワードが違います"); } }
-        function copyToClipboard(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert("コピーしました！")); }
-
-        function toggleDetail(id, btnId) {
-            const detailEl = document.getElementById(id);
-            const btnEl = document.getElementById(btnId);
-            detailEl.classList.toggle('modal-view');
-            detailEl.classList.toggle('hidden');
-            btnEl.classList.toggle('hidden');
+        document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+        function checkPassword() { if (document.getElementById('password').value === "admin") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
+        function toggleSidebar() { const sb = document.getElementById('sidebar'); sb.classList.toggle('collapsed'); }
+        function updateStats() {
+            document.getElementById('stat-urgent').innerText = document.querySelectorAll('select option[value="urgent"]:checked').length;
+            document.getElementById('stat-recruiting').innerText = document.querySelectorAll('select option[value="recruiting"]:checked').length;
+            document.getElementById('stat-stopped').innerText = document.querySelectorAll('select option[value="stopped"]:checked').length;
+            document.getElementById('stat-full').innerText = document.querySelectorAll('select option[value="full"]:checked').length;
         }
+        
+        let currentMonth = new Date();
+        function renderCalendar() {
+            const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
+            const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
+            document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
+            const days = ['日','月','火','水','木','金','土'];
+            days.forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
+            const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
+            const today = new Date();
+            for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
+            for(let i=1; i<=last; i++) {
+                const d = document.createElement('div'); d.innerText = i;
+                const dateObj = new Date(y, m, i);
+                const day = dateObj.getDay();
+                if(day === 0) d.style.color = 'red';
+                else if(day === 6) d.style.color = 'blue';
+                if(i === today.getDate() && m === today.getMonth() && y === today.getFullYear()) d.style.background = '#0d9488';
+                grid.appendChild(d);
+            }
+        }
+        function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
+        renderCalendar();
+        function toggleDetail(id, btnId) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
     </script>
 </body>
 </html>
