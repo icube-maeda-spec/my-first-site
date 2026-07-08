@@ -138,6 +138,50 @@ BOP、M-BOM、品質管理領域の開発を実施する
                     <button class="btn-toggle" onclick="toggleDetail('detail-1', 'btn-show-1')">詳細を閉じる</button>
                 </div>
             </div>
+            <!-- 新規案件カード：テスト自動化（人財プール） -->
+<div class="card">
+    <small>案件元: A社 | 掲載日: 2026/07/08</small>
+    <h2 style="margin:10px 0;">テスト自動化（人財プール）</h2>
+    <select onchange="updateStats()" style="margin-bottom:10px;">
+        <option value="">ステータス選択</option>
+        <option value="urgent">急募</option>
+        <option value="recruiting">募集中</option>
+        <option value="stopped">一時停止</option>
+        <option value="full">充足</option>
+    </select>
+    <div style="line-height:1.6;">
+        <div>場所：豊洲／在宅中心</div>
+        <div>リモート頻度：基本在宅</div>
+        <div>単価：経験・スキル見合いで応相談</div>
+        <div>商流：貴社要相談</div>
+        <div>契約：派遣またはSES</div>
+    </div>
+    <button class="btn-toggle" id="btn-show-2" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を見る</button>
+    <div id="detail-2" class="hidden">
+        <button class="btn-copy" onclick="copyText('content-2')">内容をコピー</button>
+        <pre id="content-2" style="white-space: pre-wrap; font-size: 13px;">
+【業務内容】
+社内横断で様々なプロジェクトに参画し、テスト自動化の導入や利用法を確立し推進していく。
+
+【スキル・要件】
+・必須：Java(8以上)+SpringFramework、JUnit(5.e以上)
+・歓迎：C#、Python、TypeScript、Playwright、Selenium等の知見
+・高い技術レベル（リード、標準化、指導経験）が求められます。
+
+【工程・役割】
+・Web系オープンシステム開発（詳細設計～結合テスト）
+・大手Sierプロジェクトでの経験
+・テスト計画・設計、自動化導入経験
+
+【体制・備考】
+・8名体制（内社員1名）
+・プロジェクト終了後も長期参画が可能
+・事前打合せ：2回
+・外国籍不可
+        </pre>
+        <button class="btn-toggle" onclick="toggleDetail('detail-2', 'btn-show-2')">詳細を閉じる</button>
+    </div>
+</div>
         </main>
     </div>
     
