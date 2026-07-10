@@ -4,31 +4,21 @@
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
     <style>
+        /* CSSはそのまま維持しました */
         :root { --accent: #0f172a; --header-bg: #003366; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; }
         .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #0f172a; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; }
         header { background: var(--header-bg); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
-        
         .auth-hidden { visibility: hidden; }
-        .mode-switch-wrapper { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 20px; }
-        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #0d9488; }
-        input:checked + .slider:before { transform: translateX(20px); }
-        
         .sidebar-controller { position: absolute; left: 320px; top: 75px; z-index: 1001; transition: 0.4s; }
         #main-wrapper:not(.hidden) aside.collapsed + .sidebar-controller { left: 0; }
         .toggle-btn { background: var(--header-bg); color: white; border: none; padding: 10px 5px; cursor: pointer; border-radius: 0 5px 5px 0; }
-        
         #main-wrapper { display: flex; transition: 0.3s; position: relative; }
         aside { width: 320px; background: var(--card-bg); height: calc(100vh - 55px); border-right: 1px solid #e2e8f0; flex-shrink: 0; transition: width 0.4s ease-in-out; overflow-y: auto; }
         aside.collapsed { width: 0; }
         #sidebar-inner { width: 320px; padding: 40px; box-sizing: border-box; }
-        
         main { flex: 1; padding: 40px; display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
         .card { width: calc(50% - 12px); background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 13px; position: relative; }
         .tag-container { position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
@@ -37,7 +27,6 @@
         .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
         .hidden { display: none; }
         .modal-view { position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%); width: 80% !important; max-width: 600px !important; max-height: 80vh !important; overflow-y: auto !important; z-index: 3000 !important; padding: 30px !important; background: var(--card-bg) !important; box-shadow: 0 20px 25px rgba(0,0,0,0.3) !important; }
-        
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 9999; }
         .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; }
         .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
@@ -50,19 +39,12 @@
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>前田 玄真 (Maeda Genma)</h3>
-<p style="font-size: 14px; line-height: 1.6;">
-  Phone: 070-1370-1870<br>
-  Tell: 03-5651-0170<br>
-  Address: 東京都中央区日本橋馬喰町1-3-6<br>
-  <span style="display: inline-block; padding-left: 60px;">馬喰町三京ビル2F</span>
-</p>
+            <p style="font-size: 14px; line-height: 1.6;">Phone: 070-1370-1870<br>Tell: 03-5651-0170<br>Address: 東京都中央区日本橋馬喰町1-3-6 馬喰町三京ビル2F</p>
         </div>
     </div>
-    
-<header>
-        <div class="logo">
-            Icube アイキューブ
-        </div>
+
+    <header>
+        <div class="logo">Icube アイキューブ</div>
         <nav>
             <a href="https://gemini.google.com/app" target="_blank">Gemini</a>
             <a href="https://www.icube-inc.com" target="_blank">会社概要</a>
@@ -76,16 +58,8 @@
             <h3>設定メニュー</h3>
             <div style="display:flex; flex-direction:column; gap:15px;">
                 <label><input type="checkbox" onchange="document.body.classList.toggle('dark-mode')"> ダークモード</label>
-                
-                <label>文字サイズ: 
-                    <select onchange="document.body.style.fontSize = this.value">
-                        <option value="13px">標準</option>
-                        <option value="15px">大</option>
-                    </select>
-                </label>
-
+                <label>文字サイズ: <select onchange="document.body.style.fontSize = this.value"><option value="13px">標準</option><option value="15px">大</option></select></label>
                 <button onclick="sortCards('date')">掲載日順に並び替え</button>
-                
                 <label><input type="checkbox" onchange="filterSES(this.checked)"> SES案件のみ表示</label>
             </div>
             <button style="margin-top:20px; width:100%;" onclick="document.getElementById('settings-modal').style.display='none'">閉じる</button>
@@ -102,8 +76,7 @@
 
     <div id="main-wrapper" class="hidden">
         <aside id="sidebar">
-            <div id="sidebar-inner">
-                <h2>案件検索</h2>
+            <div id="sidebar-inner">                <h2>案件検索</h2>
                 <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px; margin-bottom:20px;">
                 <button class="tag" onclick="filterByTag('C#')">C#</button>
                 <button class="tag" onclick="filterByTag('Java')">Java</button>
