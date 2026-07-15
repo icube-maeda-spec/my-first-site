@@ -753,7 +753,7 @@ AC-444（-）
         </main>
    
 <script>
-    // --- ログイン処理（演出付き） ---
+    // --- ログイン処理（マトリックス演出付き） ---
     document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
 
     function checkPassword() {
@@ -774,26 +774,46 @@ AC-444（-）
         document.getElementById('controller').classList.remove('auth-hidden');
     }
 
+    // マトリックス演出：0と1の雨
     function runHackerTerminal(callback) {
         document.getElementById('login-overlay').style.display = 'none';
-        const terminal = document.createElement('div');
-        terminal.style = 'position:fixed; top:0; left:0; width:100%; height:100%; background:black; color:lime; font-family:monospace; padding:20px; z-index:9999; overflow:hidden;';
-        document.body.appendChild(terminal);
-        const code = "INITIALIZING SYSTEM...\nCONNECTING TO DATABASE...\nAUTH_TOKEN_VALIDATED.\nLOADING MODULES...\nSYSTEM_READY.\nACCESS_GRANTED.";
-        let i = 0;
-        let timer = setInterval(() => {
-            terminal.innerText += code[i]; i++;
-            if (i >= code.length) {
-                clearInterval(timer);
-                setTimeout(() => { terminal.remove(); callback(); }, 1000);
+        const canvas = document.createElement('canvas');
+        canvas.style = 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:black;';
+        document.body.appendChild(canvas);
+        
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const nums = '01';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = nums[Math.floor(Math.random() * nums.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
             }
-        }, 50);
+        }
+
+        const interval = setInterval(draw, 33);
+        setTimeout(() => {
+            clearInterval(interval);
+            canvas.remove();
+            callback();
+        }, 3000); // 3秒間演出
     }
 
-    // --- 各種機能 ---
+    // --- 各種機能（すべて維持） ---
     function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
     
-    // カレンダー機能
     let currentMonth = new Date();
     function renderCalendar() {
         const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
@@ -812,7 +832,6 @@ AC-444（-）
     renderCalendar();
     function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
 
-    // 案件フィルタ・検索機能
     function toggleDetail(id) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
     function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
     function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
@@ -823,11 +842,10 @@ AC-444（-）
         document.querySelectorAll('.card').forEach(c => c.style.display = c.innerText.toLowerCase().includes(filter) ? 'block' : 'none');
     });
 
-    // 並び替え機能
     function sortCards(criteria) {
         const main = document.querySelector('main');
         const cards = Array.from(document.querySelectorAll('.card'));
-        cards.sort((a, b) => 0); // ここにロジックを追加可能
+        cards.sort((a, b) => 0);
         cards.forEach(c => main.appendChild(c));
     }
 </script>
