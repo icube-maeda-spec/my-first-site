@@ -120,14 +120,17 @@
                 <button class="tag" onclick="filterByTag('RPGⅢ')">RPGⅢ</button>
                 <button class="tag" onclick="showAll()">全て表示</button>
                 <hr style="margin:20px 0;">
-                <h4>カレンダー</h4>
-                <div style="text-align:center; background:var(--panel-bg); padding:10px; font-size:12px;">
-                    <div style="margin-bottom:5px;">
-                        <button onclick="changeMonth(-1)">＜</button> <span id="cal-month"></span> <button onclick="changeMonth(1)">＞</button>
-                    </div>
-                    <div id="cal-grid" style="display:grid; grid-template-columns: repeat(7, 1fr); gap:2px;"></div>
-                </div>
-            </div>
+              <h4>カレンダー</h4>
+<div style="text-align:center; background:var(--panel-bg); padding:10px; font-size:12px;">
+    <div style="margin-bottom:5px;">
+        <button onclick="changeMonth(-1)">＜</button> <span id="cal-month"></span> <button onclick="changeMonth(1)">＞</button>
+    </div>
+    <div id="cal-grid" style="display:grid; grid-template-columns: repeat(7, 1fr); gap:2px;"></div>
+</div>
+
+<div id="visitor-monitor" style="margin-top: 10px; font-family: monospace; color: #0d9488; font-weight: bold; text-align: center; font-size: 12px;">
+    LOADING...
+</div>
         </aside>
         <div id="controller" class="sidebar-controller auth-hidden"><button id="toggle-btn" class="toggle-btn" onclick="toggleSidebar()">◀</button></div>
         
@@ -811,15 +814,41 @@ AC-444（-）
             </div>
         </main>
    
-<script>
-    // --- ログイン処理（マトリックス演出付き） ---
-    document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+<script type="module">
+    // 1. Firebaseの読み込みと設定
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getDatabase, ref, push, onDisconnect, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-    function checkPassword() {
+    const firebaseConfig = {
+        apiKey: "AIzaSyCyhkKNxjfC4Tcq6RkhOECP6NYlr00HcNM",
+        authDomain: "bulletin-board-app-61cd2.firebaseapp.com",
+        databaseURL: "https://bulletin-board-app-61cd2-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "bulletin-board-app-61cd2",
+        storageBucket: "bulletin-board-app-61cd2.firebasestorage.app",
+        messagingSenderId: "753258293020",
+        appId: "1:753258293020:web:6fb0c5fd9c5f93af2c7cd9"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // 人数表示処理
+    const presenceRef = ref(db, 'connected_users');
+    const myPresence = push(presenceRef);
+    onDisconnect(myPresence).remove();
+    set(myPresence, true);
+
+    onValue(presenceRef, (snapshot) => {
+        const count = snapshot.size;
+        const monitorEl = document.getElementById('visitor-monitor');
+        if (monitorEl) monitorEl.innerText = `ONLINE_USERS: ${count}`;
+    });
+
+    // 2. ログイン処理
+    document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+    window.checkPassword = function() { // window. にすることで外から呼び出せるようにする
         if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") {
             const lastLoginTime = localStorage.getItem('lastTerminalTime');
             const now = new Date().getTime();
-            // 1時間(3600000ミリ秒)経過していれば演出発動
             if (!lastLoginTime || (now - lastLoginTime) > 3600000) {
                 runHackerTerminal(() => { localStorage.setItem('lastTerminalTime', now); showMain(); });
             } else { showMain(); }
@@ -833,27 +862,20 @@ AC-444（-）
         document.getElementById('controller').classList.remove('auth-hidden');
     }
 
-    // マトリックス演出：0と1の雨
+    // 3. マトリックス演出
     function runHackerTerminal(callback) {
         document.getElementById('login-overlay').style.display = 'none';
         const canvas = document.createElement('canvas');
         canvas.style = 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:black;';
         document.body.appendChild(canvas);
-        
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const nums = '01';
-        const fontSize = 16;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const nums = '01'; const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
-
         function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0F0';
-            ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const text = nums[Math.floor(Math.random() * nums.length)];
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -861,65 +883,43 @@ AC-444（-）
                 drops[i]++;
             }
         }
-
         const interval = setInterval(draw, 33);
-        setTimeout(() => {
-            clearInterval(interval);
-            canvas.remove();
-            callback();
-        }, 3000); // 3秒間演出
+        setTimeout(() => { clearInterval(interval); canvas.remove(); callback(); }, 3000);
     }
 
-    // --- 各種機能 ---
-    function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
+    // 4. その他機能
+    window.copyText = function(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
     
-    // カレンダー機能
     let currentMonth = new Date();
     function renderCalendar() {
         const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
         const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
         document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
         ['日','月','火','水','木','金','土'].forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
-        
         const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
-        const today = new Date(); // 今日の日付を取得
-
+        const today = new Date();
         for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
         for(let i=1; i<=last; i++) {
             const d = document.createElement('div'); d.innerText = i;
             const dayOfWeek = new Date(y, m, i).getDay();
-            if(dayOfWeek === 0) d.style.color = 'red';
-            else if(dayOfWeek === 6) d.style.color = 'blue';
-
-            // 今日を強調するロジック
+            if(dayOfWeek === 0) d.style.color = 'red'; else if(dayOfWeek === 6) d.style.color = 'blue';
             if(i === today.getDate() && m === today.getMonth() && y === today.getFullYear()) {
-                d.style.background = '#0d9488';
-                d.style.color = 'white';
-                d.style.borderRadius = '50%';
+                d.style.background = '#0d9488'; d.style.color = 'white'; d.style.borderRadius = '50%';
             }
             grid.appendChild(d);
         }
     }
     renderCalendar();
-    function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
-
-    // 案件フィルタ・検索・並び替え
-    function toggleDetail(id) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
-    function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
-    function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
-    function filterSES(checked) { document.querySelectorAll('.card').forEach(c => c.style.display = (checked && !c.innerText.includes('SES')) ? 'none' : 'block'); }
+    window.changeMonth = function(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
+    window.toggleDetail = function(id) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
+    window.filterByTag = function(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
+    window.showAll = function() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
+    window.filterSES = function(checked) { document.querySelectorAll('.card').forEach(c => c.style.display = (checked && !c.innerText.includes('SES')) ? 'none' : 'block'); }
     
     document.getElementById('searchInput').addEventListener('input', function() {
         const filter = this.value.toLowerCase();
         document.querySelectorAll('.card').forEach(c => c.style.display = c.innerText.toLowerCase().includes(filter) ? 'block' : 'none');
     });
-
-    function sortCards(criteria) {
-        const main = document.querySelector('main');
-        const cards = Array.from(document.querySelectorAll('.card'));
-        cards.sort((a, b) => 0);
-        cards.forEach(c => main.appendChild(c));
-    }
 </script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
