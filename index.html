@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,19 @@
         aside.collapsed { width: 0; }
         #sidebar-inner { width: 320px; padding: 40px; box-sizing: border-box; }
         main { flex: 1; padding: 40px; display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
-        .card { width: calc(50% - 12px); background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 13px; position: relative; }
+       .card {
+                background: var(--card-bg);
+                border-radius: 12px;        /* 角を丸くして柔らかく */
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); /* 浮き出し効果 */
+                transition: transform 0.2s, box-shadow 0.2s; /* 動きを滑らかに */
+            }
+
+.card:hover {
+    transform: translateY(-5px); /* マウスを乗せると浮く */
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+}
         .tag-container { position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
         .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
         .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 8px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; font-size: 12px; }
