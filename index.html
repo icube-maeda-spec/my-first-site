@@ -752,79 +752,85 @@ AC-444（-）
             </div>
         </main>
    
-    <script>
-        document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
-        function checkPassword() { if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
-        function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
-        
-        let currentMonth = new Date();
-        function renderCalendar() {
-            const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
-            const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
-            document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
-            const days = ['日','月','火','水','木','金','土'];
-            days.forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
-            const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
-            const today = new Date();
-            for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
-            for(let i=1; i<=last; i++) {
-                const d = document.createElement('div'); d.innerText = i;
-                const dateObj = new Date(y, m, i);
-                const day = dateObj.getDay();
-                if(day === 0) d.style.color = 'red';
-                else if(day === 6) d.style.color = 'blue';
-                if(i === today.getDate() && m === today.getMonth() && y === today.getFullYear()) d.style.background = '#0d9488';
-                grid.appendChild(d);
+<script>
+    // --- ログイン処理（演出付き） ---
+    document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+
+    function checkPassword() {
+        if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") {
+            const lastLoginTime = localStorage.getItem('lastTerminalTime');
+            const now = new Date().getTime();
+            // 1時間(3600000ミリ秒)経過していれば演出発動
+            if (!lastLoginTime || (now - lastLoginTime) > 3600000) {
+                runHackerTerminal(() => { localStorage.setItem('lastTerminalTime', now); showMain(); });
+            } else { showMain(); }
+        } else { alert("パスワードが違います"); }
+    }
+
+    function showMain() {
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('main-wrapper').classList.remove('hidden');
+        document.getElementById('mode-ui').classList.remove('auth-hidden');
+        document.getElementById('controller').classList.remove('auth-hidden');
+    }
+
+    function runHackerTerminal(callback) {
+        document.getElementById('login-overlay').style.display = 'none';
+        const terminal = document.createElement('div');
+        terminal.style = 'position:fixed; top:0; left:0; width:100%; height:100%; background:black; color:lime; font-family:monospace; padding:20px; z-index:9999; overflow:hidden;';
+        document.body.appendChild(terminal);
+        const code = "INITIALIZING SYSTEM...\nCONNECTING TO DATABASE...\nAUTH_TOKEN_VALIDATED.\nLOADING MODULES...\nSYSTEM_READY.\nACCESS_GRANTED.";
+        let i = 0;
+        let timer = setInterval(() => {
+            terminal.innerText += code[i]; i++;
+            if (i >= code.length) {
+                clearInterval(timer);
+                setTimeout(() => { terminal.remove(); callback(); }, 1000);
             }
-        }
-        function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
-        renderCalendar();
-        function toggleDetail(id, btnId) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
-        function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
-        function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
+        }, 50);
+    }
 
-        // 並び替え機能
-function sortCards(criteria) {
-    const main = document.querySelector('main');
-    const cards = Array.from(document.querySelectorAll('.card'));
+    // --- 各種機能 ---
+    function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
     
-    // 現在は掲載日などで簡単なソート処理を記述可能
-    cards.sort((a, b) => {
-        // ここにソートロジック（日付の比較など）を追加
-        return 0; 
-    });
+    // カレンダー機能
+    let currentMonth = new Date();
+    function renderCalendar() {
+        const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
+        const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
+        document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
+        ['日','月','火','水','木','金','土'].forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
+        const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
+        for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
+        for(let i=1; i<=last; i++) {
+            const d = document.createElement('div'); d.innerText = i;
+            if(new Date(y, m, i).getDay() === 0) d.style.color = 'red';
+            else if(new Date(y, m, i).getDay() === 6) d.style.color = 'blue';
+            grid.appendChild(d);
+        }
+    }
+    renderCalendar();
+    function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
+
+    // 案件フィルタ・検索機能
+    function toggleDetail(id) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
+    function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
+    function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
+    function filterSES(checked) { document.querySelectorAll('.card').forEach(c => c.style.display = (checked && !c.innerText.includes('SES')) ? 'none' : 'block'); }
     
-    cards.forEach(c => main.appendChild(c));
-}
-
-// SES案件フィルタ（表示・非表示）
-function filterSES(checked) {
-    document.querySelectorAll('.card').forEach(c => {
-        const text = c.innerText;
-        if (checked && !text.includes('SES')) {
-            c.style.display = 'none';
-        } else {
-            c.style.display = 'block';
-        }
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        document.querySelectorAll('.card').forEach(c => c.style.display = c.innerText.toLowerCase().includes(filter) ? 'block' : 'none');
     });
-}
-   document.getElementById('searchInput').addEventListener('input', function() {
-    const filter = this.value.toLowerCase(); // 入力された文字を小文字化
-    const cards = document.querySelectorAll('.card'); // 全てのカードを取得
 
-    cards.forEach(card => {
-        // カード内のテキスト全体を取得（タイトル、詳細、スキルなど）
-        const text = card.innerText.toLowerCase();
-        
-        // 入力した文字がカード内のどこかに含まれていれば表示、なければ非表示
-        if (text.includes(filter)) {
-            card.style.display = ''; // 表示
-        } else {
-            card.style.display = 'none'; // 非表示
-        }
-    });
-});    
-    </script>
+    // 並び替え機能
+    function sortCards(criteria) {
+        const main = document.querySelector('main');
+        const cards = Array.from(document.querySelectorAll('.card'));
+        cards.sort((a, b) => 0); // ここにロジックを追加可能
+        cards.forEach(c => main.appendChild(c));
+    }
+</script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
         <div style="background:white; padding:30px; width:450px; border-radius:12px; color:#334155; max-height:80vh; overflow-y:auto;" onclick="event.stopPropagation()">
