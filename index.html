@@ -808,7 +808,22 @@ function filterSES(checked) {
         }
     });
 }
-       
+   document.getElementById('searchInput').addEventListener('input', function() {
+    const filter = this.value.toLowerCase(); // 入力された文字を小文字化
+    const cards = document.querySelectorAll('.card'); // 全てのカードを取得
+
+    cards.forEach(card => {
+        // カード内のテキスト全体を取得（タイトル、詳細、スキルなど）
+        const text = card.innerText.toLowerCase();
+        
+        // 入力した文字がカード内のどこかに含まれていれば表示、なければ非表示
+        if (text.includes(filter)) {
+            card.style.display = ''; // 表示
+        } else {
+            card.style.display = 'none'; // 非表示
+        }
+    });
+});    
     </script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
