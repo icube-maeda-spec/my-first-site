@@ -797,14 +797,32 @@ function sortCards(criteria) {
     cards.forEach(c => main.appendChild(c));
 }
 
-// SES案件フィルタ（表示・非表示）
-function filterSES(checked) {
-    document.querySelectorAll('.card').forEach(c => {
-        const text = c.innerText;
-        if (checked && !text.includes('SES')) {
-            c.style.display = 'none';
+// 選択中のタグを保持する配列
+let selectedTags = [];
+
+function filterByTag(tag) {
+    // すでに選択されているかチェック
+    if (selectedTags.includes(tag)) {
+        // 選択済みなら解除
+        selectedTags = selectedTags.filter(t => t !== tag);
+    } else {
+        // 未選択なら追加
+        selectedTags.push(tag);
+    }
+
+    // 全カードを判定
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        // カード内のテキストを取得
+        const cardText = card.innerText;
+        
+        // すべての選択済みタグが含まれているか確認
+        const isMatch = selectedTags.every(t => cardText.includes(t));
+        
+        if (selectedTags.length === 0 || isMatch) {
+            card.style.display = ''; // 一致、または未選択なら表示
         } else {
-            c.style.display = 'block';
+            card.style.display = 'none'; // 一致しなければ非表示
         }
     });
 }
