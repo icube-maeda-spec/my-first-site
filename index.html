@@ -870,27 +870,40 @@ AC-444（-）
         }, 3000); // 3秒間演出
     }
 
-    // --- 各種機能（すべて維持） ---
+    // --- 各種機能 ---
     function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
     
+    // カレンダー機能
     let currentMonth = new Date();
     function renderCalendar() {
         const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
         const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
         document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
         ['日','月','火','水','木','金','土'].forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
+        
         const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
+        const today = new Date(); // 今日の日付を取得
+
         for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
         for(let i=1; i<=last; i++) {
             const d = document.createElement('div'); d.innerText = i;
-            if(new Date(y, m, i).getDay() === 0) d.style.color = 'red';
-            else if(new Date(y, m, i).getDay() === 6) d.style.color = 'blue';
+            const dayOfWeek = new Date(y, m, i).getDay();
+            if(dayOfWeek === 0) d.style.color = 'red';
+            else if(dayOfWeek === 6) d.style.color = 'blue';
+
+            // 今日を強調するロジック
+            if(i === today.getDate() && m === today.getMonth() && y === today.getFullYear()) {
+                d.style.background = '#0d9488';
+                d.style.color = 'white';
+                d.style.borderRadius = '50%';
+            }
             grid.appendChild(d);
         }
     }
     renderCalendar();
     function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
 
+    // 案件フィルタ・検索・並び替え
     function toggleDetail(id) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
     function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
     function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
@@ -907,8 +920,6 @@ AC-444（-）
         cards.sort((a, b) => 0);
         cards.forEach(c => main.appendChild(c));
     }
-
- 
 </script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
