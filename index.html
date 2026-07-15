@@ -752,97 +752,66 @@ AC-444（-）
             </div>
         </main>
    
-    <script>
-        document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
-        function checkPassword() { if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
-        function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
-        
-        let currentMonth = new Date();
-        function renderCalendar() {
-            const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
-            const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
-            document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
-            const days = ['日','月','火','水','木','金','土'];
-            days.forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
-            const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
-            const today = new Date();
-            for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
-            for(let i=1; i<=last; i++) {
-                const d = document.createElement('div'); d.innerText = i;
-                const dateObj = new Date(y, m, i);
-                const day = dateObj.getDay();
-                if(day === 0) d.style.color = 'red';
-                else if(day === 6) d.style.color = 'blue';
-                if(i === today.getDate() && m === today.getMonth() && y === today.getFullYear()) d.style.background = '#0d9488';
-                grid.appendChild(d);
-            }
+<script>
+    document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+    function checkPassword() { if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-wrapper').classList.remove('hidden'); document.getElementById('mode-ui').classList.remove('auth-hidden'); document.getElementById('controller').classList.remove('auth-hidden'); } else { alert("パスワードが違います"); } }
+    function copyText(id) { const text = document.getElementById(id).innerText; navigator.clipboard.writeText(text).then(() => alert('コピーしました')); }
+    
+    let currentMonth = new Date();
+    function renderCalendar() {
+        const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
+        const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
+        document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
+        const days = ['日','月','火','水','木','金','土'];
+        days.forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
+        const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
+        const today = new Date();
+        for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
+        for(let i=1; i<=last; i++) {
+            const d = document.createElement('div'); d.innerText = i;
+            const dateObj = new Date(y, m, i);
+            const day = dateObj.getDay();
+            if(day === 0) d.style.color = 'red';
+            else if(day === 6) d.style.color = 'blue';
+            if(i === today.getDate() && m === today.getMonth() && y === today.getFullYear()) d.style.background = '#0d9488';
+            grid.appendChild(d);
         }
-        function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
-        renderCalendar();
-        function toggleDetail(id, btnId) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
-        function filterByTag(tag) { document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none'); }
-        function showAll() { document.querySelectorAll('.card').forEach(c => c.style.display = 'block'); }
+    }
+    function changeMonth(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
+    renderCalendar();
 
-        // 並び替え機能
-function sortCards(criteria) {
-    const main = document.querySelector('main');
-    const cards = Array.from(document.querySelectorAll('.card'));
-    
-    // 現在は掲載日などで簡単なソート処理を記述可能
-    cards.sort((a, b) => {
-        // ここにソートロジック（日付の比較など）を追加
-        return 0; 
-    });
-    
-    cards.forEach(c => main.appendChild(c));
-}
+    function toggleDetail(id, btnId) { document.getElementById(id).classList.toggle('modal-view'); document.getElementById(id).classList.toggle('hidden'); }
 
-// 選択中のタグを保持する配列
-let selectedTags = [];
-
-function filterByTag(tag) {
-    // すでに選択されているかチェック
-    if (selectedTags.includes(tag)) {
-        // 選択済みなら解除
-        selectedTags = selectedTags.filter(t => t !== tag);
-    } else {
-        // 未選択なら追加
-        selectedTags.push(tag);
+    // タグフィルタ（元に戻したもの）
+    function filterByTag(tag) {
+        document.querySelectorAll('.card').forEach(c => {
+            const tags = c.getAttribute('data-tags') ? c.getAttribute('data-tags').split(',') : [];
+            c.style.display = tags.includes(tag) ? 'block' : 'none';
+        });
     }
 
-    // 全カードを判定
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        // カード内のテキストを取得
-        const cardText = card.innerText;
-        
-        // すべての選択済みタグが含まれているか確認
-        const isMatch = selectedTags.every(t => cardText.includes(t));
-        
-        if (selectedTags.length === 0 || isMatch) {
-            card.style.display = ''; // 一致、または未選択なら表示
-        } else {
-            card.style.display = 'none'; // 一致しなければ非表示
-        }
-    });
-}
-   document.getElementById('searchInput').addEventListener('input', function() {
-    const filter = this.value.toLowerCase(); // 入力された文字を小文字化
-    const cards = document.querySelectorAll('.card'); // 全てのカードを取得
+    // 全て表示（元に戻したもの）
+    function showAll() {
+        document.querySelectorAll('.card').forEach(c => c.style.display = 'block');
+    }
 
-    cards.forEach(card => {
-        // カード内のテキスト全体を取得（タイトル、詳細、スキルなど）
-        const text = card.innerText.toLowerCase();
-        
-        // 入力した文字がカード内のどこかに含まれていれば表示、なければ非表示
-        if (text.includes(filter)) {
-            card.style.display = ''; // 表示
-        } else {
-            card.style.display = 'none'; // 非表示
-        }
+    // 並び替え機能（未実装の枠）
+    function sortCards(criteria) {
+        const main = document.querySelector('main');
+        const cards = Array.from(document.querySelectorAll('.card'));
+        cards.forEach(c => main.appendChild(c));
+    }
+
+    // 検索バー機能（リアルタイム検索）
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            card.style.display = text.includes(filter) ? 'block' : 'none';
+        });
     });
-});    
-    </script>
+</script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
         <div style="background:white; padding:30px; width:450px; border-radius:12px; color:#334155; max-height:80vh; overflow-y:auto;" onclick="event.stopPropagation()">
