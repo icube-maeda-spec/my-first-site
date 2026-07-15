@@ -50,25 +50,6 @@
     padding: 5px 10px; border-radius: 4px;
 }
 
-/* --- ぽっちゃり犬のスタイル --- */
-#dog-character {
-    position: fixed;
-    width: 80px;
-    height: 70px;
-    background: #d4a373;
-    border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
-    transition: all 2.0s ease-in-out;
-    z-index: 100;
-    pointer-events: none;
-    box-shadow: inset -10px -10px 10px rgba(0,0,0,0.1);
-}
-#dog-character::after {
-    content: '';
-    position: absolute;
-    top: -5px; left: -5px; width: 20px; height: 25px;
-    background: #c58c55;
-    border-radius: 50%;
-}
     </style>
 </head>
 <body>
@@ -869,23 +850,7 @@ AC-444（-）
         cards.forEach(c => main.appendChild(c));
     }
 
-    // --- ぽっちゃり犬の移動ロジック ---
-const dog = document.createElement('div');
-dog.id = 'dog-character';
-document.body.appendChild(dog);
-
-function moveDog() {
-    const maxX = window.innerWidth - 100;
-    const maxY = window.innerHeight - 100;
-    const newX = Math.random() * maxX;
-    const newY = Math.random() * maxY;
-    
-    dog.style.left = newX + 'px';
-    dog.style.top = newY + 'px';
-    dog.style.zIndex = Math.random() > 0.3 ? '100' : '-1';
-    dog.style.transform = `rotate(${(Math.random() - 0.5) * 20}deg)`;
-}
-setInterval(moveDog, 2500);
+ 
 </script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
