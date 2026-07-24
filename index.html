@@ -12,7 +12,7 @@
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
         
         /* マーキー用スタイル */
-        .marquee-container { background: #0f172a; color: #38bdf8; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; }
+        .marquee-container { background: #0f172a; color: white; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; }
         .dark-mode .marquee-container { background: #020617; border-bottom: 1px solid #1e293b; }
         .marquee-container marquee { font-weight: bold; }
 
@@ -70,7 +70,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。【案件追加情報】7/23　NEW!!既存GUIアプリケーションのWebシステム化（Python）　【その他お知らせ】弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。【案件追加情報】7/23 <span class="new-badge">NEW!!</span>既存GUIアプリケーションのWebシステム化（Python） <span style="color: yellow;">【その他お知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
     </div>
 
     <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
@@ -207,7 +207,7 @@
                     "商流：貴社まで（雇用形態不問）",
                     "契約：SES(準委任)"
                 ],
-                detailText: `【業務内容】\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築(GCP、AWS、Docker、Jenkins、terraform 等)\n\n【勤務地】\n豊洲／在宅中心\n\n【期間】\n随時 ※参画時期は応相談\n\n【スキル・要件・役割】\n＜必要なスキル・経験＞\n・GCP、AWSを利用したクラウド基盤の設計、構築作業、検証の経験3年以上。\n設計：クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、\nサーバ設計、監視設計、セキュリティ設計\n構築・テスト：IaC(CloudFormation、AWS CDK、Azure Bicep、Terraform)\nを使った基盤構築、基盤テスト\n・全て必須ではないが、様々なPJの支援をするので可能範囲が広いほど良い。\nAWS：EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ：Docker、ECR\nDB/データ基盤：RDS for Oracle、Aurora、Redshift等\n\n＜求める人材像、役割＞\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n＜あれば尚良＞\n・チームをまとめられるリーダー経験\n・OSSサポート(Apache/Tomcat)\n・オンプレ(VMWare)/仮想ネットワーク(SDN)の経験\n・クラウド関連ベンダ系認定保有者(AWS、Azure、GoogleCloud、etc.)\n\n【人数】\n数名 ※1名でも可\n\n【単価・精算】\n経験とスキル見合いで応相談\n\n【稼働】\n随時\n\n【体制】\n3名体制（内社員1名）\n\n【備考】\n人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n\n【その他条件】\n・事前打合せ回数：2回（元請様及びエンド様）\n・外国籍：不可\n· 在宅勤務：有（基本在宅）`
+                detailText: `【業務内容】\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築(GCP、AWS、Docker、Jenkins、terraform 等)\n\n【勤務地】\n豊洲／在宅中心\n\n【期間】\n随時 ※参画時期は応相談\n\n【スキル・要件・役割】\n＜必要なスキル・経験＞\n・GCP、AWSを利用したクラウド基盤の設計、構築作業、検証の経験3年以上。\n設計：クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、\nサーバ設計、監視設計、セキュリティ設計\n構築・テスト：IaC(CloudFormation、AWS CDK、Azure Bicep、Terraform)\nを使った基盤構築、基盤テスト\n・全て必須ではないが、様々なPJの支援をするので可能範囲が広いほど良い。\nAWS：EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ：Docker、ECR\nDB/データ基盤：RDS for Oracle、Aurora、Redshift等\n\n＜求める人材像、役割＞\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n＜あれば尚良＞\n・チームをまとめられるリーダー経験\n・OSSサポート(Apache/Tomcat)\n・オンプレ(VMWare)/仮想ネットワーク(SDN)の経験\n・クラウド関連ベンダ系認定保有者(AWS、Azure、GoogleCloud、etc.)\n\n【人数】\n数名 ※1名でも可\n\n【単価・精算】\n経験とスキル見合いで応相談\n\n【稼働】\n随時\n\n【体制】\n3名体制（内社員1名）\n\n【備考】\n人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n\n【その他条件】\n・事前打合せ回数：2回（元請様様及びエンド様）\n・外国籍：不可\n· 在宅勤務：有（基本在宅）`
             },
             {
                 id: 3,
@@ -534,7 +534,7 @@
                 官公庁、金融、航空など、様々な業界の100名～1000名のビッグプロジェクトに次々入って頂く案件となり、終わりはありません。案件が終わったら次の案件が入り、案件と案件の間のブランクが生まれた場合、そのブランク期間も単価が支払われます。（スポットで他の商流案件に入ることは禁止）<br>
                 ブランク期間はN社様のR&D（研究開発）や次の案件の技能開発期間としてN社様が研修を用意して頂いております。</p>
                 <p>■体制で入ことは難しいです。<br>
-                弊社も含め、中小ベンダー企業ですと、体制で入ことを目標としておりますが、こちらの案件は単純にスキル、立ち位置、人柄、コミュニケーションが一流のスペシャリストのみを集めている案件となります為、一匹狼でやられてきた個人事業主様が肌間としては合うとのことです。もちろん、社員様でも問題ありませんが、体制化ができない。という点はご注意ください。</p>
+                弊社も含め、中小ベンダー企業ですと、体制で入ことを目標としておりますが、こちらの案件は単純にスキル、立ち位置、人柄、コミュニケーションが一流のスペシャリストのみを集めている案件となります為、一匹狼でやられてきた個人事業主様が肌間としては合うとのことです。もちろん、社員様でも問題ありませんが、体制ができない。という点はご注意ください。</p>
                 <p>以上となります。<br>ご不明点がありましたら、前田までご連絡ください。<br>電話番号：070-1370-1870</p>
             </div>
             <button style="margin-top:20px; width:100%; padding:10px;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
