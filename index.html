@@ -16,7 +16,7 @@
         .toggle-btn { background: var(--header-bg); color: white; border: none; padding: 10px 5px; cursor: pointer; border-radius: 0 5px 5px 0; }
         #main-wrapper { display: flex; transition: 0.3s; position: relative; width: 100%; }
         aside { width: 320px; background: var(--card-bg); height: 180vh; border-right: 1px solid #e2e8f0; flex-shrink: 0; transition: 0.4s; overflow-y: auto; position: relative; }
-        aside.collapsed { width: 0; margin-left: -250px; }
+        aside.collapsed { width: 0; margin-left: -320px; }
         #sidebar-inner { width: 320px; padding: 40px; box-sizing: border-box; }
         main { flex: 1; padding: 40px; display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
         .card { width: calc(50% - 12px); background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 13px; position: relative; }
@@ -51,7 +51,7 @@
             <span>Icube アイキューブ</span>
             <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.0)</span>
         </div>
-        <nav>
+        <nav id="controller" class="auth-hidden">
             <a href="https://gemini.google.com/app" target="_blank">Gemini</a>
             <a href="https://www.icube-inc.com" target="_blank">会社概要</a>
             <a onclick="document.getElementById('profile-modal').style.display='flex'" style="cursor:pointer">問合せ</a>
@@ -108,7 +108,7 @@
                 <button class="tag" onclick="filterByTag('ILE RPG')">ILE RPG</button>
                 <button class="tag" onclick="filterByTag('RPGⅢ')">RPGⅢ</button>
                 <button class="tag" onclick="filterByTag('Python')">Python</button>
-                <button class="tag" onclick="filterByTag('React')">Ract</button>
+                <button class="tag" onclick="filterByTag('React')">React</button>
                 <button class="tag" onclick="filterByTag('FastAPI')">FastAPI</button>
                 <button class="tag" onclick="filterByTag('Django')">Django</button>
                 <button class="tag" onclick="showAll()">全て表示</button>
@@ -830,8 +830,7 @@ SEクラス １～２名
 ・外国籍NG
 なお詳細は、ご面談時にもご案内いたします。`
             },
-
-{
+            {
                 id: 13,
                 company: "H社",
                 date: "2026/07/23",
@@ -873,9 +872,8 @@ SEクラス １～２名
 
 ■面談回数
 2回を予定（元請様 エンド様）`
-}
+            }
         ];
-```
 
         // 画面にカードを自動描画する関数
         function renderProjects(dataList) {
@@ -927,7 +925,8 @@ SEクラス １～２名
         function showMain() {
             document.getElementById('login-overlay').style.display = 'none';
             document.getElementById('main-wrapper').classList.remove('hidden');
-            document.getElementById('controller').classList.remove('auth-hidden');
+            const controllerEl = document.getElementById('controller');
+            if (controllerEl) controllerEl.classList.remove('auth-hidden');
         }
 
         // マトリックス演出
