@@ -53,7 +53,7 @@
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>前田 玄真 (Maeda Genma)</h3>
-            <p style="font-size: 14px; line-height: 1.6;">Phone: 070-1370-1870<br>Tell: 03-5651-0170<br>Address: 東京都千代田区岩本町３丁目４－６<br>トナカイタワーズ　９階</p>
+            <p style="font-size: 14px; line-height: 1.6;">Phone: 070-1370-1870<br>Tell: 03-5651-0170<br>Address: 東京都中央区日本橋馬喰町1-3-6 馬喰町三京ビル2F</p>
         </div>
     </div>
 
@@ -85,7 +85,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【追加案件情報】</span>7/23 既存GUIアプリケーションのWebシステム化（Python） <span style="color: #facc15;">【その他のお知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【追加案件情報】</span>専門商社での情報システム部門・社員代替（AS/400,RPG） <span style="color: #facc15;">【その他のお知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -330,10 +330,10 @@
             {
                 id: 11,
                 company: "J社",
-                date: "2026/07/22",
+                date: "2026/07/27",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "情報システム部門・社員代替",
+                title: "専門商社での情報システム部門・社員代替 ",
                 tags: ["AS/400", "RPG", "運用保守"],
                 location: "北松戸",
                 remote: "常駐(リモート無)",
@@ -342,7 +342,7 @@
                 contract: "SES(準委任)",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【案件名】\n専門商社での情報システム部門・社員代替\n\n【作業場所】\n常磐線・北松戸駅 徒歩10分（リモートはありません）\n\n【作業期間】\n即日～長期（1～3ヵ月程度のお試し期間・良ければ長期）\n\n＜業務内容＞\n・基幹システム（AS/400）運用保守\n・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト\n\n＜必須スキル(Must)／必須経験＞\n・RPG開発を上流から下流まで1人称でできる方\n\n【希望単価】\nスキル見合い（～60万円程度）\n\n【勤務時間】\n9:00～17:45（休憩45分実働8時間 / 休憩1h）\n\n【人数】\n1名\n\n【年齢制限】\n60歳くらいまで\n\n【商流制限】\n貴社まで\n\n【国籍】\n外国籍不可\n\n【面談回数】\n1回目：元請様、2回目：お客様`
+                detailText: `【案件名】\n専門商社での情報システム部門・社員代替 ★注力案件\n\n【作業場所】\n常磐線・北松戸駅 徒歩10分（リモートはありません）\n\n【作業期間】\n即日～長期（1～3ヵ月程度のお試し期間・良ければ長期）\n\n【スキル要件】\n【業務内容】\n・基幹システム（AS/400）運用保守\n・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト\n\n【必須スキル(Must)／必須経験】\n・RPG開発を上流から下流まで1人称でできる方\n\n【希望単金】\nスキル見合い（～60万円程度）\n\n【勤務時間】\n9:00～17:45（休憩45分 実働8時間）\n\n【人数】\n1名\n\n【中心となる年齢層】\n60歳くらいまで\n\n【商流制限】\n貴社まで\n\n【国籍】\n外国籍不可\n\n【面談回数】\n2回（1回目：元請様、2回目：お客様）`
             },
             {
                 id: 12,
@@ -393,6 +393,9 @@
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
 
+            // 本日の日付（2026/07/27）を基準としてNEW判定を行う
+            const todayStr = '2026/07/27';
+
             dataList.forEach((p, index) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
                 const rowClass = index % 2 === 0 ? 'row-even' : 'row-odd';
@@ -410,6 +413,12 @@
                     foreignColor = "#059669";
                 }
 
+                // 本日追加された案件（日付が今日のもの）のみ赤点滅NEW!!を表示
+                const isNew = (p.date === todayStr);
+                const statusHtml = isNew 
+                    ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
+                    : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
+
                 const tr = document.createElement('tr');
                 tr.className = `project-row ${rowClass}`;
                 tr.dataset.tags = p.tags.join(',');
@@ -417,7 +426,7 @@
                 tr.dataset.text = `${p.date} ${p.company} ${p.title} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${foreignDisplay}`.toLowerCase();
 
                 tr.innerHTML = `
-                    <td><span class="status-badge ${p.statusClass}">${p.status}</span></td>
+                    <td>${statusHtml}</td>
                     <td style="white-space: nowrap;">
                         <div style="font-weight: bold; font-size: 12px;">${p.date}</div>
                         <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${p.company}</div>
