@@ -1,54 +1,55 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
+<!DOCTYPE html><html lang="ja"><head>
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
     <style>
-        :root { --accent: #0f172a; --header-bg: #003366; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; }
-        .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #0f172a; }
+        :root { --accent: #0f172a; --header-bg: #003366; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; --border-color: #cbd5e1; --tr-even: #ffffff; --tr-odd: #f8fafc; }
+        .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #1e293b; --border-color: #334155; --tr-even: #1e293b; --tr-odd: #172033; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; }
         header { background: var(--header-bg); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
         
-        /* マーキー用スタイル */
-        .marquee-container { background: #0f172a; color: white; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; }
+        .marquee-container { background: #0f172a; color: #ffffff; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
         .dark-mode .marquee-container { background: #020617; border-bottom: 1px solid #1e293b; }
-        .marquee-container marquee { font-weight: bold; }
+        .marquee-container marquee { font-weight: bold; color: #ffffff; flex-grow: 1; }
+        
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        .blink-text { color: #ef4444; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
 
-        /* NEW!!点滅用スタイル */
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-        .new-badge { color: red; font-weight: bold; margin-right: 5px; animation: blink 1s infinite; display: inline-block; }
-
-        .auth-hidden { visibility: hidden; }
-        .sidebar-controller { position: absolute; left: 320px; top: 75px; z-index: 1001; transition: 0.4s; }
-        #main-wrapper:not(.hidden) aside.collapsed + .sidebar-controller { left: 0; }
-        .toggle-btn { background: var(--header-bg); color: white; border: none; padding: 10px 5px; cursor: pointer; border-radius: 0 5px 5px 0; }
-        #main-wrapper { display: flex; transition: 0.3s; position: relative; width: 100%; }
-        aside { width: 320px; background: var(--card-bg); height: 180vh; border-right: 1px solid #e2e8f0; flex-shrink: 0; transition: 0.4s; overflow-y: auto; position: relative; }
-        aside.collapsed { width: 0; margin-left: -250px; }
-        #sidebar-inner { width: 320px; padding: 40px; box-sizing: border-box; }
-        main { flex: 1; padding: 40px; display: flex; flex-wrap: wrap; gap: 24px; align-content: flex-start; }
-        .card { width: calc(50% - 12px); background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 13px; position: relative; }
-        .tag-container { position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
-        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
-        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 8px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; background: transparent; margin-top: 15px; font-size: 12px; }
-        .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
         .hidden { display: none; }
-        .modal-view { position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%); width: 80% !important; max-width: 600px !important; max-height: 80vh !important; overflow-y: auto !important; z-index: 3000 !important; padding: 30px !important; background: var(--card-bg) !important; box-shadow: 0 20px 25px rgba(0,0,0,0.3) !important; }
+        
+        #main-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; box-sizing: border-box; }
+        .controls-container { padding: 20px 20px 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        
+        main { padding: 20px; }
+
+        .compact-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; font-size: 13px; text-align: left; }
+        .compact-table th, .compact-table td { border: 1px solid var(--border-color); padding: 8px 10px; vertical-align: middle; }
+        .compact-table th { background: var(--panel-bg); font-weight: bold; color: var(--text); font-size: 12px; }
+        
+        .compact-table tbody tr.row-even { background-color: var(--tr-even); }
+        .compact-table tbody tr.row-odd { background-color: var(--tr-odd); }
+        .compact-table tbody tr:hover { background-color: rgba(0,0,0,0.03); }
+
+        .tag-container { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 3px; }
+        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
+        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 3px 10px; border-radius: 4px; font-weight: 600; cursor: pointer; background: transparent; font-size: 11px; white-space: nowrap; }
+        .btn-toggle:hover { background: var(--accent); color: var(--card-bg); }
+        .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-box { background: var(--card-bg); color: var(--text); padding: 25px; width: 650px; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow-y: auto; border: 1px solid var(--border-color); }
+
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; }
+        .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; color: #334155; }
         .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
         .login-box button { width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        
         #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
-        .status-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; margin-left: 5px; }
-        .status-urgent { background-color: #ef4444; color: white; }
+        .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
         .status-open { background-color: #3b82f6; color: white; }
-        .status-filled { background-color: #fbbf24; color: #000; }
-    </style>
-</head>
-<body>
+    </style></head><body>
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>前田 玄真 (Maeda Genma)</h3>
@@ -56,10 +57,24 @@
         </div>
     </div>
 
+    <div id="detail-modal" class="modal-overlay" onclick="closeDetailModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 id="modal-title" style="margin: 0; font-size: 16px;">詳細情報</h3>
+                <button class="btn-toggle" onclick="closeDetailModal()">✕ 閉じる</button>
+            </div>
+            <button class="btn-copy" onclick="copyModalText()">内容をコピー</button>
+            <pre id="modal-content-text" style="white-space: pre-wrap; font-size: 13px; margin-top: 10px; font-family: inherit; color: var(--text); line-height: 1.5;"></pre>
+            <div style="text-align: right; margin-top: 20px;">
+                <button class="btn-toggle" onclick="closeDetailModal()">閉じる</button>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="logo" style="display: flex; align-items: baseline; gap: 10px;">
             <span>Icube アイキューブ</span>
-            <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.0)</span>
+            <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.1)</span>
         </div>
         <nav>
             <a href="https://gemini.google.com/app" target="_blank">Gemini</a>
@@ -70,19 +85,19 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。【案件追加情報】7/23 <span class="new-badge">NEW!!</span>既存GUIアプリケーションのWebシステム化（Python） <span style="color: yellow;">【その他お知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【追加案件情報】</span>7/23 既存GUIアプリケーションのWebシステム化（Python） <span style="color: #facc15;">【その他のお知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
+        <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
+            閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
+        </div>
     </div>
 
     <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
-        <div style="background:white; padding:20px; width:300px; border-radius:12px; color:#334155;" onclick="event.stopPropagation()">
+        <div style="background:var(--card-bg); padding:20px; width:300px; border-radius:12px; color:var(--text); border: 1px solid var(--border-color);" onclick="event.stopPropagation()">
             <h3>設定メニュー</h3>
             <div style="display:flex; flex-direction:column; gap:15px;">
-                <label><input type="checkbox" onchange="document.body.classList.toggle('dark-mode')"> ダークモード</label>
-                <label>文字サイズ: <select onchange="document.body.style.fontSize = this.value"><option value="13px">標準</option><option value="15px">大</option></select></label>
-                <button onclick="sortCards('date')">掲載日順に並び替え</button>
-                <label><input type="checkbox" onchange="filterSES(this.checked)"> SES案件のみ表示</label>
+                <label><input type="checkbox" id="darkModeToggle" onchange="document.body.classList.toggle('dark-mode')"> ダークモード</label>
             </div>
-            <button style="margin-top:20px; width:100%;" onclick="document.getElementById('settings-modal').style.display='none'">閉じる</button>
+            <button style="margin-top:20px; width:100%; background:var(--border-color); color:var(--text); border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="document.getElementById('settings-modal').style.display='none'">閉じる</button>
         </div>
     </div>
 
@@ -94,54 +109,40 @@
         </div>
     </div>
 
-    <div id="main-wrapper" class="hidden">
-        <aside id="sidebar">
-            <div id="sidebar-inner">
-                <h2>案件検索</h2>
-                <input type="text" id="searchInput" placeholder="スキルを入力..." style="width:100%; padding:10px; margin-bottom:20px;">
-                <button class="tag" onclick="filterByTag('C#')">C#</button>
-                <button class="tag" onclick="filterByTag('Java')">Java</button>
-                <button class="tag" onclick="filterByTag('SpringFramework')">SpringFramework</button>
-                <button class="tag" onclick="filterByTag('JUnit')">JUnit</button>
-                <button class="tag" onclick="filterByTag('SQL')">SQL</button>
-                <button class="tag" onclick="filterByTag('AWS')">AWS</button>
-                <button class="tag" onclick="filterByTag('GCP')">GCP</button>
-                <button class="tag" onclick="filterByTag('Docker')">Docker</button>
-                <button class="tag" onclick="filterByTag('PM')">PM</button>
-                <button class="tag" onclick="filterByTag('PMO')">PMO</button>
-                <button class="tag" onclick="filterByTag('SharePoint')">SharePoint</button>
-                <button class="tag" onclick="filterByTag('Microsoft365')">Microsoft365</button>
-                <button class="tag" onclick="filterByTag('SAP')">SAP</button>
-                <button class="tag" onclick="filterByTag('Salesforce')">Salesforce</button>
-                <button class="tag" onclick="filterByTag('運用保守')">運用保守</button>
-                <button class="tag" onclick="filterByTag('IBMメインフレーム')">IBMメインフレーム</button>
-                <button class="tag" onclick="filterByTag('POSITIVE')">POSITIVE</button>
-                <button class="tag" onclick="filterByTag('人事給与システム')">人事給与システム</button>
-                <button class="tag" onclick="filterByTag('AS/400')">AS/400</button>
-                <button class="tag" onclick="filterByTag('RPG')">RPG</button>
-                <button class="tag" onclick="filterByTag('ILE RPG')">ILE RPG</button>
-                <button class="tag" onclick="filterByTag('RPGⅢ')">RPGⅢ</button>
-                <button class="tag" onclick="filterByTag('Python')">Python</button>
-                <button class="tag" onclick="filterByTag('React')">React</button>
-                <button class="tag" onclick="filterByTag('FastAPI')">FastAPI</button>
-                <button class="tag" onclick="filterByTag('Django')">Django</button>
-                <button class="tag" onclick="showAll()">全て表示</button>
-                <hr style="margin:20px 0;">
-                <h4>カレンダー</h4>
-                <div style="text-align:center; background:var(--panel-bg); padding:10px; font-size:12px;">
-                    <div style="margin-bottom:5px;">
-                        <button onclick="changeMonth(-1)">＜</button> <span id="cal-month"></span> <button onclick="changeMonth(1)">＞</button>
-                    </div>
-                    <div id="cal-grid" style="display:grid; grid-template-columns: repeat(7, 1fr); gap:2px;"></div>
-                </div>
-                <div id="visitor-monitor" style="margin-top: 10px; font-family: monospace; color: #0d9488; font-weight: bold; text-align: center; font-size: 12px;">
-                    LOADING...
-                </div>
+    <div id="main-wrapper">
+        <div class="controls-container">
+            <h1 style="margin: 0; font-size: 20px;">案件一覧</h1>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
+                    <option value="desc">掲載日：新しい順 (降順)</option>
+                    <option value="asc">掲載日：古い順 (昇順)</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 220px; background: var(--card-bg); color: var(--text);">
+                <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
             </div>
-        </aside>
+        </div>
        
         <main>
-            <h1 style="width:100%">案件一覧</h1>
+            <table class="compact-table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ステータス</th>
+                        <th style="width: 10%;">日付 / 案件元</th>
+                        <th style="width: 25%;">案件名</th>
+                        <th style="width: 16%;">スキル</th>
+                        <th style="width: 11%;">場所</th>
+                        <th style="width: 7%;">単価</th>
+                        <th style="width: 6%;">商流</th>
+                        <th style="width: 6%;">契約</th>
+                        <th style="width: 6%;">外国籍</th>
+                        <th style="width: 5%;">備考</th>
+                        <th style="width: 6%; text-align: center;">条件</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- 動的描画 -->
+                </tbody>
+            </table>
         </main>
     </div>
 
@@ -167,9 +168,9 @@
         set(myPresence, true);
 
         onValue(presenceRef, (snapshot) => {
-            const count = snapshot.size;
-            const monitorEl = document.getElementById('visitor-monitor');
-            if (monitorEl) monitorEl.innerText = `ONLINE_USERS: ${count}`;
+            const data = snapshot.val();
+            const count = data ? Object.keys(data).length : 0;
+            document.getElementById('visitor-count').innerText = count;
         });
 
         const projects = [
@@ -181,14 +182,13 @@
                 statusClass: "status-open",
                 title: "テスト自動化（人財プール）",
                 tags: ["Java", "SpringFramework", "JUnit"],
-                info: [
-                    "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:red; font-size:12px; font-weight:bold; cursor:pointer;\">【※人財プール案件の注意事項】</a>",
-                    "場所：豊洲／在宅中心",
-                    "リモート頻度：基本在宅",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">経験・スキル見合いで応相談</span>",
-                    "商流：貴社まで（雇用形態不問）",
-                    "契約：SES(準委任)"
-                ],
+                location: "豊洲／在宅中心",
+                remote: "基本在宅",
+                price: "経験・スキル見合いで応相談",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;\">【注】</a>",
                 detailText: `【業務内容】\n社内横断で様々なプロジェクトに参画し、テスト自動化の導入や利用法を確立し推進していく。\n\n【スキル・要件・役割】\n◆必要なスキル◆\n※全て必須ではないが様々なPJの支援をするので可能範囲が広いほど良い。\n※開発担当者としての利用したことがあるレベルではなく、\n技術リード、メンバー指導、開発標準化など高いレベルが求められる。\n・言語、フレームワーク\n[Java(8以上)+SpringFramework] ※必須、\n[C#、VB.NET、Python、[JavaScript/HTML/CSS、TypeScript]+Next.js]\n・テスト関連ツール\nユニットテスト：JUnit(5.e以上) ※必須、\nPytest、Jest、MSTest、NUnit、CppUTest\nE2Eテスト：Playwright、Appium、Selenium\nAPIテスト：Karate、Assis、Postman\n\n◆工程・役割◆\n・Web系オープンシステム開発経験（詳細設計～結合テスト）。\n・大手Sier様が実行するプロジェクトに従事した経験\n（規定の開発プロセスに則った作業、高い品質レベル、説明能力、保守運用の配慮）\n・テスト計画、テスト設計の経験\n（システム特性、開発プロセス、各テスト工程の役割を理解した上での作業）\n・テスト自動化の導入（ツール選定、開発環境構築、等）の経験。\n\n◆人材像、役割◆\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n【体制・備考】\n・人数: 数名 ※1名でも可\n・単価・精算: 経験とスキル見合いで応相談\n・稼働: 随時\n・体制: 8名体制（内社員1名）\n・備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n・事前打合せ回数：2回（元請及びエンド様）\n· 外国籍：不可\n· 在宅勤務：有（基本在宅）\n· 商流：貴社まで（雇用形態不問）`
             },
             {
@@ -199,15 +199,14 @@
                 statusClass: "status-open",
                 title: "クラウド構築（人財プール）",
                 tags: ["AWS", "GCP", "Docker"],
-                info: [
-                    "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:red; font-size:12px; font-weight:bold; cursor:pointer;\">【※人財プール案件の注意事項】</a>",
-                    "場所：豊洲／在宅中心",
-                    "リモート頻度：基本在宅",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">応相談</span>",
-                    "商流：貴社まで（雇用形態不問）",
-                    "契約：SES(準委任)"
-                ],
-                detailText: `【業務内容】\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築(GCP、AWS、Docker、Jenkins、terraform 等)\n\n【勤務地】\n豊洲／在宅中心\n\n【期間】\n随時 ※参画時期は応相談\n\n【スキル・要件・役割】\n＜必要なスキル・経験＞\n・GCP、AWSを利用したクラウド基盤の設計、構築作業、検証の経験3年以上。\n設計：クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、\nサーバ設計、監視設計、セキュリティ設計\n構築・テスト：IaC(CloudFormation、AWS CDK、Azure Bicep、Terraform)\nを使った基盤構築、基盤テスト\n・全て必須ではないが、様々なPJの支援をするので可能範囲が広いほど良い。\nAWS：EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ：Docker、ECR\nDB/データ基盤：RDS for Oracle、Aurora、Redshift等\n\n＜求める人材像、役割＞\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n＜あれば尚良＞\n・チームをまとめられるリーダー経験\n・OSSサポート(Apache/Tomcat)\n・オンプレ(VMWare)/仮想ネットワーク(SDN)の経験\n・クラウド関連ベンダ系認定保有者(AWS、Azure、GoogleCloud、etc.)\n\n【人数】\n数名 ※1名でも可\n\n【単価・精算】\n経験とスキル見合いで応相談\n\n【稼働】\n随時\n\n【体制】\n3名体制（内社員1名）\n\n【備考】\n人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n\n【その他条件】\n・事前打合せ回数：2回（元請様様及びエンド様）\n・外国籍：不可\n· 在宅勤務：有（基本在宅）`
+                location: "豊洲／在宅中心",
+                remote: "基本在宅",
+                price: "応相談",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;\">【注】</a>",
+                detailText: `【業務内容】\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築(GCP、AWS、Docker、Jenkins、terraform 等)\n\n【勤務地】\n豊洲／在宅中心\n\n【期間】\n随時 ※参画時期は応相談\n\n【スキル・要件・役割】\n＜必要なスキル・経験＞\n・GCP、AWSを利用したクラウド基盤の設計、構築作業、検証の経験3年以上。\n設計：クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、\nサーバ設計、監視設計、セキュリティ設計\n構築・テスト：IaC(CloudFormation、AWS CDK、Azure Bicep、Terraform)\nを使った基盤構築、基盤テスト\n・全て必須ではないが、様々なPJの支援をするので可能範囲が広いほど良い。\nAWS：EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ：Docker、ECR\nDB/データ基盤：RDS for Oracle、Aurora、Redshift等\n\n＜求める人材像、役割＞\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n＜あれば尚良＞\n・チームをまとめられるリーダー経験\n・OSSサポート(Apache/Tomcat)\n・オンプレ(VMWare)/仮想ネットワーク(SDN)の経験\n・クラウド関連ベンダ系認定保有者(AWS、Azure、GoogleCloud、etc.)\n\n【人数】\n数名 ※1名でも可\n\n【単価・精算】\n経験とスキル見合いで応相談\n\n【稼働】\n随時\n\n【体制】\n3名体制（内社員1名）\n\n【備考】\n人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n\n【その他条件】\n・事前打合せ回数：2回（元請様様及びエンド様）\n· 外国籍：不可\n· 在宅勤務：有（基本在宅）`
             },
             {
                 id: 3,
@@ -215,16 +214,15 @@
                 date: "2026/07/09",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "プロジェクトマネージャ支援<br>（人財プール）",
+                title: "プロジェクトマネージャ支援（人財プール）",
                 tags: ["PM", "PMO"],
-                info: [
-                    "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:red; font-size:12px; font-weight:bold; cursor:pointer;\">【※人財プール案件の注意事項】</a>",
-                    "場所：豊洲／在宅中心",
-                    "リモート頻度：基本在宅",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">経験・スキル見合いで応相談</span>",
-                    "商流：貴社まで（雇用形態不問）",
-                    "契約：SES(準委任)"
-                ],
+                location: "豊洲／在宅中心",
+                remote: "基本在宅",
+                price: "経験・スキル見合いで応相談",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;\">【注】</a>",
                 detailText: `業務内容: 様々なプロジェクトにおいて、プロジェクトマネージャーを支援する。（管理ツールの導入支援やアドバイス等）\n\n勤務地: 豊洲／在宅中心\n\n期間: 随時\n\nスキル・要件・役割:\n【必須】\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実施経験\n品質管理、課題管理、仕様変更管理といった管理作業の実施ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を連携下さい。\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM／PLとして\n各管理(①)の実施要領の作成(管理ルール作成、管理簿/チケット管理ツールの導入運用など)、\n各管理の実施についてPJメンバーの支援/指導のご経験\n③品質分析、品質評価報告書の作成のご経験\n④PJ計画書の作成に関わったご経験\n⑤テスト計画の作成、テスト推進に関わったご経験\n\n人数: 数名 ※1名でも可\n\n単価・精算: 経験とスキル見合いで応相談\n\n稼働: 随時\n\n体制: 8名体制（内社員2名）\n\n備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。\n\nその他条件:\n・事前打合せ回数：2回（元請様様及びエンド様）\n・外国籍：不可\n・在宅勤務：有（基本在宅）`
             },
             {
@@ -233,15 +231,15 @@
                 date: "2026/07/10",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "業務基盤再構築支援<br>（Oracle代替）",
+                title: "業務基盤再構築支援（Oracle代替）",
                 tags: ["SharePoint", "Microsoft365"],
-                info: [
-                    "場所：西日暮里",
-                    "リモート頻度：出社主体",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">70~80万円（スキル見合い）</span>",
-                    "商流：貴社社員まで",
-                    "契約：SES(準委任)"
-                ],
+                location: "西日暮里",
+                remote: "出社主体",
+                price: "70~80万円",
+                flow: "貴社社員まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
                 detailText: `【案件名】\n業務基盤再構築支援（Oracle代替）\n【作業場所】\n三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）徒歩９分（出社主体）\n\n【作業期間】\n即日〜長期予定\n\n【スキル要件】\n＜案件概要＞\n既存Oracleシステムの復旧が困難な状況を受け、SharePoint Onlineを活用した業務基盤再構築プロジェクトを推進する担当。\n文書・データ管理基盤の設計から構築、データ移行、運用設計までを担当し、SharePointを活用した業務環境の整備を行う。\n\n＜業務内容＞\n・SharePoint Onlineサイト設計・構築、ドキュメントライブラリ設計\n・SharePointリスト設計、メタデータ・フォルダ構成設計\n・権限設計・アクセス制御、ユーザー部門との要件整理\n・Oracle管理データの移行支援、運用ルール・管理手順策定\n・Teams連携検討・実装支援、利用部門向け説明・定着化支援\n\n＜必須スキル(Must)／必須経験＞\n・SharePoint Onlineの設計・構築経験、SharePointサイト／リスト設計経験\n・権限設計・アクセス管理経験、ユーザー要件ヒアリング経験\n・顧客折衝経験、ドキュメント作成経験\n\n＜あれば好ましいスキル(Want)／経験＞\n・Power Automate開発経験、Power Apps開発経験\n・Microsoft 365導入経験、Oracle／DBデータ移行経験\n・ファイルサーバー移行経験、業務改善・DX推進経験\n・情報セキュリティ・権限管理知識\n\n＜求める人物像＞\nSharePointを用いた業務基盤構築を主体的に推進できる方、ユーザー部門との調整ができる方\n業務要件を整理し設計に落とし込める方、手を動かしながら設計・構築まで対応できる方\n\n【希望単価】\n70~80万円（スキル見合い）\n\n【勤務時間】\n8:30〜17:00（休憩1:00）\n\n【（精算）人数】\n1名\n\n【中心となる年齢層】\n30〜50代\n\n【商流制限】\n貴社社員まで。フリーランスはNG\n\n【国籍】\n外国籍不可\n\n【面談回数】\n1回目：元請様(Web･対面)、2回目：お客様(対面)`
             },
             {
@@ -252,14 +250,14 @@
                 statusClass: "status-open",
                 title: "柏_M365設計構築",
                 tags: ["Microsoft365"],
-                info: [
-                    "場所：柏",
-                    "リモート頻度：出社主体",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">完全スキル⾒合い</span>",
-                    "商流：商流制限無",
-                    "契約：SES(準委任)"
-                ],
-                detailText: `１．作業概要\nMicrosoft 365サービスの構築から導入までの調査、設計、検証、構築、運用保守まで\n一人称で対応できる要員を募集しております。\n保有スキルとしては、Microsoft 365、Microsoft Entraの経験が求められます。\nまた、今後、新サービスがM365に加わると、調査/検討・検証にも加わってもらいます。\n現在、導入済のサービスは以下の通りです。\n\n導入済のサービス\n・Teams\n・Microsoft Purview Information Protection\n・Intune\n・Vivaエンゲージ(Yammer)\n・SharePoint\n・OneDrive\n・Exchange Online\n・Microsoft Entraの機能\n\n２．期間\n即日 ～ 長期 ※開始日調整可能です\n\n３．人数\n1名\n\n４．場所\nJR常磐線／東武ア－バンパ－クライン 柏駅 徒歩１３分\n\n５．勤務時間\n9:00～18:00（フレックス無し/土日祝日休み） ※テレワ－クは週１回\n\n６．スキル\n・Microsoft 365サービスの構築・保守経験\n・Microsoft Entraの構築・保守経験\n・BAT、PowerShellに関する知識\n・探求意欲が強く能動的に動ける方\n※特定の経験は求めず幅広い経験がある方が望ましい\n・（尚可）SharePoint Onlineに関する知識、経験\n・（尚可）Exchange Onlineに関する知識、経験\n・（尚可）Windowsサ－バの構築・保守経験(Active directoryの知識)  \n・（尚可）Azure Entra Connectに関する知識、経験\n\n７．面談\n2回（元請様・お客様）\n\n８．単価\nスキル見合い\n\n９．年齢制限\n20代～30代限定（40代以上は提案しても客先で弾かれます）`
+                location: "柏",
+                remote: "出社主体(週1リモート)",
+                price: "スキル見合い",
+                flow: "制限無",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
+                detailText: `１．作業概要\nMicrosoft 365サービスの構築から導入までの調査、設計、検証、構築、運用保守まで\n一人称で対応できる要員を募集しております。\n保有スキルとしては、Microsoft 365、Microsoft Entraの経験が求められます。\nまた、今後、新サービスがM365に加わると、調査/検討・検証にも加わってもらいます。\n現在、導入済のサービスは以下の通りです。\n\n導入済のサービス\n・Teams\n・Microsoft Purview Information Protection\n・Intune\n・Vivaエンゲージ(Yammer)\n・SharePoint\n・OneDrive\n・Exchange Online\n・Microsoft Entraの機能\n\n２．期間\n即日 ～ 長期 ※開始日調整可能です\n\n３．人数\n1名\n\n４．場所\nJR常磐線／東武ア－バンパ－クライン 柏駅 徒歩１３分\n\n５．勤務時間\n9:00～18:00（フレックス無し/土日祝日休み） ※テレワ－クは週１回\n\n６．スキル\n・Microsoft 365サービスの構築・保守経験\n・Microsoft Entraの構築・保守経験\n・BAT、PowerShellに関する知識\n・探求意欲が強く能動的に動ける方\n※特定の経験は求めず幅広い経験がある方が望ましい\n・（尚可）SharePoint Onlineに関する知識、経験\n・（尚可）Exchange Onlineに関する知識、経験\n・（尚可）Windowsサ－バの構築・保守経験(Active directoryの知識)  \n· （尚可）Azure Entra Connectに関する知識、経験\n\n７．面談\n2回（元請様・お客様）\n\n８．単価\nスキル見合い\n\n９．年齢制限\n20代～30代限定（40代以上は提案しても客先で弾かれます）`
             },
             {
                 id: 6,
@@ -269,13 +267,13 @@
                 statusClass: "status-open",
                 title: "SAP（アクセンチュア様）案件",
                 tags: ["SAP"],
-                info: [
-                    "場所：都内（確認中）",
-                    "リモート頻度：案件による",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">完全スキル⾒合い</span>",
-                    "商流：貴社まで（雇用形態不問）",
-                    "契約：SES(準委任)"
-                ],
+                location: "都内",
+                remote: "案件による",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
                 detailText: `応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。\n\n 1. 応募案件ID （案件番号）：\n\n 2. 面談可能日 ：\n\n 3. 開始可能日 ：\n\n 4. 希望単金 ：\n\n 5．国籍 ：\n\n 6. アクセンチュア社稼働歴有無 ：\n\n* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。\n\n* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。\n\n\n【SAP案件リスト】\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-405（Leader相当）\n業界: 製薬\n内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー\n必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）\n場所: 週3日都内（週5回出社検討優先）\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-430（Cons相当）\n業界: 化学\n内容: S/4HANA運用保守、MDG/SCM/FICO領域のオンサイトリード\n必須: SAP保守運用または導入実績、日英コミュニケーション\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-434（メンバー）\n業界: 石油\n内容: SAP ECC運用保守（FIモジュールメイン）\n必須: SAP FI領域の運用保守経験5年以上、日本語ネイティブ\n場所: 週3日以上都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-436（Cons相当）\n業界: 教育\n内容: 財務会計システムの機能運用保守・改修\n必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-438（Ana相当）\n業界: 公益団体\n内容: SAP運用保守（FI領域）、定常業務・問合せ・調査分析・開発\n必須: SAP FI領域、Intramart/Java開発経験、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-441（Mgr相当）\n業界: 食品・飲料\n内容: SAP EWM導入PJのデザインフェーズ、要件定義リード\n必須: SAP EWM導入経験、日英バイリンガル\n場所: 都内\n開始: 7月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-442（-）\n業界: 半導体\n内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト\n必須: SD/MMモジュールにおけるテスト経験\n場所: 基本在宅（リモート/月1-2回都内）\n開始: 8月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAC-444（-）\n業界: 化学\n内容: S/4バージョンアップPJ、テスト障害分析・対応\n必須: SAP FI/CO、AA領域の知見\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝`
             },
             {
@@ -286,14 +284,14 @@
                 statusClass: "status-open",
                 title: "MF運用保守",
                 tags: ["運用保守", "IBMメインフレーム", "SQL"],
-                info: [
-                    "場所：新宿",
-                    "リモート頻度：常駐が主軸",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">75万(10年以上で上振れ検討)</span>",
-                    "商流：貴社まで（雇用形態不問）",
-                    "契約：SES（準委任）"
-                ],
-                detailText: `【案件概要】\n作業内容\n電力・ガス領域における基幹システムの維持管理を担っており、\n契約・料金計算・請求・回収領域を中心に、問い合わせ対応・障害対応・ 小～中規模の改修を行っている\n\n【概要】\nガス料金領域および総合請求回収領域の運用保守作業者\n【ロール】\n・問い合わせ／障害対応（ユーザー調整含む）／定常作業の対応・推進\n・小～中規模の改修案件の推進\n\n【必須スキル】\n・アプリ領域の運用保守における問い合わせ・障害対応経験\n・自走して業務を進められる方\n・IBMメインフレーム、SQLの経験・知識\n【尚可】\n・ガス料金・請求回収業務知識\n\n【期間】                     \n即日～長期予定\n        \n【人数】\n 1名                 \n\n【面談】                \n 2回（元請様/エンド様）web予定`
+                location: "新宿",
+                remote: "常駐主軸",
+                price: "75万〜",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n作業内容\n電力・ガス領域における基幹システムの維持管理を担っており、\n契約・料金計算・請求・回収領域を中心に、問い合わせ対応・障害対応・ 小～中規模の改修を行っている\n\n【概要】\nガス料金領域および総合請求回収領域の運用保守作業者\n【ロール】\n・問い合わせ／障害対応（ユーザー調整含む）／定常作業の対応・推進\n・小～中規模の改修案件の推進\n\n【必須スキル】\n・アプリ領域の運用保守における問い合わせ・障害対応経験\n· 自走して業務を進められる方\n・IBMメインフレーム、SQLの経験・知識\n【尚可】\n・ガス料金・請求回収業務知識\n\n【期間】                     \n即日～長期予定\n        \n【人数】\n 1名                 \n\n【面談】                \n 2回（元請様/エンド様）web予定`
             },
             {
                 id: 8,
@@ -301,16 +299,16 @@
                 date: "2026/07/15",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "流通系・グループ会社<br>POSITIVE展開",
+                title: "流通系・グループ会社POSITIVE展開",
                 tags: ["POSITIVE", "人事給与システム"],
-                info: [
-                    "場所：大森",
-                    "リモート頻度：ハイブリッド（50:50）",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">75万まで（予算限度額となります）</span>",
-                    "商流：貴社まで（雇用形態不問）",
-                    "契約：SES（準委任）"
-                ],
-                detailText: `【案件概要】\n\n案件名    ：流通系・グループ会社POSITIVE展開\n\n契約形態  ：準委任\n\n作業範囲  ：要件定義～本番稼働\n\n期間      ：2026年7月～2027年3月\n\n募集要員  ：2名\n\n作業場所  ：在宅 、大森\n\n勤務時間  ：9:00～18:00\n\n必要スキル  ：人事・給与の知識\n            Oracle（PL/SQL）\n            POSITIVE経験者なら尚良し\n\n標準時間  ：140－180h（精算あり）\n\n面談回数  ：2回(WEB 元請様/エンド様）\n\n希望単価  ：応相談\n\n外国籍    ：不可\n\n備考：POSIZTIVEの実務経験の方を優先しますが、COMPANYなどの"人事給与システム"の経験者であれば\n検討可能でございます。\nまた、配下の方に教えられる方を希望致します。超長期で参画頂ける方を募集致します。是非ご提案の程、お待ちしております。`
+                location: "大森",
+                remote: "在宅・大森",
+                price: "75万まで",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n\n案件名    ：流通系・グループ会社POSITIVE展開\n\n契約形態  ：準委任\n\n作業範囲  ：要件定義～本番稼働\n\n期間      ：2026年7月～2027年3月\n\n募集要員  ：2名\n\n作業場所  ：在宅 、大森\n\n勤務時間  ：9:00～18:00\n\n必要スキル  ：人事・給与の知識\n            Oracle（PL/SQL）\n            POSITIVE経験者なら尚良し\n\n標準時間  ：140－180h（精算あり）\n\n面談回数  ：2回(WEB 元請様/エンド様）\n\n希望単価  ：応相談\n\n外国籍    ：不可\n\n備考：POSIZTIVEの実務経験の方を優先しますが、COMPANYなどの"人事給与システム"の経験者であれば\n     検討可能でございます。是非ご提案の程、お待ちしております。`
             },
             {
                 id: 9,
@@ -320,15 +318,14 @@
                 statusClass: "status-open",
                 title: "各種TREE（元請様パッケージ）",
                 tags: ["AS/400", "ILE RPG", "RPGⅢ", "SQL"],
-                info: [
-                    "場所：品川",
-                    "リモート頻度：相談",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">応相談</span>",
-                    "商流：貴社までが望ましい（雇用形態不問）",
-                    "契約：SES（準委任）",
-                    "外国籍：不可"
-                ],
-                detailText: `【案件概要】\n\n案件名  ：各種TREE（元請様パッケージ）案件\n\n契約形態 ：準委任\n\n作業範囲 ：多数発生するTREE案件の設計、開発、テストを実施\n      （チームリーダーの指示により担当案件を遂行する）\n\n期間   ：2026年9月～長期見込み\n\n募集要員 ：5名\n\n作業場所 ：品川\n\n勤務時間 ：9:00～18:00\n\n必要スキル：\n      ・IBM i /RPG（ILE RPG、RPGⅢ開発経験者）\n      ・SQL\n      ・若手にRPG教育ができる人がベスト\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：1回(web)\n\n希望単価 ：応相談\n\n外国籍  ：不可`
+                location: "品川",
+                remote: "常駐",
+                price: "応相談",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n\n案件名  ：各種TREE（元請様パッケージ）案件\n\n契約形態 ：準委任\n\n作業範囲 ：多数発生するTREE案件の設計、開発、テストを実施\n      （チームリーダーの指示により担当案件を遂行する）\n\n期間   ：2026年9月～長期見込み\n\n募集要員 ：5名\n\n作業場所 ：品川\n\n勤務時間 ：9:00～18:00\n\n必要スキル：\n      · IBM i /RPG（ILE RPG、RPGⅢ開発経験者）\n      · SQL\n      ・若手にRPG教育ができる人がベスト\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：1回(web)\n\n希望単価 ：応相談\n\n外国籍  ：不可`
             },
             {
                 id: 11,
@@ -338,13 +335,13 @@
                 statusClass: "status-open",
                 title: "情報システム部門・社員代替",
                 tags: ["AS/400", "RPG", "運用保守"],
-                info: [
-                    "場所：北松戸",
-                    "リモート頻度：リモートなし",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">スキル見合い（～60万円程度）</span>",
-                    "商流：貴社まで",
-                    "契約：SES(準委任)"
-                ],
+                location: "北松戸",
+                remote: "常駐(リモート無)",
+                price: "〜60万円",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
                 detailText: `【案件名】\n専門商社での情報システム部門・社員代替\n\n【作業場所】\n常磐線・北松戸駅 徒歩10分（リモートはありません）\n\n【作業期間】\n即日～長期（1～3ヵ月程度のお試し期間・良ければ長期）\n\n＜業務内容＞\n・基幹システム（AS/400）運用保守\n・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト\n\n＜必須スキル(Must)／必須経験＞\n・RPG開発を上流から下流まで1人称でできる方\n\n【希望単価】\nスキル見合い（～60万円程度）\n\n【勤務時間】\n9:00～17:45（休憩45分実働8時間 / 休憩1h）\n\n【人数】\n1名\n\n【年齢制限】\n60歳くらいまで\n\n【商流制限】\n貴社まで\n\n【国籍】\n外国籍不可\n\n【面談回数】\n1回目：元請様、2回目：お客様`
             },
             {
@@ -355,13 +352,13 @@
                 statusClass: "status-open",
                 title: "インフラ基盤導入支援（Salesforce）",
                 tags: ["Salesforce"],
-                info: [
-                    "場所：多摩センター（丸の内出社あり）",
-                    "リモート頻度：週1〜2日可",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">スキル見合い</span>",
-                    "商流：貴社まで（雇用形態不問）",
-                    "契約：SES(準委任)"
-                ],
+                location: "多摩センター",
+                remote: "週1〜2日リモート",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
                 detailText: `【案件名】\n金融向け インフラ基盤導入支援\n\n【案件概要】\n金融系顧客向けワークフロー基盤（Salesforce）導入／開発支援業務です。\n【主な担当業務】\nお客様との要件調整から調査、開発（基本設計、詳細設計）、テスト、リリースを担当します。\n\n【期間】\n８月 ～ 長期見込み ※参画時期は調整可！ご相談ください！！\n\n【人数】\nSEクラス １～２名\n\n【場所】\n最寄駅：京王相模原線／小田急多摩線 多摩センター駅\n※勤務時間 9:00～18:00\n※リモート業務も実施可能（１～２日／週で調整）\n※顧客打合せ時は丸の内へ出社あり\n\n【スキル】\n【必須】\n１．金融業界でのSalesforce開発経験（目安として1年以上）\n２．Financial Service Cloudの開発・カスタマイズ経験\n３．Visualforce／Apexコードレビュー経験\n４．想定作業を一人称で遂行できること\n５．能動的にコミュニケーションが取れ、要件調整ができる折衝力\n６．キャッチアップ力が高く、新しい業務を積極的に学べること\n【尚可】\n７．大手損害保険会社でのシステム開発・保守経験\n８．Salesforce認定資格（Administrator、Platform App Builder、Platform Developer等）\n９．チーム開発におけるリーダー・サブリーダー経験\n１０．上流工程（要件定義、基本設計）業務経験\n\n【面談回数】\n２回（元請様／お客様）\n\n【その他】\n・フル出社ではありませんが、基本的に出社対応可能な方が望ましい。\n・単金条件はスキル見合い\n・外国籍NG\nなお詳細は、ご面談時にもご案内いたします。`
             },
             {
@@ -370,175 +367,146 @@
                 date: "2026/07/23",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "既存GUIアプリケーションの<br>Webシステム化",
+                title: "既存GUIアプリケーションのWebシステム化",
                 tags: ["Python", "React", "FastAPI", "Django"],
-                info: [
-                    "場所：品川PJルーム内(顧客常駐)",
-                    "リモート頻度：要確認",
-                    "単価：<span style=\"color: orange; font-size: 1.1em; font-weight: bold;\">スキル見合い</span>",
-                    "商流：貴社までが理想",
-                    "契約：SES(準委任)"
-                ],
-                detailText: `■募集要項\n既存GUIアプリケーションのWebシステム化に伴う設計・開発\n・工程：要件定義から結合試験\n・OS： Linux（サーバ側）、GUIフロントはWindows（edgeブラウザ）\n・言語：Python\n・時期：2026/8/1～\n・人数：1名～\n・場所：品川PJルーム内(顧客常駐)\n\n要件定義フェーズ：8月～9月末まで\n基本設計フェーズ：10月～\n\n■バックエンド\n・Python開発経験\n・FastAPIまたはDjango開発経験\n\n■フロントエンド\n・React開発経験または同等のフロントエンド開発経験\n\n■Webサーバ構築経験\n\n■歓迎スキル\n・Windowsアプリのリプレース経験\n・デスクトップアプリのWeb化経験\n\n■面談回数\n2回を予定（元請様 エンド様）`
+                location: "品川",
+                remote: "要確認",
+                price: "スキル見合い",
+                flow: "貴社までが理想",
+                contract: "SES(準委任)",
+                foreign: "OK",
+                remark: "-",
+                detailText: `■募集要項\n既存GUIアプリケーションのWebシステム化に伴う設計・開発\n・工程：要件定義から結合試験\n・OS： Linux（サーバ側）、GUIフロントはWindows（edgeブラウザ）\n・言語：Python\n・時期：2026/8/1～\n・人数：1名～\n・場所：品川PJルーム内(顧客常駐)\n\n要件定義フェーズ：8月～9月末まで\n基本設計フェーズ：10月～\n\n■バックエンド\n・Python開発経験\n・FastAPIまたはDjango開発経験\n\n■フロントエンド\n・React開発経験または同等のフロントエンド開発経験\n\n■Webサーバ構築経験\n\n■歓迎スキル\n・Windowsアプリのリプレース経験\n· デスクトップアプリのWeb化経験\n\n■面談回数\n2回を予定（元請様 エンド様）\n\n■外国籍：可`
             }
         ];
 
-        // 掲載日から2日以内かどうかを判定してNEW!!タグを付与する関数
-        function isNewProject(dateStr) {
-            const pubDate = new Date(dateStr);
-            const today = new Date();
-            const diffTime = today - pubDate;
-            const diffDays = diffTime / (1000 * 60 * 60 * 24);
-            return diffDays >= 0 && diffDays <= 2;
+        window.checkPassword = function() {
+            const pass = document.getElementById('password').value;
+            if (pass === "gW9^bC4qR5xL1nM7") {
+                document.getElementById('login-overlay').style.display = 'none';
+            } else {
+                alert('パスワードが違います');
+            }
         }
 
-        // 画面にカードを自動描画する関数
         function renderProjects(dataList) {
-            const mainEl = document.querySelector('main');
-            const existingCards = mainEl.querySelectorAll('.card');
-            existingCards.forEach(card => card.remove());
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
 
-            dataList.forEach(p => {
-                const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join('');
-                const infoHtml = p.info.join('<br>');
-                
-                const newBadgeHtml = isNewProject(p.date) ? '<span class="new-badge">NEW!!</span>' : '';
+            dataList.forEach((p, index) => {
+                const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
+                const rowClass = index % 2 === 0 ? 'row-even' : 'row-odd';
 
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'card';
-                cardDiv.dataset.tags = p.tags.join(',');
+                const textToCheck = (p.foreign + " " + p.detailText).toLowerCase();
+                let foreignDisplay = "OK";
+                let foreignColor = "#059669";
 
-                cardDiv.innerHTML = `
-                    <div class="tag-container">${tagHtml}</div>
-                    <small>案件元: ${p.company} | 掲載日: ${p.date} | ステータス：<span class="status-badge ${p.statusClass}">${p.status}</span></small>
-                    <h2 style="margin:10px 0;">${newBadgeHtml}${p.title}</h2>
-                    <div style="line-height:1.8;">${infoHtml}</div>
-                    <button class="btn-toggle" id="btn-show-${p.id}" onclick="toggleDetail('detail-${p.id}', 'btn-show-${p.id}')">詳細を見る</button>
-                    <div id="detail-${p.id}" class="hidden">
-                        <button class="btn-copy" onclick="copyText('content-${p.id}')">内容をコピー</button>
-                        <pre id="content-${p.id}" style="white-space: pre-wrap; font-size: 13px;">${p.detailText}</pre>
-                        <button class="btn-toggle" onclick="toggleDetail('detail-${p.id}', 'btn-show-${p.id}')">詳細を閉じる</button>
-                    </div>
+                if (textToCheck.includes("外国籍：不可") || textToCheck.includes("外国籍不可") || textToCheck.includes("ng") || textToCheck.includes("不可") || textToCheck.includes("×")) {
+                    foreignDisplay = "NG";
+                    foreignColor = "#dc2626";
+                }
+                if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可")) {
+                    foreignDisplay = "OK";
+                    foreignColor = "#059669";
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = `project-row ${rowClass}`;
+                tr.dataset.tags = p.tags.join(',');
+                tr.dataset.date = p.date;
+                tr.dataset.text = `${p.date} ${p.company} ${p.title} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${foreignDisplay}`.toLowerCase();
+
+                tr.innerHTML = `
+                    <td><span class="status-badge ${p.statusClass}">${p.status}</span></td>
+                    <td style="white-space: nowrap;">
+                        <div style="font-weight: bold; font-size: 12px;">${p.date}</div>
+                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${p.company}</div>
+                    </td>
+                    <td>
+                        <div style="font-weight: bold; font-size: 13px;">${p.title}</div>
+                    </td>
+                    <td>
+                        <div class="tag-container">${tagHtml}</div>
+                    </td>
+                    <td>
+                        <div style="font-size: 12px; font-weight: bold;">${p.location}</div>
+                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${p.remote}</div>
+                    </td>
+                    <td>${p.price}</td>
+                    <td>${p.flow}</td>
+                    <td>${p.contract}</td>
+                    <td style="text-align: center; font-weight: bold; color: ${foreignColor};">${foreignDisplay}</td>
+                    <td>${p.remark}</td>
+                    <td style="text-align: center;">
+                        <button class="btn-toggle" onclick="openDetailModal('${p.title.replace(/'/g, "\\'")}', \`${p.detailText.replace(/`/g, '\\`')}\`)">詳細</button>
+                    </td>
                 `;
-                mainEl.appendChild(cardDiv);
+                tbody.appendChild(tr);
             });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.handleSort = function() {
+            const sortOrder = document.getElementById('sortSelect').value;
+            projects.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+            });
             renderProjects(projects);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            handleSort();
         });
 
-        document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
-        window.checkPassword = function() {
-            if (document.getElementById('password').value === "gW9^bC4qR5xL1nM7") {
-                const lastLoginTime = localStorage.getItem('lastTerminalTime');
-                const now = new Date().getTime();
-                if (!lastLoginTime || (now - lastLoginTime) > 3600000) {
-                    runHackerTerminal(() => { localStorage.setItem('lastTerminalTime', now); showMain(); });
-                } else { showMain(); }
-            } else { alert("パスワードが違います"); }
+        window.openDetailModal = function(title, text) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-content-text').innerText = text;
+            document.getElementById('detail-modal').style.display = 'flex';
         }
 
-        function showMain() {
-            document.getElementById('login-overlay').style.display = 'none';
-            document.getElementById('main-wrapper').classList.remove('hidden');
+        window.closeDetailModal = function() {
+            document.getElementById('detail-modal').style.display = 'none';
         }
 
-        function runHackerTerminal(callback) {
-            document.getElementById('login-overlay').style.display = 'none';
-            const canvas = document.createElement('canvas');
-            canvas.style = 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:black;';
-            document.body.appendChild(canvas);
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            const nums = '01'; const fontSize = 16;
-            const columns = canvas.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-            function draw() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
-                for (let i = 0; i < drops.length; i++) {
-                    const text = nums[Math.floor(Math.random() * nums.length)];
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                }
-            }
-            const interval = setInterval(draw, 33);
-            setTimeout(() => { clearInterval(interval); canvas.remove(); callback(); }, 3000);
-        }
-
-        window.copyText = function(id) {
-            const text = document.getElementById(id).innerText;
+        window.copyModalText = function() {
+            const text = document.getElementById('modal-content-text').innerText;
             navigator.clipboard.writeText(text).then(() => alert('コピーしました'));
-        }
-        
-        let currentMonth = new Date();
-        function renderCalendar() {
-            const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
-            const m = currentMonth.getMonth(), y = currentMonth.getFullYear();
-            document.getElementById('cal-month').innerText = `${y}年${m+1}月`;
-            ['日','月','火','水','木','金','土'].forEach(d => { const el = document.createElement('div'); el.innerText = d; el.style.fontWeight = 'bold'; grid.appendChild(el); });
-            const first = new Date(y, m, 1).getDay(), last = new Date(y, m+1, 0).getDate();
-            const today = new Date();
-            for(let i=0; i<first; i++) grid.appendChild(document.createElement('div'));
-            for(let i=1; i<=last; i++) {
-                const d = document.createElement('div'); d.innerText = i;
-                const dayOfWeek = new Date(y, m, i).getDay();
-                if(dayOfWeek === 0) d.style.color = 'red'; else if(dayOfWeek === 6) d.style.color = 'blue';
-                if(i === today.getDate() && m === today.getMonth() && y === today.getFullYear()) {
-                    d.style.background = '#0d9488'; d.style.color = 'white'; d.style.borderRadius = '50%';
-                }
-                grid.appendChild(d);
-            }
-        }
-        renderCalendar();
-        window.changeMonth = function(dir) { currentMonth.setMonth(currentMonth.getMonth() + dir); renderCalendar(); }
-        
-        window.toggleDetail = function(modalId, btnId) {
-            document.getElementById(modalId).classList.toggle('modal-view');
-            document.getElementById(modalId).classList.toggle('hidden');
         }
 
         window.filterByTag = function(tag) {
-            document.querySelectorAll('.card').forEach(c => {
-                c.style.display = c.dataset.tags.split(',').includes(tag) ? 'block' : 'none';
+            document.querySelectorAll('.project-row').forEach(tr => {
+                const match = tr.dataset.tags.split(',').includes(tag);
+                tr.style.display = match ? '' : 'none';
             });
         }
 
         window.showAll = function() {
-            document.querySelectorAll('.card').forEach(c => c.style.display = 'block');
-        }
-
-        window.filterSES = function(checked) {
-            document.querySelectorAll('.card').forEach(c => {
-                c.style.display = (checked && !c.innerText.includes('SES')) ? 'none' : 'block';
-            });
+            document.querySelectorAll('.project-row').forEach(tr => tr.style.display = '');
+            document.getElementById('searchInput').value = '';
         }
         
         document.getElementById('searchInput').addEventListener('input', function() {
             const filter = this.value.toLowerCase();
-            document.querySelectorAll('.card').forEach(c => {
-                c.style.display = c.innerText.toLowerCase().includes(filter) ? 'block' : 'none';
+            document.querySelectorAll('.project-row').forEach(tr => {
+                const match = tr.dataset.text.includes(filter);
+                tr.style.display = match ? '' : 'none';
             });
         });
     </script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
-        <div style="background:white; padding:30px; width:450px; border-radius:12px; color:#334155; max-height:80vh; overflow-y:auto;" onclick="event.stopPropagation()">
-            <h3 style="color:#b91c1c;">【※人財プール案件の注意事項】</h3>
+        <div style="background:var(--card-bg); padding:30px; width:450px; border-radius:12px; color:var(--text); max-height:80vh; overflow-y:auto; border: 1px solid var(--border-color);" onclick="event.stopPropagation()">
+            <h3 style="color:#dc2626;">【※人財プール案件の注意事項】</h3>
             <div style="text-align:left; font-size:14px; line-height:1.6;">
                 <p>■エンドはN社様<br>
                 ■本案件は体制不可、単独での提案となります。<br>
                 ■ビッグプロジェクト経験者のみとなります。<br>
                 官公庁、金融、航空など、様々な業界の100名～1000名のビッグプロジェクトに次々入って頂く案件となり、終わりはありません。案件が終わったら次の案件が入り、案件と案件の間のブランクが生まれた場合、そのブランク期間も単価が支払われます。（スポットで他の商流案件に入ることは禁止）<br>
                 ブランク期間はN社様のR&D（研究開発）や次の案件の技能開発期間としてN社様が研修を用意して頂いております。</p>
-                <p>■体制で入ことは難しいです。<br>
-                弊社も含め、中小ベンダー企業ですと、体制で入ことを目標としておりますが、こちらの案件は単純にスキル、立ち位置、人柄、コミュニケーションが一流のスペシャリストのみを集めている案件となります為、一匹狼でやられてきた個人事業主様が肌間としては合うとのことです。もちろん、社員様でも問題ありませんが、体制ができない。という点はご注意ください。</p>
                 <p>以上となります。<br>ご不明点がありましたら、前田までご連絡ください。<br>電話番号：070-1370-1870</p>
             </div>
-            <button style="margin-top:20px; width:100%; padding:10px;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
+            <button style="margin-top:20px; width:100%; padding:10px; background:var(--border-color); color:var(--text); border:none; border-radius:4px; cursor:pointer;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
         </div>
     </div>
-</body>
-</html>
+</body></html>
