@@ -49,6 +49,7 @@
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
         .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
         .status-open { background-color: #3b82f6; color: white; }
+        .status-hold { background-color: #eab308; color: #ffffff; }
     </style></head><body>
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -314,8 +315,8 @@
                 id: 9,
                 company: "CJ社",
                 date: "2026/07/15",
-                status: "募集中",
-                statusClass: "status-open",
+                status: "応募過多<br>一旦保留",
+                statusClass: "status-hold",
                 title: "各種TREE（元請様パッケージ）",
                 tags: ["AS/400", "ILE RPG", "RPGⅢ", "SQL"],
                 location: "品川",
@@ -393,7 +394,6 @@
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
 
-            // 本日の日付（2026/07/27）を基準としてNEW判定を行う
             const todayStr = '2026/07/27';
 
             dataList.forEach((p, index) => {
@@ -413,7 +413,6 @@
                     foreignColor = "#059669";
                 }
 
-                // 本日追加された案件（日付が今日のもの）のみ赤点滅NEW!!を表示
                 const isNew = (p.date === todayStr);
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
