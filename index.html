@@ -86,7 +86,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【追加案件情報】</span>■専門商社での情報システム部門・社員代替（AS/400,RPG）■業務基盤再構築支援（Oracle代替⇒SharePoint Online） <span style="color: #facc15;">【その他のお知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【追加案件情報】</span>■不動産物件システムのIF機能開発支援■専門商社での情報システム部門・社員代替（AS/400,RPG）■業務基盤再構築支援（Oracle代替⇒SharePoint Online） <span style="color: #facc15;">【その他のお知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -112,7 +112,10 @@
 
     <div id="main-wrapper">
         <div class="controls-container">
-            <h1 style="margin: 0; font-size: 20px;">案件一覧</h1>
+            <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
+                <span>案件一覧</span>
+                <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：07/29 10:30）</span>
+            </h1>
             <div style="display: flex; gap: 10px; align-items: center;">
                 <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
                     <option value="desc">掲載日：新しい順 (降順)</option>
@@ -360,7 +363,7 @@
                 contract: "SES(準委任)",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【案件名】\n金融向け インフラ基盤導入支援\n\n【案件概要】\n金融系顧客向けワークフロー基盤（Salesforce）導入／開発支援業務です。\n【主な担当業務】\nお客様との要件調整から調査、開発（基本設計、詳細設計）、テスト、リリースを担当します。\n\n【期間】\n８月 ～ 長期見込み ※参画時期は調整可！ご相談ください！！\n\n【人数】\nSEクラス １～２名\n\n【場所】\n最寄駅：京王相模原線／小田急多摩線 多摩センター駅\n※勤務時間 9:00～18:00\n※リモート業務も実施可能（１～２日／週で調整）\n※顧客打合せ時は丸の内へ出社あり\n\n【スキル】\n【必須】\n１．金融業界でのSalesforce開発経験（目安として1年以上）\n２．Financial Service Cloudの開発・カスタマイズ経験\n３．Visualforce／Apexコードレビュー経験\n４．想定作業を一人称で遂行できること\n５．能動的にコミュニケーションが取れ、要件調整ができる折衝力\n６．キャッチアップ力が高く、新しい業務を積極的に学べること\n【尚可】\n７．大手損害保険会社でのシステム開発・保守経験\n８．Salesforce認定資格（Administrator、Platform App Builder、Platform Developer等）\n９．チーム開発におけるリーダー・サブリーダー経験\n１０．上流工程（要件定義、基本設計）業務経験\n\n【面談回数】\n２回（元請様／お客様）\n\n【その他】\n・フル出社ではありませんが、基本的に出社対応可能な方が望ましい。\n・単金条件はスキル見合い\n・外国籍NG\nなお詳細は、ご面談時にもご案内いたします。`
+                detailText: `【案件名】\n金融向け インフラ基盤導入支援\n\n【案件概要】\n金融系顧客向けワークフロー基盤（Salesforce）導入／開発支援業務です。\n【主な担当業務】\nお客様との要件調整から調査、開発（基本設計、詳細設計）、テスト、リリースを担当します。\n\n【期間】\n８月 ～ 長期見込み ※参画時期は調整可！ご相談ください！！\n\n【人数】\nSEクラス １～２名\n\n【場所】\n最寄駅：京王相模原線／小田急多摩線 多摩センター駅\n※勤務時間 9:00～18:00\n※リモート業務も実施可能（１～２日／週で調整）\n※顧客打合せ時は丸の内へ出社あり\n\n【スキル】\n【必須】\n１．金融業界でのSalesforce開発経験（目安として1年以上）\n２．Financial Service Cloudの開発・カスタマイズ経験\n３．Visualforce／Apexコードレビュー経験\n４．想定作業を一人称で遂行できること\n５．能動的にコミュニケーションが取れ、要件調整ができる折衝力\n６．キャッチアップ力が高く、新しい業務を積極的に学べること\n【尚可】\n７．-（特になし）\n８．Salesforce認定資格（Administrator、Platform App Builder、Platform Developer等）\n９．チーム開発におけるリーダー・サブリーダー経験\n１０．上流工程（要件定義、基本設計）業務経験\n\n【面談回数】\n２回（元請様／お客様）\n\n【その他】\n・フル出社ではありませんが、基本的に出社対応可能な方が望ましい。\n・単金条件はスキル見合い\n・外国籍NG\nなお詳細は、ご面談時にもご案内いたします。`
             },
             {
                 id: 13,
@@ -378,6 +381,23 @@
                 foreign: "OK",
                 remark: "-",
                 detailText: `■募集要項\n既存GUIアプリケーションのWebシステム化に伴う設計・開発\n・工程：要件定義から結合試験\n・OS： Linux（サーバ側）、GUIフロントはWindows（edgeブラウザ）\n・言語：Python\n・時期：2026/8/1～\n・人数：1名～\n・場所：品川PJルーム内(顧客常駐)\n\n要件定義フェーズ：8月～9月末まで\n基本設計フェーズ：10月～\n\n■バックエンド\n・Python開発経験\n・FastAPIまたはDjango開発経験\n\n■フロントエンド\n・React開発経験または同等のフロントエンド開発経験\n\n■Webサーバ構築経験\n\n■歓迎スキル\n・Windowsアプリのリプレース経験\n· デスクトップアプリのWeb化経験\n\n■面談回数\n2回を予定（元請様 エンド様）\n\n■外国籍：可`
+            },
+            {
+                id: 14,
+                company: "CJ社",
+                date: "2026/07/28",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "不動産物件システムのIF機能開発支援",
+                tags: ["RPG", "RPGLE", "DB2/400"],
+                location: "品川",
+                remote: "週1～2日程度",
+                price: "60万まで",
+                flow: "貴社まで",
+                contract: "SES(準委任)",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n案件    ：物件システムのIF機能開発支援\n業種    ：不動産\n案件内容  ：不動産物件システムのIF機能開発支援\n作業範囲  ：詳細設計～結合試験、システムテスト\nスケジュール：2026年8月17日～（長期の可能性あり）\n作業場所  ：元請様事務所（品川駅港南口）\nリモート可否：週1～2日程度（作業工程・効率により調整あり）\n外国籍   ：不可\n個人事業主 ：不可\n年齢制限  ：50代\n面談回数  ：1回（WEB）\n単価    ：60万まで\n\n【案件詳細】\n不動産物件システムにおいて、AS/400とWeb間でデータ連携を行う\nIF機能（送信機能および受信機能）の開発を行います。\n\nAPI連携ツール「API-Bridge」を使用し、以下の機能を実装します\n ・AS/400からWebへのデータ送信\n ・WebからAS/400へのデータ受信\n上記に伴う主にAS/400側の既存機能の改修を行います。\n\n【開発環境】\n言語：RPG3、RPGLE\nDB：DB2/400\n\n【要望スキル】\n[必須]\n・AS/400での開発経験（RPGまたはRPGLE）\n\n[尚可]\n・プログラミング以外のAS/400運用知識`
             }
         ];
 
@@ -395,6 +415,7 @@
             tbody.innerHTML = '';
 
             const todayStr = '2026/07/27';
+            const extraNewIds = [14]; // 7月28〜29日追加分などに対応
 
             dataList.forEach((p, index) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
@@ -413,7 +434,7 @@
                     foreignColor = "#059669";
                 }
 
-                const isNew = (p.date === todayStr);
+                const isNew = (p.date === todayStr || extraNewIds.includes(p.id));
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
@@ -512,7 +533,7 @@
                 ■ビッグプロジェクト経験者のみとなります。<br>
                 官公庁、金融、航空など、様々な業界の100名～1000名のビッグプロジェクトに次々入って頂く案件となり、終わりはありません。案件が終わったら次の案件が入り、案件と案件の間のブランクが生まれた場合、そのブランク期間も単価が支払われます。（スポットで他の商流案件に入ることは禁止）<br>
                 ブランク期間はN社様のR&D（研究開発）や次の案件の技能開発期間としてN社様が研修を用意して頂いております。</p>
-                <p>以上となります。<br>ご不明点がありましたら、前田までご連絡ください。<br>電話番号：070-1370-1870</p>
+                <p>以上となります。<br>ご不明点がありましたら、前田までご連絡ください。<br>Phone：070-1370-1870</p>
             </div>
             <button style="margin-top:20px; width:100%; padding:10px; background:var(--border-color); color:var(--text); border:none; border-radius:4px; cursor:pointer;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
         </div>
