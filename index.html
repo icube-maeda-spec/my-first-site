@@ -15,7 +15,7 @@
         
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
         .blink-text { color: #ef4444; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
-        .blink-badge { animation: blink 1s infinite; } /* バッジ自体の点滅用 */
+        .blink-badge { animation: blink 1s infinite; }
 
         .hidden { display: none; }
         
@@ -51,7 +51,7 @@
         .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
         .status-open { background-color: #3b82f6; color: white; }
         .status-hold { background-color: #eab308; color: #ffffff; }
-        .status-urgent { background-color: #ef4444; color: white; } /* 大至急用 */
+        .status-urgent { background-color: #ef4444; color: white; }
     </style></head><body>
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -88,7 +88,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【大至急!!】物販WEBシステム保守支援（PHP）1名交代枠</span> <span class="blink-text">【追加案件情報】</span>■大手コンビニエンスストアの開発プロジェクト（AI-OCR／生成AI活用）■不動産物件システムのIF機能開発支援■専門商社での情報システム部門・社員代替（AS/400,RPG） <span style="color: #facc15;">【その他のお知らせ】</span>弊社は8月3日より移転いたします。詳細は別途お知らせ致します。</marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】流通系金融 加盟店刷新バックエンドシステム構築（Claude Code活用・1名募集）</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -116,7 +116,7 @@
         <div class="controls-container">
             <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                 <span>案件一覧</span>
-                <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：07/31 16:55）</span>
+                <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：08/10 10:05）</span>
             </h1>
             <div style="display: flex; gap: 10px; align-items: center;">
                 <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
@@ -318,6 +318,23 @@
                 detailText: `【案件概要】\n\n案件名    ：流通系・グループ会社POSITIVE展開\n\n契約形態  ：準委任\n\n作業範囲  ：要件定義～本番稼働\n\n期間      ：2026年7月～2027年3月\n\n募集要員  ：2名\n\n作業場所  ：在宅 、大森\n\n勤務時間  ：9:00～18:00\n\n必要スキル  ：人事・給与の知識\n            Oracle（PL/SQL）\n            POSITIVE経験者なら尚良し\n\n標準時間  ：140－180h（精算あり）\n\n面談回数  ：2回(WEB 元請様/エンド様）\n\n希望単価  ：応相談\n\n外国籍    ：不可\n\n備考：POSIZTIVEの実務経験の方を優先しますが、COMPANYなどの"人事給与システム"の経験者であれば\n     検討可能でございます。是非ご提案の程、お待ちしております。`
             },
             {
+                id: 9,
+                company: "CJ社",
+                date: "2026/07/15",
+                status: "応募過多<br>一旦保留",
+                statusClass: "status-hold",
+                title: "各種TREE（元請様パッケージ）",
+                tags: ["AS/400", "ILE RPG", "RPGⅢ", "SQL"],
+                location: "品川",
+                remote: "常駐",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n\n案件名  ：各種TREE（元請様パッケージ）案件\n\n契約形態 ：準委任\n\n作業範囲 ：多数発生するTREE案件の設計、開発、テストを実施\n      （チームリーダーの指示により担当案件を遂行する）\n\n期間   ：2026年9月～長期見込み\n\n募集要員 ：5名\n\n作業場所 ：品川\n\n勤務時間 ：9:00～18:00\n\n必要スキル：\n      · IBM i /RPG（ILE RPG、RPGⅢ開発経験者）\n      · SQL\n      ・若手にRPG教育ができる人がベスト\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：1回(web)\n\n希望単価 ：応相談\n\n外国籍  ：不可`
+            },
+            {
                 id: 11,
                 company: "J社",
                 date: "2026/07/27",
@@ -383,7 +400,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【案件概要】\n案件    ：物件システムのIF機能開発支援\n業種    ：不動産\n案件内容  ：不動産物件システムのIF機能開発支援\n作業範囲  ：詳細設計～結合試験、システムテスト\nスケジュール：2026年8月17日～（長期の可能性あり）\n作業場所  ：元請様事務所（品川駅港南口）\nリモート可否：週1～2日程度（作業工程・効率により調整あり）\n外国籍   ：不可\n個人事業主 ：OK\n年齢制限  ：50代\n面談回数  ：1回（WEB）\n単価    ：60万まで\n\n【案件詳細】\n不動産物件システムにおいて、AS/400とWeb間でデータ連携を行う\nIF機能（送信機能および受信機能）の開発を行います。\n\nAPI連携ツール「API-Bridge」を使用し、以下の機能を実装します\n ・AS/400からWebへのデータ送信\n ・WebからAS/400へのデータ受信\n上記に伴う主にAS/400側の既存機能の改修を行います。\n\n【開発環境】\n言語：RPG3、RPGLE\nDB：DB2/400\n\n【要望スキル】\n[必須]\n・AS/400での開発経験（RPGまたはRPGLE）\n\n[尚可]\n・プログラミング以外のAS/400運用知識\n\n個人事業主：可`
+                detailText: `【案件概要】\n案件    ：物件システムのIF機能開発支援\n業種    ：不動産\n案件内容  ：不動産物件システムのIF機能開発支援\n作業範囲  ：詳細設計～結合試験、システムテスト\nスケジュール：2026年8月17日～（長期の可能性あり）\n作業場所  ：元請様事務所（品川駅港南口）\nリモート可否：週1～2日程度（作業工程・効率により調整あり）\n外国籍   ：不可\n個人事業主 ：OK\n年齢制限  ：50代\n面談回数  ：1回（WEB）\n単価    ：60万まで\n\n【案件詳細】\n不動産物件システムにおいて、AS/400とWeb間でデータ連携を行う\nIF機能（送信機能および受信機能）の開発を行います。\n\nAPI連携ツール「API-Bridge」を使用し、以下の機能を実装します\n ・AS/400からWebへのデータ送信\n ・WebからAS/400へのデータ受信\n上記に伴う主にAS/400側の既存機能の改修を行います。\n\n【開発環境】\n言語：RPG3、RPGLE\nDB：DB2/400\n\n【要望スキル】\n[必須]\n・AS/400での開発経験（RPGまたはRPGLE）\n\n[尚可]\n・プログラミング以外のAS/400運用知識\n\n個人事業主：OK`
             },
             {
                 id: 15,
@@ -402,11 +419,9 @@
                 remark: "-",
                 detailText: `【案件名】\n大手コンビニエンスストアの開発プロジェクト\n\n【業種】\n流通業\n\n【案件内容】\n9月よりAI-OCRや生成AIを活用し、経費精算業務の省人化を目的とした大手コンビニエンスストアの開発プロジェクトとなります。\n8月までSIer様にてPoCを実施しており、PoC効果を認識して頂き、9月より要件定義工程を開始見込みです。（受注確度高い）\n\n【担当工程】\n要件定義～設計・開発・テスト、リリースまで\n\n【開発スケジュール・期間】\n2026/9～2027/10（1年間予定）\n・要件定義：2026/9～2026/11\n\n【期待スキルセット】\n＜必須＞\n・要件定義～設計・開発・テスト、リリースまで一連の経験がある方\n・コミュニケーションが取れて一人称で動ける方\n\n①上流工程ドキュメンテーションの対応：\n・要件定義工程の経験必須\n・要件定義成果物の作図・記述等をSIer様社員と主に並走頂ける方\n・SIer様社員が提示した骨子・指示に基づき、過去成果物等を参照しながら上流工程ドキュメンテーションの作成ができる方\n\n②サンプルアプリ実装の対応：\n・方式の検証・フィジビリティ検証のために簡易なアプリ作成ができる方\n※Java（Spring Boot）でのAPI実装を想定\n※GCP上でのアプリ開発（Cloud Run, Pub/Sub, GCS等を利用）が可能であればより良い\n※SIer様若手メンバーと一緒に、過去プロジェクト等を参考に試行錯誤できるメンバーを希望\n\n※1名提案の場合：①②両方に対応できる方を希望\n※2名提案の場合：①と②で別々の要員提案も可能\n\n＜尚可＞\n・AI-OCRや生成AIの活用経験\n\n【募集人数】\n1～2名（募集期限：8/18頃まで）\n※現時点で増員予定無し（要件定義工程での概算見積結果次第で確定）\n\n【単価】\n経験とスキル見合いで応相談\n\n【勤務形態】\n出勤とリモートの併用型（月半分はリモート対応が可能な見込み）\n出勤場所：みなとみらい（エンド様オフィス）\n\n【事前打合せ】\n1回（元請様のみ）\n\n【商流制限】\n貴社まで\n\n【条件】\n外国籍：不可\n個人事業主：可`
             },
-
-                      
             {
                 id: 16,
-                company: "CJ社",
+                company: "-",
                 date: "2026/07/31",
                 status: "大至急",
                 statusClass: "status-urgent blink-badge",
@@ -420,6 +435,23 @@
                 foreign: "NG",
                 remark: "交代要員枠/45歳迄",
                 detailText: `【案件概要】\n大至急、探しています。\n交代要員枠\n\n案件名：物販WEBシステム保守支援\n契約形態：準委任\n作業範囲：物販ECサイトや社内システムの運用保守業務\n・各種問合せ対応、現行システム調査、データ抽出、データメンテナンス\n・機能改修（現行調査、設計・開発〜テスト・リリース）\n期間：2026年9月～未定（長期）\n⇒半年で終了する可能性もあるが、PF次第で他案件へスライド\n募集人数：1名\n\n【必須スキル】\n・PHP（Webシステム構築経験5年以上）\n・SQL\n・コミュニケーション（重要）\n\n【尚可】\n・LAMP環境での開発経験が豊富な技術者を希望\n\n作業場所：JR大崎（徒歩3分）\n勤務時間：10:00～19:00\nリモート：週1-2回 ※最初の1ヶ月は出勤\n標準時間：140-180h（精算あり）\n面談回数：2回(元請様1回WEB、お客様：1回対面orWEB）\n年齢制限：45歳まで\n希望単価：～62-3万\n外国籍：不可\n個人：可`
+            },
+            {
+                id: 17,
+                company: "CJ",
+                date: "2026/08/10",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "流通系金融 加盟店刷新バックエンドシステム構築",
+                tags: ["Claude Code", "PostgreSQL", "ASTERIA"],
+                location: "CJC品川／IBM箱崎",
+                remote: "要確認",
+                price: "応相談",
+                flow: "-",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "Claude Code活用",
+                detailText: `【案件概要】\n案件名：流通系金融 加盟店刷新バックエンドシステム構築\n案件詳細：Claude Codeを利用した、開発、テスト作業推進\n契約形態：準委任\n期間：2026年8月中旬～2026年11月（延長の可能性あり）\n募集人数：1名\n作業場所：CJC品川、IBM箱崎※メインはCJC品川\n勤務時間：9:00～18:00\n必要スキル：Claude Code、PostgreSQL、ASTERIA（尚良）\n標準時間：140～180時間\n面談回数：1回（2回の可能性あり）web\n希望単価：応相談\n外国籍：不可\n個人：可`
             }
         ];
 
@@ -436,10 +468,8 @@
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
 
-            // 本日（2026/07/31）から直近2日以内（2026/07/29以降）の掲載案件のみ「NEW!!」を表示
-            const today = new Date("2026-07-31");
-            const thresholdDate = new Date(today);
-            thresholdDate.setDate(today.getDate() - 2); 
+            // 本日（2026/08/10）以降の案件のみ「NEW!!」を表示（今回はID:17の8/10案件のみ該当）
+            const today = new Date("2026-08-10");
 
             dataList.forEach((p, index) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
@@ -477,7 +507,8 @@
                 }
 
                 const projectDate = new Date(p.date);
-                const isNew = projectDate >= thresholdDate;
+                // 本日（2026/08/10）の案件のみNEW!!を表示
+                const isNew = (p.date === "2026/08/10");
 
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
