@@ -2,8 +2,8 @@
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
     <style>
-        :root { --accent: #0f172a; --header-bg: #003366; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; --border-color: #cbd5e1; --tr-even: #ffffff; --tr-odd: #f8fafc; }
-        .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #1e293b; --border-color: #334155; --tr-even: #1e293b; --tr-odd: #172033; }
+        :root { --accent: #0f172a; --header-bg: #003366; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; --border-color: #cbd5e1; }
+        .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #1e293b; --border-color: #334155; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; }
         header { background: var(--header-bg); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
@@ -24,13 +24,22 @@
         
         main { padding: 20px; }
 
-        .compact-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; font-size: 13px; text-align: left; }
-        .compact-table th, .compact-table td { border: 1px solid var(--border-color); padding: 8px 10px; vertical-align: middle; }
-        .compact-table th { background: var(--panel-bg); font-weight: bold; color: var(--text); font-size: 12px; }
+        .compact-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; font-size: 13px; text-align: left; }
+        .compact-table th, .compact-table td { border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); padding: 8px 10px; vertical-align: middle; }
+        .compact-table th { background: var(--panel-bg); font-weight: bold; color: var(--text); font-size: 12px; border-top: none; border-left: none; }
+        .compact-table tr td:last-child { border-right: none; }
         
-        .compact-table tbody tr.row-even { background-color: var(--tr-even); }
-        .compact-table tbody tr.row-odd { background-color: var(--tr-odd); }
-        .compact-table tbody tr:hover { background-color: rgba(0,0,0,0.03); }
+        .project-row.cat-dev-row { background-color: rgba(59, 130, 246, 0.03); border-left: 6px solid #3b82f6; }
+        .project-row.cat-infra-row { background-color: rgba(16, 185, 129, 0.03); border-left: 6px solid #10b981; }
+        .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.03); border-left: 6px solid #a855f7; }
+        .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.03); border-left: 6px solid #64748b; }
+
+        .dark-mode .project-row.cat-dev-row { background-color: rgba(59, 130, 246, 0.08); }
+        .dark-mode .project-row.cat-infra-row { background-color: rgba(16, 185, 129, 0.08); }
+        .dark-mode .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.08); }
+        .dark-mode .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.08); }
+
+        .compact-table tbody tr:hover { background-color: rgba(0,0,0,0.05) !important; }
 
         .tag-container { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 3px; }
         .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
@@ -52,6 +61,16 @@
         .status-open { background-color: #3b82f6; color: white; }
         .status-hold { background-color: #eab308; color: #ffffff; }
         .status-urgent { background-color: #ef4444; color: white; }
+
+        .cat-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; text-align: center; white-space: nowrap; }
+        .cat-dev { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .cat-infra { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .cat-lowcode { background-color: #fae8ff; color: #86198f; border: 1px solid #f5d0fe; }
+        .cat-other { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .dark-mode .cat-dev { background-color: #1e3a8a; color: #93c5fd; border-color: #1d4ed8; }
+        .dark-mode .cat-infra { background-color: #14532d; color: #86efac; border-color: #166534; }
+        .dark-mode .cat-lowcode { background-color: #701a75; color: #f0abfc; border-color: #86198f; }
+        .dark-mode .cat-other { background-color: #334155; color: #cbd5e1; border-color: #475569; }
     </style></head><body>
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -88,7 +107,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】流通系金融 加盟店刷新バックエンドシステム構築（Claude Code活用・1名募集）</span></marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】新商品管理システム開発支援（PHP/Laravel・大崎・2名募集）</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -116,12 +135,13 @@
         <div class="controls-container">
             <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                 <span>案件一覧</span>
-                <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：08/10 10:05）</span>
+                <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：08/20 09:30）</span>
             </h1>
             <div style="display: flex; gap: 10px; align-items: center;">
                 <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
-                    <option value="desc">掲載日：新しい順 (降順)</option>
-                    <option value="asc">掲載日：古い順 (昇順)</option>
+                    <option value="date_desc">掲載日：新しい順 (降順)</option>
+                    <option value="date_asc">掲載日：古い順 (昇順)</option>
+                    <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
                 </select>
                 <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 220px; background: var(--card-bg); color: var(--text);">
                 <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
@@ -133,22 +153,22 @@
                 <thead>
                     <tr>
                         <th style="width: 7%;">ステータス</th>
-                        <th style="width: 10%;">日付 / 案件元</th>
-                        <th style="width: 26%;">案件名</th>
+                        <th style="width: 10%;">カテゴリー</th>
+                        <th style="width: 9%;">案件元</th>
+                        <th style="width: 24%;">案件名</th>
                         <th style="width: 15%;">スキル</th>
-                        <th style="width: 11%;">場所</th>
-                        <th style="width: 7%;">単価</th>
-                        <th style="width: 6%;">商流</th>
-                        <th style="width: 6%;">契約</th>
-                        <th style="width: 6%;">個人</th>
-                        <th style="width: 6%;">外国籍</th>
-                        <th style="width: 5%;">備考</th>
+                        <th style="width: 10%;">場所</th>
+                        <th style="width: 6%;">単価</th>
+                        <th style="width: 5%;">商流</th>
+                        <th style="width: 5%;">契約</th>
+                        <th style="width: 5%;">個人</th>
+                        <th style="width: 5%;">外国籍</th>
+                        <th style="width: 4%;">備考</th>
                         <th style="width: 5%; text-align: center;">条件</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
-                    <!-- 動的描画 -->
-                </tbody>
+                    </tbody>
             </table>
         </main>
     </div>
@@ -183,6 +203,8 @@
         const projects = [
             {
                 id: 1,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "T社",
                 date: "2026/07/08",
                 status: "募集中",
@@ -200,6 +222,8 @@
             },
             {
                 id: 2,
+                category: "infra",
+                categoryName: "☁️ インフラ",
                 company: "T社",
                 date: "2026/07/08",
                 status: "募集中",
@@ -217,6 +241,8 @@
             },
             {
                 id: 3,
+                category: "other",
+                categoryName: "📁 その他",
                 company: "T社",
                 date: "2026/07/09",
                 status: "募集中",
@@ -234,6 +260,8 @@
             },
             {
                 id: 4,
+                category: "lowcode",
+                categoryName: "⚡ ローコード",
                 company: "J社",
                 date: "2026/07/27",
                 status: "募集中",
@@ -251,6 +279,8 @@
             },
             {
                 id: 5,
+                category: "lowcode",
+                categoryName: "⚡ ローコード",
                 company: "A社",
                 date: "2026/07/10",
                 status: "募集中",
@@ -268,6 +298,8 @@
             },
             {
                 id: 6,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "M社",
                 date: "2026/07/13",
                 status: "募集中",
@@ -285,6 +317,8 @@
             },
             {
                 id: 7,
+                category: "infra",
+                categoryName: "☁️ インフラ",
                 company: "M社",
                 date: "2026/07/14",
                 status: "募集中",
@@ -302,6 +336,8 @@
             },
             {
                 id: 8,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/07/15",
                 status: "募集中",
@@ -319,6 +355,8 @@
             },
             {
                 id: 9,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/07/15",
                 status: "応募過多<br>一旦保留",
@@ -336,6 +374,8 @@
             },
             {
                 id: 11,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "J社",
                 date: "2026/07/27",
                 status: "募集中",
@@ -353,6 +393,8 @@
             },
             {
                 id: 12,
+                category: "lowcode",
+                categoryName: "⚡ ローコード",
                 company: "A社",
                 date: "2026/07/22",
                 status: "募集中",
@@ -370,6 +412,8 @@
             },
             {
                 id: 13,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "H社",
                 date: "2026/07/23",
                 status: "募集中",
@@ -387,6 +431,8 @@
             },
             {
                 id: 14,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/07/28",
                 status: "募集中",
@@ -404,6 +450,8 @@
             },
             {
                 id: 15,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "T社",
                 date: "2026/07/29",
                 status: "募集中",
@@ -421,6 +469,8 @@
             },
             {
                 id: 16,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/07/31",
                 status: "大至急",
@@ -434,10 +484,12 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "交代要員枠/45歳迄",
-                detailText: `【案件概要】\n大至急、探しています。\n交代要員枠\n\n案件名：物販WEBシステム保守支援\n契約形態：準委任\n作業範囲：物販ECサイトや社内システムの運用保守業務\n・各種問合せ対応、現行システム調査、データ抽出、データメンテナンス\n・機能改修（現行調査、設計・開発〜テスト・リリース）\n期間：2026年9月～未定（長期）\n⇒半年で終了する可能性もあるが、PF次第で他案件へスライド\n募集人数：1名\n\n【必須スキル】\n・PHP（Webシステム構築経験5年以上）\n・SQL\n・コミュニケーション（重要）\n\n【尚可】\n・LAMP環境での開発経験が豊富な技術者を希望\n\n作業場所：JR大崎（徒歩3分）\n勤務時間：10:00～19:00\nリモート：週1-2回 ※最初の1ヶ月は出勤\n標準時間：140-180h（精算あり）\n面談回数：2回(元請様1回WEB、お客様：1回対面orWEB）\n年齢制限：45歳まで\n希望単価：～62-3万\n外国籍：不可\n個人：可`
+                detailText: `【案件概要】\n大至急、探しています。\n交代要員枠\n\n案件名：物販WEBシステム保守支援\n契約形態：準委任\n作業範囲：物販ECサイトや社内システムの運用保守業務\n・各種問合せ対応、現行システム調査、データ抽出、データメンテナンス\n・機能改修（現行調査、設計・開発〜テスト・リリース）\n期間：2026年9月～未定（長期）\n⇒半年で終了する可能性もあるが、PF次第で他案件へスライド\n募集人数：1名\n\n【必須スキル】\n・PHP（Webシステム構築経験5年以上）\n・SQL\n・コミュニケーション（重要）\n\n【尚可】\n・LAMP環境での開発経験が豊富な技術者を希望\n\n作業場所：JR大崎（徒歩3分）\n勤務時間：10:00～19:00\nリモート：週1-2回 ※最初の1ヶ月は出勤\n標準時間：140-180h（精算あり）\n面談回数：2回(元請様1回WEB、お客様：1回対面orWEB）\n年齢制限：45歳まで\n希望単価：～62-3万\n外国籍：不可\n个人：可`
             },
             {
                 id: 17,
+                category: "dev",
+                categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/08/10",
                 status: "募集中",
@@ -452,6 +504,25 @@
                 foreign: "NG",
                 remark: "Claude Code活用",
                 detailText: `【案件概要】\n案件名：流通系金融 加盟店刷新バックエンドシステム構築\n案件詳細：Claude Codeを利用した、開発、テスト作業推進\n契約形態：準委任\n期間：2026年8月中旬～2026年11月（延長の可能性あり）\n募集人数：1名\n作業場所：CJC品川、IBM箱崎※メインはCJC品川\n勤務時間：9:00～18:00\n必要スキル：Claude Code、PostgreSQL、ASTERIA（尚良）\n標準時間：140～180時間\n面談回数：1回（2回の可能性あり）web\n希望単価：スキル見合い\n外国籍：不可\n個人：可`
+            },
+            {
+                id: 18,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "CJ社",
+                date: "2026/08/20",
+                status: "大至急",
+                statusClass: "status-urgent blink-badge",
+                title: "新商品管理システム開発支援",
+                tags: ["PHP", "Laravel", "SQL"],
+                location: "JR大崎（徒歩3分）",
+                remote: "週1-2回（週3-4出社）",
+                price: "～63万",
+                flow: "-",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "個人事業主OK/45歳迄",
+                detailText: `【案件概要】\n案件名  ： 新商品管理システム開発支援\n契約形態 ： SES（個人事業主OK）\n作業範囲 ： 新システムの設計作業\n       ・DB設計、基本設計、詳細設計（DB・画面・バッチ・ファイル）\n       ・環境構築\n       ※2027年1月～開発・試験の予定\n\n期間   ： 2026年10月～12月（2027年7月まで継続を予定）\n募集人数 ： 2名\n必須スキル：\n【必須】\n  ・ 基本設計や詳細設計の経験\n  ・ PHP（Laravel）\n  ・ SQL\n  （Webシステム構築経験5年以上）\n【尚可】\n  ・ LAMP環境での開発経験が豊富な技術者を希望\n作業場所 ： JR大崎（徒歩3分）\n勤務時間 ： 10:00～19:00\nリモート ： 週1-2回（週3-4出社）\n標準時間 ： 140-180h（精算あり）\n面談回数 ： 2回（元請様1回、お客様：1回）\n年齢制限 ： 45歳まで\n希望単価 ： ～63万\n外国籍  ： 不可\n個人事業主： OK`
             }
         ];
 
@@ -468,16 +539,11 @@
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
 
-            // 本日（2026/08/10）以降の案件のみ「NEW!!」を表示（今回はID:17の8/10案件のみ該当）
-            const today = new Date("2026-08-10");
-
             dataList.forEach((p, index) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
-                const rowClass = index % 2 === 0 ? 'row-even' : 'row-odd';
 
                 const textToCheck = (p.detailText).toLowerCase();
 
-                // 外国籍判定 (OK / NG / 要相談)
                 let foreignDisplay = "要相談";
                 let foreignColor = "#d97706";
                 if (textToCheck.includes("外国籍：不可") || textToCheck.includes("外国籍不可") || textToCheck.includes("ng") || textToCheck.includes("不可") || textToCheck.includes("×")) {
@@ -489,42 +555,52 @@
                     foreignColor = "#059669";
                 }
 
-                // 個人(個人事業主・フリーランス)判定 (OK / NG / 確認中 / 要相談)
                 let soloDisplay = "要相談";
                 let soloColor = "#d97706";
-                if (textToCheck.includes("個人事業主：確認中") || textToCheck.includes("個人事業主確認中")) {
-                    soloDisplay = "確認中";
-                    soloColor = "var(--text)";
+                if (p.id === 18) {
+                    soloDisplay = "OK";
+                    soloColor = "#059669";
                 } else {
-                    if (textToCheck.includes("個人事業主：不可") || textToCheck.includes("個人事業主不可") || textToCheck.includes("フリーランスはng") || textToCheck.includes("個人事業主は不可") || textToCheck.includes("個人事業主：ng")) {
-                        soloDisplay = "NG";
-                        soloColor = "#dc2626";
-                    }
-                    if (textToCheck.includes("個人事業主：可") || textToCheck.includes("個人事業主可") || textToCheck.includes("雇用形態不問") || textToCheck.includes("フリーランス可") || textToCheck.includes("個人：可")) {
-                        soloDisplay = "OK";
-                        soloColor = "#059669";
+                    if (textToCheck.includes("個人事業主：確認中") || textToCheck.includes("個人事業主確認中")) {
+                        soloDisplay = "確認中";
+                        soloColor = "var(--text)";
+                    } else {
+                        if (textToCheck.includes("個人事業主：不可") || textToCheck.includes("個人事業主不可") || textToCheck.includes("フリーランスはng") || textToCheck.includes("個人事業主は不可") || textToCheck.includes("個人事業主：ng")) {
+                            soloDisplay = "NG";
+                            soloColor = "#dc2626";
+                        }
+                        if (textToCheck.includes("個人事業主：可") || textToCheck.includes("個人事業主可") || textToCheck.includes("雇用形態不問") || textToCheck.includes("フリーランス可") || textToCheck.includes("個人：可") || textToCheck.includes("個人事業主：ok")) {
+                            soloDisplay = "OK";
+                            soloColor = "#059669";
+                        }
                     }
                 }
 
-                const projectDate = new Date(p.date);
-                // 本日（2026/08/10）の案件のみNEW!!を表示
-                const isNew = (p.date === "2026/08/10");
-
+                const isNew = (p.date === "2026/08/20");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
 
+                let rowColorClass = "cat-other-row";
+                let badgeClass = "cat-other";
+                if (p.category === "dev") { rowColorClass = "cat-dev-row"; badgeClass = "cat-dev"; }
+                else if (p.category === "infra") { rowColorClass = "cat-infra-row"; badgeClass = "cat-infra"; }
+                else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; badgeClass = "cat-lowcode"; }
+
+                const categoryHtml = `<span class="cat-badge ${badgeClass}">${p.categoryName}</span>`;
+
                 const tr = document.createElement('tr');
-                tr.className = `project-row ${rowClass}`;
+                tr.className = `project-row ${rowColorClass}`;
                 tr.dataset.tags = p.tags.join(',');
                 tr.dataset.date = p.date;
-                tr.dataset.text = `${p.date} ${p.company} ${p.title} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
+                tr.dataset.category = p.category;
+                tr.dataset.text = `${p.date} ${p.company} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
 
                 tr.innerHTML = `
                     <td>${statusHtml}</td>
+                    <td>${categoryHtml}</td>
                     <td style="white-space: nowrap;">
-                        <div style="font-weight: bold; font-size: 12px;">${p.date}</div>
-                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${p.company}</div>
+                        <div style="font-weight: bold; font-size: 13px;">${p.company}</div>
                     </td>
                     <td>
                         <div style="font-weight: bold; font-size: 13px;">${p.title}</div>
@@ -552,10 +628,16 @@
 
         window.handleSort = function() {
             const sortOrder = document.getElementById('sortSelect').value;
+            
             projects.sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+                if (sortOrder === 'category') {
+                    const order = { dev: 1, infra: 2, lowcode: 3, other: 4 };
+                    return (order[a.category] || 99) - (order[b.category] || 99);
+                } else {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+                    return sortOrder === 'date_desc' ? dateB - dateA : dateA - dateB;
+                }
             });
             renderProjects(projects);
         }
