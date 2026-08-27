@@ -4,7 +4,7 @@
     <style>
         :root { --accent: #0f172a; --header-bg: #003366; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; --border-color: #cbd5e1; }
         .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #1e293b; --border-color: #334155; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; overflow-x: hidden; }
         header { background: var(--header-bg); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
@@ -50,10 +50,15 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: var(--card-bg); color: var(--text); padding: 25px; width: 650px; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow-y: auto; border: 1px solid var(--border-color); }
 
-        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#f8fafc; display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px; color: #334155; }
-        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
-        .login-box button { width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        /* ログイン画面まわり（不透明な白背景を維持） */
+        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: #ffffff; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.6s ease; }
+        .login-box { background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 360px; color: #334155; border: 1px solid #cbd5e1; }
+        .login-box h2 { margin-top: 0; color: #0f172a; }
+        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; border-radius: 6px; box-sizing: border-box; }
+        .login-box button { width: 100%; padding: 12px; background: #003366; color: #ffffff; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
+        .login-box button:hover { background: #002244; }
+
+        #terminal-log { display: none; text-align: left; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #38bdf8; line-height: 1.6; background: #020617; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; height: 140px; overflow: hidden; margin-top: 10px; }
         
         #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
@@ -107,7 +112,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】信託銀行タレントマネジメント保守（タレントパレット・在宅/大手町）</span></marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】大手メーカー向け データ連携開発支援（MuleSoft・品川/リモート）</span> / <span class="blink-text">【新着案件】信託銀行タレントマネジメント保守（タレントパレット・在宅/大手町）</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -123,54 +128,59 @@
         </div>
     </div>
 
-    <div id="login-overlay">
-        <div class="login-box">
-            <h2>認証</h2>
-            <input type="password" id="password" placeholder="パスワード">
-            <button onclick="checkPassword()">ログイン</button>
-        </div>
-    </div>
-
-    <div id="main-wrapper">
-        <div class="controls-container">
-            <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
-                <span>案件一覧</span>
-                <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：08/25 15:15）</span>
-            </h1>
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
-                    <option value="date_desc">掲載日：新しい順 (降順)</option>
-                    <option value="date_asc">掲載日：古い順 (昇順)</option>
-                    <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
-                </select>
-                <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 220px; background: var(--card-bg); color: var(--text);">
-                <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
+    <div id="screen-container">
+        <div id="login-overlay">
+            <div class="login-box">
+                <div id="login-form-inner">
+                    <h2>システム認証</h2>
+                    <input type="password" id="password" placeholder="パスワードを入力">
+                    <button onclick="checkPassword()">ログイン</button>
+                </div>
+                <div id="terminal-log"></div>
             </div>
         </div>
-       
-        <main>
-            <table class="compact-table">
-                <thead>
-                    <tr>
-                        <th style="width: 7%;">ステータス</th>
-                        <th style="width: 10%;">カテゴリー</th>
-                        <th style="width: 9%;">案件元</th>
-                        <th style="width: 24%;">案件名</th>
-                        <th style="width: 15%;">スキル</th>
-                        <th style="width: 10%;">場所</th>
-                        <th style="width: 6%;">単価</th>
-                        <th style="width: 5%;">商流</th>
-                        <th style="width: 5%;">契約</th>
-                        <th style="width: 5%;">個人</th>
-                        <th style="width: 5%;">外国籍</th>
-                        <th style="width: 4%;">備考</th>
-                        <th style="width: 5%; text-align: center;">条件</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    </tbody>
-            </table>
-        </main>
+
+        <div id="main-wrapper">
+            <div class="controls-container">
+                <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
+                    <span>案件一覧</span>
+                    <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：08/27 17:30）</span>
+                </h1>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
+                        <option value="date_desc">掲載日：新しい順 (降順)</option>
+                        <option value="date_asc">掲載日：古い順 (昇順)</option>
+                        <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
+                    </select>
+                    <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 220px; background: var(--card-bg); color: var(--text);">
+                    <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
+                </div>
+            </div>
+           
+            <main>
+                <table class="compact-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 7%;">ステータス</th>
+                            <th style="width: 10%;">カテゴリー</th>
+                            <th style="width: 9%;">案件元</th>
+                            <th style="width: 24%;">案件名</th>
+                            <th style="width: 15%;">スキル</th>
+                            <th style="width: 10%;">場所</th>
+                            <th style="width: 6%;">単価</th>
+                            <th style="width: 5%;">商流</th>
+                            <th style="width: 5%;">契約</th>
+                            <th style="width: 5%;">個人</th>
+                            <th style="width: 5%;">外国籍</th>
+                            <th style="width: 4%;">備考</th>
+                            <th style="width: 5%; text-align: center;">条件</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        </tbody>
+                </table>
+            </main>
+        </div>
     </div>
 
     <script type="module">
@@ -189,15 +199,23 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // 閲覧者数のリアルタイムカウント処理
         const presenceRef = ref(db, 'connected_users');
         const myPresence = push(presenceRef);
         onDisconnect(myPresence).remove();
-        set(myPresence, true);
+        set(myPresence, true).catch((error) => {
+            console.error("Presence set failed: ", error);
+        });
 
         onValue(presenceRef, (snapshot) => {
             const data = snapshot.val();
             const count = data ? Object.keys(data).length : 0;
-            document.getElementById('visitor-count').innerText = count;
+            const visitorEl = document.getElementById('visitor-count');
+            if (visitorEl) {
+                visitorEl.innerText = count;
+            }
+        }, (error) => {
+            console.error("Presence read failed: ", error);
         });
 
         const projects = [
@@ -259,23 +277,23 @@
                 detailText: `業務内容: 様々なプロジェクトにおいて、プロジェクトマネージャーを支援する。（管理ツールの導入支援やアドバイス等）\n\n勤務地: 豊洲／在宅中心\n\n期間: 随時\n\nスキル・要件・役割:\n【必須】\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実施経験\n品質管理、課題管理、仕様変更管理といった管理作業の実施ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を連携下さい。\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM／PLとして\n各管理(①)の実施要領の作成(管理ルール作成、管理簿/チケット管理ツールの導入運用など)、\n各管理の実施についてPJメンバーの支援/指導のご経験\n③品質分析、品質評価報告書の作成のご経験\n④PJ計画書の作成に関わったご経験\n⑤テスト計画の作成、テスト推進に関わったご経験\n\n人数: 数名 ※1名でも可\n\n単価・精算: 経験とスキル見合いで応相談\n\n稼働: 随時\n\n体制: 8名体制（内社員2名）\n\n備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。\n\nその他条件:\n・事前打合せ回数：2回（元請様様及びエンド様）\n・外国籍：不可\n・在宅勤務：有（基本在宅）`
             },
             {
-                id: 5,
+                id: 4,
                 category: "lowcode",
                 categoryName: "⚡ ローコード",
-                company: "A社",
-                date: "2026/07/10",
+                company: "J社",
+                date: "2026/07/27",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "柏_M365設計構築",
-                tags: ["Microsoft365"],
-                location: "柏",
-                remote: "出社主体(週1リモート)",
-                price: "スキル見合い",
-                flow: "制限無",
+                title: "業務基盤再構築支援（Oracle代替）",
+                tags: ["SharePoint", "Microsoft365"],
+                location: "西日暮里",
+                remote: "出社主体",
+                price: "70~80万円",
+                flow: "貴社社員まで",
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `１．作業概要\nMicrosoft 365サービスの構築から導入までの調査、設計、検証、構築、運用保守まで\n一人称で対応できる要員を募集しております。\n保有スキルとしては、Microsoft 365、Microsoft Entraの経験が求められます。\nまた、今後、新サービスがM365に加わると、調査/検討・検証にも加わってもらいます。\n現在、導入済のサービスは以下の通りです。\n\n導入済のサービス\n・Teams\n・Microsoft Purview Information Protection\n・Intune\n・Vivaエンゲージ(Yammer)\n・SharePoint\n・OneDrive\n・Exchange Online\n・Microsoft Entraの機能\n\n２．期間\n即日 ～ 長期 ※開始日調整可能です\n\n３．人数\n1名\n\n４．場所\nJR常磐線／東武ア－バンパ－クライン 柏駅 徒歩１３分\n\n５．勤務時間\n9:00～18:00（フレックス無し/土日祝日休み） ※テレワ－クは週１回\n\n６．スキル\n・Microsoft 365サービスの構築・保守経験\n・Microsoft Entraの構築・保守経験\n・BAT、PowerShellに関する知識\n・探求意欲が強く能動的に動ける方\n※特定の経験は求めず幅広い経験がある方が望ましい\n・（尚可）SharePoint Onlineに関する知識、経験\n・（尚可）Exchange Onlineに関する知識、経験\n・（尚可）Windowsサ－バの構築・保守経験(Active directoryの知識)  \n· （尚可）Azure Entra Connectに関する知識、経験\n\n７．面談\n2回（元請様・お客様）\n\n８．単価\nスキル見合い\n\n９．年齢制限\n20代～30代限定（40代以上は提案しても客先で弾かれます）`
+                detailText: `【案件名】\n業務基盤再構築支援（Oracle代替）\n【作業場所】\n三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）徒歩９分（出社主体）\n\n【作業期間】\n即日〜長期予定\n\n【スキル要件】\n＜案件概要＞\n既存Oracleシステムの復旧が困難な状況を受け、SharePoint Onlineを活用した業務基盤再構築プロジェクトを推進する担当。\n文書・データ管理基盤の設計から構築、データ移行、運用設計までを担当し、SharePointを活用した業務環境の整備を行う。\n\n＜業務内容＞\n・SharePoint Onlineサイト設計・構築、ドキュメントライブラリ設計\n・SharePointリスト設計、メタデータ・フォルダ構成設計\n・権限設計・アクセス制御、ユーザー部門との要件整理\n・Oracle管理データの移行支援、運用ルール・管理手順策定\n・Teams連携検討・実装支援、利用部門向け説明・定着化支援\n\n＜必須スキル(Must)／必須経験＞\n・SharePoint Onlineの設計・構築経験、SharePointサイト／リスト設計経験\n・権限設計・アクセス管理経験、ユーザー要件ヒアリング経験\n・顧客折衝経験、ドキュメント作成経験\n\n＜あれば好ましいスキル(Want)／経験＞\n・Power Automate開発経験、Power Apps開発経験\n・Microsoft 365導入経験、Oracle／DBデータ移行経験\n・ファイルサーバー移行経験、業務改善・DX推進経験\n・情報セキュリティ・権限管理知識\n\n＜求める人物像＞\nSharePointを用いた業務基盤構築を主体的に推進できる方、ユーザー部門との調整ができる方\n業務要件を整理し設計に落とし込める方、手を動かしながら設計・構築まで対応できる方\n\n【希望単価】\n70~80万円（スキル見合い）\n\n【勤務時間】\n8:30〜17:00（休憩1:00）\n\n【（精算）人数】\n1名\n\n【中心となる年齢層】\n30〜50代\n\n【商流制限】\n貴社社員まで。フリーランスはNG\n\n【国籍】\n外国籍不可\n\n【面談回数】\n1回目：元請様(Web･対面)、2回目：お客様(対面)`
             },
             {
                 id: 6,
@@ -335,23 +353,23 @@
                 detailText: `【案件名】\n専門商社での情報システム部門・社員代替 ★注力案件\n\n【作業場所】\n常磐線・北松戸駅 徒歩10分（リモートはありません）\n\n【作業期間】\n即日～長期（1～3ヵ月程度のお試し期間・良ければ長期）\n\n【スキル要件】\n【業務内容】\n・基幹システム（AS/400）運用保守\n・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト\n\n【必須スキル(Must)／必須経験】\n・RPG開発を上流から下流まで1人称でできる方\n\n【希望単金】\nスキル見合い（～60万円程度）\n\n【勤務時間】\n9:00～17:45（休憩45分 実働8時間）\n\n【人数】\n1名\n\n【中心となる年齢層】\n60歳くらいまで\n\n【商流制限】\n貴社まで\n\n【国籍】\n外国籍不可\n\n【面談回数】\n2回（1回目：元請様、2回目：お客様）`
             },
             {
-                id: 15,
-                category: "dev",
-                categoryName: "💻 開発",
-                company: "T社",
-                date: "2026/07/29",
+                id: 12,
+                category: "lowcode",
+                categoryName: "⚡ ローコード",
+                company: "A社",
+                date: "2026/07/22",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "大手コンビニエンスストアの開発プロジェクト",
-                tags: ["Java", "SpringBoot", "GCP", "AI-OCR", "生成AI"],
-                location: "みなとみらい",
-                remote: "出勤・リモート併用",
+                title: "インフラ基盤導入支援（Salesforce）",
+                tags: ["Salesforce"],
+                location: "多摩センター",
+                remote: "週1〜2日リモート",
                 price: "スキル見合い",
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【案件名】\n大手コンビニエンスストアの開発プロジェクト\n\n【業種】\n流通業\n\n【案件内容】\n9月よりAI-OCRや生成AIを活用し、経費精算業務の省人化を目的とした大手コンビニエンスストアの開発プロジェクトとなります。\n8月までSIer様にてPoCを実施しており、PoC効果を認識して頂き、9月より要件定義工程を開始見込みです。（受注確度高い）\n\n【担当工程】\n要件定義～設計・開発・テスト、リリースまで\n\n【開発スケジュール・期間】\n2026/9～2027/10（1年間予定）\n・要件定義：2026/9～2026/11\n\n【期待スキルセット】\n＜必須＞\n・要件定義～設計・開発・テスト、リリースまで一連の経験がある方\n・コミュニケーションが取れて一人称で動ける方\n\n①上流工程ドキュメンテーションの対応：\n・要件定義工程の経験必須\n・要件定義成果物の作図・記述等をSIer様社員と主に並走頂ける方\n・SIer様社員が提示した骨子・指示に基づき、過去成果物等を参照しながら上流工程ドキュメンテーションの作成ができる方\n\n②サンプルアプリ実装の対応：\n・方式の検証・フィジビリティ検証のために簡易なアプリ作成ができる方\n※Java（Spring Boot）でのAPI実装を想定\n※GCP上でのアプリ開発（Cloud Run, Pub/Sub, GCS等を利用）が可能であればより良い\n※SIer様若手メンバーと一緒に、過去プロジェクト等を参考に試行錯誤できるメンバーを希望\n\n※1名提案の場合：①②両方に対応できる方を希望\n※2名提案の場合：①と②で別々の要員提案も可能\n\n＜尚可＞\n・AI-OCRや生成AIの活用経験\n\n【募集人数】\n1～2名（募集期限：8/18頃まで）\n※現時点で増員予定無し（要件定義工程での概算見積結果次第で確定）\n\n【単価】\n経験とスキル見合いで応相談\n\n【勤務形態】\n出勤とリモートの併用型（月半分はリモート対応が可能な見込み）\n出勤場所：みなとみらい（エンド様オフィス）\n\n【事前打合せ】\n1回（元請様のみ）\n\n【商流制限】\n貴社まで\n\n【条件】\n外国籍：不可\n個人事業主：可`
+                detailText: `【案件名】\n金融向け インフラ基盤導入支援\n\n【案件概要】\n金融系顧客向けワークフロー基盤（Salesforce）導入／開発支援業務です。\n【主な担当業務】\nお客様との要件調整から調査、開発（基本設計、詳細設計）、テスト、リリースを担当します。\n\n【期間】\n８月 ～ 長期見込み ※参画時期は調整可！ご相談ください！！\n\n【人数】\nSEクラス １～２名\n\n【場所】\n最寄駅：京王相模原線／小田急多摩線 多摩センター駅\n※勤務時間 9:00～18:00\n※リモート業務も実施可能（１～２日／週で調整）\n※顧客打合せ時は丸の内へ出社あり\n\n【スキル】\n【必須】\n１．金融業界でのSalesforce開発経験（目安として1年以上）\n２．Financial Service Cloudの開発・カスタマイズ経験\n３．Visualforce／Apexコードレビュー経験\n４．想定作業を一人称で遂行できること\n５．能動的にコミュニケーションが取れ、要件調整ができる折衝力\n６．キャッチアップ力が高く、新しい業務を積極的に学べること\n【尚可】\n７．-（特になし）\n８．Salesforce認定資格（Administrator、Platform App Builder、Platform Developer等）\n９．チーム開発におけるリーダー・サブリーダー経験\n１０．上流工程（要件定義、基本設計）業務経験\n\n【面談回数】\n２回（元請様／お客様）\n\n【その他】\n・フル出社ではありませんが、基本的に出社対応可能な方が望ましい。\n・単金条件はスキル見合い\n・外国籍NG\nなお詳細は、ご面談時にもご案内いたします。`
             },
             {
                 id: 16,
@@ -359,7 +377,7 @@
                 categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/07/31",
-                status: "充足気味（現候補者で保留）",
+                status: "一旦停止",
                 statusClass: "status-urgent blink-badge",
                 title: "物販WEBシステム保守支援",
                 tags: ["PHP", "SQL", "LAMP"],
@@ -378,7 +396,7 @@
                 categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/08/10",
-                status: "募集中",
+                status: "一旦停止",
                 statusClass: "status-open",
                 title: "流通系金融 加盟店刷新バックエンドシステム構築",
                 tags: ["Claude Code", "PostgreSQL", "ASTERIA"],
@@ -428,13 +446,61 @@
                 foreign: "OK",
                 remark: "個人事業主OK/59歳迄",
                 detailText: `【案件概要】\n案件名： 信託銀行タレントマネジメント保守\n契約形態 ：準委任\n作業範囲 ： 信託銀行人事部様が運用するタレントパレットの保守サポート\n       ※人事部様からの問い合わせおよび仕様変更対応を行う\n期間   ： 2026年10月～長期\n募集人数 ： 1名\n必須スキル： \n  ・タレントパレットの製品仕様理解\n    ・1つのタスクを自走できること\n    ・設計書および人事部様向けの説明資料を作成できること\n作業場所 ：在宅 ※必要に応じて大手町（地方の方NG）\n勤務時間 ：09:00～18:00\n標準時間 ：140－180h（精算あり）\n面談回数 ：2回（WEB予定 1回目：元請様 2回目：エンド様）\n年齢制限 ：59歳まで\n希望単価 ：応相談\n外国籍  ：可\n個人事業主：可`
+            },
+            {
+                id: 20,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "H社",
+                date: "2026/08/27",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "大手メーカー向け データ連携開発支援",
+                tags: ["MuleSoft", "API", "AWS"],
+                location: "品川およびリモート",
+                remote: "週1品川（原則リモート可）",
+                price: "スキル見合い",
+                flow: "貴社1社先まで",
+                contract: "準委任",
+                foreign: "OK",
+                remark: "個人事業主相談",
+                detailText: `【案件名】大手メーカー向け データ連携開発支援\n【案件元】H社\n【人数】1名\n【期間】2026/10/1～\n【作業内容】\n・基幹業務システムとデータ基盤とのデータ連携基盤（MuleSoft）の開発・障害対応・運用保守\n・ 10月～システムテスト\n\n【必要スキル】\n・MuleSoftを利用したAPI開発経験（開発1年以上）\n・APIの設計・開発・テスト・運用保守の業務経験\n・顧客要件から自力で設計・製造を進められる方\n\n【希望スキル】\n・ Anypoint Platformでの業務経験\n・ クラウド（AWS）環境に対する、基礎的な知見\n・ データ連携基盤での運用保守設計の業務知見\n\n【作業場所】品川およびリモート\n※参画2週間前後は品川での業務習得をお願いします。\n以降、テレワークでの対応可能です。（ただし週1度は品川）\n\n【その他】\n商流制限：貴社1社先まで\n※国籍は制限ないものの、リモートでの通話・チャットに影響がないレベルの日本語を扱えること。\n個人事業主：相談\n外国籍：可\n単価：スキル見合い`
             }
         ];
 
         window.checkPassword = function() {
             const pass = document.getElementById('password').value;
             if (pass === "gW9^bC4qR5xL1nM7") {
-                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('login-form-inner').style.display = 'none';
+                const terminal = document.getElementById('terminal-log');
+                terminal.style.display = 'block';
+
+                const logs = [
+                    "> user interface rock ... ok",
+                    "> password Authentication ... ok",
+                    "> decrypting secure session keys ... ok",
+                    "> mounting secure database socket ... ok",
+                    "> access granted. launching dashboard ... ok"
+                ];
+
+                let i = 0;
+                function showNextLog() {
+                    if (i < logs.length) {
+                        terminal.innerHTML += logs[i] + "<br>";
+                        i++;
+                        setTimeout(showNextLog, 180);
+                    } else {
+                        setTimeout(() => {
+                            const overlay = document.getElementById('login-overlay');
+                            overlay.style.opacity = '0';
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                            }, 600);
+                        }, 400);
+                    }
+                }
+                showNextLog();
+
             } else {
                 alert('パスワードが違います');
             }
@@ -455,7 +521,7 @@
                     foreignDisplay = "NG";
                     foreignColor = "#dc2626";
                 }
-                if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可") || textToCheck.includes("外国籍  ：可")) {
+                if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可") || textToCheck.includes("外国籍  ：可") || textToCheck.includes("外国籍：可（可）") || textToCheck.includes("外国籍：可")) {
                     foreignDisplay = "OK";
                     foreignColor = "#059669";
                 }
@@ -465,6 +531,9 @@
                 if (p.id === 18 || p.id === 19) {
                     soloDisplay = "OK";
                     soloColor = "#059669";
+                } else if (p.id === 20) {
+                    soloDisplay = "相談";
+                    soloColor = "#d97706";
                 } else {
                     if (textToCheck.includes("個人事業主：確認中") || textToCheck.includes("個人事業主確認中")) {
                         soloDisplay = "確認中";
@@ -481,7 +550,7 @@
                     }
                 }
 
-                const isNew = (p.date === "2026/08/25");
+                const isNew = (p.date === "2026/08/27");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
