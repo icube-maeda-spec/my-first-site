@@ -64,7 +64,7 @@
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
         .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
         .status-open { background-color: #3b82f6; color: white; }
-        .status-hold { background-color: #eab308; color: #ffffff; }
+        .status-hold { background-color: #eab308; color: #000000; }
         .status-urgent { background-color: #ef4444; color: white; }
 
         .cat-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; text-align: center; white-space: nowrap; }
@@ -377,8 +377,8 @@
                 categoryName: "💻 開発",
                 company: "CJ社",
                 date: "2026/08/10",
-                status: "一旦<br>停止",
-                statusClass: "status-open",
+                status: "一旦停止",
+                statusClass: "status-hold",
                 title: "流通系金融 加盟店刷新バックエンドシステム構築",
                 tags: ["Claude Code", "PostgreSQL", "ASTERIA"],
                 location: "CJC品川／IBM箱崎",
@@ -531,7 +531,6 @@
                     }
                 }
 
-                // 2026/08/31の案件（今回追加したID:21）に赤字点滅NEW!!を表示
                 const isNew = (p.date === "2026/08/31");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
