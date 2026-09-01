@@ -50,7 +50,6 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: var(--card-bg); color: var(--text); padding: 25px; width: 650px; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow-y: auto; border: 1px solid var(--border-color); }
 
-        /* ログイン画面まわり（不透明な白背景を維持） */
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: #ffffff; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.6s ease; }
         .login-box { background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 360px; color: #334155; border: 1px solid #cbd5e1; }
         .login-box h2 { margin-top: 0; color: #0f172a; }
@@ -112,7 +111,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span> / <span class="blink-text">【新着案件】信託銀行タレントマネジメント保守（タレントパレット・在宅/大手町）</span></marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span> / <span class="blink-text">【新着案件】信託銀行タレントマネジメント保守</span> / <span class="blink-text">【新着案件】バッチ系システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】証券系 譲渡益税管理、NISA管理システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】家電量販店ECサイト保守案件</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -133,7 +132,7 @@
             <div class="login-box">
                 <div id="login-form-inner">
                     <h2>システム認証</h2>
-                    <input type="password" id="password" placeholder="パスワードを入力">
+                    <input type="password" id="password" placeholder="パスワードを入力" onkeydown="if(event.key === 'Enter') checkPassword()">
                     <button onclick="checkPassword()">ログイン</button>
                 </div>
                 <div id="terminal-log"></div>
@@ -144,7 +143,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：08/31 17:25）</span>
+                    <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/01 13:30）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
@@ -199,7 +198,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // 閲覧者数のリアルタイムカウント処理
         const presenceRef = ref(db, 'connected_users');
         const myPresence = push(presenceRef);
         onDisconnect(myPresence).remove();
@@ -312,7 +310,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。\n\n 1. 応募案件ID （案件番号）：\n\n 2. 面談可能日 ：\n\n 3. 開始可能日 ：\n\n 4. 希望単金 ：\n\n 5．国籍 ：\n\n 6. アクセンチュア社稼働歴有無 ：\n\n* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。\n\n* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。\n\n\n【SAP案件リスト】\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-405（Leader相当）\n業界: 製薬\n内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー\n必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）\n場所: 週3日都内（週5回出社検討優先）\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-430（Cons相当）\n業界: 化学\n内容: S/4HANA運用保守、MDG/SCM/FICO領域のオンサイトリード\n必須: SAP保守運用または導入実績、日英コミュニケーション\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-434（メンバー）\n業界: 石油\n内容: SAP ECC運用保守（FIモジュールメイン）\n必須: SAP FI領域の運用保守経験5年以上、日本語ネイティブ\n場所: 週3日以上都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-436（Cons相当）\n業界: 教育\n内容: 財務会計システムの機能運用保守・改修\n必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-438（Ana相当）\n業界: 公益団体\n内容: SAP運用保守（FI領域）、定常業務・問合せ・調査分析・開発\n必須: SAP FI領域、Intramart/Java開発経験、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-441（Mgr相当）\n業界: 食品・飲料\n内容: SAP EWM導入PJのデザインフェーズ、要件定義リード\n必須: SAP EWM導入経験、日英バイリンガル\n場所: 都内\n開始: 7月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-442（-）\n業界: 半導体\n内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト\n必須: SD/MMモジュールにおけるテスト経験\n場所: 基本在宅（リモート/月1-2回都内）\n開始: 8月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAC-444（-）\n業界: 化学\n内容: S/4バージョンアップPJ、テスト障害分析・対応\n必須: SAP FI/CO、AA領域の知見\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝`
+                detailText: `応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。\n\n 1. 応募案件ID （案件番号）：\n\n 2. 面談可能日 ：\n\n 3. 開始可能日 ：\n\n 4. 希望単金 ：\n\n 5．国籍 ：\n\n 6. アクセンチュア社稼働歴有無 ：\n\n* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。\n\n* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。\n\n\n【SAP案件リスト】\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-405（Leader相当）\n業界: 製薬\n内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー\n必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）\n場所: 週3日都内（週5回出社検討優先）\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-430（Cons相当）\n業界: 化学\n内容: S/4HANA運用保守、MDG/SCM/FICO領域のオンサイトリード\n必須: SAP保守運用または導入実績、日英コミュニケーション\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-434（メンバー）\n業界: 石油\n内容: SAP ECC運用保守（FIモジュールメイン）\n必須: SAP FI領域の運用保守経験5年以上、日本語ネイティブ\n場所: 週3日以上都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-436（Cons相当）\n業界: 教育\n内容: 財務会計システムの機能運用保守・改修\n必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-438（Ana相当）\n業界: 公益団体\n内容: SAP運用保守（FI領域）、定常業務・問合せ・調査分析・開発\n必須: SAP FI領域、Intramart/Java開発経験、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-441（Mgr相当）\n業界: 食品・飲料\n内容: SAP EWM導入PJのデザインフェーズ、要件定義リード\n必須: SAP EWM導入経験、日英バイリンガル\n場所: 都内\n開始: 7月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-442（-）\n業界: 半導体\n内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト\n必須: SD/MMモジュールにおけるテスト経験\n場所: 基本在宅（リモート/月1-2回都内）\n開始: 8月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAC-444（-）\n業界: 化学\n内容: S/4バージョンアップPJ、テスト障害分析・対応\n必須: SAP FI/CO、AA領域の知見\n場所: 都内\n开始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝`
             },
             {
                 id: 7,
@@ -337,39 +335,58 @@
                 id: 11,
                 category: "dev",
                 categoryName: "💻 開発",
-                company: "J社",
-                date: "2026/07/27",
+                company: "IT社",
+                date: "2026/09/01",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "専門商社での情報システム部門・社員代替",
-                tags: ["AS/400", "RPG", "運用保守"],
-                location: "北松戸",
-                remote: "常駐(リモート無)",
-                price: "60万円まで",
+                title: "バッチ系システムの保守・エンハンス",
+                tags: ["PL/SQL", "CSH", "Linux", "COBOL"],
+                location: "新川（または在宅）",
+                remote: "可（一部出社あり）",
+                price: "75～80万円",
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【案件名】\n専門商社での情報システム部門・社員代替 ★注力案件\n\n【作業場所】\n常磐線・北松戸駅 徒歩10分（リモートはありません）\n\n【作業期間】\n即日～長期（1～3ヵ月程度のお試し期間・良ければ長期）\n\n【スキル要件】\n【業務内容】\n・基幹システム（AS/400）運用保守\n・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト\n\n【必須スキル(Must)／必須経験】\n・RPG開発を上流から下流まで1人称でできる方\n\n【希望単金】\nスキル見合い（～60万円程度）\n\n【勤務時間】\n9:00～17:45（休憩45分 実働8時間）\n\n【人数】\n1名\n\n【中心となる年齢層】\n60歳くらいまで\n\n【商流制限】\n貴社まで\n\n【国籍】\n外国籍不可\n\n【面談回数】\n2回（1回目：元請様、2回目：お客様）`
+                detailText: "【バッチ系システムの保守・エンハンス】\n\n募集人数：\n・1名（体制増強のため）\n\n求める人材イメージ\n・影響調査・設計〜テストまで一人称で開発作業が行える方を求めています。\n\n期間：\n・開始 ： 2026年10月\n・終了 ： 2027年3月(延長の可能性あり)\n\n年齢希望：\n・なし\n\n開発場所：\n・客先（新川（※））、在宅のいずれかになります。フルリモートも可能です。\n・参画後 1カ月間程度(前倒しは相談可)、環境整備や各知識のトランスファー等のため、出社をお願いする可能性があります。\n・リリース等がある場合は出社をお願いする可能性があります。\n\n※JR東京駅八重洲口からバスで10分、バス停から徒歩3分\n※東京メトロ日比谷線八丁堀駅から徒歩15分\n※東京メトロ日東西線茅場町駅から徒歩10分\n\n業務内容：\n【案件①】現サーバから新サーバへシステムを移設します。\nこのためcshで作成されたソースを実行し現新比較を実施します。\n【案件②】JCL、COBOLで作成されたシステムを解析し、PL/SQL、csh、Perlで再作成します。\n【案件③】ベンダーから購入しているファイルをPerlで編集し、PL/SQLで取込処理を新規作成します。\n【案件④】PL/SQLで作成されたシステムの保守作業。\n\n・作業内容は、テスト要員として現新確認と不一致の場合の原因調査・修正をお願いします。\n・既存ジョブを参考に、新規ジョブの詳細設計・実装・テストになります。AI使用可。\n・C言語、JCL、COBOLでの既存処理の解析。AI使用可。\n\nスキル情報：\n\n＜必須要件＞\n・PL/SQL、CSHでの開発経験がある方（5年以上）\n・Linuxでの開発経験がある方（5年以上）\n・設計、テストケース作成経験（5年以上）。\n・修正箇所特定調査や影響調査などの経験がある方。\n・受け身ではなく、主体的に仕事に取り組んでいただける方。\n\n＜歓迎要件＞\n・C言語、JCL、COBOLでの開発経験がある方。\n\nその他：\n・面談はWebにて行わせて頂きます。（原則的に1回面談となります）\n・元請様からみて、2次委託先までの募集（客先に商流制限あり）、かつ、原則は正社員のみ\n⇒ よって個人事業主・フリーランスは原則NG"
             },
             {
                 id: 12,
-                category: "lowcode",
-                categoryName: "⚡ ローコード",
-                company: "A社",
-                date: "2026/07/22",
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "IT社",
+                date: "2026/09/01",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "インフラ基盤導入支援（Salesforce）",
-                tags: ["Salesforce"],
-                location: "多摩センター",
-                remote: "週1〜2日リモート",
-                price: "スキル見合い",
+                title: "証券系 譲渡益税管理、NISA管理システムの保守、エンハンス",
+                tags: ["Oracle", "PL/SQL", "Java", "上流工程"],
+                location: "鶴見（または在宅）",
+                remote: "可（週2程度出社）",
+                price: "75～80万円",
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【案件名】\n金融向け インフラ基盤導入支援\n\n【案件概要】\n金融系顧客向けワークフロー基盤（Salesforce）導入／開発支援業務です。\n【主な担当業務】\nお客様との要件調整から調査、開発（基本設計、詳細設計）、テスト、リリースを担当します。\n\n【期間】\n８月 ～ 長期見込み ※参画時期は調整可！ご相談ください！！\n\n【人数】\nSEクラス １～２名\n\n【場所】\n最寄駅：京王相模原線／小田急多摩線 多摩センター駅\n※勤務時間 9:00～18:00\n※リモート業務も実施可能（１～２日／週で調整）\n※顧客打合せ時は丸の内へ出社あり\n\n【スキル】\n【必須】\n１．金融業界でのSalesforce開発経験（目安として1年以上）\n２．Financial Service Cloudの開発・カスタマイズ経験\n３．Visualforce／Apexコードレビュー経験\n４．想定作業を一人称で遂行できること\n５．能動的にコミュニケーションが取れ、要件調整ができる折衝力\n６．キャッチアップ力が高く、新しい業務を積極的に学べること\n【尚可】\n７．-（特になし）\n８．Salesforce認定資格（Administrator、Platform App Builder、Platform Developer等）\n９．チーム開発におけるリーダー・サブリーダー経験\n１０．上流工程（要件定義、基本設計）業務経験\n\n【面談回数】\n２回（元請様／お客様）\n\n【その他】\n・フル出社ではありませんが、基本的に出社対応可能な方が望ましい。\n・単金条件はスキル見合い\n・外国籍NG\nなお詳細は、ご面談時にもご案内いたします。`
+                detailText: "【証券系 譲渡益税管理、NISA管理システムの保守、エンハンス】\n\n募集人数：\n・1名（体制増強のため）\n\n求める人材イメージ\n・リーダからの依頼の元、設計〜実装、テストまで実施できる方（コミュニケーション能力重視）\n\n期間：\n・開始 ： 2026年10月\n・終了 ： 2027年3月(延長の可能性あり)\n\n年齢希望：\n・40代前半まで\n\n開発場所：\n・客先オフィス（鶴見駅からバス5分）\n・在宅\n・キャッチアップ期間（1カ月程度）は、客先オフィスへの出社をお願いしています。\n・キャッチアップ期間後は、週2程度の出社、残りは在宅にての作業となります（曜日などについては、参画したチームの出社スケジュールと調整をお願いしています）\n\n業務時間：\n・当チーム標準は 09:00〜17:30（休憩1時間）の7.5時間が所定時間になります。\n\n業務内容：\n・証券会社にて利用される、譲渡益税管理システム、NISA口座管理システムの保守・エンハンスを行っています。\n・複数の案件が同時に稼働しておりますので、その中の複数の案件について、リーダの指示のもと、基本設計から実装、テスト、リリースまでを対応頂きます。\n・データベースは、Oracle、バック処理は、PL/SQL、フロント処理は、Javaにて作られています。\n\nチーム体制：\n・現在の開発チームは18名です。\n・複数案件がありますが、最低でも2名体制以上のチームを組んで案件を担当していただきます。\n・進捗状況は朝会や、週次定例を実施し、状況を確認させていただいています。\n・コミュニケーションツールとしては、Teams（チャット）、WebEx・Zoom・Teams（会議）を利用しますが、週2ほどチームメンバーが集まり対面ですり合わせなどを行っています。\n\nスキル情報：\n＜必須要件＞\n・SQL（PL/SQL）での開発経験が2年以上（パフォーマンスを意識したSQLを組める方）\n・上流工程の開発経験がある方\n・報連相がしっかりできる方\n・テストケース作成経験（要件からケースを作成できる）がある方\n・チーム開発経験が2年以上ある方\n\n＜歓迎要件＞\n・証券業務知識を保有している方\n・実行計画の解析、改善まで実施できる方\n\nその他：\n・面談はWebにて行わせて頂きます。（1回面談）\n・元請様からみて、2次委託先までの募集（客先に商流制限あり）、かつ、原則は正社員のみ\n⇒ よって個人事業主・フリーランスは原則NG"
+            },
+            {
+                id: 13,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "IT社",
+                date: "2026/09/01",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "家電量販店ECサイト保守案件",
+                tags: ["Java", "Spring", "ECサイト", "Linux"],
+                location: "高田馬場",
+                remote: "可（最大40%出社）",
+                price: "75～80万円",
+                flow: "制限なし",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: "【家電量販店ECサイト保守案件】\n\n募集人数：\n・1名（元請様プロパーとの交代要員）\n\n求める人材イメージ\n・顧客要望を聞いた上で\"何を求められているか\"把握・理解することが出来、担当案件を1人称で進めて行く事ができる方。\n\n期間：\n・開始 ： 2026年10月\n・終了 ： 2027年3月頃 ※以後は案件の状況次第になります。\n\n年齢希望\n特に無し\n\n開発場所・環境：\n・最大40％程度の出社をお願いしており、出社場所は顧客開発拠点（※1）となります。\n  ※1）顧客開発本部（高田馬場駅から徒歩15分 / 西早稲田駅から徒歩15分 / 都営荒川線学習院下から徒歩3分）\n・自宅での作業PCは元請様または客先から貸与になります。\n\n業務時間：\n・10:00〜18:30 が基本です。（相談可）\n\n業務内容：\n・現在運用中の、某大手家電量販店のECサイトの保守、開発となります。\n・お客様と直接やり取りを行い、障害調査や小規模案件の要件定義〜調査〜設計開発テスト〜リリースまでを実施します。\n・現在の元請様体制は4名です。\n\nスキル情報：\n＜必須要件＞\n◆非技術要件\n・Webシステムの業務知識・ソースコード解析の短期間でのキャッチアップに慣れている方。\n・依頼を待つのではなく、自ら意見・提案などのアクションを起こせる方。\n・判らない事は自ら調べて業務・作業を進める事ができる方。\n\n◆技術要件\n・ECサイトの保守、開発経験が1年程度ある方。\n・上流工程(要件定義、基本設計)の担当経験が1年程度ある方。\n・Webシステム開発において、Javaでの開発(実装)経験が3年程度ある方。\n・Springフレームワークでの開発経験が1年程度ある方。\n・UnixまたはLinuxのコマンド操作ができる方。\n\n＜歓迎要件＞\n・SQLの性能測定やチューニングの知識がある方。\n\nその他：\n・面談はWebにて行わせて頂きます。（1回面談）\n・商流制限はありませんが、原則は正社員のみ\n⇒ よって個人事業主・フリーランスは原則NG"
             },
             {
                 id: 17,
@@ -451,7 +468,7 @@
 
         window.checkPassword = function() {
             const pass = document.getElementById('password').value;
-            if (pass === "gW9^bC4qR5xL1nM7") {
+            if (pass === "X4m9K2p7R5v1N8q3") {
                 document.getElementById('login-form-inner').style.display = 'none';
                 const terminal = document.getElementById('terminal-log');
                 terminal.style.display = 'block';
@@ -520,7 +537,7 @@
                         soloDisplay = "確認中";
                         soloColor = "var(--text)";
                     } else {
-                        if (textToCheck.includes("個人事業主：不可") || textToCheck.includes("個人事業主不可") || textToCheck.includes("フリーランスはng") || textToCheck.includes("個人事業主は不可") || textToCheck.includes("個人事業主：ng")) {
+                        if (textToCheck.includes("個人事業主：不可") || textToCheck.includes("個人事業主不可") || textToCheck.includes("フリーランスはng") || textToCheck.includes("個人事業主は不可") || textToCheck.includes("個人事業主：ng") || textToCheck.includes("個人事業主・フリーランスは原則ng")) {
                             soloDisplay = "NG";
                             soloColor = "#dc2626";
                         }
@@ -531,7 +548,7 @@
                     }
                 }
 
-                const isNew = (p.date === "2026/08/31");
+                const isNew = (p.date === "2026/09/01");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
