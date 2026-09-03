@@ -111,7 +111,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span> / <span class="blink-text">【新着案件】バッチ系システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】証券系 譲渡益税管理、NISA管理システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】家電量販店ECサイト保守案件</span></marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】銀行系 設計・構築・運用</span> / <span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span> / <span class="blink-text">【新着案件】バッチ系システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】証券系 譲渡益税管理、NISA管理システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】家電量販店ECサイト保守案件</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -143,7 +143,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/01 13:30）</span>
+                    <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/03 13:30）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
@@ -444,6 +444,25 @@
                 foreign: "NG",
                 remark: "個人事業主相談",
                 detailText: `【案件概要】\n案件名： ICTセンター支援 （IDM（ID管理システム）担当）\n\n契約形態 ： 派遣・準委任\n作業範囲 ：\n  ・IDM（ID管理システム）を中心とした関連システム（PAM、OKTA等）の運用・保守支援\n    ・IDM関連の提出資料の客観的レビュー、品質管理\n    ・IDMからのデータ連携に関する関連性の把握と整理、来年度以降の実装に向けた要件定義、設計\n    ・プロジェクト全体のPLとしてのリード\n期間   ： 2026年10月～長期\n募集人数 ： 1名\n必須スキル：\n 【必須】\n    ・アプリケーション寄りの要件定義経験（豊富な経験を有すること）\n    ・提出資料やドキュメントを客観的にレビューできる能力\n    ・プロジェクトをリードできるPLスキル\n 【尚可】\n    ・IDM（ID管理システム）に関する知識・経験\n    ・PAM（Privileged Access Management：特権アクセス管理）、Okta等の関連システムの知識・経験\n    ・データ連携設計の経験\n    ・複数システムを横断的に見ることができる俯瞰力\n作業場所 ：出社、リモートを含むハイブリッド勤務 出社時の最寄り駅：弁天橋駅\n勤務時間 ：08:00～17:00\n標準時間 ：140－180h（精算あり）\n面談回数 ：2回\n年齢制限 ：なし\n希望単価 ：応相談\n外国籍  ：不可`
+            },
+            {
+                id: 22,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "A社",
+                date: "2026/09/03",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "銀行系 設計・構築・運用",
+                tags: ["WindowsServer", "AD", "SEP", "ArcServe", "Hyper-V"],
+                location: "東陽町",
+                remote: "週2～3回",
+                price: "70～80万",
+                flow: "貴社1社先まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件名】銀行系 設計・構築・運用\n\n・業種\n 銀行系\n\n・期間\n 面談合格から１か月後～長期\n\n・担当\n WindowsServerインフラ\n\n・スキルエリア（全てできることがMUST）\n AD、SEP、ArcServe等BKUP、Hyper-Vによる仮想化、クラスター化など。設計、構築、テスト、リリース、運用保守を全てカバーできる事\n\n・場所\n 東京メトロ 東陽町 徒歩１５分\n\n・勤務時間、テレワーク\n 9:00～18:00 フレックス無 土日祝日休み\n テレワークは週２，３回\n\n・面談回数\n 2回（元請様・お客様）\n\n・外国籍\nNG\n\n・個人事業主\nOK\n\n・単価\n70万～80万（スキル見合い）\n\n・備考\n詳細は面談にてお話致します。`
             }
         ];
 
@@ -522,14 +541,14 @@
                             soloDisplay = "NG";
                             soloColor = "#dc2626";
                         }
-                        if (textToCheck.includes("個人事業主：可") || textToCheck.includes("個人事業主可") || textToCheck.includes("雇用形態不問") || textToCheck.includes("フリーランス可") || textToCheck.includes("個人：可") || textToCheck.includes("個人事業主：ok")) {
+                        if (textToCheck.includes("個人事業主：可") || textToCheck.includes("個人事業主可") || textToCheck.includes("雇用形態不問") || textToCheck.includes("フリーランス可") || textToCheck.includes("個人：可") || textToCheck.includes("個人事業主：ok") || textToCheck.includes("個人事業主\nok")) {
                             soloDisplay = "OK";
                             soloColor = "#059669";
                         }
                     }
                 }
 
-                const isNew = (p.date === "2026/09/01");
+                const isNew = (p.date === "2026/09/01" || p.date === "2026/09/03");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
