@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
+<!DOCTYPE html><html lang="ja"><head>
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
     <style>
@@ -52,35 +50,11 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-box { background: var(--card-bg); color: var(--text); padding: 25px; width: 650px; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow-y: auto; border: 1px solid var(--border-color); }
 
-        /* ログイン画面（背景に2586330.jpgを指定） */
-        #login-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: url('2586330.jpg') no-repeat center center fixed; 
-            background-size: cover; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 9999; 
-            transition: opacity 0.6s ease; 
-        }
-        .login-box { 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 40px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
-            text-align: center; 
-            width: 380px; 
-            color: #334155; 
-            border: 1px solid #cbd5e1; 
-            backdrop-filter: blur(5px);
-        }
-        .login-box h2 { margin-top: 0; color: #0f172a; margin-bottom: 20px; font-size: 22px; }
-        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        .login-box button { width: 100%; padding: 12px; background: #003366; color: #ffffff; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: #ffffff; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.6s ease; }
+        .login-box { background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 360px; color: #334155; border: 1px solid #cbd5e1; }
+        .login-box h2 { margin-top: 0; color: #0f172a; }
+        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; border-radius: 6px; box-sizing: border-box; }
+        .login-box button { width: 100%; padding: 12px; background: #003366; color: #ffffff; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
         .login-box button:hover { background: #002244; }
 
         #terminal-log { display: none; text-align: left; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #38bdf8; line-height: 1.6; background: #020617; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; height: 140px; overflow: hidden; margin-top: 10px; }
@@ -101,9 +75,7 @@
         .dark-mode .cat-infra { background-color: #14532d; color: #86efac; border-color: #166534; }
         .dark-mode .cat-lowcode { background-color: #701a75; color: #f0abfc; border-color: #86198f; }
         .dark-mode .cat-other { background-color: #334155; color: #cbd5e1; border-color: #475569; }
-    </style>
-</head>
-<body>
+    </style></head><body>
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>前田 玄真 (Maeda Genma)</h3>
@@ -139,7 +111,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text">【新着案件】銀行系 設計・構築・運用</span> / <span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span> / <span class="blink-text">【新着案件】バッチ系システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】証券系 譲渡益税管理、NISA管理システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】家電量販店ECサイト保守案件</span></marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。[cite: 3]<span class="blink-text">【大至急】旅行会社営業支援システムデータ移行ツール開発</span> / <span class="blink-text">【新着案件】銀行系 設計・構築・運用</span> / <span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span> / <span class="blink-text">【新着案件】バッチ系システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】証券系 譲渡益税管理、NISA管理システムの保守・エンハンス</span> / <span class="blink-text">【新着案件】家電量販店ECサイト保守案件</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -156,7 +128,6 @@
     </div>
 
     <div id="screen-container">
-        <!-- ログイン画面（背景に2586330.jpgが適用されます） -->
         <div id="login-overlay">
             <div class="login-box">
                 <div id="login-form-inner">
@@ -206,7 +177,7 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                    </tbody>
+                        </tbody>
                 </table>
             </main>
         </div>
@@ -493,6 +464,25 @@
                 foreign: "NG",
                 remark: "-",
                 detailText: `【案件名】銀行系 設計・構築・運用\n\n・業種\n 銀行系\n\n・期間\n 面談合格から１か月後～長期\n\n・担当\n WindowsServerインフラ\n\n・スキルエリア（全てできることがMUST）\n AD、SEP、ArcServe等BKUP、Hyper-Vによる仮想化、クラスター化など。設計、構築、テスト、リリース、運用保守を全てカバーできる事\n\n・場所\n 東京メトロ 東陽町 徒歩１５分\n\n・勤務時間、テレワーク\n 9:00～18:00 フレックス無 土日祝日休み\n テレワークは週２，３回\n\n・面談回数\n 2回（元請様・お客様）\n\n・外国籍\nNG\n\n・個人事業主\nOK\n\n・単価\n70万～80万（スキル見合い）\n\n・備考\n詳細は面談にてお話致します。`
+            },
+            {
+                id: 23,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "CJ社",
+                date: "2026/09/04",
+                status: "大至急",
+                statusClass: "status-open",
+                title: "旅行会社営業支援システムデータ移行ツール開発",
+                tags: ["SQL", "PostgreSQL", "データ移行"],
+                location: "元請（品川）、客先（新宿）、在宅",
+                remote: "リモート頻度未定",
+                price: "75万（リーダー）",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n案件名：旅行会社営業支援システムデータ移行ツール開発\n \n契約形態 ： 準委任\n作業範囲 ：\n  旅行会社の団体旅行システム更改の関連対応として、\n  現行の営業支援機能を某パッケージ型SFAへ切り替える際のデータ移行ツール開発を行う。\n  （現行システムが出力したCSVファイルを新システムが要求するフォーマットに変換し、\n   新システムへCSVとして提供する）\n期間   ： 2026年10月～2027年6月（長期の可能性あり）\n募集人数 ： 1名(10月～）、2名（12月～）\n必須スキル：\n  ①チームリーダー（1名）10月～\n   ・チームメンバーの管理\n   ・データ変換などの設計経験（実装もできると尚可）\n   ・エンドユーザーのITメンバー、関係ベンダー（データ提供元、データ提供先）\n    とのコミュニケーションが良好な方\n    ※現行・新システムの開発ベンダーとの質疑応答など積極的に取り組める方\n  ②チームメンバー（2名）12月～\n   弊社PM、上記チームリーダーのもとでツール開発（実装・テスト）を行える方\n  ③共通スキル\n   ・必須スキル：SQL\n   ・PostgreSQLでの開発実績があると尚良し\n  ※チームリーダーおよびメンバーのセット提案を希望\n作業場所 ：元請（品川）、客先（新宿）、在宅（リモート頻度は未定）\n勤務時間 ：09:00～18:00\n標準時間 ：140－180h（精算あり）\n面談回数 ：1回\n年齢制限 ：なし\n希望単価 ：75万（リーダー）\n外国籍  ：不可`
             }
         ];
 
@@ -578,7 +568,7 @@
                     }
                 }
 
-                const isNew = (p.date === "2026/09/01" || p.date === "2026/09/03");
+                const isNew = (p.date === "2026/09/01" || p.date === "2026/09/03" || p.date === "2026/09/04");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
@@ -716,5 +706,4 @@
             <button style="margin-top:20px; width:100%; padding:10px; background:var(--border-color); color:var(--text); border:none; border-radius:4px; cursor:pointer;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
         </div>
     </div>
-</body>
-</html>
+</body></html>
