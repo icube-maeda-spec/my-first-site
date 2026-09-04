@@ -143,7 +143,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/03 13:30）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/03 13:30）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
@@ -153,6 +153,7 @@
                     </select>
                     <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 220px; background: var(--card-bg); color: var(--text);">
                     <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
+                    <button class="tag" onclick="refreshData()" style="padding: 8px 12px; background: var(--accent); color: var(--card-bg);">更新</button>
                 </div>
             </div>
            
@@ -619,6 +620,18 @@
             });
             renderProjects(projects);
         }
+
+        window.refreshData = function() {
+            const now = new Date();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('last-updated').innerText = `（最終更新日時：${month}/${day} ${hours}:${minutes}）`;
+            handleSort();
+            alert('最新情報を取得しました');
+        };
 
         window.addEventListener('DOMContentLoaded', () => {
             handleSort();
