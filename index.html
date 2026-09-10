@@ -1,5 +1,3 @@
-
-```html
 <!DOCTYPE html><html lang="ja"><head>
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
@@ -14,6 +12,7 @@
         .marquee-container { background: #0f172a; color: #ffffff; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
         .dark-mode .marquee-container { background: #020617; border-bottom: 1px solid #1e293b; }
         .marquee-container marquee { font-weight: bold; color: #ffffff; flex-grow: 1; }
+        .marquee-container marquee .proj-item { color: #facc15; }
         
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
         .blink-text { color: #ef4444; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
@@ -67,6 +66,7 @@
         .status-open { background-color: #3b82f6; color: white; }
         .status-hold { background-color: #eab308; color: #000000; }
         .status-urgent { background-color: #ef4444; color: white; }
+        .status-exclusive { background-color: #ef4444; color: white; }
 
         .cat-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; text-align: center; white-space: nowrap; }
         .cat-dev { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
@@ -113,7 +113,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / <span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】インフラ基盤全般の社員代替</span> / <span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】専門商社での情報システム部門・社員代替</span> / <span class="blink-text">【新着案件】銀行系 設計・構築・運用</span> / <span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span></marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【独占案件】旅行会社営業支援システムデータ移行ツール開発</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】インフラ基盤全般の社員代替</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】専門商社での情報システム部門・社員代替</span> / <span class="proj-item">【新着案件】銀行系 設計・構築・運用</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -145,7 +145,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/10 09:44）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/10 10:31）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
@@ -220,6 +220,25 @@
         });
 
         const projects = [
+            {
+                id: 24,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "CJ社",
+                date: "2026/09/10",
+                status: "独占",
+                statusClass: "status-exclusive",
+                title: "旅行会社営業支援システムデータ移行ツール開発",
+                tags: ["SQL", "PostgreSQL", "リーダー"],
+                location: "品川/新宿/在宅",
+                remote: "週2程度可能性有",
+                price: "～75万(L)",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "受注率50%",
+                detailText: `CJ社様案件\n\n【案件概要】\n\n案件名： 旅行会社営業支援システムデータ移行ツール開発\n\n契約形態 ： 準委任\n\n作業範囲 ：\n  旅行会社の団体旅行システム更改の関連対応として、\n  現行の営業支援機能を某パッケージ型SFAへ切り替える際のデータ移行ツール開発を行う。\n  （現行システムが出力したCSVファイルを新システムが要求するフォーマットに変換し、\n   新システムへCSVとして提供する）\n\n ※リーダーの方は、開発チームのリーダーとして、12月参画予定の２名と合流し、\n3名チームでツール開発を行っていただく予定。\nリーダーとして、メンバーの管理や進捗・課題のとりまとめをいただき、\n元請様PMへの報告等を行っていただける方を希望。\n12月の要員も含めて、アイキューブにて３名体制を構築予定\n\n期間   ： 2026年10月～2027年6月（長期の可能性あり）\n\n募集人数 ： 1名(10月～）、2名（12月～）\n\n必須スキル：\n  ①チームリーダー（1名）10月～\n   ・チームメンバーの管理\n   ・データ変換などの設計経験（実装もできると尚可）\n   ・エンドユーザーのITメンバー、関係ベンダー（データ提供元、データ提供先）\n    とのコミュニケーションが良好な方\n    ※現行・新システムの開発ベンダーとの質疑応答など積極的に取り組める方\n\n  ②チームメンバー（2名）12月～\n   弊社PM、上記チームリーダーのもとでツール開発（実装・テスト）を行える方\n\n  ③共通スキル\n   ・必須スキル：SQL\n   ・PostgreSQLでの開発実績があると尚良し\n\n ※チームリーダーおよびメンバーのセット提案を希望\n\n作業場所 ：元請様（品川）、客先（新宿）、在宅（リモート頻度は未定）おそらく週2くらいになる可能性有\n\n勤務時間 ：09:00～18:00\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：1回（元請様のみ）\n\n年齢制限 ：なし\n\n希望単価 ：75万まで（リーダー）\n\n外国籍  ：不可\n\n個人事業主：可\n\nその他：面談は最短で9月11日以降となります。\n    未受注となり、受注率50％となります。`
+            },
             {
                 id: 23,
                 category: "dev",
@@ -709,5 +728,3 @@
         </div>
     </div>
 </body></html>
-
-```
