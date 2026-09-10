@@ -1,3 +1,5 @@
+
+```html
 <!DOCTYPE html><html lang="ja"><head>
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
@@ -111,7 +113,7 @@
     </header>
 
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】インフラ基盤全般の社員代替</span> / <span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】専門商社での情報システム部門・社員代替</span> / <span class="blink-text">【新着案件】銀行系 設計・構築・運用</span> / <span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span> / <span class="blink-text">【新着案件】証券系 譲渡益税管理、NISA管理システムの保守・エンハンス</span></marquee>
+        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。<span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / <span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】インフラ基盤全般の社員代替</span> / <span class="blink-text"><span class="blink-badge">NEW!!</span> 【新着案件】専門商社での情報システム部門・社員代替</span> / <span class="blink-text">【新着案件】銀行系 設計・構築・運用</span> / <span class="blink-text">【新着案件】ICTセンター支援（IDM担当）</span></marquee>
         <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
             閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
         </div>
@@ -143,7 +145,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/07 16:21）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/10 09:44）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
@@ -218,6 +220,25 @@
         });
 
         const projects = [
+            {
+                id: 23,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "CJ社",
+                date: "2026/09/10",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "エンタメ系/新商品情報管理システム開発",
+                tags: ["RPG開発", "要件定義", "詳細設計"],
+                location: "大崎",
+                remote: "たまに在宅",
+                price: "60万～",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: `CJ社様案件\n\n【案件概要】\n\n案件名： エンタメ系/新商品情報管理システム開発\n\n契約形態 ： 準委任\n\n作業範囲 ：\n       商品情報管理システムのリプレイスに伴うASシステムの開発業務。\n       現行は、フロントはWEBシステムでバックエンドがASシステムだが、\n       新システムではバックエンドもWEBシステムになり、\n       データフロー変更に伴うASシステムの改修を行う。\n\n期間   ： 2026年10月～2027年9月（延長の可能性あり）\n\n募集人数 ： 1名\n\n必須スキル：\n         ・RPG開発経験\n      ・現行システムの調査や設計経験\n\n作業場所 ：客先（大崎）基本出社：たまに在宅\n\n勤務時間 ：10:00～19:00\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：2回（元請様、エンド様）web予定\n\n年齢制限 ：50代まで\n\n希望単価 ：60万（スキルによる）\n\n【単価上振れについて】\n上振れ1万～5万が限度⇒上記必須スキルに加え、特筆すべき事項が在る場合のみ\n     \n外国籍  ：不可\n\n個人事業主：可`
+            },
             {
                 id: 11,
                 category: "infra",
@@ -349,7 +370,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。\n\n 1. 応募案件ID （案件番号）：\n\n 2. 面談可能日 ：\n\n 3. 開始可能日 ：\n\n 4. 希望単金 ：\n\n 5．国籍 ：\n\n 6. アクセンチュア社稼働歴有無 ：\n\n* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。\n\n* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。\n\n\n【SAP案件リスト】\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-405（Leader相当）\n業界: 製薬\n内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー\n必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）\n場所: 週3日都内（週5回出社検討優先）\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-430（Cons相当）\n業界: 化学\n内容: S/4HANA運用保守、MDG/SCM/FICO領域のオンサイトリード\n必須: SAP保守運用または導入実績、日英コミュニケーション\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-434（メンバー）\n業界: 石油\n内容: SAP ECC運用保守（FIモジュールメイン）\n必須: SAP FI領域の運用保守経験5年以上、日本語ネイティブ\n場所: 週3日以上都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-436（Cons相当）\n業界: 教育\n内容: 財務会計システムの機能運用保守・改修\n必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-438（Ana相当）\n業界: 公益団体\n内容: SAP運用保守（FI領域）、定常業務・問合せ・調査分析・開発\n必須: SAP FI領域、Intramart/Java開発経験、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-441（Mgr相当）\n業界: 食品・飲料\n内容: SAP EWM導入PJのデザインフェーズ、要件定義リード\n必須: SAP EWM導入経験、日英バイリンガル\n場所: 都内\n開始: 7月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-442（-）\n業界: 半導体\n内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト\n必須: SD/MMモジュールにおけるテスト経験\n場所: 基本在宅（リモート/月1-2回都内）\n開始: 8月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAC-444（-）\n業界: 化学\n内容: S/4バージョンアップPJ、テスト障害分析・対応\n必須: SAP FI/CO、AA領域の知見\n場所: 都内\n开始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝`
+                detailText: `応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。\n\n 1. 応募案件ID （案件番号）：\n\n 2. 面談可能日 ：\n\n 3. 開始可能日 ：\n\n 4. 希望単金 ：\n\n 5．国籍 ：\n\n 6. アクセンチュア社稼働歴有無 ：\n\n* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。\n\n* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。\n\n\n【SAP案件リスト】\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-405（Leader相当）\n業界: 製薬\n内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー\n必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）\n場所: 週3日都内（週5回出社検討優先）\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-430（Cons相当）\n業界: 化学\n内容: S/4HANA運用保守、MDG/SCM/FICO領域のオンサイトリード\n必須: SAP保守運用または導入実績、日英コミュニケーション\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-434（メンバー）\n業界: 石油\n内容: SAP ECC運用保守（FIモジュールメイン）\n必須: SAP FI領域の運用保守経験5年以上、日本語ネイティブ\n場所: 週3日以上都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-436（Cons相当）\n業界: 教育\n内容: 財務会計システムの機能運用保守・改修\n必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-438（Ana相当）\n業界: 公益団体\n内容: SAP運用保守（FI領域）、定常業務・問合せ・調査分析・開発\n必须: SAP FI領域、Intramart/Java開発経験、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-441（Mgr相当）\n業界: 食品・飲料\n内容: SAP EWM導入PJのデザインフェーズ、要件定義リード\n必須: SAP EWM導入経験、日英バイリンガル\n場所: 都内\n開始: 7月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-442（-）\n業界: 半導体\n内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト\n必須: SD/MMモジュールにおけるテスト経験\n場所: 基本在宅（リモート/月1-2回都内）\n開始: 8月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAC-444（-）\n業界: 化学\n内容: S/4バージョンアップPJ、テスト障害分析・対応\n必須: SAP FI/CO、AA領域の知見\n場所: 都内\n开始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝`
             },
             {
                 id: 7,
@@ -549,7 +570,7 @@
                     }
                 }
 
-                const isNew = (p.date === "2026/09/07" || p.date === "2026/09/01" || p.date === "2026/09/03");
+                const isNew = (p.date === "2026/09/10" || p.date === "2026/09/07" || p.date === "2026/09/01" || p.date === "2026/09/03");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
@@ -688,3 +709,5 @@
         </div>
     </div>
 </body></html>
+
+```
