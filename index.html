@@ -1,8 +1,3 @@
-承知いたしました！ご指定の通り、最終更新日時の初期値を現在の日時（9月11日 10:12）に更新した全ソースコードをご用意しました。
-
-そのままコピーしてご利用いただけます。
-
-```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -16,10 +11,28 @@
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
         
-        .marquee-container { background: #0f172a; color: #ffffff; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+        /* スムーズ・インフィニティ・マーキーのスタイル */
+        .marquee-container { background: #0f172a; color: #ffffff; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; position: relative; }
         .dark-mode .marquee-container { background: #020617; border-bottom: 1px solid #1e293b; }
-        .marquee-container marquee { font-weight: bold; color: #ffffff; flex-grow: 1; }
-        .marquee-container marquee .proj-item { color: #facc15; }
+        
+        .marquee-track {
+            display: inline-block;
+            white-space: nowrap;
+            will-change: transform;
+            animation: smoothMarquee 32s linear infinite;
+        }
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused; /* ホバーで一時停止 */
+        }
+        @keyframes smoothMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-content {
+            display: inline-block;
+        }
+        .marquee-container .proj-item { color: #facc15; font-weight: bold; margin: 0 15px; }
         
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
         .blink-text { color: #ef4444; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
@@ -167,8 +180,27 @@
         </nav>
     </header>
 
+    <!-- スムーズループ化されたマーキーエリア -->
     <div class="marquee-container">
-        <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【独占案件】旅行会社営業支援システムデータ移行ツール開発</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】インフラ基盤全般の社員代替</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】専門商社での情報システム部門・社員代替</span> / <span class="proj-item">【新着案件】銀行系 設計・構築・運用</span></marquee>
+        <div class="marquee-track">
+            <div class="marquee-content">
+                アクセス頂き、誠にありがとうございます。 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【独占案件】旅行会社営業支援システムデータ移行ツール開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】インフラ基盤全般の社員代替</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】専門商社での情報システム部門・社員代替</span> / 
+                <span class="proj-item">【新着案件】銀行系 設計・構築・運用</span>
+            </div>
+            <!-- ループの継ぎ目をなくすための複製（同一内容） -->
+            <div class="marquee-content" aria-hidden="true">
+                アクセス頂き、誠にありがとうございます。 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【独占案件】旅行会社営業支援システムデータ移行ツール開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】インフラ基盤全般の社員代替</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】専門商社での情報システム部門・社員代替</span> / 
+                <span class="proj-item">【新着案件】銀行系 設計・構築・運用</span>
+            </div>
+        </div>
     </div>
 
     <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
@@ -197,7 +229,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/11 10:12）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/11 10:34）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <!-- ビュー切替ボタン -->
@@ -814,5 +846,3 @@
     </div>
 </body>
 </html>
-
-```
