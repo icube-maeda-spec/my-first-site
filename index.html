@@ -1,4 +1,11 @@
-<!DOCTYPE html><html lang="ja"><head>
+承知いたしました！ご指定の通り、最終更新日時の初期値を現在の日時（9月11日 10:12）に更新した全ソースコードをご用意しました。
+
+そのままコピーしてご利用いただけます。
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <title>案件掲示板 | 株式会社アイキューブ</title>
     <style>
@@ -25,6 +32,7 @@
         
         main { padding: 20px; }
 
+        /* テーブルビューのスタイル */
         .compact-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; font-size: 13px; text-align: left; }
         .compact-table th, .compact-table td { border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); padding: 8px 10px; vertical-align: middle; }
         .compact-table th { background: var(--panel-bg); font-weight: bold; color: var(--text); font-size: 12px; border-top: none; border-left: none; }
@@ -40,11 +48,56 @@
         .dark-mode .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.08); }
         .dark-mode .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.08); }
 
-        .compact-table tbody tr:hover { background-color: rgba(0,0,0,0.05) !important; }
+        /* テーブル行の強調ホバー演出 */
+        .compact-table tbody tr {
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+        .compact-table tbody tr:hover {
+            transform: translateY(-4px) scale(1.002);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+            background-color: rgba(59, 130, 246, 0.12) !important;
+            position: relative;
+            z-index: 10;
+        }
+        .dark-mode .compact-table tbody tr:hover {
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
+            background-color: rgba(56, 189, 248, 0.18) !important;
+        }
+
+        /* カードビュー（グリッド表示）のスタイル */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .project-card.cat-dev-card { border-left: 6px solid #3b82f6; }
+        .project-card.cat-infra-card { border-left: 6px solid #10b981; }
+        .project-card.cat-lowcode-card { border-left: 6px solid #a855f7; }
+        .project-card.cat-other-card { border-left: 6px solid #64748b; }
+
+        /* カードの強力なホバー浮き上がり演出 */
+        .project-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 14px 30px rgba(59, 130, 246, 0.35);
+            z-index: 10;
+            border-color: #3b82f6;
+        }
+        .dark-mode .project-card:hover {
+            box-shadow: 0 14px 30px rgba(56, 189, 248, 0.4);
+            border-color: #38bdf8;
+        }
 
         .tag-container { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 3px; }
         .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
-        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 3px 10px; border-radius: 4px; font-weight: 600; cursor: pointer; background: transparent; font-size: 11px; white-space: nowrap; }
+        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; background: transparent; font-size: 11px; white-space: nowrap; }
         .btn-toggle:hover { background: var(--accent); color: var(--card-bg); }
         .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
         
@@ -77,7 +130,9 @@
         .dark-mode .cat-infra { background-color: #14532d; color: #86efac; border-color: #166534; }
         .dark-mode .cat-lowcode { background-color: #701a75; color: #f0abfc; border-color: #86198f; }
         .dark-mode .cat-other { background-color: #334155; color: #cbd5e1; border-color: #475569; }
-    </style></head><body>
+    </style>
+</head>
+<body>
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>前田 玄真 (Maeda Genma)</h3>
@@ -102,7 +157,7 @@
     <header>
         <div class="logo" style="display: flex; align-items: baseline; gap: 10px;">
             <span>Icube アイキューブ</span>
-            <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.1)</span>
+            <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.2)</span>
         </div>
         <nav>
             <a href="https://gemini.google.com/app" target="_blank">Gemini</a>
@@ -114,9 +169,6 @@
 
     <div class="marquee-container">
         <marquee scrollamount="5">アクセス頂き、誠にありがとうございます。 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【独占案件】旅行会社営業支援システムデータ移行ツール開発</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】インフラ基盤全般の社員代替</span> / <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】専門商社での情報システム部門・社員代替</span> / <span class="proj-item">【新着案件】銀行系 設計・構築・運用</span></marquee>
-        <div style="padding: 0 15px; font-size: 11px; white-space: nowrap; border-left: 1px solid #334155; color: #94a3b8;">
-            閲覧者数: <span id="visitor-count" style="font-weight: bold; color: #38bdf8;">-</span>名
-        </div>
     </div>
 
     <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
@@ -145,79 +197,61 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/10 10:31）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/11 10:12）</span>
                 </h1>
-                <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <!-- ビュー切替ボタン -->
+                    <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
+                        <button id="btn-view-table" class="tag" onclick="switchView('table')" style="background: var(--accent); color: var(--card-bg); padding: 6px 12px;">📊 テーブル</button>
+                        <button id="btn-view-card" class="tag" onclick="switchView('card')" style="background: transparent; color: var(--text); padding: 6px 12px;">📑 カード</button>
+                    </div>
                     <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
                         <option value="date_desc">掲載日：新しい順 (降順)</option>
                         <option value="date_asc">掲載日：古い順 (昇順)</option>
                         <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
                     </select>
-                    <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 220px; background: var(--card-bg); color: var(--text);">
+                    <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 200px; background: var(--card-bg); color: var(--text);">
                     <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
                     <button class="tag" onclick="refreshData()" style="padding: 8px 12px; background: var(--accent); color: var(--card-bg);">更新</button>
                 </div>
             </div>
            
             <main>
-                <table class="compact-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 7%;">ステータス</th>
-                            <th style="width: 10%;">カテゴリー</th>
-                            <th style="width: 9%;">案件元</th>
-                            <th style="width: 24%;">案件名</th>
-                            <th style="width: 15%;">スキル</th>
-                            <th style="width: 10%;">場所</th>
-                            <th style="width: 6%;">単価</th>
-                            <th style="width: 5%;">商流</th>
-                            <th style="width: 5%;">契約</th>
-                            <th style="width: 5%;">個人</th>
-                            <th style="width: 5%;">外国籍</th>
-                            <th style="width: 4%;">備考</th>
-                            <th style="width: 5%; text-align: center;">条件</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
+                <!-- テーブルビュー（デフォルト） -->
+                <div id="table-view-container">
+                    <table class="compact-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 7%;">ステータス</th>
+                                <th style="width: 10%;">カテゴリー</th>
+                                <th style="width: 9%;">案件元</th>
+                                <th style="width: 24%;">案件名</th>
+                                <th style="width: 15%;">スキル</th>
+                                <th style="width: 10%;">場所</th>
+                                <th style="width: 6%;">単価</th>
+                                <th style="width: 5%;">商流</th>
+                                <th style="width: 5%;">契約</th>
+                                <th style="width: 5%;">個人</th>
+                                <th style="width: 5%;">外国籍</th>
+                                <th style="width: 4%;">備考</th>
+                                <th style="width: 5%; text-align: center;">条件</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
                         </tbody>
-                </table>
+                    </table>
+                </div>
+
+                <!-- カードビュー（切り替え用グリッド） -->
+                <div id="card-view-container" class="hidden">
+                    <div id="card-grid" class="card-grid"></div>
+                </div>
             </main>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getDatabase, ref, push, onDisconnect, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCyhkKNxjfC4Tcq6RkhOECP6NYlr00HcNM",
-            authDomain: "bulletin-board-app-61cd2.firebaseapp.com",
-            databaseURL: "https://bulletin-board-app-61cd2-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "bulletin-board-app-61cd2",
-            storageBucket: "bulletin-board-app-61cd2.appspot.com",
-            messagingSenderId: "753258293020",
-            appId: "1:753258293020:web:6fb0c5fd9c5f93af2c7cd9"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        const presenceRef = ref(db, 'connected_users');
-        const myPresence = push(presenceRef);
-        onDisconnect(myPresence).remove();
-        set(myPresence, true).catch((error) => {
-            console.error("Presence set failed: ", error);
-        });
-
-        onValue(presenceRef, (snapshot) => {
-            const data = snapshot.val();
-            const count = data ? Object.keys(data).length : 0;
-            const visitorEl = document.getElementById('visitor-count');
-            if (visitorEl) {
-                visitorEl.innerText = count;
-            }
-        }, (error) => {
-            console.error("Presence read failed: ", error);
-        });
+    <script>
+        let currentView = 'table'; // デフォルトはテーブルビュー
 
         const projects = [
             {
@@ -312,7 +346,7 @@
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
-                remark: "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;\">【注】</a>",
+                remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
                 detailText: `【業務内容】\n社内横断で様々なプロジェクトに参画し、テスト自動化の導入や利用法を確立し推進していく。\n\n【スキル・要件・役割】\n◆必要なスキル◆\n※全て必須ではないが様々なPJの支援をするので可能範囲が広いほど良い。\n※開発担当者としての利用したことがあるレベルではなく、\n技術リード、メンバー指導、開発標準化など高いレベルが求められる。\n・言語、フレームワーク\n[Java(8以上)+SpringFramework] ※必須、\n[C#、VB.NET、Python、[JavaScript/HTML/CSS、TypeScript]+Next.js]\n・テスト関連ツール\nユニットテスト：JUnit(5.e以上) ※必須、\nPytest、Jest、MSTest、NUnit、CppUTest\nE2Eテスト：Playwright、Appium、Selenium\nAPIテスト：Karate、Assis、Postman\n\n◆工程・役割◆\n・Web系オープンシステム開発経験（詳細設計～結合テスト）。\n・大手Sier様が実行するプロジェクトに従事した経験\n（規定の開発プロセスに則った作業、高い品質レベル、説明能力、保守運用の配慮）\n・テスト計画、テスト設計の経験\n（システム特性、開発プロセス、各テスト工程の役割を理解した上での作業）\n・テスト自動化の導入（ツール選定、開発環境構築、等）の経験。\n\n◆人材像、役割◆\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n【体制・備考】\n・人数: 数名 ※1名でも可\n・単価・精算: 経験とスキル見合いで応相談\n・稼働: 随時\n・体制: 8名体制（内社員1名）\n・備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n・事前打合せ回数：2回（元請及びエンド様）\n· 外国籍：不可\n· 在宅勤務：有（基本在宅）\n· 商流：貴社まで（雇用形態不問）`
             },
             {
@@ -331,7 +365,7 @@
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
-                remark: "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;\">【注】</a>",
+                remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
                 detailText: `【業務内容】\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築(GCP、AWS、Docker、Jenkins、terraform 等)\n\n【勤務地】\n豊洲／在宅中心\n\n【期間】\n随時 ※参画時期は応相談\n\n【スキル・要件・役割】\n＜必要なスキル・経験＞\n・GCP、AWSを利用したクラウド基盤の設計、構築作業、検証の経験3年以上。\n設計：クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、\nサーバ設計、監視設計、セキュリティ設計\n構築・テスト：IaC(CloudFormation、AWS CDK、Azure Bicep、Terraform)\nを使った基盤構築、基盤テスト\n・全て必須ではないが、様々なPJの支援をするので可能範囲が広いほど良い。\nAWS：EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ：Docker、ECR\nDB/データ基盤：RDS for Oracle、Aurora、Redshift等\n\n＜求める人材像、役割＞\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n＜あれば尚良＞\n・チームをまとめられるリーダー経験\n・OSSサポート(Apache/Tomcat)\n・オンプレ(VMWare)/仮想ネットワーク(SDN)の経験\n・クラウド関連ベンダ系認定保有者(AWS、Azure、GoogleCloud、etc.)\n\n【人数】\n数名 ※1名でも可\n\n【単価・精算】\n経験とスキル見合いで応相談\n\n【稼働】\n随時\n\n【体制】\n3名体制（内社員1名）\n\n【備考】\n人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n\n【その他条件】\n・事前打合せ回数：2回（元請様様及びエンド様）\n· 外国籍：不可\n· 在宅勤務：有（基本在宅）`
             },
             {
@@ -350,7 +384,7 @@
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
-                remark: "<a href=\"#\" onclick=\"document.getElementById('pool-modal').style.display='flex'; return false;\" style=\"color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;\">【注】</a>",
+                remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
                 detailText: `業務内容: 様々なプロジェクトにおいて、プロジェクトマネージャーを支援する。（管理ツールの導入支援やアドバイス等）\n\n勤務地: 豊洲／在宅中心\n\n期間: 随時\n\nスキル・要件・役割:\n【必須】\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実施経験\n品質管理、課題管理、仕様変更管理といった管理作業の実施ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を連携下さい。\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM／PLとして\n各管理(①)の実施要領の作成(管理ルール作成、管理簿/チケット管理ツールの導入運用など)、\n各管理の実施についてPJメンバーの支援/指導のご経験\n③品質分析、品質評価報告書の作成のご経験\n④PJ計画書の作成に関わったご経験\n⑤テスト計画の作成、テスト推進に関わったご経験\n\n人数: 数名 ※1名でも可\n\n単価・精算: 経験とスキル見合いで応相談\n\n稼働: 随時\n\n体制: 8名体制（内社員2名）\n\n備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。\n\nその他条件:\n・事前打合せ回数：2回（元請様様及びエンド様）\n・外国籍：不可\n・在宅勤務：有（基本在宅）`
             },
             {
@@ -545,13 +579,40 @@
             }
         }
 
+        // ビュー切り替え関数
+        window.switchView = function(viewType) {
+            currentView = viewType;
+            const btnTable = document.getElementById('btn-view-table');
+            const btnCard = document.getElementById('btn-view-card');
+            const tableContainer = document.getElementById('table-view-container');
+            const cardContainer = document.getElementById('card-view-container');
+
+            if (viewType === 'table') {
+                btnTable.style.background = 'var(--accent)';
+                btnTable.style.color = 'var(--card-bg)';
+                btnCard.style.background = 'transparent';
+                btnCard.style.color = 'var(--text)';
+                tableContainer.classList.remove('hidden');
+                cardContainer.classList.add('hidden');
+            } else {
+                btnCard.style.background = 'var(--accent)';
+                btnCard.style.color = 'var(--card-bg)';
+                btnTable.style.background = 'transparent';
+                btnTable.style.color = 'var(--text)';
+                cardContainer.classList.remove('hidden');
+                tableContainer.classList.add('hidden');
+            }
+            renderProjects(projects);
+        }
+
         function renderProjects(dataList) {
             const tbody = document.getElementById('table-body');
+            const cardGrid = document.getElementById('card-grid');
             tbody.innerHTML = '';
+            cardGrid.innerHTML = '';
 
             dataList.forEach((p) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
-
                 const textToCheck = (p.detailText).toLowerCase();
 
                 let foreignDisplay = "要相談";
@@ -590,24 +651,26 @@
                 }
 
                 const isNew = (p.date === "2026/09/10" || p.date === "2026/09/07" || p.date === "2026/09/01" || p.date === "2026/09/03");
+                const isExclusive = (p.status === "独占");
                 const statusHtml = isNew 
                     ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
                     : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
 
                 let rowColorClass = "cat-other-row";
+                let cardColorClass = "cat-other-card";
                 let badgeClass = "cat-other";
-                if (p.category === "dev") { rowColorClass = "cat-dev-row"; badgeClass = "cat-dev"; }
-                else if (p.category === "infra") { rowColorClass = "cat-infra-row"; badgeClass = "cat-infra"; }
-                else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; badgeClass = "cat-lowcode"; }
+                if (p.category === "dev") { rowColorClass = "cat-dev-row"; cardColorClass = "cat-dev-card"; badgeClass = "cat-dev"; }
+                else if (p.category === "infra") { rowColorClass = "cat-infra-row"; cardColorClass = "cat-infra-card"; badgeClass = "cat-infra"; }
+                else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; cardColorClass = "cat-lowcode-card"; badgeClass = "cat-lowcode"; }
 
                 const categoryHtml = `<span class="cat-badge ${badgeClass}">${p.categoryName}</span>`;
+                const searchDatasetText = `${p.date} ${p.company} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
 
+                // 1. テーブル行の構築
                 const tr = document.createElement('tr');
                 tr.className = `project-row ${rowColorClass}`;
                 tr.dataset.tags = p.tags.join(',');
-                tr.dataset.date = p.date;
-                tr.dataset.category = p.category;
-                tr.dataset.text = `${p.date} ${p.company} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
+                tr.dataset.text = searchDatasetText;
 
                 const tdDetail = document.createElement('td');
                 tdDetail.style.textAlign = 'center';
@@ -620,15 +683,9 @@
                 tr.innerHTML = `
                     <td>${statusHtml}</td>
                     <td>${categoryHtml}</td>
-                    <td style="white-space: nowrap;">
-                        <div style="font-weight: bold; font-size: 13px;">${p.company}</div>
-                    </td>
-                    <td>
-                        <div style="font-weight: bold; font-size: 13px;">${p.title}</div>
-                    </td>
-                    <td>
-                        <div class="tag-container">${tagHtml}</div>
-                    </td>
+                    <td style="white-space: nowrap;"><div style="font-weight: bold; font-size: 13px;">${p.company}</div></td>
+                    <td><div style="font-weight: bold; font-size: 13px;">${p.title}</div></td>
+                    <td><div class="tag-container">${tagHtml}</div></td>
                     <td>
                         <div style="font-size: 12px; font-weight: bold;">${p.location}</div>
                         <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${p.remote}</div>
@@ -642,12 +699,37 @@
                 `;
                 tr.appendChild(tdDetail);
                 tbody.appendChild(tr);
+
+                // 2. カードの構築
+                const card = document.createElement('div');
+                card.className = `project-card ${cardColorClass}`;
+                card.dataset.tags = p.tags.join(',');
+                card.dataset.text = searchDatasetText;
+                card.innerHTML = `
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div>${statusHtml} ${categoryHtml}</div>
+                            <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company}</span>
+                        </div>
+                        <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
+                        <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
+                        <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
+                            📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
+                            💰 <strong>単価:</strong> ${p.price} / <strong>商流:</strong> ${p.flow}<br>
+                            📝 <strong>契約:</strong> ${p.contract} | <strong>個人:</strong> <span style="color: ${soloColor}; font-weight: bold;">${soloDisplay}</span> | <strong>外国籍:</strong> <span style="color: ${foreignColor}; font-weight: bold;">${foreignDisplay}</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border-color); pt: 10px; padding-top: 10px;">
+                        <span style="font-size: 11px; color: #64748b;">掲載日: ${p.date}</span>
+                        <button class="btn-toggle" onclick='openDetailModal(${JSON.stringify(p.title)}, ${JSON.stringify(p.detailText)})'>詳細を見る</button>
+                    </div>
+                `;
+                cardGrid.appendChild(card);
             });
         }
 
         window.handleSort = function() {
             const sortOrder = document.getElementById('sortSelect').value;
-            
             projects.sort((a, b) => {
                 if (sortOrder === 'category') {
                     const order = { dev: 1, infra: 2, lowcode: 3, other: 4 };
@@ -693,22 +775,25 @@
         }
 
         window.filterByTag = function(tag) {
-            document.querySelectorAll('.project-row').forEach(tr => {
-                const match = tr.dataset.tags.split(',').includes(tag);
-                tr.style.display = match ? '' : 'none';
+            const selector = currentView === 'table' ? '.project-row' : '.project-card';
+            document.querySelectorAll(selector).forEach(el => {
+                const match = el.dataset.tags.split(',').includes(tag);
+                el.style.display = match ? (currentView === 'table' ? '' : 'flex') : 'none';
             });
         }
 
         window.showAll = function() {
-            document.querySelectorAll('.project-row').forEach(tr => tr.style.display = '');
+            const selector = currentView === 'table' ? '.project-row' : '.project-card';
+            document.querySelectorAll(selector).forEach(el => el.style.display = currentView === 'table' ? '' : 'flex');
             document.getElementById('searchInput').value = '';
         }
         
         document.getElementById('searchInput').addEventListener('input', function() {
             const filter = this.value.toLowerCase();
-            document.querySelectorAll('.project-row').forEach(tr => {
-                const match = tr.dataset.text.includes(filter);
-                tr.style.display = match ? '' : 'none';
+            const selector = currentView === 'table' ? '.project-row' : '.project-card';
+            document.querySelectorAll(selector).forEach(el => {
+                const match = el.dataset.text.includes(filter);
+                el.style.display = match ? (currentView === 'table' ? '' : 'flex') : 'none';
             });
         });
     </script>
@@ -727,4 +812,7 @@
             <button style="margin-top:20px; width:100%; padding:10px; background:var(--border-color); color:var(--text); border:none; border-radius:4px; cursor:pointer;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
         </div>
     </div>
-</body></html>
+</body>
+</html>
+
+```
