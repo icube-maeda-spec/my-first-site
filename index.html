@@ -90,6 +90,25 @@
         .dark-mode .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.08); }
         .dark-mode .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.08); }
 
+        /* 延期案件のグレーアウト用スタイル */
+        .project-row.postponed-row {
+            background-color: #f1f5f9 !important;
+            color: #94a3b8 !important;
+            opacity: 0.65;
+        }
+        .dark-mode .project-row.postponed-row {
+            background-color: #1e293b !important;
+            color: #64748b !important;
+            opacity: 0.5;
+        }
+        .project-row.postponed-row td {
+            color: inherit !important;
+        }
+        .project-row.postponed-row a, 
+        .project-row.postponed-row button {
+            opacity: 0.7;
+        }
+
         .compact-table tbody tr {
             transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, background-color 0.2s ease;
         }
@@ -160,6 +179,8 @@
         .status-hold { background-color: #eab308; color: #000000; }
         .status-urgent { background-color: #ef4444; color: white; }
         .status-exclusive { background-color: #ef4444; color: white; }
+        /* 延期バッジのスタイル：黄色背景に白字 */
+        .status-postponed { background-color: #eab308; color: #ffffff; margin-left: 4px; }
 
         .cat-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; text-align: center; white-space: nowrap; }
         .cat-dev { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
@@ -216,19 +237,17 @@
         </nav>
     </header>
 
-    <!-- スムーズループ化されたマーキーエリア -->
+    <!-- スムーズループ化されたマーキーエリア（当該案件を削除済み） -->
     <div class="marquee-container">
         <div class="marquee-track">
             <div class="marquee-content">
                 ※※案件追加情報※※ 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】会議室デバイス導入支援</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【独占案件】旅行会社営業支援システムデータ移行ツール開発</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span>
             </div>
             <div class="marquee-content" aria-hidden="true">
                 アクセス頂き、誠にありがとうございます。 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】会議室デバイス導入支援</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【独占案件】旅行会社営業支援システムデータ移行ツール開発</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span>
             </div>
         </div>
@@ -316,29 +335,35 @@
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
 
+        // 共通のトークン生成関数
         function generateToken(pass) {
             return btoa(pass + "_icube_secure_2026");
         }
 
+        // ログイン状態と残り日数の検証・更新
         function checkAndApplyLoginStatus() {
             const expireTime = localStorage.getItem(AUTH_EXPIRE_KEY);
             const savedToken = localStorage.getItem(AUTH_TOKEN_KEY);
             const expectedToken = generateToken(CORRECT_PASSWORD);
             const now = new Date().getTime();
 
+            // トークン不一致（パスワード変更時）または期限切れの場合
             if (!savedToken || savedToken !== expectedToken || !expireTime || now > expireTime) {
                 document.getElementById('login-overlay').style.display = 'flex';
                 return false;
             }
 
+            // 残り日数の計算
             const timeLeft = parseInt(expireTime, 10) - now;
             const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
 
+            // ヘッダーのバッジテキストを更新
             const countdownEl = document.getElementById('login-countdown-text');
             if (countdownEl) {
                 countdownEl.textContent = `自動ログイン中（残${daysLeft}日）`;
             }
 
+            // ログイン画面を非表示にする
             const overlay = document.getElementById('login-overlay');
             overlay.style.display = 'none';
             return true;
@@ -347,6 +372,7 @@
         window.checkPassword = function() {
             const pass = document.getElementById('password').value;
             if (pass === CORRECT_PASSWORD) {
+                // 30日後の有効期限タイムスタンプとトークンを保存
                 const days = 30;
                 const expireTime = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
                 localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
@@ -377,7 +403,6 @@
                             setTimeout(() => {
                                 overlay.style.display = 'none';
                                 checkAndApplyLoginStatus();
-                                handleSort();
                             }, 600);
                         }, 400);
                     }
@@ -417,6 +442,7 @@
                 date: "2026/09/10",
                 status: "独占",
                 statusClass: "status-exclusive",
+                isPostponed: true, // 延期フラグを追加
                 title: "旅行会社営業支援システムデータ移行ツール開発",
                 tags: ["SQL", "PostgreSQL", "リーダー"],
                 location: "品川/新宿/在宅",
@@ -581,6 +607,25 @@
                 detailText: `応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。\n\n 1. 応募案件ID （案件番号）：\n\n 2. 面談可能日 ：\n\n 3. 開始可能日 ：\n\n 4. 希望単金 ：\n\n 5．国籍 ：\n\n 6. アクセンチュア社稼働歴有無 ：\n\n* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。\n\n* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。\n\n\n【SAP案件リスト】\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-405（Leader相当）\n業界: 製薬\n内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー\n必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）\n場所: 週3日都内（週5回出社検討優先）\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-430（Cons相当）\n業界: 化学\n内容: S/4HANA運用保守、MDG/SCM/FICO領域のオンサイトリード\n必須: SAP保守運用または導入実績、日英コミュニケーション\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-434（メンバー）\n業界: 石油\n内容: SAP ECC運用保守（FIモジュールメイン）\n必須: SAP FI領域の運用保守経験5年以上、日本語ネイティブ\n場所: 週3日以上都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-436（Cons相当）\n業界: 教育\n内容: 財務会計システムの機能運用保守・改修\n必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-438（Ana相当）\n業界: 公益団体\n内容: SAP運用保守（FI領域）、定常業務・問合せ・調査分析・開発\n必须: SAP FI領域、Intramart/Java開発経験、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-441（Mgr相当）\n業界: 食品・飲料\n内容: SAP EWM導入PJのデザインフェーズ、要件定義リード\n必須: SAP EWM導入経験、日英バイリンガル\n場所: 都内\n開始: 7月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-442（-）\n業界: 半導体\n内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト\n必須: SD/MMモジュールにおけるテスト経験\n場所: 基本在宅（リモート/月1-2回都内）\n开始: 8月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAC-444（-）\n業界: 化学\n内容: S/4バージョンアップPJ、テスト障害分析・対応\n必須: SAP FI/CO、AA領域の知見\n場所: 都内\n开始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝`
             },
             {
+                id: 7,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "M社",
+                date: "2026/07/14",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "MF運用保守",
+                tags: ["運用保守", "IBMメインフレーム", "SQL"],
+                location: "新宿",
+                remote: "常駐主軸",
+                price: "75万程度",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n作業内容\n電力・ガス領域における基幹システムの維持管理を担っており、\n契約・料金計算・請求・回収領域を中心に、問い合わせ対応・障害対応・ 小～中規模の改修を行っている\n\n【概要】\nガス料金領域および総合請求回収領域の運用保守作業者\n【ロール】\n・問い合わせ／障害対応（ユーザー調整含む）／定常作業の対応・推進\n・小～中規模の改修案件の推進\n\n【必須スキル】\n・アプリ領域の運用保守における問い合わせ・障害対応経験\n· 自走して業務を進められる方\n・IBMメインフレーム、SQLの経験・知識\n【尚可】\n・ガス料金・請求回収業務知識\n\n【期間】                     \n即日～長期予定\n        \n【人数】\n 1名                 \n\n【面談】                \n 2回（元請様/エンド様）web予定`
+            },
+            {
                 id: 12,
                 category: "dev",
                 categoryName: "💻 開発",
@@ -730,9 +775,15 @@
                 }
 
                 const isNew = (p.date === "2026/09/15" || p.date === "2026/09/10");
-                const statusHtml = isNew 
-                    ? `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span><span class="status-badge ${p.statusClass}">${p.status}</span>`
-                    : `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
+                
+                // ステータス部分に「延期」バッジ（黄色背景・白字）を追加する処理
+                let statusHtml = `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
+                if (p.isPostponed) {
+                    statusHtml += `<span class="status-badge status-postponed">【延期】</span>`;
+                }
+                if (isNew && !p.isPostponed) {
+                    statusHtml = `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span>` + statusHtml;
+                }
 
                 let rowColorClass = "cat-other-row";
                 let cardColorClass = "cat-other-card";
@@ -740,6 +791,11 @@
                 if (p.category === "dev") { rowColorClass = "cat-dev-row"; cardColorClass = "cat-dev-card"; badgeClass = "cat-dev"; }
                 else if (p.category === "infra") { rowColorClass = "cat-infra-row"; cardColorClass = "cat-infra-card"; badgeClass = "cat-infra"; }
                 else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; cardColorClass = "cat-lowcode-card"; badgeClass = "cat-lowcode"; }
+
+                // 延期案件の場合は行に postponed-روクラスを追加してグレーアウト
+                if (p.isPostponed) {
+                    rowColorClass += " postponed-row";
+                }
 
                 const categoryHtml = `<span class="cat-badge ${badgeClass}">${p.categoryName}</span>`;
                 const searchDatasetText = `${p.date} ${p.company} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
@@ -781,39 +837,25 @@
                 card.className = `project-card ${cardColorClass}`;
                 card.dataset.tags = p.tags.join(',');
                 card.dataset.text = searchDatasetText;
-                
-                // カードの内部構造を構築（onclickでのテキスト露出を完全に防ぐ安全な設計）
-                const cardInnerDiv = document.createElement('div');
-                cardInnerDiv.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <div>${statusHtml} ${categoryHtml}</div>
-                        <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company}</span>
+                card.innerHTML = `
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div>${statusHtml} ${categoryHtml}</div>
+                            <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company}</span>
+                        </div>
+                        <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
+                        <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
+                        <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
+                            📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
+                            💰 <strong>単価:</strong> ${p.price} / <strong>商流:</strong> ${p.flow}<br>
+                            📝 <strong>契約:</strong> ${p.contract} | <strong>個人:</strong> <span style="color: ${soloColor}; font-weight: bold;">${soloDisplay}</span> | <strong>外国籍:</strong> <span style="color: ${foreignColor}; font-weight: bold;">${foreignDisplay}</span>
+                        </div>
                     </div>
-                    <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
-                    <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
-                    <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
-                        📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
-                        💰 <strong>単価:</strong> ${p.price} / <strong>商流:</strong> ${p.flow}<br>
-                        📝 <strong>契約:</strong> ${p.contract} | <strong>個人:</strong> <span style="color: ${soloColor}; font-weight: bold;">${soloDisplay}</span> | <strong>外国籍:</strong> <span style="color: ${foreignColor}; font-weight: bold;">${foreignDisplay}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border-color); pt: 10px; padding-top: 10px;">
+                        <span style="font-size: 11px; color: #64748b;">掲載日: ${p.date}</span>
+                        <button class="btn-toggle" onclick='openDetailModal(${JSON.stringify(p.title)}, ${JSON.stringify(p.detailText)})'>詳細を見る</button>
                     </div>
                 `;
-                card.appendChild(cardInnerDiv);
-
-                const cardFooterDiv = document.createElement('div');
-                cardFooterDiv.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;";
-                
-                const dateSpan = document.createElement('span');
-                dateSpan.style.cssText = "font-size: 11px; color: #64748b;";
-                dateSpan.innerText = `掲載日: ${p.date}`;
-                cardFooterDiv.appendChild(dateSpan);
-
-                const cardDetailBtn = document.createElement('button');
-                cardDetailBtn.className = 'btn-toggle';
-                cardDetailBtn.innerText = '詳細を見る';
-                cardDetailBtn.onclick = () => openDetailModal(p.title, p.detailText);
-                cardFooterDiv.appendChild(cardDetailBtn);
-
-                card.appendChild(cardFooterDiv);
                 cardGrid.appendChild(card);
             });
         }
