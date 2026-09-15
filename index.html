@@ -316,35 +316,29 @@
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
 
-        // 共通のトークン生成関数
         function generateToken(pass) {
             return btoa(pass + "_icube_secure_2026");
         }
 
-        // ログイン状態と残り日数の検証・更新
         function checkAndApplyLoginStatus() {
             const expireTime = localStorage.getItem(AUTH_EXPIRE_KEY);
             const savedToken = localStorage.getItem(AUTH_TOKEN_KEY);
             const expectedToken = generateToken(CORRECT_PASSWORD);
             const now = new Date().getTime();
 
-            // トークン不一致（パスワード変更時）または期限切れの場合
             if (!savedToken || savedToken !== expectedToken || !expireTime || now > expireTime) {
                 document.getElementById('login-overlay').style.display = 'flex';
                 return false;
             }
 
-            // 残り日数の計算
             const timeLeft = parseInt(expireTime, 10) - now;
             const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
 
-            // ヘッダーのバッジテキストを更新
             const countdownEl = document.getElementById('login-countdown-text');
             if (countdownEl) {
                 countdownEl.textContent = `自動ログイン中（残${daysLeft}日）`;
             }
 
-            // ログイン画面を非表示にする
             const overlay = document.getElementById('login-overlay');
             overlay.style.display = 'none';
             return true;
@@ -353,7 +347,6 @@
         window.checkPassword = function() {
             const pass = document.getElementById('password').value;
             if (pass === CORRECT_PASSWORD) {
-                // 30日後の有効期限タイムスタンプとトークンを保存
                 const days = 30;
                 const expireTime = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
                 localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
@@ -384,6 +377,7 @@
                             setTimeout(() => {
                                 overlay.style.display = 'none';
                                 checkAndApplyLoginStatus();
+                                handleSort();
                             }, 600);
                         }, 400);
                     }
@@ -806,25 +800,39 @@
                 card.className = `project-card ${cardColorClass}`;
                 card.dataset.tags = p.tags.join(',');
                 card.dataset.text = searchDatasetText;
-                card.innerHTML = `
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <div>${statusHtml} ${categoryHtml}</div>
-                            <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company}</span>
-                        </div>
-                        <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
-                        <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
-                        <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
-                            📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
-                            💰 <strong>単価:</strong> ${p.price} / <strong>商流:</strong> ${p.flow}<br>
-                            📝 <strong>契約:</strong> ${p.contract} | <strong>個人:</strong> <span style="color: ${soloColor}; font-weight: bold;">${soloDisplay}</span> | <strong>外国籍:</strong> <span style="color: ${foreignColor}; font-weight: bold;">${foreignDisplay}</span>
-                        </div>
+                
+                // カードの内部構造を構築（onclickでのテキスト露出を完全に防ぐ安全な設計）
+                const cardInnerDiv = document.createElement('div');
+                cardInnerDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div>${statusHtml} ${categoryHtml}</div>
+                        <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company}</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border-color); pt: 10px; padding-top: 10px;">
-                        <span style="font-size: 11px; color: #64748b;">掲載日: ${p.date}</span>
-                        <button class="btn-toggle" onclick='openDetailModal(${JSON.stringify(p.title)}, ${JSON.stringify(p.detailText)})'>詳細を見る</button>
+                    <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
+                    <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
+                    <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
+                        📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
+                        💰 <strong>単価:</strong> ${p.price} / <strong>商流:</strong> ${p.flow}<br>
+                        📝 <strong>契約:</strong> ${p.contract} | <strong>個人:</strong> <span style="color: ${soloColor}; font-weight: bold;">${soloDisplay}</span> | <strong>外国籍:</strong> <span style="color: ${foreignColor}; font-weight: bold;">${foreignDisplay}</span>
                     </div>
                 `;
+                card.appendChild(cardInnerDiv);
+
+                const cardFooterDiv = document.createElement('div');
+                cardFooterDiv.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;";
+                
+                const dateSpan = document.createElement('span');
+                dateSpan.style.cssText = "font-size: 11px; color: #64748b;";
+                dateSpan.innerText = `掲載日: ${p.date}`;
+                cardFooterDiv.appendChild(dateSpan);
+
+                const cardDetailBtn = document.createElement('button');
+                cardDetailBtn.className = 'btn-toggle';
+                cardDetailBtn.innerText = '詳細を見る';
+                cardDetailBtn.onclick = () => openDetailModal(p.title, p.detailText);
+                cardFooterDiv.appendChild(cardDetailBtn);
+
+                card.appendChild(cardFooterDiv);
                 cardGrid.appendChild(card);
             });
         }
