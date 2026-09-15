@@ -237,17 +237,19 @@
         </nav>
     </header>
 
-  <div class="marquee-container">
+    <div class="marquee-container">
         <div class="marquee-track">
             <!-- 1つ目のブロック -->
             <div class="marquee-content">
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】会議室デバイス導入支援</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span>
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】プロジェクトマネージャ支援（人財プール）</span>
             </div>
-            <!-- 2つ目のブロック（1つ目と完全に同じ内容にする） -->
+            <!-- 2つ目のブロック -->
             <div class="marquee-content" aria-hidden="true">
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】会議室デバイス導入支援</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span>
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】プロジェクトマネージャ支援（人財プール）</span>
             </div>
         </div>
     </div>
@@ -334,35 +336,29 @@
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
 
-        // 共通のトークン生成関数
         function generateToken(pass) {
             return btoa(pass + "_icube_secure_2026");
         }
 
-        // ログイン状態と残り日数の検証・更新
         function checkAndApplyLoginStatus() {
             const expireTime = localStorage.getItem(AUTH_EXPIRE_KEY);
             const savedToken = localStorage.getItem(AUTH_TOKEN_KEY);
             const expectedToken = generateToken(CORRECT_PASSWORD);
             const now = new Date().getTime();
 
-            // トークン不一致（パスワード変更時）または期限切れの場合
             if (!savedToken || savedToken !== expectedToken || !expireTime || now > expireTime) {
                 document.getElementById('login-overlay').style.display = 'flex';
                 return false;
             }
 
-            // 残り日数の計算
             const timeLeft = parseInt(expireTime, 10) - now;
             const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
 
-            // ヘッダーのバッジテキストを更新
             const countdownEl = document.getElementById('login-countdown-text');
             if (countdownEl) {
                 countdownEl.textContent = `自動ログイン中（残${daysLeft}日）`;
             }
 
-            // ログイン画面を非表示にする
             const overlay = document.getElementById('login-overlay');
             overlay.style.display = 'none';
             return true;
@@ -371,7 +367,6 @@
         window.checkPassword = function() {
             const pass = document.getElementById('password').value;
             if (pass === CORRECT_PASSWORD) {
-                // 30日後の有効期限タイムスタンプとトークンを保存
                 const days = 30;
                 const expireTime = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
                 localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
@@ -415,6 +410,25 @@
 
         const projects = [
             {
+                id: 26,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "T社",
+                date: "2026/09/15",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "EC受注出荷システム業務支援",
+                tags: ["Java", "Spring Boot", "JavaScript", "在庫管理"],
+                location: "静岡駅",
+                remote: "フル常駐",
+                price: "応相談",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: `案件名: EC受注出荷システム業務支援\n\n内容（業務内容）:\n基本設計・製造・単体試験・結合試験\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n・在庫管理業務に詳しい方\n受発注業務を前提とした在庫管理・倉庫管理の要件定義を主体的に対応できる\n・EC受注出荷システム業務に精通している方\n・Javaによる基本設計工程を1年以上経験\n・Java（Spring Boot）、JavaScriptの実務経験を1年以上経験\n\n描いただく案件により、SE・PGそれぞれの役割を担当する\n\n人数: 1名\n\n単価：経験とスキル見合いで応相談\n\nプロジェクト体制: 2名（内元請様社員1名）\n\n今後の稼働見込み（チーム作り）: 参画期間以降も継続の可能性あり\n体制拡大の可能性あり\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請様面談、顧客面談）\n・外国籍: 不可\n・個人事業主：可\n・勤務形態: フル常駐（静岡駅）`
+            },
+            {
                 id: 25,
                 category: "infra",
                 categoryName: "☁️ インフラ",
@@ -441,7 +455,7 @@
                 date: "2026/09/10",
                 status: "独占",
                 statusClass: "status-exclusive",
-                isPostponed: true, // 延期フラグを追加
+                isPostponed: true,
                 title: "旅行会社営業支援システムデータ移行ツール開発",
                 tags: ["SQL", "PostgreSQL", "リーダー"],
                 location: "品川/新宿/在宅",
@@ -511,34 +525,15 @@
                 detailText: `【専門商社での情報システム部門・社員代替】\n\n募集人数：\n・1名\n\n期間：\n・開始 ： 2026年10月〜長期（1〜3ヶ月程度のお試し期間・良ければ長期）\n\n業務内容：\n・基幹システム（AS/400）運用保守\n・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト\n\n＜必須スキル(Must)／必須経験＞\n・RPG開発を上流から下流まで1人称でできる方\n\n勤務時間：\n・9:00〜17:45（休憩45分、実働8時間）\n\n年齢層：\n・60歳くらいまで\n\n商流制限：\n・貴社まで\n\n国籍：\n・外国籍不可\n\n面談回数：\n・2回（1回目元請様、2回目お客様 ※お客様面談は9月中旬の予定）`
             },
             {
-                id: 1,
-                category: "dev",
-                categoryName: "💻 開発",
-                company: "T社",
-                date: "2026/07/08",
-                status: "募集中",
-                statusClass: "status-open",
-                title: "テスト自動化（人財プール）",
-                tags: ["Java", "SpringFramework", "JUnit"],
-                location: "豊洲／在宅中心",
-                remote: "基本在宅",
-                price: "スキル見合い",
-                flow: "貴社まで",
-                contract: "準委任",
-                foreign: "NG",
-                remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
-                detailText: `【業務内容】\n社内横断で様々なプロジェクトに参画し、テスト自動化の導入や利用法を確立し推進していく。\n\n【スキル・要件・役割】\n◆必要なスキル◆\n※全て必須ではないが様々なPJの支援をするので可能範囲が広いほど良い。\n※開発担当者としての利用したことがあるレベルではなく、\n技術リード、メンバー指導、開発標準化など高いレベルが求められる。\n・言語、フレームワーク\n[Java(8以上)+SpringFramework] ※必須、\n[C#、VB.NET、Python、[JavaScript/HTML/CSS、TypeScript]+Next.js]\n・テスト関連ツール\nユニットテスト：JUnit(5.e以上) ※必須、\nPytest、Jest、MSTest、NUnit、CppUTest\nE2Eテスト：Playwright、Appium、Selenium\nAPIテスト：Karate、Assis、Postman\n\n◆工程・役割◆\n・Web系オープンシステム開発経験（詳細設計～結合テスト）。\n・大手Sier様が実行するプロジェクトに従事した経験\n（規定の開発プロセスに則った作業、高い品質レベル、説明能力、保守運用の配慮）\n・テスト計画、テスト設計の経験\n（システム特性、開発プロセス、各テスト工程の役割を理解した上での作業）\n・テスト自動化の導入（ツール選定、開発環境構築、等）の経験。\n\n◆人材像、役割◆\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n【体制・備考】\n・人数: 数名 ※1名でも可\n・単価・精算: 経験とスキル見合いで応相談\n・稼働: 随時\n・体制: 8名体制（内社員1名）\n・備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n・事前打合せ回数：2回（元請及びエンド様）\n· 外国籍：不可\n· 在宅勤務：有（基本在宅）\n· 商流：貴社まで（雇用形態不問）`
-            },
-            {
                 id: 2,
                 category: "infra",
                 categoryName: "☁️ インフラ",
                 company: "T社",
-                date: "2026/07/08",
+                date: "2026/09/15",
                 status: "募集中",
                 statusClass: "status-open",
                 title: "クラウド構築（人財プール）",
-                tags: ["AWS", "GCP", "Docker"],
+                tags: ["AWS", "GCP", "Docker", "Terraform"],
                 location: "豊洲／在宅中心",
                 remote: "基本在宅",
                 price: "スキル見合い",
@@ -546,18 +541,18 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
-                detailText: `【業務内容】\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築(GCP、AWS、Docker、Jenkins、terraform 等)\n\n【勤務地】\n豊洲／在宅中心\n\n【期間】\n随時 ※参画時期は応相談\n\n【スキル・要件・役割】\n＜必要なスキル・経験＞\n・GCP、AWSを利用したクラウド基盤の設計、構築作業、検証の経験3年以上。\n設計：クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、\nサーバ設計、監視設計、セキュリティ設計\n構築・テスト：IaC(CloudFormation、AWS CDK、Azure Bicep、Terraform)\nを使った基盤構築、基盤テスト\n・全て必須ではないが、様々なPJの支援をするので可能範囲が広いほど良い。\nAWS：EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ：Docker、ECR\nDB/データ基盤：RDS for Oracle、Aurora、Redshift等\n\n＜求める人材像、役割＞\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを厭わない方\n・支援先への技術的説明やソリューション支援を一人枠で行うマインドを持つ方\n\n＜あれば尚良＞\n・チームをまとめられるリーダー経験\n・OSSサポート(Apache/Tomcat)\n・オンプレ(VMWare)/仮想ネットワーク(SDN)の経験\n・クラウド関連ベンダ系認定保有者(AWS、Azure、GoogleCloud、etc.)\n\n【人数】\n数名 ※1名でも可\n\n【単価・精算】\n経験とスキル見合いで応相談\n\n【稼働】\n随時\n\n【体制】\n3名体制（内社員1名）\n\n【備考】\n人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。随時募集もあるため、BPでの体制の構築も可能。\n\n【その他条件】\n・事前打合せ回数：2回（元請様様及びエンド様）\n· 外国籍：不可\n· 在宅勤務：有（基本在宅）`
+                detailText: `案件名: クラウド構築（人財プール）\n\n内容（業務内容）:\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築（GCP, AWS, Docker, Jenkins, Terraform 等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必要なスキル・経験>\n・GCP, AWSを利用したクラウド基盤の設計、構築作業、検証など実務経験が3年以上あること。\n設計:クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、サーバ設計、監視設計、セキュリティ設計の経験がある\n構築・テスト:IaC（CloudFormation, AWS CDK, Azure Bicep, Terraform）を使った基盤構築、基盤テストの経験がある\n-全て必須ではないが、様々なPJの支援を担当するため幅広く広い方が良い。\nAWS: EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ: Docker、ECR\nDB/データ基盤: RDS for Oracle、Aurora、Redshift等\n\n<求める人材像、役割>\n・AWS基盤構築のエンジニアであること\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを問わない方\n・支援先への技術的説明やソリューション支援を一人称で行うマインドを持つ方\n\n<あれば尚良>\n・チームをまとめるリーダー経験がある\n・OSSサポート（Apache/Tomcat）の知見がある\n・オンプレ（VMware）/仮想ネットワーク（SDN）の経験がある\n・クラウド関連ベンダ系認定資格者（AWS, Azure, GoogleCloud, etc.）\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 3名体制（内社員3名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n随時募集もあるため、BPでの体制の構築も可能\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n・外国籍: 不可\n・個人事業主：可\n・在宅勤務: 有（基本在宅）`
             },
             {
                 id: 3,
                 category: "other",
                 categoryName: "📁 その他",
                 company: "T社",
-                date: "2026/07/09",
+                date: "2026/09/15",
                 status: "募集中",
                 statusClass: "status-open",
                 title: "プロジェクトマネージャ支援（人財プール）",
-                tags: ["PM", "PMO"],
+                tags: ["PM", "PMO", "品質管理"],
                 location: "豊洲／在宅中心",
                 remote: "基本在宅",
                 price: "スキル見合い",
@@ -565,7 +560,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
-                detailText: `業務内容: 様々なプロジェクトにおいて、プロジェクトマネージャーを支援する。（管理ツールの導入支援やアドバイス等）\n\n勤務地: 豊洲／在宅中心\n\n期間: 随時\n\nスキル・要件・役割:\n【必須】\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実施経験\n品質管理、課題管理、仕様変更管理といった管理作業の実施ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を連携下さい。\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM／PLとして\n各管理(①)の実施要領の作成(管理ルール作成、管理簿/チケット管理ツールの導入運用など)、\n各管理の実施についてPJメンバーの支援/指導のご経験\n③品質分析、品質評価報告書の作成のご経験\n④PJ計画書の作成に関わったご経験\n⑤テスト計画の作成、テスト推進に関わったご経験\n\n人数: 数名 ※1名でも可\n\n単価・精算: 経験とスキル見合いで応相談\n\n稼働: 随時\n\n体制: 8名体制（内社員2名）\n\n備考: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能。\n\nその他条件:\n・事前打合せ回数：2回（元請様様及びエンド様）\n・外国籍：不可\n・在宅勤務：有（基本在宅）`
+                detailText: `案件名: プロジェクトマネージャ支援（人財プール）\n\n内容（業務内容）:\n様々なプロジェクトにおいて、プロジェクトマネージャを支援する。\n（管理ツールの導入支援やアドバイス等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必須>\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実務経験\n品質管理、課題管理、仕様書管理といった管理作業の実務ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を手下さい。\n・年金機構案件の業務経験がある方（最近、年金案件でニーズが高い）\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM/Lとして\n③管理(①)の実務要員の作成（管理ルール作成、管理簿/チケット管理ツールの導入運用）など、\n各管理の実務についてPJメンバーの支援/指導のご経験\n④品質分析、品質評価報告書の作成のご経験\n⑤利内計画の作成に関わったご経験\n⑥テスト計画の作成、テスト推進に関わったご経験\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 6名体制（内社員2名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々は需要がほとんど無い\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n・外国籍: 不可\n・個人事業主：可\n・在宅勤務: 実務により週数かフルリモート\n※人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々は需要がほとんど無い`
             },
             {
                 id: 4,
@@ -641,7 +636,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【証券系 譲渡益税管理、NISA管理システムの保守、エンハンス】\n\n募集人数：\n・1名（体制増強のため）\n\n求める人材イメージ\n・リーダからの依頼の元、設計〜実装、テストまで実施できる方（コミュニケーション能力重視）\n\n期間：\n・開始 ： 2026年10月\n・終了 ： 2027年3月(延長の可能性あり)\n\n年齢希望：\n・40代前半まで\n\n開発場所：\n・客先オフィス（鶴見駅からバス5分）\n・在宅\n・キャッチアップ期間（1カ月程度）は、客先オフィスへの出社をお願いしています。\n・キャッチアップ期間後は、週2程度の出社、残りは在宅にての作業となります（曜日などについては、参画したチームの出社スケジュールと調整をお願いしています）\n\n業務時間：\n・当チーム標準は 09:00〜17:30（休憩1時間）の7.5時間が所定時間になります。\n\n業務内容：\n・証券会社にて利用される、譲渡益税管理システム、NISA口座管理システムの保守・エンハンスを行っています。\n・複数の案件が同時に稼働しておりますので、その中の複数の案件について、リーダの指示のもと、基本設計から実装、テスト、リリースまでを対応頂きます。\n・データベースは、Oracle、バック処理は、PL/SQL、フロント処理は、Javaにて作られています。\n\nチーム体制：\n・現在の開発チームは18名です。\n・複数案件がありますが、最低でも2名体制以上のチームを組んで案件を担当していただきます。\n・進捗状況は朝会や、週次定例を実施し、状況を確認させていただいています。\n・コミュニケーションツールとしては、Teams（チャット）、WebEx・Zoom・Teams（会議）を利用しますが、週2ほどチームメンバーが集まり対面ですり合わせなどを行っています。\n\nスキル情報：\n＜必須要件＞\n・SQL（PL/SQL）での開発経験が2年以上（パフォーマンスを意識したSQLを組める方）\n・上流工程の開発経験がある方\n・報連相がしっかりできる方\n・テストケース作成経験（要件からケースを作成できる）がある方\n・チーム開発経験が2年以上ある方\n\n＜歓迎要件＞\n・証券業務知識を保有している方\n・実行計画の解析、改善まで実施できる方\n\nその他：\n・面談はWebにて行わせて頂きます。（1回面談）\n・元請様からみて、2次委託先までの募集（客先に商流制限あり）、かつ、原則は正社員のみ\n⇒ よって個人事業主・フリーランスは原則NG`
+                detailText: `【証券系 譲渡益税管理、NISA管理システムの保守、エンハンス】\n\n募集人数：\n・1名（体制増強のため）\n\n求める人材イメージ\n・リーダからの依頼の元、設計〜実装、テストまで実施できる方（コミュニケーション能力重視）\n\n期間：\n・開始 ： 2026/10月\n・終了 ： 2027年3月(延長の可能性あり)\n\n年齢希望：\n・40代前半まで\n\n開発場所：\n・客先オフィス（鶴見駅からバス5分）\n・在宅\n・キャッチアップ期間（1カ月程度）は、客先オフィスへの出社をお願いしています。\n・キャッチアップ期間後は、週2程度の出社、残りは在宅にての作業となります（曜日などについては、参画したチームの出社スケジュールと調整をお願いしています）\n\n業務時間：\n・当チーム標準は 09:00〜17:30（休憩1時間）の7.5時間が所定時間になります。\n\n業務内容：\n・証券会社にて利用される、譲渡益税管理システム、NISA口座管理システムの保守・エンハンスを行っています。\n・複数の案件が同時に稼働しておりますので、その中の複数の案件について、リーダの指示のもと、基本設計から実装、テスト、リリースまでを対応頂きます。\n・データベースは、Oracle、バック処理は、PL/SQL、フロント処理は、Javaにて作られています。\n\nチーム体制：\n・現在の開発チームは18名です。\n・複数案件がありますが、最低でも2名体制以上のチームを組んで案件を担当していただきます。\n・進捗状況は朝会や、週次定例を実施し、状況を確認させていただいています。\n・コミュニケーションツールとしては、Teams（チャット）、WebEx・Zoom・Teams（会議）を利用しますが、週2ほどチームメンバーが集まり対面ですり合わせなどを行っています。\n\nスキル情報：\n＜必須要件＞\n・SQL（PL/SQL）での開発経験が2年以上（パフォーマンスを意識したSQLを組める方）\n・上流工程の開発経験がある方\n・報連相がしっかりできる方\n・テストケース作成経験（要件からケースを作成できる）がある方\n・チーム開発経験が2年以上ある方\n\n＜歓迎要件＞\n・証券業務知識を保有している方\n・実行計画の解析、改善まで実施できる方\n\nその他：\n・面談はWebにて行わせて頂きます。（1回面談）\n・元請様からみて、2次委託先までの募集（客先に商流制限あり）、かつ、原則は正社員のみ\n⇒ よって個人事業主・フリーランスは原則NG`
             },
             {
                 id: 20,
@@ -702,7 +697,6 @@
             }
         ];
 
-        // ビュー切り替え関数
         window.switchView = function(viewType) {
             currentView = viewType;
             const btnTable = document.getElementById('btn-view-table');
@@ -775,7 +769,6 @@
 
                 const isNew = (p.date === "2026/09/15" || p.date === "2026/09/10");
                 
-                // ステータス部分に「延期」バッジ（黄色背景・白字）を追加する処理
                 let statusHtml = `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
                 if (p.isPostponed) {
                     statusHtml += `<span class="status-badge status-postponed">【延期】</span>`;
@@ -791,7 +784,6 @@
                 else if (p.category === "infra") { rowColorClass = "cat-infra-row"; cardColorClass = "cat-infra-card"; badgeClass = "cat-infra"; }
                 else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; cardColorClass = "cat-lowcode-card"; badgeClass = "cat-lowcode"; }
 
-                // 延期案件の場合は行に postponed-روクラスを追加してグレーアウト
                 if (p.isPostponed) {
                     rowColorClass += " postponed-row";
                 }
