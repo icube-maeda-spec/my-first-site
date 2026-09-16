@@ -364,13 +364,21 @@
             return true;
         }
 
-        window.checkPassword = function() {
-            const pass = document.getElementById('password').value;
-            if (pass === CORRECT_PASSWORD) {
-                const days = 30;
-                const expireTime = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
-                localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
-                localStorage.setItem(AUTH_TOKEN_KEY, generateToken(pass));
+window.checkPassword = function() {
+    const pass = document.getElementById('password').value;
+    if (pass === CORRECT_PASSWORD) {
+        // すでに有効期限が設定されている場合は、新しい期限で上書きせず既存の期限を維持する
+        const existingExpire = localStorage.getItem(AUTH_EXPIRE_KEY);
+        const now = new Date().getTime();
+        
+        if (!existingExpire || now > parseInt(existingExpire, 10)) {
+            const days = 30;
+            const expireTime = now + (days * 24 * 60 * 60 * 1000);
+            localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
+        }
+        
+        localStorage.setItem(AUTH_TOKEN_KEY, generateToken(pass));
+        // ...
 
                 document.getElementById('login-form-inner').style.display = 'none';
                 const terminal = document.getElementById('terminal-log');
