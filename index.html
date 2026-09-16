@@ -11,33 +11,51 @@
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
         
-        /* ヘッダー中央の自動ログイン強調バッジ */
+        /* ヘッダー中央の自動ログイン強調バッジ（サイバー感強化版） */
         .header-auth-status {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 5px 14px;
-            border-radius: 20px;
+            background: rgba(0, 243, 255, 0.08);
+            border: 1px solid #00f3ff;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
             font-size: 13px;
             font-weight: bold;
-            color: #facc15;
+            color: #00f3ff;
             display: flex;
             align-items: center;
-            gap: 6px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+            gap: 8px;
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.4), inset 0 0 8px rgba(0, 243, 255, 0.2);
+            text-shadow: 0 0 6px rgba(0, 243, 255, 0.6);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-auth-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.25), transparent);
+            animation: cyber-scan 3s linear infinite;
+        }
+        @keyframes cyber-scan {
+            0% { left: -100%; }
+            100% { left: 200%; }
         }
         .header-auth-status .pulse-dot {
             width: 8px;
             height: 8px;
-            background-color: #4ade80;
-            border-radius: 50%;
+            background-color: #00ff66;
+            border-radius: 0;
             display: inline-block;
-            box-shadow: 0 0 6px #4ade80;
-            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px #00ff66, 0 0 20px #00ff66;
+            animation: cyber-pulse 1.5s infinite alternate;
         }
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
+        @keyframes cyber-pulse {
+            0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 5px #00ff66; }
+            100% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66; }
         }
         
         /* スムーズ・インフィニティ・マーキーのスタイル */
@@ -364,21 +382,19 @@
             return true;
         }
 
-window.checkPassword = function() {
-    const pass = document.getElementById('password').value;
-    if (pass === CORRECT_PASSWORD) {
-        // すでに有効期限が設定されている場合は、新しい期限で上書きせず既存の期限を維持する
-        const existingExpire = localStorage.getItem(AUTH_EXPIRE_KEY);
-        const now = new Date().getTime();
-        
-        if (!existingExpire || now > parseInt(existingExpire, 10)) {
-            const days = 30;
-            const expireTime = now + (days * 24 * 60 * 60 * 1000);
-            localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
-        }
-        
-        localStorage.setItem(AUTH_TOKEN_KEY, generateToken(pass));
-        // ...
+        window.checkPassword = function() {
+            const pass = document.getElementById('password').value;
+            if (pass === CORRECT_PASSWORD) {
+                const existingExpire = localStorage.getItem(AUTH_EXPIRE_KEY);
+                const now = new Date().getTime();
+                
+                if (!existingExpire || now > parseInt(existingExpire, 10)) {
+                    const days = 30;
+                    const expireTime = now + (days * 24 * 60 * 60 * 1000);
+                    localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
+                }
+                
+                localStorage.setItem(AUTH_TOKEN_KEY, generateToken(pass));
 
                 document.getElementById('login-form-inner').style.display = 'none';
                 const terminal = document.getElementById('terminal-log');
@@ -449,7 +465,7 @@ window.checkPassword = function() {
                 location: "平間駅/新川崎駅",
                 remote: "業務習得後相談",
                 price: "85～88万",
-                flow: "貴社まで",
+                flow: "貴社まで（エンド様商流制限有）",
                 contract: "準委任",
                 foreign: "OK",
                 remark: "-",
