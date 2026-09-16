@@ -11,7 +11,7 @@
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
         
-        /* ヘッダー中央の自動ログイン強調バッジ */
+        /* ヘッダー中央の自動ログイン強調バッジ（サイバー感強化版） */
         .header-auth-status {
             background: rgba(0, 243, 255, 0.08);
             border: 1px solid #00f3ff;
@@ -58,21 +58,27 @@
             100% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66; }
         }
         
-        /* マーキーのスタイル */
+        /* スムーズ・インフィニティ・マーキーのスタイル */
         .marquee-container { background: #0f172a; color: #ffffff; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; position: relative; }
         .dark-mode .marquee-container { background: #020617; border-bottom: 1px solid #1e293b; }
+        
         .marquee-track {
             display: inline-block;
             white-space: nowrap;
             will-change: transform;
             animation: smoothMarquee 32s linear infinite;
         }
-        .marquee-container:hover .marquee-track { animation-play-state: paused; }
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+        }
         @keyframes smoothMarquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
-        .marquee-content { display: inline-block; }
+
+        .marquee-content {
+            display: inline-block;
+        }
         .marquee-container .proj-item { color: #facc15; font-weight: bold; margin: 0 15px; }
         
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
@@ -84,36 +90,6 @@
         #main-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; box-sizing: border-box; }
         .controls-container { padding: 20px 20px 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         
-        /* カテゴリ・インデックス切り替えタブのスタイル */
-        .index-tabs {
-            display: flex;
-            gap: 6px;
-            padding: 0 20px;
-            margin-top: 15px;
-            border-bottom: 2px solid var(--border-color);
-        }
-        .index-tab {
-            padding: 8px 18px;
-            font-size: 13px;
-            font-weight: bold;
-            background: var(--panel-bg);
-            color: var(--text);
-            border: 1px solid var(--border-color);
-            border-bottom: none;
-            border-radius: 6px 6px 0 0;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .index-tab:hover {
-            background: var(--card-bg);
-            color: var(--accent);
-        }
-        .index-tab.active {
-            background: var(--accent);
-            color: var(--card-bg);
-            border-color: var(--accent);
-        }
-
         main { padding: 20px; }
 
         /* テーブルビューのスタイル */
@@ -132,7 +108,7 @@
         .dark-mode .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.08); }
         .dark-mode .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.08); }
 
-        /* 延期案件のスタイル */
+        /* 延期案件のグレーアウト用スタイル */
         .project-row.postponed-row {
             background-color: #f1f5f9 !important;
             color: #94a3b8 !important;
@@ -143,9 +119,13 @@
             color: #64748b !important;
             opacity: 0.5;
         }
-        .project-row.postponed-row td { color: inherit !important; }
+        .project-row.postponed-row td {
+            color: inherit !important;
+        }
         .project-row.postponed-row a, 
-        .project-row.postponed-row button { opacity: 0.7; }
+        .project-row.postponed-row button {
+            opacity: 0.7;
+        }
 
         .compact-table tbody tr {
             transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, background-color 0.2s ease;
@@ -217,7 +197,18 @@
         .status-hold { background-color: #eab308; color: #000000; }
         .status-urgent { background-color: #ef4444; color: white; }
         .status-exclusive { background-color: #ef4444; color: white; }
+        /* 延期バッジのスタイル：黄色背景に白字 */
         .status-postponed { background-color: #eab308; color: #ffffff; margin-left: 4px; }
+
+        .cat-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; text-align: center; white-space: nowrap; }
+        .cat-dev { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .cat-infra { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .cat-lowcode { background-color: #fae8ff; color: #86198f; border: 1px solid #f5d0fe; }
+        .cat-other { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .dark-mode .cat-dev { background-color: #1e3a8a; color: #93c5fd; border-color: #1d4ed8; }
+        .dark-mode .cat-infra { background-color: #14532d; color: #86efac; border-color: #166534; }
+        .dark-mode .cat-lowcode { background-color: #701a75; color: #f0abfc; border-color: #86198f; }
+        .dark-mode .cat-other { background-color: #334155; color: #cbd5e1; border-color: #475569; }
     </style>
 </head>
 <body>
@@ -245,9 +236,10 @@
     <header>
         <div class="logo" style="display: flex; align-items: baseline; gap: 10px;">
             <span>Icube アイキューブ</span>
-            <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.3)</span>
+            <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.2)</span>
         </div>
         
+        <!-- ヘッダー中央の自動ログインカウントダウン表示エリア -->
         <div id="header-auth-container">
             <div class="header-auth-status">
                 <span class="pulse-dot"></span>
@@ -265,11 +257,13 @@
 
     <div class="marquee-container">
         <div class="marquee-track">
+            <!-- 1つ目のブロック -->
             <div class="marquee-content">
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】プロジェクトマネージャ支援（人財プール）</span>
             </div>
+            <!-- 2つ目のブロック -->
             <div class="marquee-content" aria-hidden="true">
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
@@ -303,8 +297,8 @@
         <div id="main-wrapper">
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
-                    <span id="list-title-heading">開発一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/16 11:00）</span>
+                    <span>案件一覧</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/15 16:25）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
@@ -314,18 +308,12 @@
                     <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
                         <option value="date_desc">掲載日：新しい順 (降順)</option>
                         <option value="date_asc">掲載日：古い順 (昇順)</option>
+                        <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
                     </select>
                     <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 200px; background: var(--card-bg); color: var(--text);">
+                    <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
                     <button class="tag" onclick="refreshData()" style="padding: 8px 12px; background: var(--accent); color: var(--card-bg);">更新</button>
                 </div>
-            </div>
-
-            <!-- カテゴリ切り替えインデックス（タブ）：「すべて」を削除し、開発からスタート -->
-            <div class="index-tabs">
-                <button class="index-tab active" onclick="filterByCategory('dev', this)">💻 開発一覧</button>
-                <button class="index-tab" onclick="filterByCategory('infra', this)">☁️ インフラ一覧</button>
-                <button class="index-tab" onclick="filterByCategory('lowcode', this)">⚡ ローコード一覧</button>
-                <button class="index-tab" onclick="filterByCategory('other', this)">📁 その他一覧</button>
             </div>
            
             <main>
@@ -334,10 +322,11 @@
                         <thead>
                             <tr>
                                 <th style="width: 7%;">ステータス</th>
-                                <th style="width: 10%;">案件元</th>
-                                <th style="width: 33%;">案件名</th>
-                                <th style="width: 18%;">スキル</th>
-                                <th style="width: 11%;">場所</th>
+                                <th style="width: 10%;">カテゴリー</th>
+                                <th style="width: 9%;">案件元</th>
+                                <th style="width: 24%;">案件名</th>
+                                <th style="width: 15%;">スキル</th>
+                                <th style="width: 10%;">場所</th>
                                 <th style="width: 6%;">単価</th>
                                 <th style="width: 5%;">商流</th>
                                 <th style="width: 5%;">契約</th>
@@ -361,7 +350,6 @@
 
     <script>
         let currentView = 'table';
-        let currentCategory = 'dev'; // デフォルトを開発に設定
         const CORRECT_PASSWORD = "X4m9K2p7R5v1N8q3";
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
@@ -462,7 +450,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `案件名: EC受注出荷システム業務支援\n\n内容（業務内容）:\n基本設計・製造・単体試験・結合試験\n\nスキル:\n・在庫管理業務に詳しい方\n・Java（Spring Boot）、JavaScriptの実務経験を1年以上経験`
+                detailText: `案件名: EC受注出荷システム業務支援\n\n内容（業務内容）:\n基本設計・製造・単体試験・結合試験\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n・在庫管理業務に詳しい方\n受発注業務を前提とした在庫管理・倉庫管理の要件定義を主体的に対応できる\n・EC受注出荷システム業務に精通している方\n・Javaによる基本設計工程を1年以上経験\n・Java（Spring Boot）、JavaScriptの実務経験を1年以上経験\n\n描いただく案件により、SE・PGそれぞれの役割を担当する\n\n人数: 1名\n\n単価：経験とスキル見合いで応相談\n\nプロジェクト体制: 2名（内元請様社員1名）\n\n今後の稼働見込み（チーム作り）: 参画期間以降も継続の可能性あり\n体制拡大の可能性あり\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請様面談、顧客面談）\n・外国籍: 不可\n・個人事業主：可\n・勤務形態: フル常駐（静岡駅）`
             },
             {
                 id: 25,
@@ -481,7 +469,7 @@
                 contract: "準委任",
                 foreign: "OK",
                 remark: "-",
-                detailText: `案件名: 会議室デバイス導入支援\n\n作業場所: JR南武線 平間駅 / 横須賀線 新川崎駅\nスキル要件: プロジェクトをリードするPM、英語必須`
+                detailText: `案件名: 会議室デバイス導入支援\n\n作業場所:\nJR南武線 平間駅 徒歩12分\nJR横須賀線・総武線 新川崎駅 徒歩15分\nシャトルバスあり\n業務習得後は相談の上でリモート併用\n\n作業期間: 10月～初回 '27年3月 延長可能性あり\n\nスキル要件 (必要スキル・作業内容・その他備考):\n<業務内容>\n・弊社会議室要件（IT機器/ビデオカンファレンスシステム）を関連所轄部門と整理した上で、必要な導入機器や関連サプライヤーからのサービス提案に向けたサポートを実施頂く\n・インベントリの整理\n・見積もりサポート（サプライヤーマネジメント）\n・機器導入サポート\n\n<必須スキル(Must)/必須経験>\n・異なる部署間での必要な調整/コミュニケーションをとり、要件を適切に把握してインプリまで持っていくことができる\n・プロジェクトをリードするPMである事\n・関連部門（施設管理部）が日本語でのコミュニケーション不可のため英語必須(会話・メールともに上級レベル)\n・日本語 ネイティブまたは上級\n\n<あれば好ましいスキル>\n・会議室機器またはその他エンドポイント端末の管理/運用/導入をした業務経験がある\n・複雑性の高いタスクを自力で完遂まで持っていくことができる\n\n希望単価: スキル見合い（85～88万円程度）\n\n勤務時間 (精算): 9:00～18:00（休憩1時間）\n\n人数: 1\n\n中心となる年齢層: 30歳～50歳くらいまで\n\n商流制限: 貴社まで（エンド様商流制限有）\n\n国籍: 外国籍可 ただし日本語が流暢であること\n\n面談回数: 1回目元請様 2回目お客様(Web予定)`
             },
             {
                 id: 24,
@@ -501,7 +489,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "受注率50%",
-                detailText: `案件名： 旅行会社営業支援システムデータ移行ツール開発\n必須スキル：SQL, PostgreSQL`
+                detailText: `CJ社様案件\n\n【案件概要】\n\n案件名： 旅行会社営業支援システムデータ移行ツール開発\n\n契約形態 ： 準委任\n\n作業範囲 ：\n  旅行会社の団体旅行システム更改の関連対応として、\n  現行の営業支援機能を某パッケージ型SFAへ切り替える際のデータ移行ツール開発を行う。\n  （現行システムが出力したCSVファイルを新システムが要求するフォーマットに変換し、\n   新システムへCSVとして提供する）\n\n ※リーダーの方は、開発チームのリーダーとして、12月参画予定の２名と合流し、\n3名チームでツール開発を行っていただく予定。\nリーダーとして、メンバーの管理や進捗・課題のとりまとめをいただき、\n元請様PMへの報告等を行っていただける方を希望。\n12月の要員も含めて、アイキューブにて３名体制を構築予定\n\n期間   ： 2026年10月～2027年6月（長期の可能性あり）\n\n募集人数 ： 1名(10月～）、2名（12月～）\n\n必須スキル：\n  ①チームリーダー（1名）10月～\n   ・チームメンバーの管理\n   ・データ変換などの設計経験（実装もできると尚可）\n   ・エンドユーザーのITメンバー、関係ベンダー（データ提供元、データ提供先）\n    とのコミュニケーションが良好な方\n    ※現行・新システムの開発ベンダーとの質疑応答など積極的に取り組める方\n\n  ②チームメンバー（2名）12月～\n   弊社PM、上記チームリーダーのもとでツール開発（実装・テスト）を行える方\n\n  ③共通スキル\n   ・必須スキル：SQL\n   ・PostgreSQLでの開発実績があると尚良し\n\n ※チームリーダーおよびメンバーのセット提案を希望\n\n作業場所 ：元請様（品川）、客先（新宿）、在宅（リモート頻度は未定）おそらく週2くらいになる可能性有\n\n勤務時間 ：09:00～18:00\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：1回（元請様のみ）\n\n年齢制限 ：40代～50代まで（50代の場合はリーダー経験豊富であること）\n\n希望単価 ：75万まで（リーダー）\n\n外国籍  ：不可\n\n個人事業主：可\n\nその他：面談は最短で9月11日以降となります。\n    未受注となり、受注率50％となります。`
             },
             {
                 id: 23,
@@ -520,7 +508,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `案件名： エンタメ系/新商品情報管理システム開発\n必須スキル：RPG開発経験`
+                detailText: `CJ社様案件\n\n【案件概要】\n\n案件名： エンタメ系/新商品情報管理システム開発\n\n契約形態 ： 準委任\n\n作業範囲 ：\n       商品情報管理システムのリプレイスに伴うASシステムの開発業務。\n       現行は、フロントはWEBシステムでバックエンドがASシステムだが、\n       新システムではバックエンドもWEBシステムになり、\n       データフロー変更に伴うASシステムの改修を行う。\n\n期間   ： 2026年10月～2027年9月（延長の可能性あり）\n\n募集人数 ： 1名\n\n必須スキル：\n         ・RPG開発経験\n      ・現行システムの調査や設計経験\n\n作業場所 ：客先（大崎）基本出社：たまに在宅\n\n勤務時間 ：10:00～19:00\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：2回（元請様、エンド様）web予定\n\n年齢制限 ：50代まで\n\n希望単価 ：60万（スキルによる）\n\n【単価上振れについて】\n上振れ1万～5万が限度⇒上記必須スキルに加え、特筆すべき事項が在る場合のみ\n     \n外国籍  ：不可\n\n個人事業主：可`
             },
             {
                 id: 11,
@@ -539,7 +527,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【インフラ基盤全般の社員代替】情報システム部の社員代替`
+                detailText: `【インフラ基盤全般の社員代替】\n\n募集人数：\n・1名\n\n期間：\n・開始 ： 2026/11月〜長期（1〜3ヶ月程度のお試し期間・良ければ長期）\n\n業務内容：\n・情報システム部の社員代替\n・社員からの問い合わせ受付／対応\n・各ベンダーへの連絡（依頼）\n・システム全般（サーバー・ネットワーク・PC）の管理窓口\n・社内業務支援\n・突出したスキルというよりは全般に対して理解のある人\n・過去に情シスでの業務経験があると尚可\n・インフラ基盤の管理運営\n\n勤務時間：\n・9:00〜17:30（休憩45分、実働7.75時間）\n\n年齢層：\n・40歳〜50歳くらいまで\n\n商流制限：\n・貴社まで\n\n国籍：\n・外国籍不可\n\n面談回数：\n・2回（1回目元請様、2回目お客様 ※お客様面談は9月中旬の予定）`
             },
             {
                 id: 13,
@@ -558,7 +546,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【専門商社での情報システム部門・社員代替】基幹システム（AS/400）運用保守`
+                detailText: `【専門商社での情報システム部門・社員代替】\n\n募集人数：\n・1名\n\n期間：\n・開始 ： 2026年10月〜長期（1〜3ヶ月程度のお試し期間・良ければ長期）\n\n業務内容：\n・基幹システム（AS/400）運用保守\n・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト\n\n＜必須スキル(Must)／必須経験＞\n・RPG開発を上流から下流まで1人称でできる方\n\n勤務時間：\n・9:00〜17:45（休憩45分、実働8時間）\n\n年齢層：\n・60歳くらいまで\n\n商流制限：\n・貴社まで\n\n国籍：\n・外国籍不可\n\n面談回数：\n・2回（1回目元請様、2回目お客様 ※お客様面談は9月中旬の予定）`
             },
             {
                 id: 2,
@@ -577,7 +565,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
-                detailText: `案件名: クラウド構築（人財プール）\nAWS・GCPを利用したクラウド環境構築`
+                detailText: `案件名: クラウド構築（人財プール）\n\n内容（業務内容）:\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築（GCP, AWS, Docker, Jenkins, Terraform 等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必要なスキル・経験>\n・GCP, AWSを利用したクラウド基盤の設計、構築作業、検証など実務経験が3年以上あること。\n設計:クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、サーバ設計、監視設計、セキュリティ設計の経験がある\n構築・テスト:IaC（CloudFormation, AWS CDK, Azure Bicep, Terraform）を使った基盤構築、基盤テストの経験がある\n-全て必須ではないが、様々なPJの支援を担当するため幅広く広い方が良い。\nAWS: EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ: Docker、ECR\nDB/データ基盤: RDS for Oracle、Aurora、Redshift等\n\n<求める人材像、役割>\n・AWS基盤構築のエンジニアであること\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを問わない方\n・支援先への技術的説明やソリューション支援を一人称で行うマインドを持つ方\n\n<あれば尚良>\n・チームをまとめるリーダー経験がある\n・OSSサポート（Apache/Tomcat）の知見がある\n・オンプレ（VMware）/仮想ネットワーク（SDN）の経験がある\n・クラウド関連ベンダ系認定資格者（AWS, Azure, GoogleCloud, etc.）\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 3名体制（内社員3名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n随時募集もあるため、BPでの体制の構築も可能\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n・外国籍: 不可\n・個人事業主：可\n・在宅勤務: 有（基本在宅）`
             },
             {
                 id: 3,
@@ -596,7 +584,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
-                detailText: `案件名: プロジェクトマネージャ支援（人財プール）`
+                detailText: `案件名: プロジェクトマネージャ支援（人財プール）\n\n内容（業務内容）:\n様々なプロジェクトにおいて、プロジェクトマネージャを支援する。\n（管理ツールの導入支援やアドバイス等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必須>\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実務経験\n品質管理、課題管理、仕様書管理といった管理作業の実務ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を手下さい。\n・年金機構案件の業務経験がある方（最近、年金案件でニーズが高い）\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM/Lとして\n③管理(①)の実務要員の作成（管理ルール作成、管理簿/チケット管理ツールの導入運用）など、\n各管理の実務についてPJメンバーの支援/指導のご経験\n④品質分析、品質評価報告書の作成のご経験\n⑤利内計画の作成に関わったご経験\n⑥テスト計画の作成、テスト推進に関わったご経験\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 6名体制（内社員2名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々は需要がほとんど無い\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n・外国籍: 不可\n・個人事業主：可\n・在宅勤務: 実務により週数かフルリモート\n※人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々は需要がほとんど無い`
             },
             {
                 id: 4,
@@ -615,7 +603,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `業務基盤再構築支援（SharePoint Online活用）`
+                detailText: `【案件名】\n業務基盤再構築支援（Oracle代替）\n【作業場所】\n三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）徒歩９分（出社主体）\n\n【作業期間】\n即日〜長期予定\n\n【スキル要件】\n＜案件概要＞\n既存Oracleシステムの復旧が困難な状況を受け、SharePoint Onlineを活用した業務基盤再構築プロジェクトを推進する担当。\n文書・データ管理基盤の設計から構築、データ移行、運用設計までを担当し、SharePointを活用した業務環境の整備を行う。\n\n＜業務内容＞\n・SharePoint Onlineサイト設計・構築、ドキュメントライブラリ設計\n・SharePointリスト設計、メタデータ・フォルダ構成設計\n・権限設計・アクセス制御、ユーザー部門との要件整理\n・Oracle管理データの移行支援、運用ルール・管理手順策定\n・Teams連携検討・実装支援、利用部門向け説明・定着化支援\n\n＜必須スキル(Must)／必須経験＞\n・SharePoint Onlineの設計・構築経験、SharePointサイト／リスト設計経験\n・権限設計・アクセス管理経験、ユーザー要件ヒアリング経験\n・顧客折衝経験、ドキュメント作成経験\n\n＜あれば好ましいスキル(Want)／経験＞\n・Power Automate開発経験、Power Apps開発経験\n・Microsoft 365導入経験、Oracle／DBデータ移行経験\n・ファイルサーバー移行経験、業務改善・DX推進経験\n・情報セキュリティ・権限管理知識\n\n＜求める人物像＞\nSharePointを用いた業務基盤構築を主体的に推進できる方、ユーザー部門との調整ができる方\n業務要件を整理し設計に落とし込める方、手を動かしながら設計・構築まで対応できる方\n\n【希望単価】\n70~80万円（スキル見合い）\n\n【勤務時間】\n8:30〜17:00（休憩1:00）\n\n【（精算）人数】\n1名\n\n【中心となる年齢層】\n30〜50代\n\n【商流制限】\n貴社社員まで。フリーランスはNG\n\n【国籍】\n外国籍不可\n\n【面談回数】\n1回目：元請様(Web･対面)、2回目：お客様(対面)`
             },
             {
                 id: 6,
@@ -634,7 +622,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `SAP案件リスト各種`
+                detailText: `応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。\n\n 1. 応募案件ID （案件番号）：\n\n 2. 面談可能日 ：\n\n 3. 開始可能日 ：\n\n 4. 希望単金 ：\n\n 5．国籍 ：\n\n 6. アクセンチュア社稼働歴有無 ：\n\n* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。\n\n* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。\n\n\n【SAP案件リスト】\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-405（Leader相当）\n業界: 製薬\n内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー\n必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）\n場所: 週3日都内（週5回出社検討優先）\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-430（Cons相当）\n業界: 化学\n内容: S/4HANA運用保守、MDG/SCM/FICO領域のオンサイトリード\n必須: SAP保守運用または導入実績、日英コミュニケーション\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-434（メンバー）\n業界: 石油\n内容: SAP ECC運用保守（FIモジュールメイン）\n必須: SAP FI領域の運用保守経験5年以上、日本語ネイティブ\n場所: 週3日以上都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-436（Cons相当）\n業界: 教育\n内容: 財務会計システムの機能運用保守・改修\n必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAB-438（Ana相当）\n業界: 公益団体\n内容: SAP運用保守（FI領域）、定常業務・問合せ・調査分析・開発\n必须: SAP FI領域、Intramart/Java開発経験、日本語ネイティブ\n場所: 都内\n開始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-441（Mgr相当）\n業界: 食品・飲料\n内容: SAP EWM導入PJのデザインフェーズ、要件定義リード\n必須: SAP EWM導入経験、日英バイリンガル\n場所: 都内\n開始: 7月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAD-442（-）\n業界: 半導体\n内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト\n必須: SD/MMモジュールにおけるテスト経験\n場所: 基本在宅（リモート/月1-2回都内）\n开始: 8月\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\n\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\nAC-444（-）\n業界: 化学\n内容: S/4バージョンアップPJ、テスト障害分析・対応\n必須: SAP FI/CO、AA領域の知見\n場所: 都内\n开始: 即日\n＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝`
             },
             {
                 id: 7,
@@ -653,7 +641,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `ガス料金領域および総合請求回収領域の運用保守作業者`
+                detailText: `【案件概要】\n作業内容\n電力・ガス領域における基幹システムの維持管理を担っており、\n契約・料金計算・請求・回収領域を中心に、問い合わせ対応・障害対応・ 小～中規模の改修を行っている\n\n【概要】\nガス料金領域および総合請求回収領域の運用保守作業者\n【ロール】\n・問い合わせ／障害対応（ユーザー調整含む）／定常作業の対応・推進\n・小～中規模の改修案件の推進\n\n【必須スキル】\n・アプリ領域の運用保守における問い合わせ・障害対応経験\n· 自走して業務を進められる方\n・IBMメインフレーム、SQLの経験・知識\n【尚可】\n・ガス料金・請求回収業務知識\n\n【期間】                     \n即日～長期予定\n        \n【人数】\n 1名                 \n\n【面談】                \n 2回（元請様/エンド様）web予定`
             },
             {
                 id: 12,
@@ -672,7 +660,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `証券系 譲渡益税管理、NISA管理システムの保守、エンハンス`
+                detailText: `【証券系 譲渡益税管理、NISA管理システムの保守、エンハンス】\n\n募集人数：\n・1名（体制増強のため）\n\n求める人材イメージ\n・リーダからの依頼の元、設計〜実装、テストまで実施できる方（コミュニケーション能力重視）\n\n期間：\n・開始 ： 2026/10月\n・終了 ： 2027年3月(延長の可能性あり)\n\n年齢希望：\n・40代前半まで\n\n開発場所：\n・客先オフィス（鶴見駅からバス5分）\n・在宅\n・キャッチアップ期間（1カ月程度）は、客先オフィスへの出社をお願いしています。\n・キャッチアップ期間後は、週2程度の出社、残りは在宅にての作業となります（曜日などについては、参画したチームの出社スケジュールと調整をお願いしています）\n\n業務時間：\n・当チーム標準は 09:00〜17:30（休憩1時間）の7.5時間が所定時間になります。\n\n業務内容：\n・証券会社にて利用される、譲渡益税管理システム、NISA口座管理システムの保守・エンハンスを行っています。\n・複数の案件が同時に稼働しておりますので、その中の複数の案件について、リーダの指示のもと、基本設計から実装、テスト、リリースまでを対応頂きます。\n・データベースは、Oracle、バック処理は、PL/SQL、フロント処理は、Javaにて作られています。\n\nチーム体制：\n・現在の開発チームは18名です。\n・複数案件がありますが、最低でも2名体制以上のチームを組んで案件を担当していただきます。\n・進捗状況は朝会や、週次定例を実施し、状況を確認させていただいています。\n・コミュニケーションツールとしては、Teams（チャット）、WebEx・Zoom・Teams（会議）を利用しますが、週2ほどチームメンバーが集まり対面ですり合わせなどを行っています。\n\nスキル情報：\n＜必須要件＞\n・SQL（PL/SQL）での開発経験が2年以上（パフォーマンスを意識したSQLを組める方）\n・上流工程の開発経験がある方\n・報連相がしっかりできる方\n・テストケース作成経験（要件からケースを作成できる）がある方\n・チーム開発経験が2年以上ある方\n\n＜歓迎要件＞\n・証券業務知識を保有している方\n・実行計画の解析、改善まで実施できる方\n\nその他：\n・面談はWebにて行わせて頂きます。（1回面談）\n・元請様からみて、2次委託先までの募集（客先に商流制限あり）、かつ、原則は正社員のみ\n⇒ よって個人事業主・フリーランスは原則NG`
             },
             {
                 id: 20,
@@ -691,7 +679,7 @@
                 contract: "準委任",
                 foreign: "OK",
                 remark: "個人事業主相談",
-                detailText: `大手メーカー向け データ連携開発支援（MuleSoft）`
+                detailText: `【案件名】大手メーカー向け データ連携開発支援\n【案件元】H社\n【人数】1名\n【期間】2026/10/1～\n【作業内容】\n・基幹業務システムとデータ基盤とのデータ連携基盤（MuleSoft）の開発・障害対応・運用保守\n・ 10月～システムテスト\n\n【必要スキル】\n・MuleSoftを利用したAPI開発経験（開発1年以上）\n・APIの設計・開発・テスト・運用保守の業務経験\n・顧客要件から自力で設計・製造を進められる方\n\n【希望スキル】\n・ Anypoint Platformでの業務経験\n・ クラウド（AWS）環境に対する、基礎的な知見\n・ データ連携基盤での運用保守設計の業務知見\n\n【作業場所】品川およびリモート\n※参画2週間前後は品川での業務習得をお願いします。\n以降、テレワークでの対応可能です。（ただし週1度は品川）\n\n【その他】\n商流制限：貴社1社先まで\n※国籍は制限ないものの、リモートでの通話・チャットに影響がないレベルの日本語を扱えること。\n個人事業主：相談\n外国籍：可\n単価：スキル見合い`
             },
             {
                 id: 21,
@@ -710,7 +698,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "個人事業主相談",
-                detailText: `ICTセンター支援 （IDM（ID管理システム）担当）`
+                detailText: `【案件概要】\n案件名： ICTセンター支援 （IDM（ID管理システム）担当）\n\n契約形態 ： 派遣・準委任\n作業範囲 ：\n  ・IDM（ID管理システム）を中心とした関連システム（PAM、OKTA等）の運用・保守支援\n    ・IDM関連の提出資料の客観的レビュー、品質管理\n    ・IDMからのデータ連携に関する関連性の把握と整理、来年度以降の実装に向けた要件定義、設計\n    ・プロジェクト全体のPLとしてのリード\n期間   ： 2026/10月～長期\n募集人数 ： 1名\n必須スキル：\n 【必須】\n    ・アプリケーション寄りの要件定義経験（豊富な経験を有すること）\n    ・提出資料やドキュメントを客観的にレビューできる能力\n    ・プロジェクトをリードできるPLスキル\n 【尚可】\n    ・IDM（ID管理システム）に関する知識・経験\n    ・PAM（Privileged Access Management：特権アクセス管理）、Okta等の関連システムの知識・経験\n    ・データ連携設計の経験\n    ・複数システムを横断的に見ることができる俯瞰力\n作業場所 ：出社、リモートを含むハイブリッド勤務 出社時の最寄り駅：弁天橋駅\n勤務時間 ：08:00～17:00\n標準時間 ：140－180h（精算あり）\n面談回数 ：2回\n年齢制限 ：なし\n希望単価 ：応相談\n外国籍  ：不可`
             },
             {
                 id: 22,
@@ -729,7 +717,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `銀行系 WindowsServerインフラ設計・構築・運用`
+                detailText: `【案件名】銀行系 設計・構築・運用\n\n・業種\n 銀行系\n\n・期間\n 面談合格から１か月後～長期\n\n・担当\n WindowsServerインフラ\n\n・スキルエリア（全てできることがMUST）\n AD、SEP、ArcServe等BKUP、Hyper-Vによる仮想化、クラスター化など。設計、構築、テスト、リリース、運用保守を全てカバーできる事\n\n・場所\n 東京メトロ 東陽町 徒歩１５分\n\n・勤務時間、テレワーク\n 9:00～18:00 フレックス無 土日祝日休み\n テレワークは週２，３回\n\n・面談回数\n 2回（元請様・お客様）\n\n・外国籍\nNG\n\n・個人事業主\nOK\n\n・単価\n70万～80万（スキル見合い）\n\n・備考\n詳細は面談にてお話致します。`
             }
         ];
 
@@ -758,36 +746,13 @@
             renderProjects(projects);
         }
 
-        // カテゴリ（インデックス）別の切り替え機能
-        window.filterByCategory = function(category, element) {
-            currentCategory = category;
-            
-            // タブのアクティブ状態切り替え
-            document.querySelectorAll('.index-tab').forEach(tab => tab.classList.remove('active'));
-            element.classList.add('active');
-
-            // 見出しタイトルの変更
-            const headingMap = {
-                'dev': '開発一覧',
-                'infra': 'インフラ一覧',
-                'lowcode': 'ローコード一覧',
-                'other': 'その他一覧'
-            };
-            document.getElementById('list-title-heading').textContent = headingMap[category] || '案件一覧';
-
-            renderProjects(projects);
-        }
-
         function renderProjects(dataList) {
             const tbody = document.getElementById('table-body');
             const cardGrid = document.getElementById('card-grid');
             tbody.innerHTML = '';
             cardGrid.innerHTML = '';
 
-            // カテゴリフィルターの適用（「すべて」がないため該当カテゴリのみ抽出）
-            const filteredData = dataList.filter(p => p.category === currentCategory);
-
-            filteredData.forEach((p) => {
+            dataList.forEach((p) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
                 const textToCheck = (p.detailText).toLowerCase();
 
@@ -797,20 +762,33 @@
                     foreignDisplay = "NG";
                     foreignColor = "#dc2626";
                 }
-                if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可") || textToCheck.includes("外国籍  ：可") || textToCheck.includes("外国籍可 ただし")) {
+                if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可") || textToCheck.includes("外国籍  ：可") || textToCheck.includes("外国籍：可（可）") || textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可 ただし")) {
                     foreignDisplay = "OK";
                     foreignColor = "#059669";
                 }
 
                 let soloDisplay = "要相談";
                 let soloColor = "#d97706";
-                if (textToCheck.includes("個人事業主：不可") || textToCheck.includes("個人事業主不可") || textToCheck.includes("フリーランスはng") || textToCheck.includes("個人事業主・フリーランスは原則ng")) {
-                    soloDisplay = "NG";
-                    soloColor = "#dc2626";
-                }
-                if (textToCheck.includes("個人事業主：可") || textToCheck.includes("個人事業主可") || textToCheck.includes("フリーランス可") || textToCheck.includes("個人事業主：ok")) {
+                if (p.id === 18 || p.id === 19) {
                     soloDisplay = "OK";
                     soloColor = "#059669";
+                } else if (p.id === 20) {
+                    soloDisplay = "相談";
+                    soloColor = "#d97706";
+                } else {
+                    if (textToCheck.includes("個人事業主：確認中") || textToCheck.includes("個人事業主確認中")) {
+                        soloDisplay = "確認中";
+                        soloColor = "var(--text)";
+                    } else {
+                        if (textToCheck.includes("個人事業主：不可") || textToCheck.includes("個人事業主不可") || textToCheck.includes("フリーランスはng") || textToCheck.includes("個人事業主は不可") || textToCheck.includes("個人事業主：ng") || textToCheck.includes("個人事業主・フリーランスは原則ng")) {
+                            soloDisplay = "NG";
+                            soloColor = "#dc2626";
+                        }
+                        if (textToCheck.includes("個人事業主：可") || textToCheck.includes("個人事業主可") || textToCheck.includes("雇用形態不問") || textToCheck.includes("フリーランス可") || textToCheck.includes("個人：可") || textToCheck.includes("個人事業主：ok") || textToCheck.includes("個人事業主\nok")) {
+                            soloDisplay = "OK";
+                            soloColor = "#059669";
+                        }
+                    }
                 }
 
                 const isNew = (p.date === "2026/09/15" || p.date === "2026/09/10");
@@ -825,14 +803,16 @@
 
                 let rowColorClass = "cat-other-row";
                 let cardColorClass = "cat-other-card";
-                if (p.category === "dev") { rowColorClass = "cat-dev-row"; cardColorClass = "cat-dev-card"; }
-                else if (p.category === "infra") { rowColorClass = "cat-infra-row"; cardColorClass = "cat-infra-card"; }
-                else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; cardColorClass = "cat-lowcode-card"; }
+                let badgeClass = "cat-other";
+                if (p.category === "dev") { rowColorClass = "cat-dev-row"; cardColorClass = "cat-dev-card"; badgeClass = "cat-dev"; }
+                else if (p.category === "infra") { rowColorClass = "cat-infra-row"; cardColorClass = "cat-infra-card"; badgeClass = "cat-infra"; }
+                else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; cardColorClass = "cat-lowcode-card"; badgeClass = "cat-lowcode"; }
 
                 if (p.isPostponed) {
                     rowColorClass += " postponed-row";
                 }
 
+                const categoryHtml = `<span class="cat-badge ${badgeClass}">${p.categoryName}</span>`;
                 const searchDatasetText = `${p.date} ${p.company} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
 
                 const tr = document.createElement('tr');
@@ -848,9 +828,9 @@
                 detailBtn.onclick = () => openDetailModal(p.title, p.detailText);
                 tdDetail.appendChild(detailBtn);
 
-                // カテゴリー列なしのHTML構造
                 tr.innerHTML = `
                     <td>${statusHtml}</td>
+                    <td>${categoryHtml}</td>
                     <td style="white-space: nowrap;"><div style="font-weight: bold; font-size: 13px;">${p.company}</div></td>
                     <td><div style="font-weight: bold; font-size: 13px;">${p.title}</div></td>
                     <td><div class="tag-container">${tagHtml}</div></td>
@@ -875,7 +855,7 @@
                 card.innerHTML = `
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <div>${statusHtml}</div>
+                            <div>${statusHtml} ${categoryHtml}</div>
                             <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company}</span>
                         </div>
                         <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
@@ -904,9 +884,14 @@
         window.handleSort = function() {
             const sortOrder = document.getElementById('sortSelect').value;
             projects.sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return sortOrder === 'date_desc' ? dateB - dateA : dateA - dateB;
+                if (sortOrder === 'category') {
+                    const order = { dev: 1, infra: 2, lowcode: 3, other: 4 };
+                    return (order[a.category] || 99) - (order[b.category] || 99);
+                } else {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+                    return sortOrder === 'date_desc' ? dateB - dateA : dateA - dateB;
+                }
             });
             renderProjects(projects);
         }
@@ -951,6 +936,12 @@
                 el.style.display = match ? (currentView === 'table' ? '' : 'flex') : 'none';
             });
         }
+
+        window.showAll = function() {
+            const selector = currentView === 'table' ? '.project-row' : '.project-card';
+            document.querySelectorAll(selector).forEach(el => el.style.display = currentView === 'table' ? '' : 'flex');
+            document.getElementById('searchInput').value = '';
+        }
         
         document.getElementById('searchInput').addEventListener('input', function() {
             const filter = this.value.toLowerCase();
@@ -968,7 +959,10 @@
             <div style="text-align:left; font-size:14px; line-height:1.6;">
                 <p>■エンドはN社様<br>
                 ■本案件は体制不可、単独での提案となります。<br>
-                ■ビッグプロジェクト経験者のみとなります。</p>
+                ■ビッグプロジェクト経験者のみとなります。<br>
+                官公庁、金融、航空など、様々な業界の100名～1000名のビッグプロジェクトに次々入って頂く案件となり、終わりはありません。案件が終わったら次の案件が入り、案件と案件の間のブランクが生まれた場合、そのブランク期間も単価が支払われます。（スポットで他の商流案件に入ることは禁止）<br>
+                ブランク期間はN社様のR&D（研究開発）や次の案件の技能開発期間としてN社様が研修を用意して頂いております。</p>
+                <p>以上となります。<br>ご不明点がありましたら、前田までご連絡ください。<br>Phone：070-1370-1870</p>
             </div>
             <button style="margin-top:20px; width:100%; padding:10px; background:var(--border-color); color:var(--text); border:none; border-radius:4px; cursor:pointer;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
         </div>
