@@ -58,9 +58,55 @@
             100% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66; }
         }
         
-        /* スムーズ・インフィニティ・マーキーのスタイル */
-        .marquee-container { background: #0f172a; color: #ffffff; padding: 8px 0; font-size: 13px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #334155; position: relative; }
-        .dark-mode .marquee-container { background: #020617; border-bottom: 1px solid #1e293b; }
+        /* スムーズ・インフィニティ・マーキーのスタイル（上下ネオン走査線追加） */
+        .marquee-container {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 8px 0;
+            font-size: 13px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            border-top: 1px solid #334155;
+            border-bottom: 1px solid #334155;
+        }
+        .dark-mode .marquee-container { background: #020617; border-top: 1px solid #1e293b; border-bottom: 1px solid #1e293b; }
+
+        /* 上部ネオン（右に流れる） */
+        .marquee-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00f3ff, #ffffff);
+            box-shadow: 0 0 8px #00f3ff, 0 0 15px #00f3ff;
+            animation: neon-right 1.8s linear infinite;
+            z-index: 5;
+        }
+        @keyframes neon-right {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* 下部ネオン（左に流れる） */
+        .marquee-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, #ff007f, #ffffff);
+            box-shadow: 0 0 8px #ff007f, 0 0 15px #ff007f;
+            animation: neon-left 1.8s linear infinite;
+            z-index: 5;
+        }
+        @keyframes neon-left {
+            0% { right: -100%; }
+            100% { right: 100%; }
+        }
         
         .marquee-track {
             display: inline-block;
@@ -298,7 +344,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/16 11:37）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/15 16:25）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
@@ -584,7 +630,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
-                detailText: `案件名: プロジェクトマネージャ支援（人財プール）\n\n内容（業務内容）:\n様々なプロジェクトにおいて、プロジェクトマネージャを支援する。\n（管理ツールの導入支援やアドバイス等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必須>\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実務経験\n品質管理、課題管理、仕様書管理といった管理作業の実務ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を手下さい。\n・年金機構案件の業務経験がある方（最近、年金案件でニーズが高い）\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM/Lとして\n③管理(①)の実務要員の作成（管理ルール作成、管理簿/チケット管理ツールの導入運用）など、\n各管理の実務についてPJメンバーの支援/指導のご経験\n④品質分析、品質評価報告書の作成のご経験\n⑤利内計画の作成に関わったご経験\n⑥テスト計画の作成、テスト推進に関わったご経験\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 6名体制（内社員2名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々は需要がほとんど無い\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n・外国籍: 不可\n・個人事業主：可\n・在宅勤務: 実務により週数かフルリモート\n※人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々は需要がほとんど無い`
+                detailText: `案件名: プロジェクトマネージャ支援（人財プール）\n\n内容（業務内容）:\n様々なプロジェクトにおいて、プロジェクトマネージャを支援する。\n（管理ツールの導入支援やアドバイス等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必須>\n・開発を一通り実施した経験がある方。\n・管理系の業務経験がある方。\n※PM/PMOやプロジェクトの問題分析の実務経験\n品質管理、課題管理、仕様書管理といった管理作業の実務ルールの策定経験\n・PMとして複数プロジェクトの実務経験がある方。\n・要員提案の際、以下の情報を手下さい。\n・年金機構案件の業務経験がある方（最近、年金案件でニーズが高い）\n\n■PJ管理のスキル\n①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験\n②PMOまたはPM/Lとして\n③管理(①)の実務要員の作成（管理ルール作成、管理簿/チケット管理ツールの導入運用）など、\n各管理の実務についてPJメンバーの支援/指導のご経験\n④品質分析、品質評価報告書の作成のご経験\n⑤利内計画の作成に関わったご経験\n⑥テスト計画の作成、テスト推進に関わったご経験\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 6名体制（内社員2名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々はほとんど無い\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n・外国籍: 不可\n・個人事業主：可\n・在宅勤務: 実務により週数かフルリモート\n※人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々はほとんど無い`
             },
             {
                 id: 4,
