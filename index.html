@@ -130,6 +130,7 @@
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
         .blink-text { color: #ef4444; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
         .blink-badge { animation: blink 1s infinite; }
+        .yellow-blink-item { color: #facc15 !important; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
 
         .hidden { display: none; }
         
@@ -305,12 +306,14 @@
         <div class="marquee-track">
             <!-- 1つ目のブロック -->
             <div class="marquee-content">
+                <span class="proj-item yellow-blink-item">【大至急・新着】PLM構築支援対応（Aras Innovator）</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】プロジェクトマネージャ支援（人財プール）</span>
             </div>
             <!-- 2つ目のブロック -->
             <div class="marquee-content" aria-hidden="true">
+                <span class="proj-item yellow-blink-item">【大至急・新着】PLM構築支援対応（Aras Innovator）</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】プロジェクトマネージャ支援（人財プール）</span>
@@ -344,7 +347,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/15 16:25）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/17 16:00）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
@@ -367,19 +370,18 @@
                     <table class="compact-table">
                         <thead>
                             <tr>
-                                <th style="width: 7%;">ステータス</th>
+                                <th style="width: 8%;">ステータス</th>
                                 <th style="width: 10%;">カテゴリー</th>
-                                <th style="width: 9%;">案件元</th>
-                                <th style="width: 24%;">案件名</th>
-                                <th style="width: 15%;">スキル</th>
-                                <th style="width: 10%;">場所</th>
+                                <th style="width: 27%;">案件名</th>
+                                <th style="width: 16%;">スキル</th>
+                                <th style="width: 11%;">場所</th>
                                 <th style="width: 6%;">単価</th>
                                 <th style="width: 5%;">商流</th>
                                 <th style="width: 5%;">契約</th>
                                 <th style="width: 5%;">個人</th>
                                 <th style="width: 5%;">外国籍</th>
                                 <th style="width: 4%;">備考</th>
-                                <th style="width: 5%; text-align: center;">条件</th>
+                                <th style="width: 4%; text-align: center;">条件</th>
                             </tr>
                         </thead>
                         <tbody id="table-body">
@@ -480,6 +482,24 @@
 
         const projects = [
             {
+                id: 27,
+                category: "dev",
+                categoryName: "💻 開発",
+                date: "2026/09/17",
+                status: "大至急",
+                statusClass: "status-urgent",
+                title: "PLM構築支援対応（アイキューブと派遣契約必須）",
+                tags: ["Aras Innovator", "C#", "JavaScript", "SQL Server"],
+                location: "浜松町(お客様本社)",
+                remote: "週3リモート、週2出社",
+                price: "応相談",
+                flow: "-",
+                contract: "派遣",
+                foreign: "NG",
+                remark: "社員1名/BP2名参画中",
+                detailText: `案件名: PLM構築支援対応（アイキューブと派遣契約必須）\n\n【案件概要】\nBOP、M-BOM、品質管理領域の開発を実施する\nまた、すでに構築した既存機能の機能追加開発を合わせて実施する\n\n【作業内容】\n・工程：詳細設計～結合テストをウォーターフォールで実施\n・製造業様向けAras Innovatorの開発\n\n【作業期間】\n2026/10 ～ 2026/12（スライドにて長期予定）\n\n【作業フェーズ】\n詳細設計、開発、単体テスト、結合テスト\n9月終盤現在、詳細設計と製造の間におります。\n\n【ＯＳ】\nWindows\n\n【ＤＢ、ＭＷ】\nSQL Server\n\n【言語】\nC# / JavaScript\n\n【作業場所】\n浜松町(お客様本社)\n\n【テレワーク状況】\nテレワーク有 (週3リモート、週2出社)\n\n【人数】\n1名\n\n【顔合わせ回数】\n1回もしくは2回（web）\n\n【要求スキル】\n■必須スキル\n・Aras Innovatorの知見\n・WEBアプリケーション開発経験（C# or Java、JavaScript、html、SQL）\n・詳細設計～単体テスト工程を単独でできる\n・コミュニケーションが良く、主立体、能動的に動ける方\n・製造業の業務への知見\n\n■オプションスキル\n・要件定義の対応経験\n\n【備考】\n・本案件としては2026/12までの案件となりますが、\n・それ以降は他Aras案件にスライドしての長期参画を予定しております。\n・アイキューブからは社員1名、BP様2名参画中\n想定より遅延しており、Aras Innovatorを理解している知見者が必須となります。（C#だけはNG）\n\n【条件】\n・個人事業主：NG\n・外国籍：NG`
+            },
+            {
                 id: 26,
                 category: "dev",
                 categoryName: "💻 開発",
@@ -554,7 +574,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `CJ社様案件\n\n【案件概要】\n\n案件名： エンタメ系/新商品情報管理システム開発\n\n契約形態 ： 準委任\n\n作業範囲 ：\n       商品情報管理システムのリプレイスに伴うASシステムの開発業務。\n       現行は、フロントはWEBシステムでバックエンドがASシステムだが、\n       新システムではバックエンドもWEBシステムになり、\n       データフロー変更に伴うASシステムの改修を行う。\n\n期間   ： 2026年10月～2027年9月（延長の可能性あり）\n\n募集人数 ： 1名\n\n必須スキル：\n         ・RPG開発経験\n      ・現行システムの調査や設計経験\n\n作業場所 ：客先（大崎）基本出社：たまに在宅\n\n勤務時間 ：10:00～19:00\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：2回（元請様、エンド様）web予定\n\n年齢制限 ：50代まで\n\n希望単価 ：60万（スキルによる）\n\n【単価上振れについて】\n上振れ1万～5万が限度⇒上記必須スキルに加え、特筆すべき事項が在る場合のみ\n     \n外国籍  ：不可\n\n個人事業主：可`
+                detailText: `CJ社様案件\n\n【案件概要】\n\n案件名： エンタメ系/新商品情報管理システム開発\n\n契約形態 ： 準委任\n\n作業範囲 ：\n       商品情報管理システムのリプレイスに伴うASシステムの開発業務。\n       現行は、フロントはWEBシステムでバックエンドがASシステムだが、\n       新システムではバックエンドもWEBシステムになり、\n       データフロー変更に伴うASシステムの改修を行う。\n\n期間   ： 2026/10月～2027年9月（延長の可能性あり）\n\n募集人数 ： 1名\n\n必須スキル：\n         ・RPG開発経験\n      ・現行システムの調査や設計経験\n\n作業場所 ：客先（大崎）基本出社：たまに在宅\n\n勤務時間 ：10:00～19:00\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：2回（元請様、エンド様）web予定\n\n年齢制限 ：50代まで\n\n希望単価 ：60万（スキルによる）\n\n【単価上振れについて】\n上振れ1万～5万が限度⇒上記必須スキルに加え、特筆すべき事項が在る場合のみ\n     \n外国籍  ：不可\n\n個人事業主：可`
             },
             {
                 id: 11,
@@ -611,7 +631,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
-                detailText: `案件名: クラウド構築（人財プール）\n\n内容（業務内容）:\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築（GCP, AWS, Docker, Jenkins, Terraform 等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必要なスキル・経験>\n・GCP, AWSを利用したクラウド基盤の設計、構築作業、検証など実務経験が3年以上あること。\n設計:クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、サーバ設計、監視設計、セキュリティ設計の経験がある\n構築・テスト:IaC（CloudFormation, AWS CDK, Azure Bicep, Terraform）を使った基盤構築、基盤テストの経験がある\n-全て必須ではないが、様々なPJの支援を担当するため幅広く広い方が良い。\nAWS: EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ: Docker、ECR\nDB/データ基盤: RDS for Oracle、Aurora、Redshift等\n\n<求める人材像、役割>\n・AWS基盤構築のエンジニアであること\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを問わない方\n・支援先への技術的説明やソリューション支援を一人称で行うマインドを持つ方\n\n<あれば尚良>\n・チームをまとめるリーダー経験がある\n・OSSサポート（Apache/Tomcat）の知見がある\n・オンプレ（VMware）/仮想ネットワーク（SDN）の経験がある\n・クラウド関連ベンダ系認定資格者（AWS, Azure, GoogleCloud, etc.）\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 3名体制（内社員3名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n随時募集もあるため、BPでの体制の構築も可能\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n・外国籍: 不可\n・個人事業主：可\n・在宅勤務: 有（基本在宅）`
+                detailText: `案件名: クラウド構築（人財プール）\n\n内容（業務内容）:\nAWS・GCPを利用したクラウド環境構築\n社内横断で様々なプロジェクトのクラウド基盤構築を支援する\n・環境構築（GCP, AWS, Docker, Jenkins, Terraform 等）\n\nスキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:\n<必要なスキル・経験>\n・GCP, AWSを利用したクラウド基盤の設計、構築作業、検証など実務経験が3年以上あること。\n設計:クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、サーバ設計、監視設計、セキュリティ設計の経験がある\n構築・テスト:IaC（CloudFormation, AWS CDK, Azure Bicep, Terraform）を使った基盤構築、基盤テストの経験がある\n-全て必須ではないが、様々なPJの支援を担当するため幅広く広い方が良い。\nAWS: EC2、S3、IAM、Security Group、Secrets Manager\nコンテナ: Docker、ECR\nDB/データ基盤: RDS for Oracle、Aurora、Redshift等\n\n<求める人材像、役割>\n・AWS基盤構築のエンジニアであること\n・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方\n・新たな技術へのアンテナが高く、情報展開やコミュニケーションを問わない方\n・支援先への技術的説明やソリューション支援を一人称で行うマインドを持つ方\n\n<あれば尚良>\n・チームをまとめるリーダー経験がある\n・OSSサポート（Apache/Tomcat）の知見がある\n・オンプレ（VMware）/仮想ネットワーク（SDN）の経験がある\n・クラウド関連ベンダ系認定資格者（AWS, Azure, GoogleCloud, etc.）\n\n人数: 若干名（※1名でも可）\n\n商流: 経験とスキル見合いで応相談\n\nプロジェクト体制: 3名体制（内社員3名）\n\n今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能\n随時募集もあるため、BPでの体制の構築も可能\n\nその他、参画メリット等:\n・事前打合せ回数: 2回（元請及びエンド様）\n· 外国籍: 不可\n・個人事業主：可\n・在宅勤務: 有（基本在宅）`
             },
             {
                 id: 3,
@@ -649,7 +669,7 @@
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
-                detailText: `【案件名】\n業務基盤再構築支援（Oracle代替）\n【作業場所】\n三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）徒歩９分（出社主体）\n\n【作業期間】\n即日〜長期予定\n\n【スキル要件】\n＜案件概要＞\n既存Oracleシステムの復旧が困難な状況を受け、SharePoint Onlineを活用した業務基盤再構築プロジェクトを推進する担当。\n文書・データ管理基盤の設計から構築、データ移行、運用設計までを担当し、SharePointを活用した業務環境の整備を行う。\n\n＜業務内容＞\n・SharePoint Onlineサイト設計・構築、ドキュメントライブラリ設計\n・SharePointリスト設計、メタデータ・フォルダ構成設計\n・権限設計・アクセス制御、ユーザー部門との要件整理\n・Oracle管理データの移行支援、運用ルール・管理手順策定\n・Teams連携検討・実装支援、利用部門向け説明・定着化支援\n\n＜必須スキル(Must)／必須経験＞\n・SharePoint Onlineの設計・構築経験、SharePointサイト／リスト設計経験\n・権限設計・アクセス管理経験、ユーザー要件ヒアリング経験\n・顧客折衝経験、ドキュメント作成経験\n\n＜あれば好ましいスキル(Want)／経験＞\n・Power Automate開発経験、Power Apps開発経験\n・Microsoft 365導入経験、Oracle／DBデータ移行経験\n・ファイルサーバー移行経験、業務改善・DX推進経験\n・情報セキュリティ・権限管理知識\n\n＜求める人物像＞\nSharePointを用いた業務基盤構築を主体的に推進できる方、ユーザー部門との調整ができる方\n業務要件を整理し設計に落とし込める方、手を動かしながら設計・構築まで対応できる方\n\n【希望単価】\n70~80万円（スキル見合い）\n\n【勤務時間】\n8:30〜17:00（休憩1:00）\n\n【（精算）人数】\n1名\n\n【中心となる年齢層】\n30〜50代\n\n【商流制限】\n貴社社員まで。フリーランスはNG\n\n【国籍】\n外国籍不可\n\n【面談回数】\n1回目：元請様(Web･対面)、2回目：お客様(対面)`
+                detailText: `【案件名】\n業務基盤再構築支援（Oracle代替）\n【作業場所】\n三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）徒歩９分（出社主体）\n\n【作業期間】\n即日〜長期予定\n\n【スキル要件】\n＜案件概要＞\n既存Oracleシステムの復旧が困難な状況を受け、SharePoint Onlineを活用した業務基盤再構築プロジェクトを推進する担当。\n文書・データ管理基盤の設計から構築、データ移行、運用設計までを担当し、SharePointを活用した業務環境の整備を行う。\n\n＜業務内容＞\n・SharePoint Onlineサイト設計・構築、ドキュメントライブラリ設計\n・SharePointリスト設計、メタデータ・フォルダ構成設計\n・権限設計・アクセス制御、ユーザー部門との要件整理\n・Oracle管理データの移行支援、運用ルール・管理手順策定\n・Teams連携連携検討・実装支援、利用部門向け説明・定着化支援\n\n＜必須スキル(Must)／必須経験＞\n・SharePoint Onlineの設計・構築経験、SharePointサイト／リスト設計経験\n・権限設計・アクセス管理経験、ユーザー要件ヒアリング経験\n・顧客折衝経験、ドキュメント作成経験\n\n＜あれば好ましいスキル(Want)／経験＞\n・Power Automate開発経験、Power Apps開発経験\n・Microsoft 365導入経験、Oracle／DBデータ移行経験\n・ファイルサーバー移行経験、業務改善・DX推進経験\n・情報セキュリティ・権限管理知識\n\n＜求める人物像＞\nSharePointを用いた業務基盤構築を主体的に推進できる方、ユーザー部門との調整ができる方\n業務要件を整理し設計に落とし込める方、手を動かしながら設計・構築まで対応できる方\n\n【希望単価】\n70~80万円（スキル見合い）\n\n【勤務時間】\n8:30〜17:00（休憩1:00）\n\n【（精算）人数】\n1名\n\n【中心となる年齢層】\n30〜50代\n\n【商流制限】\n貴社社員まで。フリーランスはNG\n\n【国籍】\n外国籍不可\n\n【面談回数】\n1回目：元請様(Web･対面)、2回目：お客様(対面)`
             },
             {
                 id: 6,
@@ -804,18 +824,26 @@
 
                 let foreignDisplay = "要相談";
                 let foreignColor = "#d97706";
-                if (textToCheck.includes("外国籍：不可") || textToCheck.includes("外国籍不可") || textToCheck.includes("ng") || textToCheck.includes("不可") || textToCheck.includes("×")) {
+                if (p.id === 27) {
                     foreignDisplay = "NG";
                     foreignColor = "#dc2626";
-                }
-                if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可") || textToCheck.includes("外国籍  ：可") || textToCheck.includes("外国籍：可（可）") || textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可 ただし")) {
-                    foreignDisplay = "OK";
-                    foreignColor = "#059669";
+                } else {
+                    if (textToCheck.includes("外国籍：不可") || textToCheck.includes("外国籍不可") || textToCheck.includes("ng") || textToCheck.includes("不可") || textToCheck.includes("×")) {
+                        foreignDisplay = "NG";
+                        foreignColor = "#dc2626";
+                    }
+                    if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可") || textToCheck.includes("外国籍  ：可") || textToCheck.includes("外国籍：可（可）") || textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可 ただし")) {
+                        foreignDisplay = "OK";
+                        foreignColor = "#059669";
+                    }
                 }
 
                 let soloDisplay = "要相談";
                 let soloColor = "#d97706";
-                if (p.id === 18 || p.id === 19) {
+                if (p.id === 27) {
+                    soloDisplay = "NG";
+                    soloColor = "#dc2626";
+                } else if (p.id === 18 || p.id === 19) {
                     soloDisplay = "OK";
                     soloColor = "#059669";
                 } else if (p.id === 20) {
@@ -837,7 +865,7 @@
                     }
                 }
 
-                const isNew = (p.date === "2026/09/15" || p.date === "2026/09/10");
+                const isNew = (p.date === "2026/09/17" || p.date === "2026/09/15" || p.date === "2026/09/10");
                 
                 let statusHtml = `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
                 if (p.isPostponed) {
@@ -859,7 +887,7 @@
                 }
 
                 const categoryHtml = `<span class="cat-badge ${badgeClass}">${p.categoryName}</span>`;
-                const searchDatasetText = `${p.date} ${p.company} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
+                const searchDatasetText = `${p.date} ${p.company || ''} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
 
                 const tr = document.createElement('tr');
                 tr.className = `project-row ${rowColorClass}`;
@@ -877,7 +905,6 @@
                 tr.innerHTML = `
                     <td>${statusHtml}</td>
                     <td>${categoryHtml}</td>
-                    <td style="white-space: nowrap;"><div style="font-weight: bold; font-size: 13px;">${p.company}</div></td>
                     <td><div style="font-weight: bold; font-size: 13px;">${p.title}</div></td>
                     <td><div class="tag-container">${tagHtml}</div></td>
                     <td>
@@ -902,7 +929,7 @@
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                             <div>${statusHtml} ${categoryHtml}</div>
-                            <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company}</span>
+                            <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company || ''}</span>
                         </div>
                         <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
                         <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
