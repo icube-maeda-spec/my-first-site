@@ -267,8 +267,8 @@
         .btn-toggle:hover { background: var(--accent); color: var(--card-bg); }
         .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
         
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-box { background: var(--card-bg); color: var(--text); padding: 25px; width: 650px; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow-y: auto; border: 1px solid var(--border-color); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-box { background: var(--card-bg); color: var(--text); padding: 25px; width: 650px; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow-y: auto; border: 1px solid var(--border-color); transform-origin: center center; will-change: transform, opacity; }
 
         #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: url('2586330.jpg') center/cover no-repeat; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.6s ease; }
         .login-box { background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 360px; color: #334155; border: 1px solid #cbd5e1; }
@@ -440,6 +440,8 @@
 
     <script>
         let currentView = 'table';
+        // 掲載日からこの日数以内の案件に「NEW!!」を表示する（変更したい場合はここだけ直す）
+        const NEW_DAYS = 21;
         const CORRECT_PASSWORD = "X4m9K2p7R5v1N8q3";
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
@@ -795,13 +797,19 @@
                     foreignDisplay = "NG";
                     foreignColor = "#dc2626";
                 } else {
-                    if (textToCheck.includes("外国籍：不可") || textToCheck.includes("外国籍不可") || textToCheck.includes("ng") || textToCheck.includes("不可") || textToCheck.includes("×")) {
-                        foreignDisplay = "NG";
-                        foreignColor = "#dc2626";
-                    }
-                    if (textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可") || textToCheck.includes("外国籍  ：可") || textToCheck.includes("外国籍：可（可）") || textToCheck.includes("外国籍：可") || textToCheck.includes("外国籍可 ただし")) {
-                        foreignDisplay = "OK";
-                        foreignColor = "#059669";
+                    // 「外国籍」という項目名の直後にある値（不可/NG/可/OKなど）だけを見て判定する。
+                    // 本文中の別の場所にある「不可」「NG」には反応しない。
+                    // 例: 「外国籍：不可」「外国籍不可」「外国籍  ：不可」「外国籍\nNG」「外国籍可 ただし…」
+                    const foreignMatch = textToCheck.match(/外国籍[\s:：・·\-－]*(不可|ng|×|✕|可|ok|○|◯)/);
+                    if (foreignMatch) {
+                        const v = foreignMatch[1];
+                        if (v === "不可" || v === "ng" || v === "×" || v === "✕") {
+                            foreignDisplay = "NG";
+                            foreignColor = "#dc2626";
+                        } else {
+                            foreignDisplay = "OK";
+                            foreignColor = "#059669";
+                        }
                     }
                 }
 
@@ -832,7 +840,12 @@
                     }
                 }
 
-                const isNew = (p.date === "2026/09/17" || p.date === "2026/09/15" || p.date === "2026/09/10");
+                // 掲載日が今日から NEW_DAYS 日以内なら新着扱い（日付が変わっても自動で更新される）
+                const postedAt = new Date(p.date);
+                const todayMidnight = new Date();
+                todayMidnight.setHours(0, 0, 0, 0);
+                const ageDays = Math.floor((todayMidnight - postedAt) / 86400000);
+                const isNew = !isNaN(ageDays) && ageDays <= NEW_DAYS;
                 
                 let statusHtml = `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
                 if (p.isPostponed) {
@@ -873,7 +886,7 @@
                 const detailBtn = document.createElement('button');
                 detailBtn.className = 'btn-toggle';
                 detailBtn.innerText = '詳細';
-                detailBtn.onclick = () => openDetailModal(p.title, p.detailText);
+                detailBtn.onclick = () => openDetailModal(p.title, p.detailText, detailBtn);
                 tdDetail.appendChild(detailBtn);
 
                 tr.innerHTML = `
@@ -921,7 +934,7 @@
                 const cardDetailBtn = document.createElement('button');
                 cardDetailBtn.className = 'btn-toggle';
                 cardDetailBtn.innerText = '詳細を見る';
-                cardDetailBtn.onclick = () => openDetailModal(p.title, p.detailText);
+                cardDetailBtn.onclick = () => openDetailModal(p.title, p.detailText, cardDetailBtn);
                 cardFooter.appendChild(cardDetailBtn);
 
                 cardGrid.appendChild(card);
@@ -961,14 +974,105 @@
             }
         });
 
-        window.openDetailModal = function(title, text) {
+        // ===== 詳細モーダル：iPhoneのアプリ起動風アニメーション =====
+        // 開く：押した「詳細」ボタンの位置からヒュッと拡大して表示
+        // 閉じる：同じボタンの位置へヒュッと縮みながら戻る
+        let modalTrigger = null;
+        let modalSeq = 0;
+        const MODAL_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)'; // iOS風の減速カーブ
+
+        function prefersReducedMotion() {
+            return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        // モーダル中心 → ボタン中心への移動量と縮小率を求める
+        function calcModalOrigin(box) {
+            const b = box.getBoundingClientRect();
+            if (!modalTrigger || !document.body.contains(modalTrigger)) {
+                return 'translate(0px, 0px) scale(0.85)';
+            }
+            const t = modalTrigger.getBoundingClientRect();
+            const dx = (t.left + t.width / 2) - (b.left + b.width / 2);
+            const dy = (t.top + t.height / 2) - (b.top + b.height / 2);
+            const s = Math.min(Math.max(t.width / b.width, t.height / b.height, 0.05), 0.3);
+            return `translate(${dx}px, ${dy}px) scale(${s})`;
+        }
+
+        window.openDetailModal = function(title, text, triggerEl) {
+            const overlay = document.getElementById('detail-modal');
+            const box = overlay.querySelector('.modal-box');
+            modalSeq++;
+            modalTrigger = triggerEl || null;
+
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-content-text').innerText = text;
-            document.getElementById('detail-modal').style.display = 'flex';
+
+            overlay.getAnimations().forEach(a => a.cancel());
+            box.getAnimations().forEach(a => a.cancel());
+            overlay.style.display = 'flex';
+            box.scrollTop = 0;
+
+            if (prefersReducedMotion()) {
+                overlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, fill: 'both' });
+                return;
+            }
+
+            const from = calcModalOrigin(box);
+            const home = 'translate(0px, 0px) scale(1)';
+
+            overlay.animate(
+                [{ opacity: 0 }, { opacity: 1 }],
+                { duration: 320, easing: 'ease-out', fill: 'both' }
+            );
+            box.animate(
+                [
+                    { transform: from, opacity: 0 },
+                    { opacity: 1, offset: 0.25 },
+                    { transform: home, opacity: 1 }
+                ],
+                { duration: 520, easing: MODAL_EASE, fill: 'both' }
+            );
         }
 
         window.closeDetailModal = function() {
-            document.getElementById('detail-modal').style.display = 'none';
+            const overlay = document.getElementById('detail-modal');
+            if (getComputedStyle(overlay).display === 'none') return;
+            const box = overlay.querySelector('.modal-box');
+            const seq = ++modalSeq;
+
+            const finish = () => {
+                if (seq !== modalSeq) return; // 閉じている途中で開き直された場合は何もしない
+                overlay.style.display = 'none';
+                overlay.getAnimations().forEach(a => a.cancel());
+                box.getAnimations().forEach(a => a.cancel());
+            };
+
+            // 途中でも閉じられるよう、動作中のアニメーションを止めてから現在位置を測る
+            overlay.getAnimations().forEach(a => a.cancel());
+            box.getAnimations().forEach(a => a.cancel());
+
+            if (prefersReducedMotion()) {
+                const fade = overlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' });
+                fade.onfinish = finish;
+                return;
+            }
+
+            const to = calcModalOrigin(box);
+            const home = 'translate(0px, 0px) scale(1)';
+
+            overlay.animate(
+                [{ opacity: 1 }, { opacity: 0 }],
+                { duration: 380, easing: 'ease-in', fill: 'forwards' }
+            );
+            const closing = box.animate(
+                [
+                    { transform: home, opacity: 1 },
+                    { opacity: 1, offset: 0.6 },
+                    { transform: to, opacity: 0 }
+                ],
+                { duration: 420, easing: MODAL_EASE, fill: 'forwards' }
+            );
+            closing.onfinish = finish;
         }
 
         window.copyModalText = function() {
