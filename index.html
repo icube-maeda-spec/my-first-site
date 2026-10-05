@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -112,7 +115,7 @@
             display: inline-block;
             white-space: nowrap;
             will-change: transform;
-            animation: smoothMarquee 32s linear infinite;
+            animation: smoothMarquee 54s linear infinite;
         }
         .marquee-container:hover .marquee-track {
             animation-play-state: paused;
@@ -348,17 +351,21 @@
         <div class="marquee-track">
             <!-- 1つ目のブロック -->
             <div class="marquee-content">
-                <span class="proj-item yellow-blink-item">【大至急・新着】PLM構築支援対応（Aras Innovator）</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】プロジェクトマネージャ支援（人財プール）</span>
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保向け システム基盤更改対応</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保向け システム基盤更改対応</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保向け システム基盤更改対応</span> / 
             </div>
             <!-- 2つ目のブロック -->
             <div class="marquee-content" aria-hidden="true">
-                <span class="proj-item yellow-blink-item">【大至急・新着】PLM構築支援対応（Aras Innovator）</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】EC受注出荷システム業務支援</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】クラウド構築（人財プール）</span> / 
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】プロジェクトマネージャ支援（人財プール）</span>
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保向け システム基盤更改対応</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保向け システム基盤更改対応</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】エンタメ系/新商品情報管理システム開発</span> / 
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保向け システム基盤更改対応</span> / 
             </div>
         </div>
     </div>
@@ -389,7 +396,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：09/30 12:05）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：10/05 14:49）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
@@ -441,7 +448,7 @@
     <script>
         let currentView = 'table';
         // 掲載日からこの日数以内の案件に「NEW!!」を表示する（変更したい場合はここだけ直す）
-        const NEW_DAYS = 21;
+        const NEW_DAYS = 7;
         const CORRECT_PASSWORD = "X4m9K2p7R5v1N8q3";
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
@@ -525,6 +532,45 @@
         }
 
         const projects = [
+
+            {
+                id: 29,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "",
+                date: "2026/10/05",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "生保向け システム基盤更改対応",
+                tags: ["チームリーダー", "AIX", "AWS", "GitLab", "基盤構築"],
+                location: "大崎",
+                remote: "週2～3日テレワーク",
+                price: "75～80万",
+                flow: "要確認",
+                contract: "要確認",
+                foreign: "NG",
+                remark: "-",
+                detailText: `生保向け システム基盤更改対応\n\n案件概要 ：生保系ユーザー様における、システム基盤更改対応案件です。\n\n【主な業務】\n  チームリーダーとして、案件概要（要件定義、設計・構築、各種テスト(計画/実施/レビュー、リリース対応 など）に対応するため、ユーザー様との調整、及び開発作業を担当します。\n\n【環境】\n  開発環境、ユーザー打鍵環境、本番環境\n\n【使用製品】\n  Unix(AIX)、AWS、オブジェクトストレージ、ClearCase、GitLab、JP1/PFM、Instana、ILMT、Flexera、RPT (DTP)、Gatling、Chef、AnsibleChef、開発PC（Windows）\n\n期間 ：11月 ～ 2027年3月 ※業務実績により継続の可能性あり\n  ※勤務時間 9:00～18:00（OTあり）\n  ※本番移行時は休日出勤が発生します。\n\n人数 ：チームリーダー １名\n\n場所 ：最寄駅 JR各線 大崎駅 徒歩10分\n  ※テレワークあり（２～３日／週の見込み）\n  ※出社時の服装はノーネクタイ可\n\nスキル ：\n【必須】\n  １．チームリーダーとしての業務経験（更改／管理業務）\n  ２．要件定義、基本設計など上流工程業務経験\n  ３．要件におけるテスト計画／実施経験（技術言語不問／5年以上が目安）\n  ４．基盤ミドルウェア構築経験\n【尚可】\n  ５．生保業界での業務経験\n  ６．WAS,Db2など、IBMミドルウェア構築経験\n\n職場見学 ：２回（元請様／お客様） ※Web面談を予定\n\nその他 ：\n  ・単金条件は750K～800Kまでを想定しております。（応相談）\n  ・時間清算なし（月額固定となります）。\n  ・外国籍の方のご応募はご遠慮ください。\n  ・業務用PCは貸与されます。\n  ・テレワーク勤務時には、自宅Wi-Fiが必須となります。`
+            },
+            {
+                id: 28,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "",
+                date: "2026/10/05",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "エンタメ系/新商品情報管理システム開発",
+                tags: ["RPG開発", "現行システム調査", "設計"],
+                location: "大崎",
+                remote: "たまに在宅",
+                price: "60～63万",
+                flow: "要確認",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: `【案件概要】\n\n案件名： エンタメ系/新商品情報管理システム開発\n\n契約形態 ：準委任\n\n作業範囲 ：\n  商品情報管理システムのリプレイスに伴うASシステムの開発業務。\n  現行は、フロントはWEBシステムでバックエンドがASシステムだが、\n  新システムではバックエンドもWEBシステムになり、\n  データフロー変更に伴うASシステムの改修を行う。\n\n期間 ： 2026年10月～2027年9月（延長の可能性あり）\n\n募集人数 ： 1名\n\n必須スキル：\n  ・RPG開発経験\n  ・現行システムの調査や設計経験\n\n作業場所 ：客先（大崎）、たまに在宅\n\n勤務時間 ：10:00～19:00\n\n標準時間 ：140－180h（精算あり）\n\n面談回数 ：2回（元請様、エンド様）\n\n年齢制限 ：50代まで（※60代は土台に乗りません）\n\n希望単価 ：600～630K\n\n外国籍 ：不可`
+            },
            
             {
                 id: 26,
@@ -810,6 +856,10 @@
                             foreignDisplay = "OK";
                             foreignColor = "#059669";
                         }
+                    } else if (/外国籍[^\n。]{0,12}(ご遠慮|お断り|不可|ng)/.test(textToCheck)) {
+                        // 例：「外国籍の方のご応募はご遠慮ください」
+                        foreignDisplay = "NG";
+                        foreignColor = "#dc2626";
                     }
                 }
 
@@ -1120,3 +1170,5 @@
     </div>
 </body>
 </html>
+
+
