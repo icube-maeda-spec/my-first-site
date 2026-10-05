@@ -1,6 +1,3 @@
-
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -268,6 +265,42 @@ Index · HTML
         .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
         .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; background: transparent; font-size: 11px; white-space: nowrap; }
         .btn-toggle:hover { background: var(--accent); color: var(--card-bg); }
+        /* 詳細モーダル（カード風レイアウト） */
+        :root { --dm-info-bg: #f8fafc; --dm-chip-bg: #eef2ff; --dm-chip-text: #4338ca; --dm-price: #4f46e5; --dm-label: #94a3b8; --dm-close-bg: #f1f5f9; --dm-close-text: #64748b; }
+        .dark-mode { --dm-info-bg: #0f172a; --dm-chip-bg: #312e81; --dm-chip-text: #c7d2fe; --dm-price: #a5b4fc; --dm-label: #94a3b8; --dm-close-bg: #334155; --dm-close-text: #cbd5e1; }
+        .modal-box.detail-box { width: 760px; max-width: 92%; max-height: 88vh; padding: 0; border-radius: 24px; }
+        .dm-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 24px 28px 20px; border-bottom: 1px solid var(--border-color); }
+        .dm-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .dm-status { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+        .dm-status.tone-open { background: #dcfce7; color: #166534; }
+        .dm-status.tone-hold { background: #fef9c3; color: #854d0e; }
+        .dm-status.tone-urgent { background: #fee2e2; color: #991b1b; }
+        .dark-mode .dm-status.tone-open { background: #14532d; color: #86efac; }
+        .dark-mode .dm-status.tone-hold { background: #713f12; color: #fde68a; }
+        .dark-mode .dm-status.tone-urgent { background: #7f1d1d; color: #fecaca; }
+        .dm-title { margin: 0; font-size: 22px; line-height: 1.4; color: var(--text); }
+        .dm-close { flex: none; width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--dm-close-bg); color: var(--dm-close-text); font-size: 16px; cursor: pointer; }
+        .dm-close:hover { filter: brightness(0.95); }
+        .dm-body { padding: 24px 28px 28px; }
+        .dm-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; align-items: start; background: var(--dm-info-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; }
+        .dm-info-label { font-size: 12px; font-weight: 700; color: var(--dm-label); margin-bottom: 4px; }
+        .dm-info-value { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.4; }
+        .dm-info-value.price { font-size: 22px; color: var(--dm-price); line-height: 1.2; }
+        .dm-section-label { font-size: 12px; font-weight: 700; color: var(--dm-label); margin-bottom: 10px; }
+        .dm-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+        .dm-chip { background: var(--dm-chip-bg); color: var(--dm-chip-text); padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+        .dm-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .dm-section-head .dm-section-label { margin-bottom: 0; }
+        .dm-copy { background: transparent; border: 1px solid var(--border-color); color: var(--dm-label); border-radius: 999px; padding: 4px 12px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .dm-copy:hover { background: var(--dm-info-bg); }
+        .dm-detail { margin: 0; white-space: pre-wrap; word-break: break-word; font-size: 13px; line-height: 1.9; color: var(--text); background: var(--dm-info-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px 28px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+        @media (max-width: 600px) {
+            .dm-head { padding: 18px 18px 16px; }
+            .dm-body { padding: 18px 18px 22px; }
+            .dm-title { font-size: 18px; }
+            .dm-info { padding: 16px; }
+            .dm-detail { padding: 18px; }
+        }
         .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); z-index: 9999; justify-content: center; align-items: center; }
@@ -312,15 +345,31 @@ Index · HTML
     </div>
 
     <div id="detail-modal" class="modal-overlay" onclick="closeDetailModal()">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 id="modal-title" style="margin: 0; font-size: 16px;">詳細情報</h3>
-                <button class="btn-toggle" onclick="closeDetailModal()">✕ 閉じる</button>
+        <div class="modal-box detail-box" onclick="event.stopPropagation()">
+            <div class="dm-head">
+                <div>
+                    <div class="dm-meta">
+                        <span id="dm-cat" class="cat-badge"></span>
+                        <span id="dm-status" class="dm-status"></span>
+                    </div>
+                    <h3 id="modal-title" class="dm-title"></h3>
+                </div>
+                <button class="dm-close" onclick="closeDetailModal()" aria-label="閉じる">✕</button>
             </div>
-            <button class="btn-copy" onclick="copyModalText()">内容をコピー</button>
-            <pre id="modal-content-text" style="white-space: pre-wrap; font-size: 13px; margin-top: 10px; font-family: inherit; color: var(--text); line-height: 1.5;"></pre>
-            <div style="text-align: right; margin-top: 20px;">
-                <button class="btn-toggle" onclick="closeDetailModal()">閉じる</button>
+            <div class="dm-body">
+                <div class="dm-info">
+                    <div><div class="dm-info-label">単金・報酬</div><div id="dm-price" class="dm-info-value price"></div></div>
+                    <div><div class="dm-info-label">勤務場所</div><div id="dm-location" class="dm-info-value"></div></div>
+                    <div><div class="dm-info-label">リモートワーク</div><div id="dm-remote" class="dm-info-value"></div></div>
+                    <div><div class="dm-info-label">商流・契約</div><div id="dm-contract" class="dm-info-value"></div></div>
+                </div>
+                <div class="dm-section-label">関連キーワード・スキル</div>
+                <div id="dm-tags" class="dm-tags"></div>
+                <div class="dm-section-head">
+                    <span class="dm-section-label">案件詳細概要</span>
+                    <button class="dm-copy" onclick="copyModalText()">コピー</button>
+                </div>
+                <pre id="modal-content-text" class="dm-detail"></pre>
             </div>
         </div>
     </div>
@@ -936,7 +985,7 @@ Index · HTML
                 const detailBtn = document.createElement('button');
                 detailBtn.className = 'btn-toggle';
                 detailBtn.innerText = '詳細';
-                detailBtn.onclick = () => openDetailModal(p.title, p.detailText, detailBtn);
+                detailBtn.onclick = () => openDetailModal(p, detailBtn);
                 tdDetail.appendChild(detailBtn);
 
                 tr.innerHTML = `
@@ -984,7 +1033,7 @@ Index · HTML
                 const cardDetailBtn = document.createElement('button');
                 cardDetailBtn.className = 'btn-toggle';
                 cardDetailBtn.innerText = '詳細を見る';
-                cardDetailBtn.onclick = () => openDetailModal(p.title, p.detailText, cardDetailBtn);
+                cardDetailBtn.onclick = () => openDetailModal(p, cardDetailBtn);
                 cardFooter.appendChild(cardDetailBtn);
 
                 cardGrid.appendChild(card);
@@ -1048,14 +1097,47 @@ Index · HTML
             return `translate(${dx}px, ${dy}px) scale(${s})`;
         }
 
-        window.openDetailModal = function(title, text, triggerEl) {
+        // 案件データを詳細モーダルの各部品に流し込む
+        function fillDetailModal(p) {
+            const badgeMap = { dev: 'cat-dev', infra: 'cat-infra', lowcode: 'cat-lowcode', other: 'cat-other' };
+            const toneMap = { 'status-open': 'tone-open', 'status-hold': 'tone-hold', 'status-urgent': 'tone-urgent', 'status-exclusive': 'tone-urgent' };
+
+            const cat = document.getElementById('dm-cat');
+            cat.className = 'cat-badge ' + (badgeMap[p.category] || 'cat-other');
+            cat.textContent = p.categoryName;
+
+            const st = document.getElementById('dm-status');
+            st.className = 'dm-status ' + (toneMap[p.statusClass] || 'tone-open');
+            st.textContent = p.status + (p.isPostponed ? '（延期）' : '');
+
+            document.getElementById('modal-title').textContent = p.title;
+            document.getElementById('dm-price').textContent = p.price;
+            document.getElementById('dm-location').textContent = p.location;
+            document.getElementById('dm-remote').textContent = p.remote;
+            // 商流のかっこが二重にならないように整える（例：貴社まで（エンド様商流制限有）→ 貴社まで / エンド様商流制限有）
+            const flowText = (p.flow || '').replace(/（/g, ' / ').replace(/）/g, '');
+            document.getElementById('dm-contract').textContent =
+                (flowText && flowText !== p.contract) ? `${p.contract} (${flowText})` : p.contract;
+
+            const tags = document.getElementById('dm-tags');
+            tags.innerHTML = '';
+            p.tags.forEach(t => {
+                const chip = document.createElement('span');
+                chip.className = 'dm-chip';
+                chip.textContent = t;
+                tags.appendChild(chip);
+            });
+
+            document.getElementById('modal-content-text').textContent = p.detailText;
+        }
+
+        window.openDetailModal = function(p, triggerEl) {
             const overlay = document.getElementById('detail-modal');
             const box = overlay.querySelector('.modal-box');
             modalSeq++;
             modalTrigger = triggerEl || null;
 
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-content-text').innerText = text;
+            fillDetailModal(p);
 
             overlay.getAnimations().forEach(a => a.cancel());
             box.getAnimations().forEach(a => a.cancel());
@@ -1170,5 +1252,3 @@ Index · HTML
     </div>
 </body>
 </html>
-
-
