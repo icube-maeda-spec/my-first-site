@@ -302,6 +302,19 @@
             .dm-info { padding: 16px; }
             .dm-detail { padding: 18px; }
         }
+        /* 提案ボタン＆メニュー */
+        .btn-propose { background: var(--accent); color: var(--card-bg); border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: transform 0.15s ease; }
+        .btn-propose:hover { transform: scale(1.06); }
+        .btn-propose:active { transform: scale(0.96); }
+        .propose-menu { display: none; position: fixed; z-index: 10000; min-width: 200px; background: var(--card-bg); color: var(--text); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); padding: 6px; }
+        .propose-menu > button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; background: transparent; border: none; color: inherit; font-size: 14px; border-radius: 8px; cursor: pointer; text-align: left; }
+        .propose-menu > button:hover { background: var(--panel-bg); }
+        .propose-tel-box { padding: 10px 12px; }
+        .propose-tel-link, .propose-tel-num { display: block; font-size: 18px; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .propose-tel-link { padding: 4px 0; }
+        .propose-tel-note { margin-top: 4px; font-size: 11px; color: #64748b; line-height: 1.5; }
+        .propose-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); max-width: 90%; background: #1e293b; color: #ffffff; padding: 10px 16px; border-radius: 999px; font-size: 12px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; text-align: center; }
+        .propose-toast.show { opacity: 1; }
         .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); z-index: 9999; justify-content: center; align-items: center; }
@@ -375,6 +388,15 @@
         </div>
     </div>
 
+    <!-- 提案メニュー（メールで提案／LINEで提案／電話で提案） -->
+    <div id="propose-menu" class="propose-menu" role="menu">
+        <button type="button" onclick="chooseProposal('mail')">✉️ メールで提案</button>
+        <button type="button" onclick="chooseProposal('line')">💬 LINEで提案</button>
+        <button type="button" id="propose-tel-btn" onclick="chooseProposal('tel')">📞 電話で提案</button>
+        <div id="propose-tel-box" class="propose-tel-box" style="display: none;"></div>
+    </div>
+    <div id="propose-toast" class="propose-toast"></div>
+
     <header>
         <div class="logo" style="display: flex; align-items: baseline; gap: 10px;">
             <span>Icube アイキューブ</span>
@@ -436,7 +458,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：10/14 9:53）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：10/05 14:49）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
@@ -459,10 +481,11 @@
                     <table class="compact-table">
                         <thead>
                             <tr>
+                                <th style="width: 5%; text-align: center;">提案</th>
                                 <th style="width: 8%;">ステータス</th>
                                 <th style="width: 10%;">カテゴリー</th>
-                                <th style="width: 27%;">案件名</th>
-                                <th style="width: 16%;">スキル</th>
+                                <th style="width: 24%;">案件名</th>
+                                <th style="width: 15%;">スキル</th>
                                 <th style="width: 11%;">場所</th>
                                 <th style="width: 6%;">単価</th>
                                 <th style="width: 5%;">商流</th>
@@ -489,6 +512,10 @@
         let currentView = 'table';
         // 掲載日からこの日数以内の案件に「NEW!!」を表示する（変更したい場合はここだけ直す）
         const NEW_DAYS = 2;
+        // 「提案」ボタンの連絡先設定
+        const PROPOSAL_MAIL = "genma-maeda@icube-inc.com";
+        const PROPOSAL_TEL = "070-1370-1870";
+        const PROPOSAL_LINEWORKS_ID = "icube.maeda@icubecorporation-38"; // LINE WORKSの宛先（トーク相手）
         const CORRECT_PASSWORD = "X4m9K2p7R5v1N8q3";
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
@@ -588,9 +615,9 @@
                 tags: ["AWS", "VMware", "Hyper-V", "クラウド移行", "設計構築"],
                 location: "柏駅 徒歩13分",
                 remote: "週1回程度テレワーク",
-                price: "スキル見合い",
-                flow: "貴社1社先まで",
-                contract: "準委任",
+                price: "要確認",
+                flow: "要確認",
+                contract: "要確認",
                 foreign: "NG",
                 remark: "-",
                 detailText: [
@@ -651,7 +678,7 @@
                 remote: "長期常駐",
                 price: "スキル見合い",
                 flow: "貴社まで",
-                contract: "準委任",
+                contract: "要確認",
                 foreign: "OK",
                 remark: "-",
                 detailText: [
@@ -700,8 +727,8 @@
                 location: "大崎",
                 remote: "週2～3日テレワーク",
                 price: "75～80万",
-                flow: "貴社1社先まで",
-                contract: "準委任",
+                flow: "要確認",
+                contract: "要確認",
                 foreign: "NG",
                 remark: "-",
                 detailText: [
@@ -767,7 +794,7 @@
                 location: "大崎",
                 remote: "たまに在宅",
                 price: "60～63万",
-                flow: "貴社まで",
+                flow: "要確認",
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
@@ -1725,6 +1752,7 @@
                 tdDetail.appendChild(detailBtn);
 
                 tr.innerHTML = `
+                    <td class="propose-cell" style="text-align: center;"></td>
                     <td>${statusHtml}</td>
                     <td>${categoryHtml}</td>
                     <td><div style="font-weight: bold; font-size: 13px;">${p.title}</div></td>
@@ -1741,6 +1769,7 @@
                     <td>${p.remark}</td>
                 `;
                 tr.appendChild(tdDetail);
+                tr.querySelector('.propose-cell').appendChild(makeProposeButton(p.title));
                 tbody.appendChild(tr);
 
                 const card = document.createElement('div');
@@ -1750,9 +1779,10 @@
                 card.innerHTML = `
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <div>${statusHtml} ${categoryHtml}</div>
+                            <span class="propose-slot"></span>
                             <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company || ''}</span>
                         </div>
+                        <div style="margin-bottom: 10px;">${statusHtml} ${categoryHtml}</div>
                         <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
                         <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
                         <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
@@ -1772,6 +1802,7 @@
                 cardDetailBtn.onclick = () => openDetailModal(p, cardDetailBtn);
                 cardFooter.appendChild(cardDetailBtn);
 
+                card.querySelector('.propose-slot').appendChild(makeProposeButton(p.title));
                 cardGrid.appendChild(card);
             });
         }
@@ -1942,6 +1973,156 @@
             );
             closing.onfinish = finish;
         }
+
+        // ===== 提案ボタン（メールで提案／LINEで提案／電話で提案） =====
+        let proposeCurrent = null;
+        let proposeToastTimer = null;
+
+        // 画面遷移（メーラー／LINE WORKSの起動）
+        function goTo(url) {
+            window.location.href = url;
+        }
+
+        function isPhone() {
+            return /iPhone|iPod|Android.*Mobile|Windows Phone/i.test(navigator.userAgent);
+        }
+
+        function makeProposeButton(title) {
+            const btn = document.createElement('button');
+            btn.className = 'btn-propose';
+            btn.innerText = '提案';
+            btn.onclick = (e) => openProposeMenu(e, title, btn);
+            return btn;
+        }
+
+        function proposalSubject(title) {
+            return `要員提案【${title}】`;
+        }
+
+        function showProposeToast(message) {
+            const toast = document.getElementById('propose-toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(proposeToastTimer);
+            proposeToastTimer = setTimeout(() => toast.classList.remove('show'), 4500);
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+            document.body.removeChild(ta);
+            return ok;
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text).then(() => true).catch(() => fallbackCopy(text));
+            }
+            return Promise.resolve(fallbackCopy(text));
+        }
+
+        window.openProposeMenu = function(ev, title, btn) {
+            ev.stopPropagation();
+            const menu = document.getElementById('propose-menu');
+            // 同じボタンをもう一度押したら閉じる
+            if (menu.style.display === 'block' && proposeCurrent && proposeCurrent.btn === btn) {
+                closeProposeMenu();
+                return;
+            }
+            proposeCurrent = { title, btn };
+
+            // 電話欄は毎回「電話で提案」の状態に戻す
+            document.getElementById('propose-tel-btn').style.display = 'flex';
+            const telBox = document.getElementById('propose-tel-box');
+            telBox.style.display = 'none';
+            telBox.innerHTML = '';
+
+            menu.style.display = 'block';
+            const r = btn.getBoundingClientRect();
+            const m = menu.getBoundingClientRect();
+            let left = r.left;
+            let top = r.bottom + 6;
+            let originY = 'top';
+            if (left + m.width > window.innerWidth - 8) left = window.innerWidth - m.width - 8;
+            if (left < 8) left = 8;
+            if (top + m.height > window.innerHeight - 8) {
+                top = r.top - m.height - 6;
+                originY = 'bottom';
+            }
+            menu.style.left = left + 'px';
+            menu.style.top = top + 'px';
+            menu.style.transformOrigin = `${Math.max(0, r.left + r.width / 2 - left)}px ${originY}`;
+
+            menu.getAnimations().forEach(a => a.cancel());
+            if (!prefersReducedMotion()) {
+                menu.animate(
+                    [{ transform: 'scale(0.6)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }],
+                    { duration: 220, easing: MODAL_EASE }
+                );
+            }
+        }
+
+        window.closeProposeMenu = function() {
+            const menu = document.getElementById('propose-menu');
+            if (menu.style.display !== 'block') return;
+            menu.style.display = 'none';
+        }
+
+        window.chooseProposal = function(kind) {
+            const cur = proposeCurrent;
+            if (!cur) return;
+            const subject = proposalSubject(cur.title);
+
+            if (kind === 'mail') {
+                // 端末の標準メーラーが起動し、宛先と件名が入った状態になる
+                closeProposeMenu();
+                goTo('mailto:' + PROPOSAL_MAIL + '?subject=' + encodeURIComponent(subject));
+
+            } else if (kind === 'line') {
+                // LINE WORKSアプリを起動し、前田さん宛てのトークに「要員提案【案件名】」を入れた状態にする。
+                // 起動できなかった場合に備えて、同じ文章をコピーしておく。
+                closeProposeMenu();
+                copyText(subject);
+                showProposeToast('文章をコピーしました。LINE WORKSが開かない場合は貼り付けてください');
+                goTo('https://line.worksmobile.com/message/send?version=18'
+                    + '&emailList=' + encodeURIComponent(PROPOSAL_LINEWORKS_ID)
+                    + '&message=' + encodeURIComponent(subject));
+
+            } else if (kind === 'tel') {
+                // 「電話で提案」の場所に電話番号を表示する。スマートフォンのみ、番号を押して発信できる
+                document.getElementById('propose-tel-btn').style.display = 'none';
+                const box = document.getElementById('propose-tel-box');
+                box.innerHTML = '';
+                const num = document.createElement(isPhone() ? 'a' : 'div');
+                num.textContent = '📞 ' + PROPOSAL_TEL;
+                if (isPhone()) {
+                    num.className = 'propose-tel-link';
+                    num.href = 'tel:' + PROPOSAL_TEL.replace(/[^0-9+]/g, '');
+                } else {
+                    num.className = 'propose-tel-num';
+                }
+                const note = document.createElement('div');
+                note.className = 'propose-tel-note';
+                note.textContent = isPhone() ? '番号を押すと発信します' : 'スマートフォンでは、番号を押すと発信できます';
+                box.appendChild(num);
+                box.appendChild(note);
+                box.style.display = 'block';
+            }
+        }
+
+        // メニューの外をクリック／スクロール／画面サイズ変更で閉じる
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('propose-menu');
+            if (!menu.contains(e.target)) closeProposeMenu();
+        });
+        window.addEventListener('scroll', closeProposeMenu, true);
+        window.addEventListener('resize', closeProposeMenu);
 
         window.copyModalText = function() {
             const text = document.getElementById('modal-content-text').innerText;
