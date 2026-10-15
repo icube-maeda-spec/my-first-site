@@ -302,6 +302,39 @@
             .dm-info { padding: 16px; }
             .dm-detail { padding: 18px; }
         }
+        /* 要員マッチ */
+        .match-panel { margin: 12px 20px 0; padding: 16px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .match-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+        .match-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #64748b; }
+        .match-grid .mp-wide { grid-column: 1 / -1; }
+        .match-grid input { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 400; }
+        .mp-label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: #64748b; }
+        .match-panel textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 400; font-family: inherit; line-height: 1.6; resize: vertical; }
+        .mp-parsed { margin-top: 10px; font-size: 12px; line-height: 1.9; }
+        .mp-parsed span { display: inline-block; margin: 0 14px 0 0; }
+        .mp-parsed b { color: #64748b; margin-right: 4px; }
+        .mp-parsed .warn { color: #d97706; font-weight: 700; }
+        .mp-attach { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-color); }
+        .mp-attach.dragover { outline: 2px dashed var(--accent); outline-offset: 4px; border-radius: 8px; background: rgba(59, 130, 246, 0.08); }
+        .mp-attach input[type=file] { font-size: 12px; margin-top: 4px; max-width: 100%; }
+        .mp-file-list { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+        .mp-file { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 6px 10px; background: var(--bg); border: 1px solid var(--border-color); border-radius: 8px; }
+        .mp-file .name { flex: 1; word-break: break-all; }
+        .mp-file .size { color: #64748b; white-space: nowrap; }
+        .mp-file button { border: none; background: transparent; color: #64748b; cursor: pointer; font-size: 14px; }
+        .mp-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+        .mp-status { font-size: 12px; color: #059669; font-weight: 600; }
+        .mp-note { margin-top: 10px; font-size: 11px; color: #64748b; line-height: 1.6; }
+        .match-badge { display: inline-block; margin-top: 4px; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+        .match-badge.high { background: #dcfce7; color: #166534; }
+        .match-badge.mid { background: #fef9c3; color: #854d0e; }
+        .match-badge.low { background: #f1f5f9; color: #64748b; }
+        .dark-mode .match-badge.high { background: #14532d; color: #86efac; }
+        .dark-mode .match-badge.mid { background: #713f12; color: #fde68a; }
+        .dark-mode .match-badge.low { background: #334155; color: #cbd5e1; }
+        .dm-chip.ok { background: #dcfce7; color: #166534; }
+        .dm-chip.miss { background: transparent; color: var(--dm-label); border: 1px dashed var(--border-color); }
+        .dark-mode .dm-chip.ok { background: #14532d; color: #86efac; }
         /* 提案ボタン＆メニュー */
         .btn-propose { background: var(--accent); color: var(--card-bg); border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: transform 0.15s ease; }
         .btn-propose:hover { transform: scale(1.06); }
@@ -377,6 +410,10 @@
                     <div><div class="dm-info-label">リモートワーク</div><div id="dm-remote" class="dm-info-value"></div></div>
                     <div><div class="dm-info-label">商流・契約</div><div id="dm-contract" class="dm-info-value"></div></div>
                 </div>
+                <div id="dm-match" style="display: none; margin-bottom: 24px;">
+                    <div class="dm-section-label">要員とのマッチ度：<span id="dm-match-score"></span></div>
+                    <div id="dm-match-chips" class="dm-tags" style="margin-bottom: 0;"></div>
+                </div>
                 <div class="dm-section-label">関連キーワード・スキル</div>
                 <div id="dm-tags" class="dm-tags"></div>
                 <div class="dm-section-head">
@@ -393,6 +430,7 @@
         <button type="button" onclick="chooseProposal('mail')">✉️ メールで提案</button>
         <button type="button" onclick="chooseProposal('line')">💬 LINEで提案</button>
         <button type="button" id="propose-tel-btn" onclick="chooseProposal('tel')">📞 電話で提案</button>
+        <button type="button" id="propose-share-btn" style="display: none;" onclick="chooseProposal('share')">📎 スキルシートを添付して提案</button>
         <div id="propose-tel-box" class="propose-tel-box" style="display: none;"></div>
     </div>
     <div id="propose-toast" class="propose-toast"></div>
@@ -458,7 +496,7 @@
             <div class="controls-container">
                 <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：10/14 17:32）</span>
+                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：10/05 14:49）</span>
                 </h1>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
@@ -471,11 +509,33 @@
                         <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
                     </select>
                     <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 200px; background: var(--card-bg); color: var(--text);">
+                    <button id="btn-match" class="tag" onclick="toggleMatchPanel()" style="padding: 8px 12px;">🎯 要員マッチ</button>
                     <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
                     <button class="tag" onclick="refreshData()" style="padding: 8px 12px; background: var(--accent); color: var(--card-bg);">更新</button>
                 </div>
             </div>
            
+            <div id="match-panel" class="match-panel" style="display: none;">
+                <label class="mp-label">提案要員（情報を貼り付けるだけ）
+                    <textarea id="mp-text" rows="10" oninput="scheduleMatch()" placeholder="【提案要員】&#10;氏名：i.C&#10;年齢：26歳&#10;性別：男性&#10;最寄り：総武線　秋葉原駅&#10;所属：アイキューブ正社員&#10;稼働：10月～&#10;単価：〇〇万&#10;スキル：JAVA、C#、SQL&#10;資格：ITパスポート、基本情報技術者&#10;その他：開発を希望&#10;並行：なし"></textarea>
+                </label>
+                <div class="mp-actions">
+                    <button class="tag" onclick="applyMatch()" style="padding: 8px 14px; background: var(--accent); color: var(--card-bg);">読み取ってマッチ度を計算</button>
+                    <button class="tag" onclick="clearMatch()" style="padding: 8px 14px;">クリア</button>
+                    <span id="mp-status" class="mp-status"></span>
+                </div>
+                <div id="mp-parsed" class="mp-parsed"></div>
+                <div id="mp-attach" class="mp-attach">
+                    <div class="mp-label">📎 スキルシート（Word・Excel・PDF）
+                        <input id="mp-files" type="file" multiple accept=".doc,.docx,.xls,.xlsx,.xlsm,.pdf" onchange="onFilesChosen()">
+                    </div>
+                    <div class="mp-note">ファイルをこの画面にドラッグ＆ドロップするか、コピーしたファイルを貼り付け（Ctrl+V／⌘V）でも添付できます。</div>
+                    <div id="mp-file-list" class="mp-file-list"></div>
+                    <div id="mp-file-note" class="mp-note"></div>
+                </div>
+                <div class="mp-note">貼り付けると、氏名・年齢・スキルなどを自動で読み取り、スキルから各案件の「マッチ度」を出して高い順に並べます。読み取った内容は、「提案」→「メールで提案／LINEで提案」の提案文に自動で入ります。入力内容とファイルは、この画面の中だけで保持され、保存・送信はされません（ページを閉じると消えます）。</div>
+            </div>
+
             <main>
                 <div id="table-view-container">
                     <table class="compact-table">
@@ -615,9 +675,9 @@
                 tags: ["AWS", "VMware", "Hyper-V", "クラウド移行", "設計構築"],
                 location: "柏駅 徒歩13分",
                 remote: "週1回程度テレワーク",
-                price: "スキル見合い",
-                flow: "貴社1社先まで",
-                contract: "準委任",
+                price: "要確認",
+                flow: "要確認",
+                contract: "要確認",
                 foreign: "NG",
                 remark: "-",
                 detailText: [
@@ -678,7 +738,7 @@
                 remote: "長期常駐",
                 price: "スキル見合い",
                 flow: "貴社まで",
-                contract: "準委任",
+                contract: "要確認",
                 foreign: "OK",
                 remark: "-",
                 detailText: [
@@ -727,8 +787,8 @@
                 location: "大崎",
                 remote: "週2～3日テレワーク",
                 price: "75～80万",
-                flow: "貴社1社先まで",
-                contract: "準委任",
+                flow: "要確認",
+                contract: "要確認",
                 foreign: "NG",
                 remark: "-",
                 detailText: [
@@ -794,7 +854,7 @@
                 location: "大崎",
                 remote: "たまに在宅",
                 price: "60～63万",
-                flow: "貴社まで",
+                flow: "要確認",
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
@@ -1516,7 +1576,7 @@
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
-                remark: "-",
+                remark: "個人事業主相談",
                 detailText: [
                     "【案件概要】",
                     "案件名： ICTセンター支援 （IDM（ID管理システム）担当）",
@@ -1646,6 +1706,8 @@
             dataList.forEach((p) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
                 const textToCheck = (p.detailText).toLowerCase();
+                const matchBadgeHtml = (matchState.active && p._match)
+                    ? `<span class="match-badge ${p._match.level}">マッチ ${p._match.score}%</span>` : '';
 
                 // 判定できなかった場合は「NG」を初期値にしている（NG・OKの記載があればそちらを優先）
                 let foreignDisplay = "NG";
@@ -1755,7 +1817,7 @@
                     <td class="propose-cell" style="text-align: center;"></td>
                     <td>${statusHtml}</td>
                     <td>${categoryHtml}</td>
-                    <td><div style="font-weight: bold; font-size: 13px;">${p.title}</div></td>
+                    <td><div style="font-weight: bold; font-size: 13px;">${p.title}</div>${matchBadgeHtml}</td>
                     <td><div class="tag-container">${tagHtml}</div></td>
                     <td>
                         <div style="font-size: 12px; font-weight: bold;">${p.location}</div>
@@ -1769,7 +1831,7 @@
                     <td>${p.remark}</td>
                 `;
                 tr.appendChild(tdDetail);
-                tr.querySelector('.propose-cell').appendChild(makeProposeButton(p.title));
+                tr.querySelector('.propose-cell').appendChild(makeProposeButton(p));
                 tbody.appendChild(tr);
 
                 const card = document.createElement('div');
@@ -1784,6 +1846,7 @@
                         </div>
                         <div style="margin-bottom: 10px;">${statusHtml} ${categoryHtml}</div>
                         <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
+                        ${matchBadgeHtml ? `<div style="margin: -4px 0 10px 0;">${matchBadgeHtml}</div>` : ''}
                         <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
                         <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
                             📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
@@ -1802,7 +1865,7 @@
                 cardDetailBtn.onclick = () => openDetailModal(p, cardDetailBtn);
                 cardFooter.appendChild(cardDetailBtn);
 
-                card.querySelector('.propose-slot').appendChild(makeProposeButton(p.title));
+                card.querySelector('.propose-slot').appendChild(makeProposeButton(p));
                 cardGrid.appendChild(card);
             });
         }
@@ -1810,6 +1873,11 @@
         window.handleSort = function() {
             const sortOrder = document.getElementById('sortSelect').value;
             projects.sort((a, b) => {
+                // 要員マッチ中は、マッチ度の高い順を優先する
+                if (matchState.active && a._match && b._match) {
+                    const d = b._match.score - a._match.score;
+                    if (d) return d;
+                }
                 if (sortOrder === 'category') {
                     const order = { dev: 1, infra: 2, lowcode: 3, other: 4 };
                     return (order[a.category] || 99) - (order[b.category] || 99);
@@ -1895,6 +1963,29 @@
                 tags.appendChild(chip);
             });
 
+            // 要員マッチ中は、一致したスキルと不足しているスキルを表示する
+            const matchBox = document.getElementById('dm-match');
+            if (matchState.active && p._match) {
+                document.getElementById('dm-match-score').textContent = p._match.score + '%';
+                const chips = document.getElementById('dm-match-chips');
+                chips.innerHTML = '';
+                p._match.matched.forEach(t => {
+                    const c = document.createElement('span');
+                    c.className = 'dm-chip ok';
+                    c.textContent = '✓ ' + t;
+                    chips.appendChild(c);
+                });
+                p._match.missing.forEach(t => {
+                    const c = document.createElement('span');
+                    c.className = 'dm-chip miss';
+                    c.textContent = t;
+                    chips.appendChild(c);
+                });
+                matchBox.style.display = 'block';
+            } else {
+                matchBox.style.display = 'none';
+            }
+
             document.getElementById('modal-content-text').textContent = p.detailText;
         }
 
@@ -1974,6 +2065,361 @@
             closing.onfinish = finish;
         }
 
+        // ===== 要員マッチ（スキルマッチ）と提案文の自動作成 =====
+        const candidate = { name: '', age: '', gender: '', station: '', affiliation: '', start: '', wage: '', skills: '', quals: '', parallel: '', other: '' };
+        let attachedFiles = [];
+        let matchTimer = null;
+        const matchState = { active: false, tokens: [] };
+
+        // 案件本文からスキルを拾うための辞書（タグに無い言葉も、本文にあれば判定に使う）
+        const TECH_WORDS = ["Java", "Spring Boot", "JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js", "PHP", "Python", "Ruby", "Go", "C#", ".NET", "C++", "COBOL", "RPG", "AS/400", "Oracle", "PL/SQL", "SQL", "MySQL", "PostgreSQL", "SQL Server", "Db2", "AWS", "GCP", "Azure", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "Linux", "Windows Server", "VMware", "Hyper-V", "Active Directory", "Okta", "SharePoint", "Power Automate", "Power Apps", "Microsoft 365", "SAP", "Salesforce", "ServiceNow", "要件定義", "基本設計", "詳細設計"];
+        // 言い換え（入力の表記ゆれ対策）
+        const SKILL_ALIASES = { js: 'javascript', ts: 'typescript', k8s: 'kubernetes', node: 'node.js', nodejs: 'node.js', postgres: 'postgresql', sqlserver: 'sql server', ad: 'active directory', m365: 'microsoft 365', o365: 'microsoft 365', as400: 'as/400', ec2: 'aws', s3: 'aws', lambda: 'aws', dynamodb: 'aws', rds: 'aws', gke: 'gcp' };
+
+        function normText(s) { return String(s || '').normalize('NFKC').toLowerCase(); }
+        function compact(s) { return normText(s).replace(/[^a-z0-9#+\u3040-\u30ff\u4e00-\u9fff]/g, ''); }
+        function isAscii(s) { return /^[\x20-\x7e]+$/.test(s); }
+
+        // 英数字の前後が続いていない場合だけ一致とみなす（例：Java が JavaScript に一致しないように）
+        function boundaryFind(text, token) {
+            let i = text.indexOf(token);
+            while (i !== -1) {
+                const prev = i > 0 ? text[i - 1] : '';
+                const next = text[i + token.length] || '';
+                if (!/[a-z0-9]/.test(prev) && !/[a-z0-9]/.test(next)) return true;
+                i = text.indexOf(token, i + 1);
+            }
+            return false;
+        }
+
+        function textHas(text, stripped, token) {
+            if (!token) return false;
+            if (!isAscii(token)) return text.includes(token);
+            if (boundaryFind(text, token)) return true;
+            const ts = token.replace(/[\s._\/\-]/g, '');
+            return ts.length >= 2 && boundaryFind(stripped, ts);
+        }
+
+        // 入力されたスキルを分ける（カンマ・読点・改行区切り。区切りがなければ空白区切り）
+        function parseSkills(input) {
+            const src = String(input || '').trim();
+            if (!src) return [];
+            const parts = /[,、，\n]/.test(src) ? src.split(/[,、，\n]+/) : src.split(/[\s・]+/);
+            const seen = new Set();
+            const out = [];
+            parts.map(t => t.trim()).filter(Boolean).forEach(raw => {
+                const key = SKILL_ALIASES[compact(raw)] || normText(raw).trim();
+                if (key && !seen.has(key)) { seen.add(key); out.push({ raw, key }); }
+            });
+            return out;
+        }
+
+        // 案件側のスキル一覧（タグ＝重み2、本文だけに出てくる辞書の言葉＝重み1、最大6個）
+        function projectTerms(p) {
+            if (p._terms) return p._terms;
+            const terms = [];
+            const seen = new Set();
+            p.tags.forEach(t => {
+                const k = compact(t);
+                if (k && !seen.has(k)) { seen.add(k); terms.push({ term: t, w: 2 }); }
+            });
+            const text = normText(p.title + ' ' + p.tags.join(' ') + ' ' + p.detailText);
+            const stripped = text.replace(/[\s._\/\-]/g, '');
+            let extra = 0;
+            for (const w of TECH_WORDS) {
+                if (extra >= 6) break;
+                const k = compact(w);
+                if (seen.has(k)) continue;
+                if (textHas(text, stripped, normText(w))) { seen.add(k); terms.push({ term: w, w: 1 }); extra++; }
+            }
+            p._terms = terms;
+            return terms;
+        }
+
+        // 入力スキルが、案件側のスキルを満たしているか
+        function termCovers(term, key) {
+            const tk = compact(term);
+            const kk = compact(key);
+            if (!kk) return false;
+            if (tk === kk) return true;
+            if (isAscii(key)) {
+                return kk.length >= 2 && normText(term).split(/[^a-z0-9#+]+/).some(w => w === kk);
+            }
+            return kk.length >= 2 && (tk.includes(kk) || kk.includes(tk));
+        }
+
+        // マッチ度 ＝ 入力スキルが案件に出てくる割合（主要スキルは満点・補足的なら半分）40% ＋ 案件のスキルを満たす割合 60%
+        function matchProject(p, tokens) {
+            const terms = projectTerms(p);
+            const text = normText(p.title + ' ' + p.tags.join(' ') + ' ' + p.detailText);
+            const stripped = text.replace(/[\s._\/\-]/g, '');
+            const tagText = normText(p.title + ' ' + p.tags.join(' '));
+            const tagStripped = tagText.replace(/[\s._\/\-]/g, '');
+            let hitScore = 0;
+            tokens.forEach(t => {
+                if (textHas(tagText, tagStripped, t.key)) hitScore += 1;       // 案件名・タグに出てくる＝主要スキル
+                else if (textHas(text, stripped, t.key)) hitScore += 0.5;      // 本文にだけ出てくる＝補足的なスキル
+            });
+            const matched = [];
+            const missing = [];
+            let total = 0;
+            let covered = 0;
+            terms.forEach(x => {
+                total += x.w;
+                if (tokens.some(t => termCovers(x.term, t.key))) { covered += x.w; matched.push(x.term); }
+                else { missing.push(x.term); }
+            });
+            const hitRate = tokens.length ? hitScore / tokens.length : 0;
+            const coverage = total ? covered / total : 0;
+            const score = Math.round(100 * (0.4 * hitRate + 0.6 * coverage));
+            return { score, level: score >= 70 ? 'high' : (score >= 40 ? 'mid' : 'low'), matched, missing };
+        }
+
+        // 貼り付けた要員情報の「項目名：内容」を読み取る（項目名の表記ゆれにも対応）
+        const FIELD_LABELS = [
+            ['name', /氏名|名前|イニシャル/], ['age', /年齢/], ['gender', /性別/], ['station', /最寄/],
+            ['affiliation', /所属|雇用|会社/], ['start', /稼働|開始|参画/], ['wage', /単価|金額/],
+            ['skills', /スキル|技術|言語/], ['quals', /資格/], ['parallel', /並行|他社|面談状況/],
+            ['other', /その他|備考|PR|アピール|希望/]
+        ];
+        const FIELD_NAMES = { name: '氏名', age: '年齢', gender: '性別', station: '最寄り', affiliation: '所属', start: '稼働', wage: '単価', skills: 'スキル', quals: '資格', parallel: '並行', other: 'その他' };
+
+        function parseCandidate(text) {
+            const c = {};
+            Object.keys(FIELD_NAMES).forEach(k => { c[k] = ''; });
+            let last = null;
+            String(text || '').split(/\r?\n/).forEach(line => {
+                const t = line.trim();
+                if (!t || /^[-－ー─━=＝_＿\s]+$/.test(t)) return;   // 区切り線・空行
+                if (/^[【\[].*[】\]]$/.test(t)) return;               // 見出し（【提案要員】など）
+                const m = t.match(/^([^:：]{1,12}?)\s*[:：]\s*(.*)$/);
+                if (m) {
+                    const hit = FIELD_LABELS.find(f => f[1].test(m[1]));
+                    if (hit) {
+                        last = hit[0];
+                        c[last] = c[last] ? c[last] + ' ' + m[2].trim() : m[2].trim();
+                    } else {
+                        last = 'other';
+                        c.other = (c.other ? c.other + ' / ' : '') + t;
+                    }
+                } else if (last) {
+                    c[last] = (c[last] ? c[last] + ' ' : '') + t;      // 前の項目の続きの行
+                }
+            });
+            return c;
+        }
+
+        window.toggleMatchPanel = function() {
+            const panel = document.getElementById('match-panel');
+            panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+        }
+
+        // 貼り付け・入力が止まって少したったら、自動で読み取る
+        window.scheduleMatch = function() {
+            clearTimeout(matchTimer);
+            matchTimer = setTimeout(applyMatch, 700);
+        }
+
+        window.applyMatch = function() {
+            clearTimeout(matchTimer);
+            Object.assign(candidate, parseCandidate(document.getElementById('mp-text').value));
+            const tokens = parseSkills(candidate.skills);
+            matchState.tokens = tokens;
+            matchState.active = tokens.length > 0;
+            projects.forEach(p => {
+                if (matchState.active) p._match = matchProject(p, tokens);
+                else delete p._match;
+            });
+            refreshMatchUi();
+            handleSort();
+        }
+
+        window.clearMatch = function() {
+            clearTimeout(matchTimer);
+            document.getElementById('mp-text').value = '';
+            Object.keys(FIELD_NAMES).forEach(k => { candidate[k] = ''; });
+            attachedFiles = [];
+            renderFileList();
+            matchState.tokens = [];
+            matchState.active = false;
+            projects.forEach(p => { delete p._match; });
+            refreshMatchUi();
+            handleSort();
+        }
+
+        function refreshMatchUi() {
+            const btn = document.getElementById('btn-match');
+            const status = document.getElementById('mp-status');
+            const parsed = document.getElementById('mp-parsed');
+            const hasText = document.getElementById('mp-text').value.trim() !== '';
+
+            if (matchState.active) {
+                btn.textContent = '🎯 要員マッチ：ON';
+                btn.style.background = 'var(--accent)';
+                btn.style.color = 'var(--card-bg)';
+                status.style.color = '#059669';
+                status.textContent = '「' + matchState.tokens.map(t => t.raw).join(' / ') + '」でマッチ度の高い順に並べています';
+            } else {
+                btn.textContent = '🎯 要員マッチ';
+                btn.style.background = '';
+                btn.style.color = '';
+                status.style.color = '#d97706';
+                status.textContent = hasText ? 'スキルを読み取れませんでした（「スキル：」の行を入れてください）' : '';
+            }
+
+            // 読み取った内容を表示（「〇〇」のまま未入力の項目には注意を出す）
+            parsed.innerHTML = '';
+            Object.keys(FIELD_NAMES).forEach(k => {
+                if (!candidate[k]) return;
+                const span = document.createElement('span');
+                const label = document.createElement('b');
+                label.textContent = FIELD_NAMES[k];
+                span.appendChild(label);
+                const unfilled = /[〇○◯]{2}|[xｘXＸ×]{2}/.test(candidate[k]);
+                const val = document.createElement('i');
+                val.style.fontStyle = 'normal';
+                val.textContent = candidate[k] + (unfilled ? '（未入力のままです）' : '');
+                if (unfilled) span.className = 'warn';
+                span.appendChild(val);
+                parsed.appendChild(span);
+            });
+        }
+
+        // ----- スキルシートの添付（この画面の中だけで保持。保存・送信はしない）-----
+        function canShareFiles() {
+            return !!(attachedFiles.length && navigator.canShare && navigator.canShare({ files: attachedFiles }));
+        }
+
+        function formatSize(n) {
+            return n >= 1048576 ? (n / 1048576).toFixed(1) + 'MB' : Math.max(1, Math.round(n / 1024)) + 'KB';
+        }
+
+        function renderFileList() {
+            const list = document.getElementById('mp-file-list');
+            const note = document.getElementById('mp-file-note');
+            list.innerHTML = '';
+            attachedFiles.forEach((f, i) => {
+                const row = document.createElement('div');
+                row.className = 'mp-file';
+                const name = document.createElement('span');
+                name.className = 'name';
+                name.textContent = '📄 ' + f.name;
+                const size = document.createElement('span');
+                size.className = 'size';
+                size.textContent = formatSize(f.size);
+                const del = document.createElement('button');
+                del.textContent = '✕';
+                del.setAttribute('aria-label', '外す');
+                del.onclick = () => { attachedFiles.splice(i, 1); renderFileList(); };
+                row.appendChild(name);
+                row.appendChild(size);
+                row.appendChild(del);
+                list.appendChild(row);
+            });
+            if (!attachedFiles.length) note.textContent = '';
+            else if (canShareFiles()) note.textContent = '「提案」→「スキルシートを添付して提案」で、メールやLINE WORKSのアプリにファイルごと渡せます。';
+            else note.textContent = 'この端末では、ファイルの自動添付はできません。メールが開いたあと、ファイルを手動で添付してください。';
+        }
+
+        const ACCEPT_FILE_RE = /\.(docx?|xlsx?|xlsm|pdf)$/i;   // 添付できるのは Word・Excel・PDF
+
+        // ファイルを添付に追加する（ボタン選択・ドラッグ＆ドロップ・貼り付けで共通）
+        function addFiles(fileList) {
+            let added = 0;
+            let rejected = 0;
+            Array.from(fileList || []).forEach(f => {
+                if (!ACCEPT_FILE_RE.test(f.name)) { rejected++; return; }
+                if (!attachedFiles.some(x => x.name === f.name && x.size === f.size)) { attachedFiles.push(f); added++; }
+            });
+            renderFileList();
+            if (rejected) showProposeToast('添付できるのは Word・Excel・PDF のファイルです（対象外 ' + rejected + '件）');
+            else if (added) showProposeToast(added + '件のスキルシートを添付しました');
+            return added;
+        }
+
+        window.onFilesChosen = function() {
+            const input = document.getElementById('mp-files');
+            addFiles(input.files);
+            input.value = '';
+        }
+
+        function openMatchPanel() {
+            document.getElementById('match-panel').style.display = 'block';
+        }
+
+        function isLoggedIn() {
+            return getComputedStyle(document.getElementById('login-overlay')).display === 'none';
+        }
+
+        function dragHasFiles(e) {
+            return !!(e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files'));
+        }
+
+        // ドラッグ＆ドロップ：ページのどこに落としても添付できる（ファイルがブラウザで開いてしまうのも防ぐ）
+        let dragDepth = 0;
+        function setDropHighlight(on) {
+            document.getElementById('mp-attach').classList.toggle('dragover', on);
+        }
+        window.addEventListener('dragenter', (e) => {
+            if (!dragHasFiles(e)) return;
+            e.preventDefault();
+            dragDepth++;
+            if (isLoggedIn()) { openMatchPanel(); setDropHighlight(true); }
+        });
+        window.addEventListener('dragover', (e) => {
+            if (!dragHasFiles(e)) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        });
+        window.addEventListener('dragleave', (e) => {
+            if (!dragHasFiles(e)) return;
+            dragDepth = Math.max(0, dragDepth - 1);
+            if (dragDepth === 0) setDropHighlight(false);
+        });
+        window.addEventListener('drop', (e) => {
+            if (!dragHasFiles(e)) return;
+            e.preventDefault();
+            dragDepth = 0;
+            setDropHighlight(false);
+            if (isLoggedIn()) addFiles(e.dataTransfer.files);
+        });
+
+        // 貼り付け：コピーしたファイルを Ctrl+V（⌘V）で添付できる。文字の貼り付けは今までどおり
+        document.addEventListener('paste', (e) => {
+            if (!isLoggedIn()) return;
+            const files = e.clipboardData && e.clipboardData.files;
+            if (!files || !files.length) return;
+            if (!Array.from(files).some(f => ACCEPT_FILE_RE.test(f.name))) return;   // 対象外（画像など）は通常の貼り付けのまま
+            e.preventDefault();
+            openMatchPanel();
+            addFiles(files);
+        });
+
+        // 提案文（メール本文・LINEの文章）を、貼り付けた要員情報と案件から自動で作る
+        function buildProposalBody(p) {
+            const c = candidate;
+            const tokens = parseSkills(c.skills);
+            const m = tokens.length ? matchProject(p, tokens) : null;
+            const L = ['前田 様', '', 'お世話になっております。', '下記案件につきまして、要員をご提案いたします。', '', '■案件名：' + p.title, '', '【提案要員】'];
+            const hasInfo = Object.keys(FIELD_NAMES).some(k => c[k]);
+            if (hasInfo) {
+                ['name', 'age', 'gender', 'station', 'affiliation', 'start', 'wage', 'skills', 'quals'].forEach(k => {
+                    if (c[k]) L.push(FIELD_NAMES[k] + '：' + c[k]);
+                });
+                if (m) {
+                    L.push('案件との一致スキル：' + (m.matched.join('、') || 'なし'));
+                    L.push('不足・要確認スキル：' + (m.missing.join('、') || 'なし'));
+                }
+                if (c.other) L.push('その他：' + c.other);
+                if (c.parallel) L.push('並行：' + c.parallel);
+            } else {
+                ['氏名', '年齢', '所属', '稼働', '単価', 'スキル'].forEach(l => L.push(l + '：'));
+            }
+            if (attachedFiles.length) L.push('スキルシート：' + attachedFiles.map(f => f.name).join('、'));
+            L.push('', 'ご確認のほど、よろしくお願いいたします。');
+            return L.join('\n');
+        }
+
         // ===== 提案ボタン（メールで提案／LINEで提案／電話で提案） =====
         let proposeCurrent = null;
         let proposeToastTimer = null;
@@ -1987,11 +2433,11 @@
             return /iPhone|iPod|Android.*Mobile|Windows Phone/i.test(navigator.userAgent);
         }
 
-        function makeProposeButton(title) {
+        function makeProposeButton(p) {
             const btn = document.createElement('button');
             btn.className = 'btn-propose';
             btn.innerText = '提案';
-            btn.onclick = (e) => openProposeMenu(e, title, btn);
+            btn.onclick = (e) => openProposeMenu(e, p, btn);
             return btn;
         }
 
@@ -2027,7 +2473,7 @@
             return Promise.resolve(fallbackCopy(text));
         }
 
-        window.openProposeMenu = function(ev, title, btn) {
+        window.openProposeMenu = function(ev, p, btn) {
             ev.stopPropagation();
             const menu = document.getElementById('propose-menu');
             // 同じボタンをもう一度押したら閉じる
@@ -2035,10 +2481,11 @@
                 closeProposeMenu();
                 return;
             }
-            proposeCurrent = { title, btn };
+            proposeCurrent = { p, btn };
 
             // 電話欄は毎回「電話で提案」の状態に戻す
             document.getElementById('propose-tel-btn').style.display = 'flex';
+            document.getElementById('propose-share-btn').style.display = canShareFiles() ? 'flex' : 'none';
             const telBox = document.getElementById('propose-tel-box');
             telBox.style.display = 'none';
             telBox.innerHTML = '';
@@ -2077,22 +2524,34 @@
         window.chooseProposal = function(kind) {
             const cur = proposeCurrent;
             if (!cur) return;
-            const subject = proposalSubject(cur.title);
+            const subject = proposalSubject(cur.p.title);
 
             if (kind === 'mail') {
                 // 端末の標準メーラーが起動し、宛先と件名が入った状態になる
                 closeProposeMenu();
-                goTo('mailto:' + PROPOSAL_MAIL + '?subject=' + encodeURIComponent(subject));
+                // 件名と、要員情報から作った提案文（本文）が入った状態で開く
+                const body = buildProposalBody(cur.p).replace(/\n/g, '\r\n');
+                goTo('mailto:' + PROPOSAL_MAIL + '?subject=' + encodeURIComponent(subject)
+                    + '&body=' + encodeURIComponent(body));
+                // メールのリンクでは、ファイルを自動で添付できないため、手動で添付してもらう
+                if (attachedFiles.length) showProposeToast('スキルシートは手動で添付してください：' + attachedFiles.map(f => f.name).join('、'));
 
             } else if (kind === 'line') {
                 // LINE WORKSアプリを起動し、前田さん宛てのトークに「要員提案【案件名】」を入れた状態にする。
                 // 起動できなかった場合に備えて、同じ文章をコピーしておく。
                 closeProposeMenu();
-                copyText(subject);
+                const message = subject + '\n\n' + buildProposalBody(cur.p);
+                copyText(message);
                 showProposeToast('文章をコピーしました。LINE WORKSが開かない場合は貼り付けてください');
                 goTo('https://line.worksmobile.com/message/send?version=18'
                     + '&emailList=' + encodeURIComponent(PROPOSAL_LINEWORKS_ID)
-                    + '&message=' + encodeURIComponent(subject));
+                    + '&message=' + encodeURIComponent(message));
+
+            } else if (kind === 'share') {
+                // 端末の共有画面を開き、メールやLINE WORKSのアプリへ「文章＋スキルシート」を渡す
+                closeProposeMenu();
+                navigator.share({ files: attachedFiles, title: subject, text: subject + '\n\n' + buildProposalBody(cur.p) })
+                    .catch(() => { /* 共有をやめた場合は何もしない */ });
 
             } else if (kind === 'tel') {
                 // 「電話で提案」の場所に電話番号を表示する。スマートフォンのみ、番号を押して発信できる
