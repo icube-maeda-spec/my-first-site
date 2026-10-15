@@ -266,6 +266,7 @@
         .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
         .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; background: transparent; font-size: 11px; white-space: nowrap; }
         .btn-toggle:hover { background: var(--accent); color: var(--card-bg); }
+        
         /* 詳細モーダル（カード風レイアウト） */
         :root { --dm-info-bg: #f8fafc; --dm-chip-bg: #eef2ff; --dm-chip-text: #4338ca; --dm-price: #4f46e5; --dm-label: #94a3b8; --dm-close-bg: #f1f5f9; --dm-close-text: #64748b; }
         .dark-mode { --dm-info-bg: #0f172a; --dm-chip-bg: #312e81; --dm-chip-text: #c7d2fe; --dm-price: #a5b4fc; --dm-label: #94a3b8; --dm-close-bg: #334155; --dm-close-text: #cbd5e1; }
@@ -302,6 +303,7 @@
             .dm-info { padding: 16px; }
             .dm-detail { padding: 18px; }
         }
+
         /* 要員マッチ */
         .match-panel { margin: 12px 20px 0; padding: 16px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; }
         .match-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
@@ -335,10 +337,55 @@
         .dm-chip.ok { background: #dcfce7; color: #166534; }
         .dm-chip.miss { background: transparent; color: var(--dm-label); border: 1px dashed var(--border-color); }
         .dark-mode .dm-chip.ok { background: #14532d; color: #86efac; }
-        /* 提案ボタン＆メニュー */
-        .btn-propose { background: var(--accent); color: var(--card-bg); border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: transform 0.15s ease; }
-        .btn-propose:hover { transform: scale(1.06); }
-        .btn-propose:active { transform: scale(0.96); }
+
+        /* 提案ボタン＆メニュー（押し甲斐のあるリッチなUIへブラッシュアップ） */
+        .btn-propose {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 7px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.12s ease, 
+                        filter 0.12s ease;
+        }
+        /* ホバー時：少し浮き上がり、ネオンブルーの輝きをプラス */
+        .btn-propose:hover {
+            transform: translateY(-2px) scale(1.04);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-color: #60a5fa;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            filter: brightness(1.05);
+        }
+        /* アクティブ時（押した瞬間）：グッと沈み込んで「押した感」を演出 */
+        .btn-propose:active {
+            transform: translateY(1px) scale(0.95);
+            box-shadow: 0 2px 5px rgba(15, 23, 42, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            filter: brightness(0.95);
+        }
+        /* クリック時の波紋（リップル）エフェクト用 */
+        .btn-propose .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple-effect 0.4s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
         .propose-menu { display: none; position: fixed; z-index: 10000; min-width: 200px; background: var(--card-bg); color: var(--text); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); padding: 6px; }
         .propose-menu > button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; background: transparent; border: none; color: inherit; font-size: 14px; border-radius: 8px; cursor: pointer; text-align: left; }
         .propose-menu > button:hover { background: var(--panel-bg); }
@@ -517,7 +564,7 @@
            
             <div id="match-panel" class="match-panel" style="display: none;">
                 <label class="mp-label">提案要員（情報を貼り付けるだけ）
-                    <textarea id="mp-text" rows="10" oninput="scheduleMatch()" placeholder="【提案要員】&#10;氏名：i.C&#10;年齢：26歳&#10;性別：男性&#10;最寄り：総武線　秋葉原駅&#10;所属：アイキューブ正社員&#10;稼働：10月～&#10;単価：〇〇万&#10;スキル：JAVA、C#、SQL&#10;資格：ITパスポート、基本情報技術者&#10;その他：開発を希望&#10;並行：なし"></textarea>
+                    <textarea id="mp-text" rows="10" oninput="scheduleMatch()" placeholder="【提案要員】&#10;氏名：i.C&#10;年齢：26歳&#10;性別：男性&#10;最寄り：総武線 秋葉原駅&#10;所属：アイキューブ正社員&#10;稼働：10月～&#10;単価：〇〇万&#10;スキル：JAVA、C#、SQL&#10;資格：ITパスポート、基本情報技術者&#10;その他：開発を希望&#10;並行：なし"></textarea>
                 </label>
                 <div class="mp-actions">
                     <button class="tag" onclick="applyMatch()" style="padding: 8px 14px; background: var(--accent); color: var(--card-bg);">読み取ってマッチ度を計算</button>
@@ -703,7 +750,7 @@
                     "  柏駅から徒歩13分程度。テレワークは週1回程度",
                     "",
                     "3．期間",
-                    "  2026年11月～　長期予定",
+                    "  2026年11月～ 長期予定",
                     "",
                     "4．人数",
                     "  1～2名",
@@ -717,8 +764,8 @@
                     "",
                     "6．その他",
                     "  ・外国籍NG",
-                    "  ・面談回数　2回（元請様→お客様）前田同席",
-                    "  ・勤務時間　9:00～18:00",
+                    "  ・面談回数 2回（元請様→お客様）前田同席",
+                    "  ・勤務時間 9:00～18:00",
                     "  ・個人事業主：可",
                     "  ・外国籍：不可",
                 ].join("\n")
@@ -1716,10 +1763,7 @@
                     foreignDisplay = "NG";
                     foreignColor = "#dc2626";
                 } else {
-                    // 「外国籍」という項目名の直後にある値（不可/NG/可/OKなど）だけを見て判定する。
-                    // 本文中の別の場所にある「不可」「NG」には反応しない。
-                    // 例: 「外国籍：不可」「外国籍不可」「外国籍  ：不可」「外国籍\nNG」「外国籍可 ただし…」
-                    const foreignMatch = textToCheck.match(/外国籍[\s:：・·\-－]*(不可|ng|×|✕|可|ok|○|◯)/);
+                    const foreignMatch = textToCheck.match(/外国籍[\s:：・· минут\-－]*(不可|ng|×|✕|可|ok|○|◯)/);
                     if (foreignMatch) {
                         const v = foreignMatch[1];
                         if (v === "不可" || v === "ng" || v === "×" || v === "✕") {
@@ -1730,13 +1774,11 @@
                             foreignColor = "#059669";
                         }
                     } else if (/外国籍[^\n。]{0,12}(ご遠慮|お断り|不可|ng)/.test(textToCheck)) {
-                        // 例：「外国籍の方のご応募はご遠慮ください」
                         foreignDisplay = "NG";
                         foreignColor = "#dc2626";
                     }
                 }
 
-                // 判定できなかった場合は「OK」を初期値にしている（NG・確認中などの記載があればそちらを優先）
                 let soloDisplay = "OK";
                 let soloColor = "#059669";
                 if (p.id === 27) {
@@ -1764,7 +1806,6 @@
                     }
                 }
 
-                // 掲載日が今日から NEW_DAYS 日以内なら新着扱い（日付が変わっても自動で更新される）
                 const postedAt = new Date(p.date);
                 const todayMidnight = new Date();
                 todayMidnight.setHours(0, 0, 0, 0);
@@ -1792,7 +1833,6 @@
 
                 const categoryHtml = `<span class="cat-badge ${badgeClass}">${p.categoryName}</span>`;
                 
-                // 商流の表示判定（"貴社まで"以外の長い文言はインフォメーションマーク＋ホバー）
                 let flowCellHtml = p.flow;
                 if (p.flow !== "貴社まで") {
                     flowCellHtml = `<span class="flow-tooltip-container">ⓘ<span class="flow-tooltip-text">${p.flow}</span></span>`;
@@ -1873,7 +1913,6 @@
         window.handleSort = function() {
             const sortOrder = document.getElementById('sortSelect').value;
             projects.sort((a, b) => {
-                // 要員マッチ中は、マッチ度の高い順を優先する
                 if (matchState.active && a._match && b._match) {
                     const d = b._match.score - a._match.score;
                     if (d) return d;
@@ -1908,18 +1947,14 @@
             }
         });
 
-        // ===== 詳細モーダル：iPhoneのアプリ起動風アニメーション =====
-        // 開く：押した「詳細」ボタンの位置からヒュッと拡大して表示
-        // 閉じる：同じボタンの位置へヒュッと縮みながら戻る
         let modalTrigger = null;
         let modalSeq = 0;
-        const MODAL_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)'; // iOS風の減速カーブ
+        const MODAL_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
 
         function prefersReducedMotion() {
             return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         }
 
-        // モーダル中心 → ボタン中心への移動量と縮小率を求める
         function calcModalOrigin(box) {
             const b = box.getBoundingClientRect();
             if (!modalTrigger || !document.body.contains(modalTrigger)) {
@@ -1932,7 +1967,6 @@
             return `translate(${dx}px, ${dy}px) scale(${s})`;
         }
 
-        // 案件データを詳細モーダルの各部品に流し込む
         function fillDetailModal(p) {
             const badgeMap = { dev: 'cat-dev', infra: 'cat-infra', lowcode: 'cat-lowcode', other: 'cat-other' };
             const toneMap = { 'status-open': 'tone-open', 'status-hold': 'tone-hold', 'status-urgent': 'tone-urgent', 'status-exclusive': 'tone-urgent' };
@@ -1949,7 +1983,6 @@
             document.getElementById('dm-price').textContent = p.price;
             document.getElementById('dm-location').textContent = p.location;
             document.getElementById('dm-remote').textContent = p.remote;
-            // 商流のかっこが二重にならないように整える（例：貴社まで（エンド様商流制限有）→ 貴社まで / エンド様商流制限有）
             const flowText = (p.flow || '').replace(/（/g, ' / ').replace(/）/g, '');
             document.getElementById('dm-contract').textContent =
                 (flowText && flowText !== p.contract) ? `${p.contract} (${flowText})` : p.contract;
@@ -1963,7 +1996,6 @@
                 tags.appendChild(chip);
             });
 
-            // 要員マッチ中は、一致したスキルと不足しているスキルを表示する
             const matchBox = document.getElementById('dm-match');
             if (matchState.active && p._match) {
                 document.getElementById('dm-match-score').textContent = p._match.score + '%';
@@ -2031,13 +2063,12 @@
             const seq = ++modalSeq;
 
             const finish = () => {
-                if (seq !== modalSeq) return; // 閉じている途中で開き直された場合は何もしない
+                if (seq !== modalSeq) return;
                 overlay.style.display = 'none';
                 overlay.getAnimations().forEach(a => a.cancel());
                 box.getAnimations().forEach(a => a.cancel());
             };
 
-            // 途中でも閉じられるよう、動作中のアニメーションを止めてから現在位置を測る
             overlay.getAnimations().forEach(a => a.cancel());
             box.getAnimations().forEach(a => a.cancel());
 
@@ -2065,22 +2096,18 @@
             closing.onfinish = finish;
         }
 
-        // ===== 要員マッチ（スキルマッチ）と提案文の自動作成 =====
         const candidate = { name: '', age: '', gender: '', station: '', affiliation: '', start: '', wage: '', skills: '', quals: '', parallel: '', other: '' };
         let attachedFiles = [];
         let matchTimer = null;
         const matchState = { active: false, tokens: [] };
 
-        // 案件本文からスキルを拾うための辞書（タグに無い言葉も、本文にあれば判定に使う）
         const TECH_WORDS = ["Java", "Spring Boot", "JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js", "PHP", "Python", "Ruby", "Go", "C#", ".NET", "C++", "COBOL", "RPG", "AS/400", "Oracle", "PL/SQL", "SQL", "MySQL", "PostgreSQL", "SQL Server", "Db2", "AWS", "GCP", "Azure", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "Linux", "Windows Server", "VMware", "Hyper-V", "Active Directory", "Okta", "SharePoint", "Power Automate", "Power Apps", "Microsoft 365", "SAP", "Salesforce", "ServiceNow", "要件定義", "基本設計", "詳細設計"];
-        // 言い換え（入力の表記ゆれ対策）
         const SKILL_ALIASES = { js: 'javascript', ts: 'typescript', k8s: 'kubernetes', node: 'node.js', nodejs: 'node.js', postgres: 'postgresql', sqlserver: 'sql server', ad: 'active directory', m365: 'microsoft 365', o365: 'microsoft 365', as400: 'as/400', ec2: 'aws', s3: 'aws', lambda: 'aws', dynamodb: 'aws', rds: 'aws', gke: 'gcp' };
 
         function normText(s) { return String(s || '').normalize('NFKC').toLowerCase(); }
         function compact(s) { return normText(s).replace(/[^a-z0-9#+\u3040-\u30ff\u4e00-\u9fff]/g, ''); }
         function isAscii(s) { return /^[\x20-\x7e]+$/.test(s); }
 
-        // 英数字の前後が続いていない場合だけ一致とみなす（例：Java が JavaScript に一致しないように）
         function boundaryFind(text, token) {
             let i = text.indexOf(token);
             while (i !== -1) {
@@ -2100,7 +2127,6 @@
             return ts.length >= 2 && boundaryFind(stripped, ts);
         }
 
-        // 入力されたスキルを分ける（カンマ・読点・改行区切り。区切りがなければ空白区切り）
         function parseSkills(input) {
             const src = String(input || '').trim();
             if (!src) return [];
@@ -2114,7 +2140,6 @@
             return out;
         }
 
-        // 案件側のスキル一覧（タグ＝重み2、本文だけに出てくる辞書の言葉＝重み1、最大6個）
         function projectTerms(p) {
             if (p._terms) return p._terms;
             const terms = [];
@@ -2136,7 +2161,6 @@
             return terms;
         }
 
-        // 入力スキルが、案件側のスキルを満たしているか
         function termCovers(term, key) {
             const tk = compact(term);
             const kk = compact(key);
@@ -2148,7 +2172,6 @@
             return kk.length >= 2 && (tk.includes(kk) || kk.includes(tk));
         }
 
-        // マッチ度 ＝ 入力スキルが案件に出てくる割合（主要スキルは満点・補足的なら半分）40% ＋ 案件のスキルを満たす割合 60%
         function matchProject(p, tokens) {
             const terms = projectTerms(p);
             const text = normText(p.title + ' ' + p.tags.join(' ') + ' ' + p.detailText);
@@ -2157,8 +2180,8 @@
             const tagStripped = tagText.replace(/[\s._\/\-]/g, '');
             let hitScore = 0;
             tokens.forEach(t => {
-                if (textHas(tagText, tagStripped, t.key)) hitScore += 1;       // 案件名・タグに出てくる＝主要スキル
-                else if (textHas(text, stripped, t.key)) hitScore += 0.5;      // 本文にだけ出てくる＝補足的なスキル
+                if (textHas(tagText, tagStripped, t.key)) hitScore += 1;
+                else if (textHas(text, stripped, t.key)) hitScore += 0.5;
             });
             const matched = [];
             const missing = [];
@@ -2175,7 +2198,6 @@
             return { score, level: score >= 70 ? 'high' : (score >= 40 ? 'mid' : 'low'), matched, missing };
         }
 
-        // 貼り付けた要員情報の「項目名：内容」を読み取る（項目名の表記ゆれにも対応）
         const FIELD_LABELS = [
             ['name', /氏名|名前|イニシャル/], ['age', /年齢/], ['gender', /性別/], ['station', /最寄/],
             ['affiliation', /所属|雇用|会社/], ['start', /稼働|開始|参画/], ['wage', /単価|金額/],
@@ -2190,8 +2212,8 @@
             let last = null;
             String(text || '').split(/\r?\n/).forEach(line => {
                 const t = line.trim();
-                if (!t || /^[-－ー─━=＝_＿\s]+$/.test(t)) return;   // 区切り線・空行
-                if (/^[【\[].*[】\]]$/.test(t)) return;               // 見出し（【提案要員】など）
+                if (!t || /^[-－ー─━=＝_＿\s]+$/.test(t)) return;
+                if (/^[【\[].*[】\]]$/.test(t)) return;
                 const m = t.match(/^([^:：]{1,12}?)\s*[:：]\s*(.*)$/);
                 if (m) {
                     const hit = FIELD_LABELS.find(f => f[1].test(m[1]));
@@ -2203,7 +2225,7 @@
                         c.other = (c.other ? c.other + ' / ' : '') + t;
                     }
                 } else if (last) {
-                    c[last] = (c[last] ? c[last] + ' ' : '') + t;      // 前の項目の続きの行
+                    c[last] = (c[last] ? c[last] + ' ' : '') + t;
                 }
             });
             return c;
@@ -2214,7 +2236,6 @@
             panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
         }
 
-        // 貼り付け・入力が止まって少したったら、自動で読み取る
         window.scheduleMatch = function() {
             clearTimeout(matchTimer);
             matchTimer = setTimeout(applyMatch, 700);
@@ -2267,7 +2288,6 @@
                 status.textContent = hasText ? 'スキルを読み取れませんでした（「スキル：」の行を入れてください）' : '';
             }
 
-            // 読み取った内容を表示（「〇〇」のまま未入力の項目には注意を出す）
             parsed.innerHTML = '';
             Object.keys(FIELD_NAMES).forEach(k => {
                 if (!candidate[k]) return;
@@ -2285,7 +2305,6 @@
             });
         }
 
-        // ----- スキルシートの添付（この画面の中だけで保持。保存・送信はしない）-----
         function canShareFiles() {
             return !!(attachedFiles.length && navigator.canShare && navigator.canShare({ files: attachedFiles }));
         }
@@ -2321,9 +2340,8 @@
             else note.textContent = 'この端末では、ファイルの自動添付はできません。メールが開いたあと、ファイルを手動で添付してください。';
         }
 
-        const ACCEPT_FILE_RE = /\.(docx?|xlsx?|xlsm|pdf)$/i;   // 添付できるのは Word・Excel・PDF
+        const ACCEPT_FILE_RE = /\.(docx?|xlsx?|xlsm|pdf)$/i;
 
-        // ファイルを添付に追加する（ボタン選択・ドラッグ＆ドロップ・貼り付けで共通）
         function addFiles(fileList) {
             let added = 0;
             let rejected = 0;
@@ -2355,7 +2373,6 @@
             return !!(e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files'));
         }
 
-        // ドラッグ＆ドロップ：ページのどこに落としても添付できる（ファイルがブラウザで開いてしまうのも防ぐ）
         let dragDepth = 0;
         function setDropHighlight(on) {
             document.getElementById('mp-attach').classList.toggle('dragover', on);
@@ -2384,18 +2401,16 @@
             if (isLoggedIn()) addFiles(e.dataTransfer.files);
         });
 
-        // 貼り付け：コピーしたファイルを Ctrl+V（⌘V）で添付できる。文字の貼り付けは今までどおり
         document.addEventListener('paste', (e) => {
             if (!isLoggedIn()) return;
             const files = e.clipboardData && e.clipboardData.files;
             if (!files || !files.length) return;
-            if (!Array.from(files).some(f => ACCEPT_FILE_RE.test(f.name))) return;   // 対象外（画像など）は通常の貼り付けのまま
+            if (!Array.from(files).some(f => ACCEPT_FILE_RE.test(f.name))) return;
             e.preventDefault();
             openMatchPanel();
             addFiles(files);
         });
 
-        // 提案文（メール本文・LINEの文章）を、貼り付けた要員情報と案件から自動で作る
         function buildProposalBody(p) {
             const c = candidate;
             const tokens = parseSkills(c.skills);
@@ -2420,11 +2435,9 @@
             return L.join('\n');
         }
 
-        // ===== 提案ボタン（メールで提案／LINEで提案／電話で提案） =====
         let proposeCurrent = null;
         let proposeToastTimer = null;
 
-        // 画面遷移（メーラー／LINE WORKSの起動）
         function goTo(url) {
             window.location.href = url;
         }
@@ -2437,7 +2450,22 @@
             const btn = document.createElement('button');
             btn.className = 'btn-propose';
             btn.innerText = '提案';
-            btn.onclick = (e) => openProposeMenu(e, p, btn);
+            
+            // 押した瞬間に波紋エフェクトを発生させ、メニューを開く
+            btn.onclick = (e) => {
+                const rect = btn.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                
+                btn.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 400);
+
+                openProposeMenu(e, p, btn);
+            };
             return btn;
         }
 
@@ -2476,14 +2504,12 @@
         window.openProposeMenu = function(ev, p, btn) {
             ev.stopPropagation();
             const menu = document.getElementById('propose-menu');
-            // 同じボタンをもう一度押したら閉じる
             if (menu.style.display === 'block' && proposeCurrent && proposeCurrent.btn === btn) {
                 closeProposeMenu();
                 return;
             }
             proposeCurrent = { p, btn };
 
-            // 電話欄は毎回「電話で提案」の状態に戻す
             document.getElementById('propose-tel-btn').style.display = 'flex';
             document.getElementById('propose-share-btn').style.display = canShareFiles() ? 'flex' : 'none';
             const telBox = document.getElementById('propose-tel-box');
@@ -2527,18 +2553,13 @@
             const subject = proposalSubject(cur.p.title);
 
             if (kind === 'mail') {
-                // 端末の標準メーラーが起動し、宛先と件名が入った状態になる
                 closeProposeMenu();
-                // 件名と、要員情報から作った提案文（本文）が入った状態で開く
                 const body = buildProposalBody(cur.p).replace(/\n/g, '\r\n');
                 goTo('mailto:' + PROPOSAL_MAIL + '?subject=' + encodeURIComponent(subject)
                     + '&body=' + encodeURIComponent(body));
-                // メールのリンクでは、ファイルを自動で添付できないため、手動で添付してもらう
                 if (attachedFiles.length) showProposeToast('スキルシートは手動で添付してください：' + attachedFiles.map(f => f.name).join('、'));
 
             } else if (kind === 'line') {
-                // LINE WORKSアプリを起動し、前田さん宛てのトークに「要員提案【案件名】」を入れた状態にする。
-                // 起動できなかった場合に備えて、同じ文章をコピーしておく。
                 closeProposeMenu();
                 const message = subject + '\n\n' + buildProposalBody(cur.p);
                 copyText(message);
@@ -2548,13 +2569,11 @@
                     + '&message=' + encodeURIComponent(message));
 
             } else if (kind === 'share') {
-                // 端末の共有画面を開き、メールやLINE WORKSのアプリへ「文章＋スキルシート」を渡す
                 closeProposeMenu();
                 navigator.share({ files: attachedFiles, title: subject, text: subject + '\n\n' + buildProposalBody(cur.p) })
-                    .catch(() => { /* 共有をやめた場合は何もしない */ });
+                    .catch(() => { });
 
             } else if (kind === 'tel') {
-                // 「電話で提案」の場所に電話番号を表示する。スマートフォンのみ、番号を押して発信できる
                 document.getElementById('propose-tel-btn').style.display = 'none';
                 const box = document.getElementById('propose-tel-box');
                 box.innerHTML = '';
@@ -2575,7 +2594,6 @@
             }
         }
 
-        // メニューの外をクリック／スクロール／画面サイズ変更で閉じる
         document.addEventListener('click', (e) => {
             const menu = document.getElementById('propose-menu');
             if (!menu.contains(e.target)) closeProposeMenu();
