@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -338,57 +341,28 @@
         .dm-chip.miss { background: transparent; color: var(--dm-label); border: 1px dashed var(--border-color); }
         .dark-mode .dm-chip.ok { background: #14532d; color: #86efac; }
 
-        /* 提案ボタン＆メニュー（押し甲斐のあるリッチなUIへブラッシュアップ） */
-        .btn-propose {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: #ffffff;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 7px 14px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: transform 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        box-shadow 0.12s ease, 
-                        filter 0.12s ease;
-        }
-        /* ホバー時：少し浮き上がり、ネオンブルーの輝きをプラス */
-        .btn-propose:hover {
-            transform: translateY(-2px) scale(1.04);
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            border-color: #60a5fa;
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            filter: brightness(1.05);
-        }
-        /* アクティブ時（押した瞬間）：グッと沈み込んで「押した感」を演出 */
-        .btn-propose:active {
-            transform: translateY(1px) scale(0.95);
-            box-shadow: 0 2px 5px rgba(15, 23, 42, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.3);
-            filter: brightness(0.95);
-        }
-        /* クリック時の波紋（リップル）エフェクト用 */
-        .btn-propose .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(0);
-            animation: ripple-effect 0.4s linear;
-            pointer-events: none;
-        }
-        @keyframes ripple-effect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+        /* 提案ボタン＆メニュー */
+        .btn-propose { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px 7px 12px; border: none; border-radius: 999px; background: linear-gradient(135deg, #3b82f6 0%, #6366f1 55%, #8b5cf6 100%); color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; box-shadow: 0 3px 10px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, filter 0.2s ease; }
+        .btn-propose::before { content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent); transform: skewX(-20deg); transition: left 0.6s ease; pointer-events: none; }
+        .btn-propose:hover { transform: translateY(-2px) scale(1.05); filter: brightness(1.06); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+        .btn-propose:hover::before { left: 130%; }
+        .btn-propose:active { transform: translateY(0) scale(0.93); box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.22); transition-duration: 0.08s; }
+        .btn-propose.is-open { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.28), 0 6px 16px rgba(99, 102, 241, 0.45); }
+        .btn-propose .bp-icon { flex: none; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .btn-propose:hover .bp-icon { transform: translate(2px, -2px) rotate(-8deg); }
+        /* 押した場所から広がる波紋 */
+        .btn-propose .ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.55); transform: scale(0); animation: propose-ripple 0.55s ease-out forwards; pointer-events: none; }
+        @keyframes propose-ripple { to { transform: scale(1); opacity: 0; } }
+        @media (prefers-reduced-motion: reduce) {
+            .btn-propose, .btn-propose::before, .btn-propose .bp-icon { transition: none; }
+            .btn-propose .ripple { display: none; }
         }
 
         .propose-menu { display: none; position: fixed; z-index: 10000; min-width: 200px; background: var(--card-bg); color: var(--text); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); padding: 6px; }
         .propose-menu > button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; background: transparent; border: none; color: inherit; font-size: 14px; border-radius: 8px; cursor: pointer; text-align: left; }
+        .propose-menu > button { transition: background 0.15s ease, transform 0.1s ease; }
         .propose-menu > button:hover { background: var(--panel-bg); }
+        .propose-menu > button:active { transform: scale(0.97); }
         .propose-tel-box { padding: 10px 12px; }
         .propose-tel-link, .propose-tel-num { display: block; font-size: 18px; font-weight: 700; color: var(--accent); text-decoration: none; }
         .propose-tel-link { padding: 4px 0; }
@@ -588,10 +562,10 @@
                     <table class="compact-table">
                         <thead>
                             <tr>
-                                <th style="width: 5%; text-align: center;">提案</th>
+                                <th style="width: 6%; text-align: center;">提案</th>
                                 <th style="width: 8%;">ステータス</th>
                                 <th style="width: 10%;">カテゴリー</th>
-                                <th style="width: 24%;">案件名</th>
+                                <th style="width: 23%;">案件名</th>
                                 <th style="width: 15%;">スキル</th>
                                 <th style="width: 11%;">場所</th>
                                 <th style="width: 6%;">単価</th>
@@ -1763,7 +1737,7 @@
                     foreignDisplay = "NG";
                     foreignColor = "#dc2626";
                 } else {
-                    const foreignMatch = textToCheck.match(/外国籍[\s:：・· минут\-－]*(不可|ng|×|✕|可|ok|○|◯)/);
+                    const foreignMatch = textToCheck.match(/外国籍[\s:：・·\-－]*(不可|ng|×|✕|可|ok|○|◯)/);
                     if (foreignMatch) {
                         const v = foreignMatch[1];
                         if (v === "不可" || v === "ng" || v === "×" || v === "✕") {
@@ -2449,24 +2423,28 @@
         function makeProposeButton(p) {
             const btn = document.createElement('button');
             btn.className = 'btn-propose';
-            btn.innerText = '提案';
-            
-            // 押した瞬間に波紋エフェクトを発生させ、メニューを開く
+            // 送信アイコン＋文字
+            btn.innerHTML = '<svg class="bp-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg><span>提案</span>';
             btn.onclick = (e) => {
-                const rect = btn.getBoundingClientRect();
-                const ripple = document.createElement('span');
-                ripple.className = 'ripple';
-                const size = Math.max(rect.width, rect.height);
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-                
-                btn.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 400);
-
+                pressFeedback(btn, e);
                 openProposeMenu(e, p, btn);
             };
             return btn;
+        }
+
+        // 押した瞬間の手応え：押した場所から広がる波紋と、スマホ（対応端末）の軽い振動
+        function pressFeedback(btn, e) {
+            if (navigator.vibrate) { try { navigator.vibrate(8); } catch (err) { /* 非対応は無視 */ } }
+            if (prefersReducedMotion()) return;
+            const r = btn.getBoundingClientRect();
+            const size = Math.max(r.width, r.height) * 2;
+            const x = (e.clientX ? e.clientX - r.left : r.width / 2) - size / 2;
+            const y = (e.clientY ? e.clientY - r.top : r.height / 2) - size / 2;
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
         }
 
         function proposalSubject(title) {
@@ -2508,6 +2486,8 @@
                 closeProposeMenu();
                 return;
             }
+            document.querySelectorAll('.btn-propose.is-open').forEach(b => b.classList.remove('is-open'));
+            btn.classList.add('is-open');
             proposeCurrent = { p, btn };
 
             document.getElementById('propose-tel-btn').style.display = 'flex';
@@ -2538,6 +2518,13 @@
                     [{ transform: 'scale(0.6)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }],
                     { duration: 220, easing: MODAL_EASE }
                 );
+                // 項目を上から順に、ふわっと表示する
+                Array.from(menu.querySelectorAll(':scope > button')).filter(b => b.style.display !== 'none').forEach((item, i) => {
+                    item.animate(
+                        [{ transform: 'translateY(8px)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }],
+                        { duration: 260, delay: 60 + i * 45, easing: MODAL_EASE, fill: 'backwards' }
+                    );
+                });
             }
         }
 
@@ -2545,6 +2532,7 @@
             const menu = document.getElementById('propose-menu');
             if (menu.style.display !== 'block') return;
             menu.style.display = 'none';
+            document.querySelectorAll('.btn-propose.is-open').forEach(b => b.classList.remove('is-open'));
         }
 
         window.chooseProposal = function(kind) {
@@ -2646,3 +2634,8 @@
     </div>
 </body>
 </html>
+ 
+
+
+
+Claudeが応答を完了しました
