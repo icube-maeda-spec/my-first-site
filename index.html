@@ -1,6 +1,3 @@
-
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -402,9 +399,149 @@ Index · HTML
         .dark-mode .cat-infra { background-color: #14532d; color: #86efac; border-color: #166534; }
         .dark-mode .cat-lowcode { background-color: #701a75; color: #f0abfc; border-color: #86198f; }
         .dark-mode .cat-other { background-color: #334155; color: #cbd5e1; border-color: #475569; }
+
+        /* ================= ガラス調テーマ ================= */
+        :root { --accent: #4f46e5; --text: #1e293b; --sub: #64748b; --bg: rgba(255,255,255,0.6); --panel-bg: rgba(255,255,255,0.45); --border-color: rgba(148,163,184,0.32); --tag-bg: rgba(99,102,241,0.12); --tag-text: #4338ca; --glass: rgba(255,255,255,0.55); --glass-strong: rgba(255,255,255,0.86); --glass-border: rgba(255,255,255,0.78); --glass-shadow: 0 10px 34px rgba(79,70,229,0.13); --dm-info-bg: rgba(255,255,255,0.55); --dm-chip-bg: rgba(99,102,241,0.14); --dm-chip-text: #4338ca; --dm-close-bg: rgba(255,255,255,0.75); --blob1: #a5b4fc; --blob2: #f0abfc; --blob3: #7dd3fc; }
+        .dark-mode { --accent: #a5b4fc; --text: #e2e8f0; --sub: #94a3b8; --bg: rgba(15,23,42,0.6); --panel-bg: rgba(255,255,255,0.05); --border-color: rgba(255,255,255,0.12); --tag-bg: rgba(165,180,252,0.16); --tag-text: #c7d2fe; --glass: rgba(30,41,59,0.5); --glass-strong: rgba(24,32,51,0.9); --glass-border: rgba(255,255,255,0.12); --glass-shadow: 0 10px 34px rgba(0,0,0,0.45); --dm-info-bg: rgba(255,255,255,0.06); --dm-chip-bg: rgba(165,180,252,0.18); --dm-chip-text: #c7d2fe; --dm-close-bg: rgba(255,255,255,0.1); --blob1: #4338ca; --blob2: #86198f; --blob3: #0e7490; }
+        body { font-family: 'Inter', 'Noto Sans JP', -apple-system, 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif; color: var(--text); min-height: 100vh; background: linear-gradient(135deg, #eef2ff 0%, #fdf2f8 50%, #e0f2fe 100%) fixed; }
+        body.dark-mode { background: linear-gradient(135deg, #090d1a 0%, #150f33 50%, #08182b 100%) fixed; }
+        body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.6; background: radial-gradient(60vmax 60vmax at 6% 0%, var(--blob1), transparent 60%), radial-gradient(55vmax 55vmax at 100% 100%, var(--blob2), transparent 60%), radial-gradient(40vmax 40vmax at 92% 6%, var(--blob3), transparent 60%); }
+
+        header { position: sticky; top: 0; z-index: 50; padding: 12px 32px; background: var(--glass); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); color: var(--text); border-bottom: 1px solid var(--glass-border); box-shadow: 0 4px 24px rgba(79, 70, 229, 0.08); }
+        header .logo { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; letter-spacing: 0.02em; }
+        .logo-mark { font-size: 20px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo-ver { font-size: 11px; font-weight: 500; color: var(--sub); }
+        header nav a { color: var(--text); opacity: 0.75; font-size: 13px; padding: 6px 10px; border-radius: 999px; margin-left: 6px; transition: background 0.2s, opacity 0.2s; }
+        header nav a:hover { opacity: 1; background: var(--tag-bg); }
+
+        .header-auth-status { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #047857; box-shadow: none; text-shadow: none; font-family: inherit; font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 999px; letter-spacing: 0; }
+        .dark-mode .header-auth-status { color: #6ee7b7; }
+        .header-auth-status::before { display: none; }
+        .header-auth-status .pulse-dot { border-radius: 50%; width: 7px; height: 7px; background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); animation: none; }
+
+        .marquee-container, .dark-mode .marquee-container { background: var(--glass); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); color: var(--text); border: none; border-bottom: 1px solid var(--glass-border); padding: 9px 0; }
+        .marquee-container::before, .marquee-container::after { display: none; }
+        .marquee-container .proj-item { color: #b45309; }
+        .dark-mode .marquee-container .proj-item { color: #fcd34d; }
+
+        #main-wrapper { max-width: 1180px; }
+        .controls-container { padding: 28px 24px 0; gap: 16px; }
+        .page-title { margin: 0; font-size: 22px; font-weight: 800; display: flex; align-items: baseline; gap: 12px; letter-spacing: 0.01em; }
+        .last-updated { font-size: 12px; font-weight: 500; color: var(--sub); }
+        .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .seg { display: flex; gap: 2px; padding: 3px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 999px; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+        .seg-btn { border: none; background: transparent; color: var(--text); padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; }
+        .seg-btn.active { background: var(--accent); color: var(--card-bg); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35); }
+        .glass-input { padding: 9px 14px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 13px; outline: none; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: box-shadow 0.2s, border-color 0.2s; }
+        .glass-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+        .glass-input.search { width: 240px; }
+        .glass-btn { padding: 9px 16px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: transform 0.15s, box-shadow 0.2s; }
+        .glass-btn:hover { transform: translateY(-1px); box-shadow: var(--glass-shadow); }
+        .glass-btn.primary { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #ffffff; border-color: transparent; }
+        main { padding: 16px 24px 56px; }
+
+        /* 一覧（リスト行） */
+        .project-list { display: flex; flex-direction: column; gap: 12px; }
+        .project-list .project-row { --cat: #64748b; position: relative; overflow: hidden; display: grid; grid-template-columns: auto 1fr auto auto; grid-template-areas: "propose main side detail"; align-items: center; gap: 18px; padding: 16px 20px 16px 26px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border); border-radius: 18px; box-shadow: var(--glass-shadow); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease; }
+        .project-list .project-row.cat-dev-row { --cat: #3b82f6; }
+        .project-list .project-row.cat-infra-row { --cat: #10b981; }
+        .project-list .project-row.cat-lowcode-row { --cat: #a855f7; }
+        .project-list .project-row.cat-other-row { --cat: #64748b; }
+        .project-list .project-row::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 4px 4px 0; background: var(--cat); box-shadow: 0 0 12px var(--cat); }
+        .project-list .project-row:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(79, 70, 229, 0.2); border-color: rgba(99, 102, 241, 0.45); }
+        .project-list .project-row.postponed-row, .dark-mode .project-list .project-row.postponed-row { background: var(--glass) !important; color: var(--sub) !important; opacity: 0.55; }
+        .pr-propose { grid-area: propose; }
+        .pr-main { grid-area: main; min-width: 0; }
+        .pr-side { grid-area: side; text-align: right; min-width: 150px; }
+        .pr-detail { grid-area: detail; }
+        .pr-title-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .pr-title { font-size: 17px; font-weight: 800; line-height: 1.4; letter-spacing: 0.01em; }
+        .pr-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .pr-skills .tag, .project-card .tag { background: var(--tag-bg); color: var(--tag-text); padding: 4px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; transition: transform 0.15s, background 0.15s; }
+        .pr-skills .tag:hover, .project-card .tag:hover { transform: translateY(-1px); background: rgba(99, 102, 241, 0.25); }
+        .pr-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+        .pr-badges .cat-badge, .pr-badges .status-badge { font-size: 10.5px; padding: 3px 9px; border-radius: 999px; margin: 0; }
+        .pr-badges .blink-text { display: inline !important; margin: 0 !important; font-size: 11px !important; }
+        .pr-flag { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+        .pr-flag.ok { background: rgba(16, 185, 129, 0.14); color: #047857; }
+        .pr-flag.ng { background: rgba(239, 68, 68, 0.14); color: #b91c1c; }
+        .pr-flag.ask { background: rgba(245, 158, 11, 0.16); color: #b45309; }
+        .dark-mode .pr-flag.ok { color: #6ee7b7; }
+        .dark-mode .pr-flag.ng { color: #fca5a5; }
+        .dark-mode .pr-flag.ask { color: #fcd34d; }
+        .pr-price { font-size: 20px; font-weight: 800; color: var(--accent); line-height: 1.2; }
+        .pr-place { margin-top: 6px; font-size: 12px; font-weight: 700; }
+        .pr-remote { margin-top: 2px; font-size: 11px; color: var(--sub); }
+        .btn-detail { display: inline-flex; align-items: center; gap: 4px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass-strong); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-detail span { font-size: 15px; line-height: 1; transition: transform 0.2s; }
+        .btn-detail:hover { transform: translateY(-1px); box-shadow: var(--glass-shadow); }
+        .btn-detail:hover span { transform: translateX(3px); }
+        .status-open { background: rgba(59, 130, 246, 0.15); color: #1d4ed8; }
+        .status-hold { background: rgba(245, 158, 11, 0.18); color: #b45309; }
+        .status-urgent, .status-exclusive { background: rgba(239, 68, 68, 0.15); color: #b91c1c; }
+        .dark-mode .status-open { color: #93c5fd; }
+        .dark-mode .status-hold { color: #fcd34d; }
+        .dark-mode .status-urgent, .dark-mode .status-exclusive { color: #fca5a5; }
+
+        /* カード表示 */
+        .card-grid { gap: 16px; }
+        .project-card { --cat: #64748b; position: relative; overflow: hidden; padding: 22px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
+        .project-card.cat-dev-card { --cat: #3b82f6; border-left: 1px solid var(--glass-border); }
+        .project-card.cat-infra-card { --cat: #10b981; border-left: 1px solid var(--glass-border); }
+        .project-card.cat-lowcode-card { --cat: #a855f7; border-left: 1px solid var(--glass-border); }
+        .project-card.cat-other-card { --cat: #64748b; border-left: 1px solid var(--glass-border); }
+        .project-card::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--cat), transparent); }
+        .project-card:hover, .dark-mode .project-card:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(79, 70, 229, 0.22); border-color: rgba(99, 102, 241, 0.45); }
+
+        /* ポップアップ類 */
+        .modal-overlay { background: rgba(15, 23, 42, 0.35); }
+        .modal-box { background: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); border: 1px solid var(--glass-border); box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35); }
+        .dm-title { font-weight: 800; }
+        #settings-modal > div, #pool-modal > div, #profile-modal .modal-content { background: var(--glass-strong) !important; color: var(--text) !important; border: 1px solid var(--glass-border) !important; border-radius: 20px !important; -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+        .match-panel { margin: 14px 24px 0; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
+        .propose-menu { background: var(--glass-strong); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; }
+        .login-box { background: rgba(255, 255, 255, 0.55); -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%); border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 24px; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3); }
+        .login-box input { background: rgba(255, 255, 255, 0.75); border-radius: 12px; }
+        .login-box button { background: linear-gradient(135deg, #3b82f6, #6366f1); border-radius: 12px; }
+
+        @media (max-width: 760px) {
+            header { padding: 10px 16px; }
+            .controls-container { padding: 20px 16px 0; }
+            main { padding: 14px 16px 48px; }
+            .match-panel { margin: 12px 16px 0; }
+            .glass-input.search { width: 100%; }
+            .project-list .project-row { grid-template-columns: auto 1fr; grid-template-areas: "main main" "side side" "propose detail"; gap: 12px; padding: 16px 16px 14px 22px; }
+            .pr-side { text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; min-width: 0; }
+            .pr-place, .pr-remote { margin-top: 0; }
+            .pr-detail { justify-self: end; }
+        }
+
+        /* ================= 背景の幾何学模様＋より透明なガラス ================= */
+        :root { --geo-stroke: rgba(79, 70, 229, 0.42); }
+        .dark-mode { --geo-stroke: rgba(165, 180, 252, 0.34); }
+        .geo-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; opacity: 0.55; }
+        .geo { position: absolute; will-change: transform; }
+        .geo * { fill: none; stroke: var(--geo-stroke); stroke-width: 1; vector-effect: non-scaling-stroke; }
+        .geo-a { width: 92vmax; height: 92vmax; left: -30vmax; top: -32vmax; animation: geo-spin 150s linear infinite; }
+        .geo-b { width: 82vmax; height: 82vmax; right: -26vmax; bottom: -28vmax; animation: geo-spin-rev 190s linear infinite; }
+        .geo-c { width: 46vmax; height: 46vmax; right: 4vw; top: 16vh; opacity: 0.75; animation: geo-spin 230s linear infinite; }
+        @keyframes geo-spin { to { transform: rotate(360deg); } }
+        @keyframes geo-spin-rev { to { transform: rotate(-360deg); } }
+        .geo-off .geo { animation: none; }
+        @media (prefers-reduced-motion: reduce) { .geo { animation: none; } }
+
+        /* 行・カードをより透明に（後ろの模様が透けて見える。ぼかしは弱めて模様を残す） */
+        .project-list .project-row, .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)); -webkit-backdrop-filter: blur(5px) saturate(140%); backdrop-filter: blur(5px) saturate(140%); }
+        .dark-mode .project-list .project-row, .dark-mode .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)); }
     </style>
 </head>
 <body>
+    <!-- 背景の幾何学模様（薄く、ゆっくり回転する。半透明の行の後ろに透けて見える） -->
+    <div class="geo-bg" aria-hidden="true">
+        <svg class="geo geo-a" viewBox="-200 -200 400 400"><rect x="-118" y="-118" width="236" height="236" transform="rotate(0)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(7.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(15)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(22.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(30)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(37.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(45)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(52.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(60)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(67.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(75)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(82.5)"/><circle r="140"/><circle r="165" stroke-dasharray="2 7"/><circle r="190"/></svg>
+        <svg class="geo geo-b" viewBox="-200 -200 400 400"><polygon points="0,-40 34.6,-20 34.6,20 0,40 -34.6,20 -34.6,-20"/><polygon points="35,-60.6 70,0 35,60.6 -35,60.6 -70,0 -35,-60.6"/><polygon points="0,-100 86.6,-50 86.6,50 0,100 -86.6,50 -86.6,-50"/><polygon points="65,-112.6 130,0 65,112.6 -65,112.6 -130,0 -65,-112.6"/><polygon points="0,-160 138.6,-80 138.6,80 0,160 -138.6,80 -138.6,-80"/><polygon points="95,-164.5 190,0 95,164.5 -95,164.5 -190,0 -95,-164.5"/><line x1="0" y1="0" x2="0" y2="-190"/><line x1="0" y1="0" x2="164.5" y2="-95"/><line x1="0" y1="0" x2="164.5" y2="95"/><line x1="0" y1="0" x2="0" y2="190"/><line x1="0" y1="0" x2="-164.5" y2="95"/><line x1="0" y1="0" x2="-164.5" y2="-95"/><circle r="196" stroke-dasharray="3 8"/></svg>
+        <svg class="geo geo-c" viewBox="-200 -200 400 400"><line x1="0" y1="-150" x2="142.7" y2="46.4"/><line x1="88.2" y1="-121.4" x2="88.2" y2="121.4"/><line x1="142.7" y1="-46.4" x2="0" y2="150"/><line x1="142.7" y1="46.4" x2="-88.2" y2="121.4"/><line x1="88.2" y1="121.4" x2="-142.7" y2="46.4"/><line x1="0" y1="150" x2="-142.7" y2="-46.4"/><line x1="-88.2" y1="121.4" x2="-88.2" y2="-121.4"/><line x1="-142.7" y1="46.4" x2="0" y2="-150"/><line x1="-142.7" y1="-46.4" x2="88.2" y2="-121.4"/><line x1="-88.2" y1="-121.4" x2="142.7" y2="-46.4"/><line x1="0" y1="-150" x2="88.2" y2="121.4"/><line x1="88.2" y1="-121.4" x2="0" y2="150"/><line x1="142.7" y1="-46.4" x2="-88.2" y2="121.4"/><line x1="142.7" y1="46.4" x2="-142.7" y2="46.4"/><line x1="88.2" y1="121.4" x2="-142.7" y2="-46.4"/><line x1="0" y1="150" x2="-88.2" y2="-121.4"/><line x1="-88.2" y1="121.4" x2="0" y2="-150"/><line x1="-142.7" y1="46.4" x2="88.2" y2="-121.4"/><line x1="-142.7" y1="-46.4" x2="142.7" y2="-46.4"/><line x1="-88.2" y1="-121.4" x2="142.7" y2="46.4"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(0)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(30)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(60)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(90)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(120)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(150)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(180)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(210)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(240)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(270)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(300)"/><polygon points="0,-186 9,-168 -9,-168" transform="rotate(330)"/><circle r="150"/><circle r="110" stroke-dasharray="2 6"/></svg>
+    </div>
     <div id="profile-modal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3>前田 玄真 (Maeda Genma)</h3>
@@ -457,11 +594,12 @@ Index · HTML
     <div id="propose-toast" class="propose-toast"></div>
 
     <header>
-        <div class="logo" style="display: flex; align-items: baseline; gap: 10px;">
+        <div class="logo">
+            <span class="logo-mark">◆</span>
             <span>Icube アイキューブ</span>
-            <span style="font-size: 12px; color: #cbd5e1; font-weight: normal; opacity: 0.8;">(Prototype.Ver1.2)</span>
+            <span class="logo-ver">Prototype.Ver1.2</span>
         </div>
-        
+
         <!-- ヘッダー中央の自動ログインカウントダウン表示エリア -->
         <div id="header-auth-container">
             <div class="header-auth-status">
@@ -496,6 +634,7 @@ Index · HTML
             <h3>設定メニュー</h3>
             <div style="display:flex; flex-direction:column; gap:15px;">
                 <label><input type="checkbox" id="darkModeToggle" onchange="document.body.classList.toggle('dark-mode')"> ダークモード</label>
+                <label><input type="checkbox" id="geoToggle" checked onchange="toggleGeo(this.checked)"> 背景の模様を動かす</label>
             </div>
             <button style="margin-top:20px; width:100%; background:var(--border-color); color:var(--text); border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="document.getElementById('settings-modal').style.display='none'">閉じる</button>
         </div>
@@ -515,27 +654,27 @@ Index · HTML
 
         <div id="main-wrapper">
             <div class="controls-container">
-                <h1 style="margin: 0; font-size: 20px; display: flex; align-items: baseline; gap: 10px;">
+                <h1 class="page-title">
                     <span>案件一覧</span>
-                    <span id="last-updated" style="font-size: 12px; font-weight: normal; color: #64748b;">（最終更新日時：10/15 11:40）</span>
+                    <span id="last-updated" class="last-updated">（最終更新日時：10/15 11:40）</span>
                 </h1>
-                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 2px; display: flex; gap: 2px;">
-                        <button id="btn-view-table" class="tag" onclick="switchView('table')" style="background: var(--accent); color: var(--card-bg); padding: 6px 12px;">📊 テーブル</button>
-                        <button id="btn-view-card" class="tag" onclick="switchView('card')" style="background: transparent; color: var(--text); padding: 6px 12px;">📑 カード</button>
+                <div class="controls">
+                    <div class="seg">
+                        <button id="btn-view-table" class="seg-btn active" onclick="switchView('table')">☰ リスト</button>
+                        <button id="btn-view-card" class="seg-btn" onclick="switchView('card')">▦ カード</button>
                     </div>
-                    <select id="sortSelect" onchange="handleSort()" style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text);">
+                    <select id="sortSelect" class="glass-input" onchange="handleSort()">
                         <option value="date_desc">掲載日：新しい順 (降順)</option>
                         <option value="date_asc">掲載日：古い順 (昇順)</option>
                         <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
                     </select>
-                    <input type="text" id="searchInput" placeholder="スキルやキーワードを入力..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); width: 200px; background: var(--card-bg); color: var(--text);">
-                    <button id="btn-match" class="tag" onclick="toggleMatchPanel()" style="padding: 8px 12px;">🎯 要員マッチ</button>
-                    <button class="tag" onclick="showAll()" style="padding: 8px 12px;">全て表示</button>
-                    <button class="tag" onclick="refreshData()" style="padding: 8px 12px; background: var(--accent); color: var(--card-bg);">更新</button>
+                    <input type="text" id="searchInput" class="glass-input search" placeholder="🔍 スキルやキーワードで探す">
+                    <button id="btn-match" class="glass-btn" onclick="toggleMatchPanel()">🎯 要員マッチ</button>
+                    <button class="glass-btn" onclick="showAll()">全て表示</button>
+                    <button class="glass-btn primary" onclick="refreshData()">更新</button>
                 </div>
             </div>
-           
+
             <div id="match-panel" class="match-panel" style="display: none;">
                 <label class="mp-label">提案要員（情報を貼り付けるだけ）
                     <textarea id="mp-text" rows="10" oninput="scheduleMatch()" placeholder="【提案要員】&#10;氏名：i.C&#10;年齢：26歳&#10;性別：男性&#10;最寄り：総武線 秋葉原駅&#10;所属：アイキューブ正社員&#10;稼働：10月～&#10;単価：〇〇万&#10;スキル：JAVA、C#、SQL&#10;資格：ITパスポート、基本情報技術者&#10;その他：開発を希望&#10;並行：なし"></textarea>
@@ -559,27 +698,7 @@ Index · HTML
 
             <main>
                 <div id="table-view-container">
-                    <table class="compact-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 6%; text-align: center;">提案</th>
-                                <th style="width: 8%;">ステータス</th>
-                                <th style="width: 10%;">カテゴリー</th>
-                                <th style="width: 23%;">案件名</th>
-                                <th style="width: 15%;">スキル</th>
-                                <th style="width: 11%;">場所</th>
-                                <th style="width: 6%;">単価</th>
-                                <th style="width: 5%;">商流</th>
-                                <th style="width: 5%;">契約</th>
-                                <th style="width: 5%;">個人</th>
-                                <th style="width: 5%;">外国籍</th>
-                                <th style="width: 4%;">備考</th>
-                                <th style="width: 4%; text-align: center;">条件</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body">
-                        </tbody>
-                    </table>
+                    <div id="table-body" class="project-list"></div>
                 </div>
 
                 <div id="card-view-container" class="hidden">
@@ -1701,17 +1820,13 @@ Index · HTML
             const cardContainer = document.getElementById('card-view-container');
 
             if (viewType === 'table') {
-                btnTable.style.background = 'var(--accent)';
-                btnTable.style.color = 'var(--card-bg)';
-                btnCard.style.background = 'transparent';
-                btnCard.style.color = 'var(--text)';
+                btnTable.classList.add('active');
+                btnCard.classList.remove('active');
                 tableContainer.classList.remove('hidden');
                 cardContainer.classList.add('hidden');
             } else {
-                btnCard.style.background = 'var(--accent)';
-                btnCard.style.color = 'var(--card-bg)';
-                btnTable.style.background = 'transparent';
-                btnTable.style.color = 'var(--text)';
+                btnCard.classList.add('active');
+                btnTable.classList.remove('active');
                 cardContainer.classList.remove('hidden');
                 tableContainer.classList.add('hidden');
             }
@@ -1814,39 +1929,39 @@ Index · HTML
 
                 const searchDatasetText = `${p.date} ${p.company || ''} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
 
-                const tr = document.createElement('tr');
-                tr.className = `project-row ${rowColorClass}`;
-                tr.dataset.tags = p.tags.join(',');
-                tr.dataset.text = searchDatasetText;
+                const flagClass = (v) => v === 'OK' ? 'ok' : (v === 'NG' ? 'ng' : 'ask');
+                const remarkHtml = (p.remark && p.remark !== '-') ? `<span class="pr-remark">${p.remark}</span>` : '';
 
-                const tdDetail = document.createElement('td');
-                tdDetail.style.textAlign = 'center';
-                const detailBtn = document.createElement('button');
-                detailBtn.className = 'btn-toggle';
-                detailBtn.innerText = '詳細';
-                detailBtn.onclick = () => openDetailModal(p, detailBtn);
-                tdDetail.appendChild(detailBtn);
-
-                tr.innerHTML = `
-                    <td class="propose-cell" style="text-align: center;"></td>
-                    <td>${statusHtml}</td>
-                    <td>${categoryHtml}</td>
-                    <td><div style="font-weight: bold; font-size: 13px;">${p.title}</div>${matchBadgeHtml}</td>
-                    <td><div class="tag-container">${tagHtml}</div></td>
-                    <td>
-                        <div style="font-size: 12px; font-weight: bold;">${p.location}</div>
-                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${p.remote}</div>
-                    </td>
-                    <td>${p.price}</td>
-                    <td>${flowCellHtml}</td>
-                    <td>${p.contract}</td>
-                    <td style="text-align: center; font-weight: bold; color: ${soloColor};">${soloDisplay}</td>
-                    <td style="text-align: center; font-weight: bold; color: ${foreignColor};">${foreignDisplay}</td>
-                    <td>${p.remark}</td>
+                const row = document.createElement('div');
+                row.className = `project-row ${rowColorClass}`;
+                row.dataset.tags = p.tags.join(',');
+                row.dataset.text = searchDatasetText;
+                row.innerHTML = `
+                    <div class="pr-propose"></div>
+                    <div class="pr-main">
+                        <div class="pr-title-line"><span class="pr-title">${p.title}</span>${matchBadgeHtml}</div>
+                        <div class="pr-skills">${tagHtml}</div>
+                        <div class="pr-badges">
+                            ${categoryHtml}${statusHtml}
+                            <span class="pr-flag ${flagClass(soloDisplay)}">個人 ${soloDisplay}</span>
+                            <span class="pr-flag ${flagClass(foreignDisplay)}">外国籍 ${foreignDisplay}</span>
+                            ${remarkHtml}
+                        </div>
+                    </div>
+                    <div class="pr-side">
+                        <div class="pr-price">${p.price}</div>
+                        <div class="pr-place">📍 ${p.location}</div>
+                        <div class="pr-remote">${p.remote}</div>
+                    </div>
+                    <div class="pr-detail"></div>
                 `;
-                tr.appendChild(tdDetail);
-                tr.querySelector('.propose-cell').appendChild(makeProposeButton(p));
-                tbody.appendChild(tr);
+                const detailBtn = document.createElement('button');
+                detailBtn.className = 'btn-detail';
+                detailBtn.innerHTML = '詳細<span aria-hidden="true">›</span>';
+                detailBtn.onclick = () => openDetailModal(p, detailBtn);
+                row.querySelector('.pr-detail').appendChild(detailBtn);
+                row.querySelector('.pr-propose').appendChild(makeProposeButton(p));
+                tbody.appendChild(row);
 
                 const card = document.createElement('div');
                 card.className = `project-card ${cardColorClass}`;
@@ -2589,6 +2704,19 @@ Index · HTML
         window.addEventListener('scroll', closeProposeMenu, true);
         window.addEventListener('resize', closeProposeMenu);
 
+        // 背景の幾何学模様の回転オン／オフ（この端末のブラウザにだけ保存）
+        (function() {
+            let off = false;
+            try { off = localStorage.getItem('icube_geo_anim') === 'off'; } catch (e) { off = false; }
+            document.body.classList.toggle('geo-off', off);
+            const cb = document.getElementById('geoToggle');
+            if (cb) cb.checked = !off;
+        })();
+        window.toggleGeo = function(on) {
+            document.body.classList.toggle('geo-off', !on);
+            try { localStorage.setItem('icube_geo_anim', on ? 'on' : 'off'); } catch (e) { /* 保存できなくても動作には影響しない */ }
+        }
+
         window.copyModalText = function() {
             const text = document.getElementById('modal-content-text').innerText;
             navigator.clipboard.writeText(text).then(() => alert('コピーしました'));
@@ -2634,8 +2762,3 @@ Index · HTML
     </div>
 </body>
 </html>
- 
-
-
-
-Claudeが応答を完了しました
