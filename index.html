@@ -124,7 +124,7 @@
 
         .marquee-content {
             display: inline-block;
-            min-width: max(100vw, 900px); /* 案件が少なくても、次の1周までの間隔を確保する */
+            min-width: max(100vw, 900px);
         }
         .marquee-container .proj-item { color: #facc15; font-weight: bold; margin: 0 15px; }
         
@@ -156,7 +156,6 @@
         .dark-mode .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.08); }
         .dark-mode .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.08); }
 
-        /* 延期案件のグレーアウト用スタイル */
         .project-row.postponed-row {
             background-color: #f1f5f9 !important;
             color: #94a3b8 !important;
@@ -190,7 +189,6 @@
             background-color: rgba(56, 189, 248, 0.18) !important;
         }
 
-        /* 商流ホバーポップアップのスタイル */
         .flow-tooltip-container {
             position: relative;
             display: inline-block;
@@ -232,7 +230,6 @@
             opacity: 1;
         }
 
-        /* カードビューのスタイル */
         .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         .project-card {
             background: var(--card-bg);
@@ -267,7 +264,6 @@
         .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; background: transparent; font-size: 11px; white-space: nowrap; }
         .btn-toggle:hover { background: var(--accent); color: var(--card-bg); }
         
-        /* 詳細モーダル（カード風レイアウト） */
         :root { --dm-info-bg: #f8fafc; --dm-chip-bg: #eef2ff; --dm-chip-text: #4338ca; --dm-price: #4f46e5; --dm-label: #94a3b8; --dm-close-bg: #f1f5f9; --dm-close-text: #64748b; }
         .dark-mode { --dm-info-bg: #0f172a; --dm-chip-bg: #312e81; --dm-chip-text: #c7d2fe; --dm-price: #a5b4fc; --dm-label: #94a3b8; --dm-close-bg: #334155; --dm-close-text: #cbd5e1; }
         .modal-box.detail-box { width: 760px; max-width: 92%; max-height: 88vh; padding: 0; border-radius: 24px; }
@@ -304,7 +300,6 @@
             .dm-detail { padding: 18px; }
         }
 
-        /* 要員マッチ */
         .match-panel { margin: 12px 20px 0; padding: 16px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; }
         .match-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
         .match-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #64748b; }
@@ -338,7 +333,6 @@
         .dm-chip.miss { background: transparent; color: var(--dm-label); border: 1px dashed var(--border-color); }
         .dark-mode .dm-chip.ok { background: #14532d; color: #86efac; }
 
-        /* 提案ボタン＆メニュー */
         .btn-propose { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px 7px 12px; border: none; border-radius: 999px; background: linear-gradient(135deg, #3b82f6 0%, #6366f1 55%, #8b5cf6 100%); color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; box-shadow: 0 3px 10px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, filter 0.2s ease; }
         .btn-propose::before { content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent); transform: skewX(-20deg); transition: left 0.6s ease; pointer-events: none; }
         .btn-propose:hover { transform: translateY(-2px) scale(1.05); filter: brightness(1.06); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
@@ -347,7 +341,6 @@
         .btn-propose.is-open { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.28), 0 6px 16px rgba(99, 102, 241, 0.45); }
         .btn-propose .bp-icon { flex: none; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .btn-propose:hover .bp-icon { transform: translate(2px, -2px) rotate(-8deg); }
-        /* 押した場所から広がる波紋 */
         .btn-propose .ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.55); transform: scale(0); animation: propose-ripple 0.55s ease-out forwards; pointer-events: none; }
         @keyframes propose-ripple { to { transform: scale(1); opacity: 0; } }
         @media (prefers-reduced-motion: reduce) {
@@ -387,7 +380,6 @@
         .status-hold { background-color: #eab308; color: #000000; }
         .status-urgent { background-color: #ef4444; color: white; }
         .status-exclusive { background-color: #ef4444; color: white; }
-        /* 延期バッジのスタイル：黄色背景に白字 */
         .status-postponed { background-color: #eab308; color: #ffffff; margin-left: 4px; }
 
         .cat-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; text-align: center; white-space: nowrap; }
@@ -400,7 +392,7 @@
         .dark-mode .cat-lowcode { background-color: #701a75; color: #f0abfc; border-color: #86198f; }
         .dark-mode .cat-other { background-color: #334155; color: #cbd5e1; border-color: #475569; }
 
-        /* ================= ガラス調テーマ ================= */
+        /* ガラス調テーマ */
         :root { --accent: #4f46e5; --text: #1e293b; --sub: #64748b; --bg: rgba(255,255,255,0.6); --panel-bg: rgba(255,255,255,0.45); --border-color: rgba(148,163,184,0.32); --tag-bg: rgba(99,102,241,0.12); --tag-text: #4338ca; --glass: rgba(255,255,255,0.55); --glass-strong: rgba(255,255,255,0.86); --glass-border: rgba(255,255,255,0.78); --glass-shadow: 0 10px 34px rgba(79,70,229,0.13); --dm-info-bg: rgba(255,255,255,0.55); --dm-chip-bg: rgba(99,102,241,0.14); --dm-chip-text: #4338ca; --dm-close-bg: rgba(255,255,255,0.75); --blob1: #a5b4fc; --blob2: #f0abfc; --blob3: #7dd3fc; }
         .dark-mode { --accent: #a5b4fc; --text: #e2e8f0; --sub: #94a3b8; --bg: rgba(15,23,42,0.6); --panel-bg: rgba(255,255,255,0.05); --border-color: rgba(255,255,255,0.12); --tag-bg: rgba(165,180,252,0.16); --tag-text: #c7d2fe; --glass: rgba(30,41,59,0.5); --glass-strong: rgba(24,32,51,0.9); --glass-border: rgba(255,255,255,0.12); --glass-shadow: 0 10px 34px rgba(0,0,0,0.45); --dm-info-bg: rgba(255,255,255,0.06); --dm-chip-bg: rgba(165,180,252,0.18); --dm-chip-text: #c7d2fe; --dm-close-bg: rgba(255,255,255,0.1); --blob1: #4338ca; --blob2: #86198f; --blob3: #0e7490; }
         body { font-family: 'Inter', 'Noto Sans JP', -apple-system, 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif; color: var(--text); min-height: 100vh; background: linear-gradient(135deg, #eef2ff 0%, #fdf2f8 50%, #e0f2fe 100%) fixed; }
@@ -440,7 +432,6 @@
         .glass-btn.primary { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #ffffff; border-color: transparent; }
         main { padding: 16px 24px 56px; }
 
-        /* 一覧（リスト行） */
         .project-list { display: flex; flex-direction: column; gap: 12px; }
         .project-list .project-row { --cat: #64748b; position: relative; overflow: hidden; display: grid; grid-template-columns: auto 1fr auto auto; grid-template-areas: "propose main side detail"; align-items: center; gap: 18px; padding: 16px 20px 16px 26px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border); border-radius: 18px; box-shadow: var(--glass-shadow); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease; }
         .project-list .project-row.cat-dev-row { --cat: #3b82f6; }
@@ -483,7 +474,6 @@
         .dark-mode .status-hold { color: #fcd34d; }
         .dark-mode .status-urgent, .dark-mode .status-exclusive { color: #fca5a5; }
 
-        /* カード表示 */
         .card-grid { gap: 16px; }
         .project-card { --cat: #64748b; position: relative; overflow: hidden; padding: 22px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
         .project-card.cat-dev-card { --cat: #3b82f6; border-left: 1px solid var(--glass-border); }
@@ -493,7 +483,6 @@
         .project-card::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--cat), transparent); }
         .project-card:hover, .dark-mode .project-card:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(79, 70, 229, 0.22); border-color: rgba(99, 102, 241, 0.45); }
 
-        /* ポップアップ類 */
         .modal-overlay { background: rgba(15, 23, 42, 0.35); }
         .modal-box { background: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); border: 1px solid var(--glass-border); box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35); }
         .dm-title { font-weight: 800; }
@@ -516,7 +505,6 @@
             .pr-detail { justify-self: end; }
         }
 
-        /* ================= 背景の幾何学模様＋より透明なガラス ================= */
         :root { --geo-stroke: rgba(79, 70, 229, 0.42); }
         .dark-mode { --geo-stroke: rgba(165, 180, 252, 0.34); }
         .geo-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; opacity: 0.55; }
@@ -530,13 +518,11 @@
         .geo-off .geo { animation: none; }
         @media (prefers-reduced-motion: reduce) { .geo { animation: none; } }
 
-        /* 行・カードをより透明に（後ろの模様が透けて見える。ぼかしは弱めて模様を残す） */
         .project-list .project-row, .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)); -webkit-backdrop-filter: blur(5px) saturate(140%); backdrop-filter: blur(5px) saturate(140%); }
         .dark-mode .project-list .project-row, .dark-mode .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)); }
     </style>
 </head>
 <body>
-    <!-- 背景の幾何学模様（薄く、ゆっくり回転する。半透明の行の後ろに透けて見える） -->
     <div class="geo-bg" aria-hidden="true">
         <svg class="geo geo-a" viewBox="-200 -200 400 400"><rect x="-118" y="-118" width="236" height="236" transform="rotate(0)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(7.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(15)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(22.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(30)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(37.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(45)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(52.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(60)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(67.5)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(75)"/><rect x="-118" y="-118" width="236" height="236" transform="rotate(82.5)"/><circle r="140"/><circle r="165" stroke-dasharray="2 7"/><circle r="190"/></svg>
         <svg class="geo geo-b" viewBox="-200 -200 400 400"><polygon points="0,-40 34.6,-20 34.6,20 0,40 -34.6,20 -34.6,-20"/><polygon points="35,-60.6 70,0 35,60.6 -35,60.6 -70,0 -35,-60.6"/><polygon points="0,-100 86.6,-50 86.6,50 0,100 -86.6,50 -86.6,-50"/><polygon points="65,-112.6 130,0 65,112.6 -65,112.6 -130,0 -65,-112.6"/><polygon points="0,-160 138.6,-80 138.6,80 0,160 -138.6,80 -138.6,-80"/><polygon points="95,-164.5 190,0 95,164.5 -95,164.5 -190,0 -95,-164.5"/><line x1="0" y1="0" x2="0" y2="-190"/><line x1="0" y1="0" x2="164.5" y2="-95"/><line x1="0" y1="0" x2="164.5" y2="95"/><line x1="0" y1="0" x2="0" y2="190"/><line x1="0" y1="0" x2="-164.5" y2="95"/><line x1="0" y1="0" x2="-164.5" y2="-95"/><circle r="196" stroke-dasharray="3 8"/></svg>
@@ -583,7 +569,6 @@
         </div>
     </div>
 
-    <!-- 提案メニュー（メールで提案／LINEで提案／電話で提案） -->
     <div id="propose-menu" class="propose-menu" role="menu">
         <button type="button" onclick="chooseProposal('mail')">✉️ メールで提案</button>
         <button type="button" onclick="chooseProposal('line')">💬 LINEで提案</button>
@@ -600,7 +585,6 @@
             <span class="logo-ver">Prototype.Ver1.3</span>
         </div>
 
-        <!-- ヘッダー中央の自動ログインカウントダウン表示エリア -->
         <div id="header-auth-container">
             <div class="header-auth-status">
                 <span class="pulse-dot"></span>
@@ -616,16 +600,16 @@
         </nav>
     </header>
 
-<div class="marquee-container">
+    <div class="marquee-container">
         <div class="marquee-track">
             <!-- 1つ目のブロック -->
             <div class="marquee-content">
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保 AWS設計構築案件（柏）</span>
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／AWSクラウド移行・オンプレ環境構築支援（65万～70万）</span>
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】証券系EUCシステムの開発サポート作業・技術調査要員</span>
             </div>
-            <!-- 2つ目のブロック -->
+            <!-- 2つ目のブロック（ループ用） -->
             <div class="marquee-content" aria-hidden="true">
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】生保 AWS設計構築案件（柏）</span>
+                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／AWSクラウド移行・オンプレ環境構築支援（65万～70万）</span>
                 <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】証券系EUCシステムの開発サポート作業・技術調査要員</span>
             </div>
         </div>
@@ -658,7 +642,7 @@
             <div class="controls-container">
                 <h1 class="page-title">
                     <span>案件一覧</span>
-                    <span id="last-updated" class="last-updated">（最終更新日時：10/16 13:05）</span>
+                    <span id="last-updated" class="last-updated">（最終更新日時：10/19 09:26）</span>
                 </h1>
                 <div class="controls">
                     <div class="seg">
@@ -712,12 +696,10 @@
 
     <script>
         let currentView = 'table';
-        // 掲載日からこの日数以内の案件に「NEW!!」を表示する（変更したい場合はここだけ直す）
         const NEW_DAYS = 2;
-        // 「提案」ボタンの連絡先設定
         const PROPOSAL_MAIL = "genma-maeda@icube-inc.com";
         const PROPOSAL_TEL = "070-1370-1870";
-        const PROPOSAL_LINEWORKS_ID = "icube.maeda@icubecorporation-38"; // LINE WORKSの宛先（トーク相手）
+        const PROPOSAL_LINEWORKS_ID = "icube.maeda@icubecorporation-38";
         const CORRECT_PASSWORD = "X4m9K2p7R5v1N8q3";
         const AUTH_TOKEN_KEY = "icube_auth_token_2026";
         const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
@@ -800,69 +782,66 @@
             }
         }
 
-        // 【案件データの書き方】
-        // detailText は「1行ずつの配列」を .join("\n") で改行つなぎにしている。
-        // 長い行は "文字列" + "文字列" のように + で次の行へ分けて書く（表示は1行のまま変わらない）。
         const projects = [
 
             {
                 id: 31,
                 category: "infra",
                 categoryName: "☁️ インフラ",
-                company: "",
-                date: "2026/10/14",
+                company: "A社",
+                date: "2026/10/19",
                 status: "募集中",
                 statusClass: "status-open",
-                title: "生保 AWS設計構築案件（柏）",
-                tags: ["AWS", "VMware", "Hyper-V", "クラウド移行", "設計構築"],
+                title: "柏／AWSクラウド移行・オンプレ環境構築支援（若手インフラエンジニア）",
+                tags: ["AWS", "VMware", "Hyper-V", "クラウド移行", "設計構築", "若手歓迎"],
                 location: "柏駅 徒歩13分",
-                remote: "週1回程度テレワーク",
-                price: "スキル見合い",
+                remote: "週3日程度出社（常時オンサイト抵抗なし）",
+                price: "65万～70万",
                 flow: "貴社1社先まで",
                 contract: "準委任",
                 foreign: "NG",
                 remark: "-",
                 detailText: [
-                    "案件名： 生保 AWS設計構築案件（柏）",
+                    "【案件名】柏／AWSクラウド移行・オンプレ環境構築支援（若手インフラエンジニア）",
                     "",
-                    "1．概要",
-                    "  お客様の各種AWS対応に際し、極力長いスパンで参画可能な方を求め" +
-                      "ます。",
-                    "  オンプレミスのVMware上仮想サーバーを廃止し、" +
-                      "クラウドに移行していく計画の検証及び",
-                    "  計画策定から取り組み、設計、構築、検証等の工程を実施します。",
-                    "  具体的には、アセスメント、移行、OS更改、" +
-                      "運用（パッチ適用の自動化等）といった作業を想定",
-                    "  しています。",
-                    "  また、クラウド移行の判断作業も含まれ、" +
-                      "適さないと判断したものは、",
-                    "  オンプレミス環境（Hyper-V）へ移行させます。",
-                    "  移行対象、方式、移行ペース、費用を整理し、" +
-                      "2027年度末の保守切れサーバー解消に向けた対応",
-                    "  を実施して頂きます。",
+                    "1. 案件概要・背景",
+                    "  お客様環境の各種AWS対応およびオンプレミス（VMware）からAWSクラウド／Hyper-Vへの移行に伴う検証、計画策定、設計、構築、検証等の工程を実施します。",
+                    "  具体的には、アセスメント、移行、OS更改、運用（パッチ適用自動化等）を想定しており、クラウド移行に適さないものはHyper-Vへ移行させます。2027年度末の保守切れサーバー解消に向けた長期プロジェクトです。",
                     "",
-                    "2．場所",
-                    "  柏駅から徒歩13分程度。テレワークは週1回程度",
+                    "【募集の背景・チーム体制】",
+                    "  お客様側にはすでに週3日程度出社しているAWSに強いリードエンジニアのアサインが決定しております。",
+                    "  今回はそのリードエンジニアの下でチームとして動き良く動ける若手エンジニアを募集します。",
+                    "  運用のみの経験者は対象外ですが、設計・構築経験が少しでもあり、今後の伸びしろ・人柄・コミュニケーション力を感じさせる方を最重視するポジショニングです。コスト感・年齢層を含めてフレキシブルに動き回れる若手メンバーの参画を期待しています。",
                     "",
-                    "3．期間",
-                    "  2026年11月～ 長期予定",
+                    "2. 勤務地・働き方",
+                    "  ・勤務地：柏駅 徒歩13分程度",
+                    "  ・働き方：週3日程度出社／常時オンサイト（出社）稼働に抵抗がない方",
+                    "  ・勤務時間：9:00～18:00",
                     "",
-                    "4．人数",
-                    "  1～2名",
+                    "3. 期間・募集人数",
+                    "  ・期間：2026年11月～（長期予定）",
+                    "  ・募集人数：1～2名",
                     "",
-                    "5．スキル",
-                    "  ・（必須）オンプレミスからAWSクラウド移行の検証、計画、設計、" +
-                      "構築、検証を一人称で対応できる事",
-                    "  ・（必須）VMware、Hyper-Vでの設計、構築、検証スキル",
-                    "  ・（必須）能動的に動き、指示待ちにならない方",
-                    "  ・（必須）コミュニケーション能力が高い方（※重要）",
+                    "4. 条件・単価・商流",
+                    "  ・単価：65万～70万円",
+                    "  ・商流：貴社1社先まで",
+                    "  ・ターゲット年齢層：25～30歳くらいの若手イメージ",
+                    "  ・契約形態：個人事業主：可",
+                    "  ・国籍：外国籍：不可",
                     "",
-                    "6．その他",
-                    "  ・外国籍NG",
-                    "  ・面談回数 2回（元請様→お客様）前田同席",
-                    "  ・勤務時間 9:00～18:00",
-                    "  ・個人事業主：可",
-                    "  ・外国籍：不可",
+                    "5. 求めるスキル・人物像",
+                    "  【必須スキル・条件】",
+                    "  ・インフラ（AWS、VMware、Hyper-V等）の設計・構築経験があること（※運用オンリーは不可）",
+                    "  ・常時オンサイト（出社）勤務に何も抵抗感がない方",
+                    "  ・指示待ちにならず、能動的・フットワーク軽く動ける方",
+                    "  ・人柄が良く、コミュニケーション能力・伸びしろを感じさせる方",
+                    "",
+                    "  【尚可・歓迎スキル】",
+                    "  ・AWSクラウド移行（アセスメント、検証、計画、設計・構築）の経験",
+                    "  ・VMware、Hyper-Vでの設計・構築・検証スキル",
+                    "",
+                    "6. 選考プロセス",
+                    "  ・面談回数：2回（元請様 ➔ お客様）※営業（前田）同席",
                 ].join("\n")
             },
 
@@ -920,7 +899,7 @@
                 id: 29,
                 category: "infra",
                 categoryName: "☁️ インフラ",
-                company: "",
+                company: "A社",
                 date: "2026/10/05",
                 status: "募集中",
                 statusClass: "status-open",
@@ -994,7 +973,7 @@
                 title: "エンタメ系/新商品情報管理システム開発",
                 tags: ["RPG開発", "現行システム調査", "設計"],
                 location: "大崎",
-                remote: "たまに在宅",
+                remote: "常駐（稀にリモート）",
                 price: "60～63万",
                 flow: "貴社まで",
                 contract: "準委任",
@@ -1036,7 +1015,6 @@
                     "外国籍 ：不可",
                 ].join("\n")
             },
-           
             {
                 id: 26,
                 category: "dev",
@@ -1048,8 +1026,8 @@
                 title: "EC受注出荷システム業務支援",
                 tags: ["Java", "Spring Boot", "JavaScript", "在庫管理"],
                 location: "静岡駅",
-                remote: "フル常駐",
-                price: "応相談",
+                remote: "常駐",
+                price: "スキル見合い",
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
@@ -1062,8 +1040,7 @@
                     "",
                     "スキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:",
                     "・在庫管理業務に詳しい方",
-                    "受発注業務を前提とした在庫管理・倉庫管理の要件定義を主体的に対応" +
-                      "できる",
+                    "受発注業務を前提とした在庫管理・倉庫管理の要件定義を主体的に対応できる",
                     "・EC受注出荷システム業務に精通している方",
                     "・Javaによる基本設計工程を1年以上経験",
                     "・Java（Spring Boot）、JavaScriptの実務経験を1年以上経験",
@@ -1099,7 +1076,7 @@
                 location: "平間駅/新川崎駅",
                 remote: "業務習得後相談",
                 price: "85～88万",
-                flow: "貴社まで（エンド様商流制限有）",
+                flow: "貴社まで",
                 contract: "準委任",
                 foreign: "OK",
                 remark: "-",
@@ -1116,24 +1093,19 @@
                     "",
                     "スキル要件 (必要スキル・作業内容・その他備考):",
                     "<業務内容>",
-                    "・弊社会議室要件（IT機器/ビデオカンファレンスシステム）" +
-                      "を関連所轄部門と整理した上で、必要な導入機器や関連サプライヤーか" +
-                      "らのサービス提案に向けたサポートを実施頂く",
+                    "・弊社会議室要件（IT機器/ビデオカンファレンスシステム）を関連所轄部門と整理した上で、必要な導入機器や関連サプライヤーからのサービス提案に向けたサポートを実施頂く",
                     "・インベントリの整理",
                     "・見積もりサポート（サプライヤーマネジメント）",
                     "・機器導入サポート",
                     "",
                     "<必須スキル(Must)/必須経験>",
-                    "・異なる部署間での必要な調整/コミュニケーションをとり、" +
-                      "要件を適切に把握してインプリまで持っていくことができる",
+                    "・異なる部署間での必要な調整/コミュニケーションをとり、要件を適切に把握してインプリまで持っていくことができる",
                     "・プロジェクトをリードするPMである事",
-                    "・関連部門（施設管理部）が日本語でのコミュニケーション不可のため" +
-                      "英語必須(会話・メールともに上級レベル)",
+                    "・関連部門（施設管理部）が日本語でのコミュニケーション不可のため英語必須(会話・メールともに上級レベル)",
                     "・日本語 ネイティブまたは上級",
                     "",
                     "<あれば好ましいスキル>",
-                    "・会議室機器またはその他エンドポイント端末の管理/運用/導入をした" +
-                      "業務経験がある",
+                    "・会議室機器またはその他エンドポイント端末の管理/運用/導入をした業務経験がある",
                     "・複雑性の高いタスクを自力で完遂まで持っていくことができる",
                     "",
                     "希望単価: スキル見合い（85～88万円程度）",
@@ -1162,7 +1134,7 @@
                 title: "エンタメ系/新商品情報管理システム開発",
                 tags: ["RPG開発", "要件定義", "詳細設計"],
                 location: "大崎",
-                remote: "たまに在宅",
+                remote: "常駐主体（稀にリモート）",
                 price: "60万～",
                 flow: "貴社まで",
                 contract: "準委任",
@@ -1178,10 +1150,8 @@
                     "契約形態 ： 準委任",
                     "",
                     "作業範囲 ：",
-                    "       商品情報管理システムのリプレイスに伴うASシステムの開発業" +
-                      "務。",
-                    "       現行は、フロントはWEBシステムでバックエンドがASシステムだ" +
-                      "が、",
+                    "       商品情報管理システムのリプレイスに伴うASシステムの開発業務。",
+                    "       現行は、フロントはWEBシステムでバックエンドがASシステムだが、",
                     "       新システムではバックエンドもWEBシステムになり、",
                     "       データフロー変更に伴うASシステムの改修を行う。",
                     "",
@@ -1206,8 +1176,7 @@
                     "希望単価 ：60万（スキルによる）",
                     "",
                     "【単価上振れについて】",
-                    "上振れ1万～5万が限度⇒上記必須スキルに加え、" +
-                      "特筆すべき事項が在る場合のみ",
+                    "上振れ1万～5万が限度⇒上記必須スキルに加え、特筆すべき事項が在る場合のみ",
                     "     ",
                     "外国籍  ：不可",
                     "",
@@ -1238,8 +1207,7 @@
                     "・1名",
                     "",
                     "期間：",
-                    "・開始 ： 2026/11月〜長期（1〜3ヶ月程度のお試し期間・" +
-                      "良ければ長期）",
+                    "・開始 ： 2026/11月〜長期（1〜3ヶ月程度のお試し期間・良ければ長期）",
                     "",
                     "業務内容：",
                     "・情報システム部の社員代替",
@@ -1278,7 +1246,7 @@
                 title: "専門商社での情報システム部門・社員代替",
                 tags: ["AS/400", "RPG", "情シス"],
                 location: "北松戸",
-                remote: "リモートなし",
+                remote: "常駐",
                 price: "55-60万円",
                 flow: "貴社まで",
                 contract: "準委任",
@@ -1291,13 +1259,11 @@
                     "・1名",
                     "",
                     "期間：",
-                    "・開始 ： 2026年10月〜長期（1〜3ヶ月程度のお試し期間・" +
-                      "良ければ長期）",
+                    "・開始 ： 2026年10月〜長期（1〜3ヶ月程度のお試し期間・良ければ長期）",
                     "",
                     "業務内容：",
                     "・基幹システム（AS/400）運用保守",
-                    "・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・" +
-                      "開発・テスト",
+                    "・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト",
                     "",
                     "＜必須スキル(Must)／必須経験＞",
                     "・RPG開発を上流から下流まで1人称でできる方",
@@ -1345,34 +1311,25 @@
                     "",
                     "スキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:",
                     "<必要なスキル・経験>",
-                    "・GCP, AWSを利用したクラウド基盤の設計、構築作業、" +
-                      "検証など実務経験が3年以上あること。",
-                    "設計:クラウド基盤の非機能要件定義、システム全体構成、" +
-                      "ネットワーク設計、サーバ設計、監視設計、" +
-                      "セキュリティ設計の経験がある",
-                    "構築・テスト:IaC（CloudFormation, AWS CDK, Azure Bicep, " +
-                      "Terraform）を使った基盤構築、基盤テストの経験がある",
-                    "-全て必須ではないが、様々なPJの支援を担当するため幅広く広い方が" +
-                      "良い。",
+                    "・GCP, AWSを利用したクラウド基盤の設計、構築作業、検証など実務経験が3年以上あること。",
+                    "設計:クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、サーバ設計、監視設計、セキュリティ設計の経験がある",
+                    "構築・テスト:IaC（CloudFormation, AWS CDK, Azure Bicep, Terraform）を使った基盤構築、基盤テストの経験がある",
+                    "-全て必須ではないが、様々なPJの支援を担当するため幅広く広い方が良い。",
                     "AWS: EC2、S3、IAM、Security Group、Secrets Manager",
                     "コンテナ: Docker、ECR",
                     "DB/データ基盤: RDS for Oracle、Aurora、Redshift等",
                     "",
                     "<求める人材像、役割>",
                     "・AWS基盤構築のエンジニアであること",
-                    "・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている" +
-                      "方",
-                    "・新たな技術へのアンテナが高く、情報展開やコミュニケーションを問" +
-                      "わない方",
-                    "・支援先への技術的説明やソリューション支援を一人称で行うマインド" +
-                      "を持つ方",
+                    "・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方",
+                    "・新たな技術へのアンテナが高く、情報展開やコミュニケーションを問わない方",
+                    "・支援先への技術的説明やソリューション支援を一人称で行うマインドを持つ方",
                     "",
                     "<あれば尚良>",
                     "・チームをまとめるリーダー経験がある",
                     "・OSSサポート（Apache/Tomcat）の知見がある",
                     "・オンプレ（VMware）/仮想ネットワーク（SDN）の経験がある",
-                    "・クラウド関連ベンダ系認定資格者（AWS, Azure, GoogleCloud, " +
-                      "etc.）",
+                    "・クラウド関連ベンダ系認定資格者（AWS, Azure, GoogleCloud, etc.）",
                     "",
                     "人数: 若干名（※1名でも可）",
                     "",
@@ -1380,9 +1337,7 @@
                     "",
                     "プロジェクト体制: 3名体制（内社員3名）",
                     "",
-                    "今後の稼働見込み（チーム作り）: 人財プール案件のため、" +
-                      "プロジェクトの終了後も、次のプロジェクトへアサインされるため、" +
-                      "長期参画が可能",
+                    "今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能",
                     "随時募集もあるため、BPでの体制の構築も可能",
                     "",
                     "その他、参画メリット等:",
@@ -1421,8 +1376,7 @@
                     "・開発を一通り実施した経験がある方。",
                     "・管理系の業務経験がある方。",
                     "※PM/PMOやプロジェクトの問題分析の実務経験",
-                    "品質管理、課題管理、仕様書管理といった管理作業の実務ルールの策定" +
-                      "経験",
+                    "品質管理、課題管理、仕様書管理といった管理作業の実務ルールの策定経験",
                     "・PMとして複数プロジェクトの実務経験がある方。",
                     "・要員提案の際、以下の情報を手下さい。",
                     "・年金機構案件の業務経験がある方（最近、年金案件でニーズが高い）",
@@ -1430,9 +1384,7 @@
                     "■PJ管理のスキル",
                     "①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験",
                     "②PMOまたはPM/Lとして",
-                    "③管理(①)の実務要員の作成（管理ルール作成、" +
-                      "管理簿/チケット管理ツールの導入運用）など、",
-                    "各管理の実務についてPJメンバーの支援/指導のご経験",
+                    "③管理(①)の実務要員の作成（管理ルール作成、管理簿/チケット管理ツールの導入運用）など、各管理の実務についてPJメンバーの支援/指導のご経験",
                     "④品質分析、品質評価報告書の作成のご経験",
                     "⑤利内計画の作成に関わったご経験",
                     "⑥テスト計画の作成、テスト推進に関わったご経験",
@@ -1443,19 +1395,15 @@
                     "",
                     "プロジェクト体制: 6名体制（内社員2名）",
                     "",
-                    "今後の稼働見込み（チーム作り）: 人財プール案件のため、" +
-                      "プロジェクトの終了後も、次のプロジェクトへアサインされるため、" +
-                      "長期参画が可能",
-                    "人財プール案件の支援プロジェクトとしてオープン系が大半で、" +
-                      "汎用系の方々はほとんど無い",
+                    "今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能",
+                    "人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々はほとんど無い",
                     "",
                     "その他、参画メリット等:",
                     "・事前打合せ回数: 2回（元請及びエンド様）",
                     "・外国籍: 不可",
                     "・個人事業主：可",
                     "・在宅勤務: 実務により週数かフルリモート",
-                    "※人財プール案件の支援プロジェクトとしてオープン系が大半で、" +
-                      "汎用系の方々はほとんど無い",
+                    "※人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々はほとんど無い",
                 ].join("\n")
             },
             {
@@ -1469,7 +1417,7 @@
                 title: "業務基盤再構築支援（Oracle代替）",
                 tags: ["SharePoint", "Microsoft365"],
                 location: "西日暮里",
-                remote: "出社主体",
+                remote: "常駐",
                 price: "70~80万円",
                 flow: "貴社社員まで",
                 contract: "準委任",
@@ -1479,18 +1427,15 @@
                     "【案件名】",
                     "業務基盤再構築支援（Oracle代替）",
                     "【作業場所】",
-                    "三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）" +
-                      "徒歩９分（出社主体）",
+                    "三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）徒歩９分（出社主体）",
                     "",
                     "【作業期間】",
                     "即日〜長期予定",
                     "",
                     "【スキル要件】",
                     "＜案件概要＞",
-                    "既存Oracleシステムの復旧が困難な状況を受け、SharePoint " +
-                      "Onlineを活用した業務基盤再構築プロジェクトを推進する担当。",
-                    "文書・データ管理基盤の設計から構築、データ移行、" +
-                      "運用設計までを担当し、SharePointを活用した業務環境の整備を行う。",
+                    "既存Oracleシステムの復旧が困難な状況を受け、SharePoint Onlineを活用した業務基盤再構築プロジェクトを推進する担当。",
+                    "文書・データ管理基盤の設計から構築、データ移行、運用設計までを担当し、SharePointを活用した業務環境の整備を行う。",
                     "",
                     "＜業務内容＞",
                     "・SharePoint Onlineサイト設計・構築、ドキュメントライブラリ設計",
@@ -1500,8 +1445,7 @@
                     "・Teams連携連携検討・実装支援、利用部門向け説明・定着化支援",
                     "",
                     "＜必須スキル(Must)／必須経験＞",
-                    "・SharePoint Onlineの設計・構築経験、SharePointサイト／" +
-                      "リスト設計経験",
+                    "・SharePoint Onlineの設計・構築経験、SharePointサイト／リスト設計経験",
                     "・権限設計・アクセス管理経験、ユーザー要件ヒアリング経験",
                     "・顧客折衝経験、ドキュメント作成経験",
                     "",
@@ -1512,10 +1456,8 @@
                     "・情報セキュリティ・権限管理知識",
                     "",
                     "＜求める人物像＞",
-                    "SharePointを用いた業務基盤構築を主体的に推進できる方、" +
-                      "ユーザー部門との調整ができる方",
-                    "業務要件を整理し設計に落とし込める方、手を動かしながら設計・" +
-                      "構築まで対応できる方",
+                    "SharePointを用いた業務基盤構築を主体的に推進できる方、ユーザー部門との調整ができる方",
+                    "業務要件を整理し設計に落とし込める方、手を動かしながら設計・構築まで対応できる方",
                     "",
                     "【希望単価】",
                     "70~80万円（スキル見合い）",
@@ -1571,19 +1513,16 @@
                     "",
                     " 6. アクセンチュア社稼働歴有無 ：",
                     "",
-                    "* 中国籍の方については、アクセンチュア社での（中国拠点含む）" +
-                      "社員としての在籍歴および案件での稼働有無をご記載ください。",
+                    "* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。",
                     "",
-                    "* その他の方については、日本アクセンチュア社での社員としての在籍" +
-                      "歴および案件での稼働有無をご記載ください。",
+                    "* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。",
                     "",
                     "",
                     "【SAP案件リスト】",
                     "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
                     "AD-405（Leader相当）",
                     "業界: 製薬",
-                    "内容: S/4 Global Roll in（SCM領域）、" +
-                      "運用保守フェーズに向けた計画策定チームのリーダー",
+                    "内容: S/4 Global Roll in（SCM領域）、運用保守フェーズに向けた計画策定チームのリーダー",
                     "必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）",
                     "場所: 週3日都内（週5回出社検討優先）",
                     "開始: 即日",
@@ -1611,8 +1550,7 @@
                     "AB-436（Cons相当）",
                     "業界: 教育",
                     "内容: 財務会計システムの機能運用保守・改修",
-                    "必須: 財務会計システムのヘルプデスク対応経験、業務知識、" +
-                      "日本語ネイティブ",
+                    "必須: 財務会計システムのヘルプデスク対応経験、業務知識、日本語ネイティブ",
                     "場所: 都内",
                     "開始: 即日",
                     "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
@@ -1638,8 +1576,7 @@
                     "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
                     "AD-442（-）",
                     "業界: 半導体",
-                    "内容: SAPロールアウトPJ（テストフェーズ）、" +
-                      "スクリプト作成および実テスト",
+                    "内容: SAPロールアウトPJ（テストフェーズ）、スクリプト作成および実テスト",
                     "必須: SD/MMモジュールにおけるテスト経験",
                     "場所: 基本在宅（リモート/月1-2回都内）",
                     "开始: 8月",
@@ -1676,8 +1613,7 @@
                     "【案件概要】",
                     "作業内容",
                     "電力・ガス領域における基幹システムの維持管理を担っており、",
-                    "契約・料金計算・請求・回収領域を中心に、問い合わせ対応・" +
-                      "障害対応・ 小～中規模の改修を行っている",
+                    "契約・料金計算・請求・回収領域を中心に、問い合わせ対応・障害対応・ 小～中規模の改修を行っている",
                     "",
                     "【概要】",
                     "ガス料金領域および総合請求回収領域の運用保守作業者",
@@ -1714,7 +1650,7 @@
                 tags: ["IDM", "Okta", "PL"],
                 location: "弁天橋／ハイブリッド",
                 remote: "リモート含む",
-                price: "応相談",
+                price: "スキル見合い",
                 flow: "貴社まで",
                 contract: "準委任",
                 foreign: "NG",
@@ -1725,28 +1661,23 @@
                     "",
                     "契約形態 ： 派遣・準委任",
                     "作業範囲 ：",
-                    "  ・IDM（ID管理システム）を中心とした関連システム（PAM、OKTA等）" +
-                      "の運用・保守支援",
+                    "  ・IDM（ID管理システム）を中心とした関連システム（PAM、OKTA等）の運用・保守支援",
                     "    ・IDM関連の提出資料の客観的レビュー、品質管理",
-                    "    ・IDMからのデータ連携に関する関連性の把握と整理、" +
-                      "来年度以降の実装に向けた要件定義、設計",
+                    "    ・IDMからのデータ連携に関する関連性の把握と整理、来年度以降の実装に向けた要件定義、設計",
                     "    ・プロジェクト全体のPLとしてのリード",
                     "期間   ： 2026/10月～長期",
                     "募集人数 ： 1名",
                     "必須スキル：",
                     " 【必須】",
-                    "    ・アプリケーション寄りの要件定義経験（豊富な経験を有すること" +
-                      "）",
+                    "    ・アプリケーション寄りの要件定義経験（豊富な経験を有すること）",
                     "    ・提出資料やドキュメントを客観的にレビューできる能力",
                     "    ・プロジェクトをリードできるPLスキル",
                     " 【尚可】",
                     "    ・IDM（ID管理システム）に関する知識・経験",
-                    "    ・PAM（Privileged Access Management：特権アクセス管理）、" +
-                      "Okta等の関連システムの知識・経験",
+                    "    ・PAM（Privileged Access Management：特権アクセス管理）、Okta等の関連システムの知識・経験",
                     "    ・データ連携設計の経験",
                     "    ・複数システムを横断的に見ることができる俯瞰力",
-                    "作業場所 ：出社、リモートを含むハイブリッド勤務 " +
-                      "出社時の最寄り駅：弁天橋駅",
+                    "作業場所 ：出社、リモートを含むハイブリッド勤務 出社時の最寄り駅：弁天橋駅",
                     "勤務時間 ：08:00～17:00",
                     "標準時間 ：140－180h（精算あり）",
                     "面談回数 ：2回",
@@ -1865,9 +1796,7 @@
                     " WindowsServerインフラ",
                     "",
                     "・スキルエリア（全てできることがMUST）",
-                    " AD、SEP、ArcServe等BKUP、Hyper-Vによる仮想化、" +
-                      "クラスター化など。設計、構築、テスト、リリース、" +
-                      "運用保守を全てカバーできる事",
+                    " AD、SEP、ArcServe等BKUP、Hyper-Vによる仮想化、クラスター化など。設計、構築、テスト、リリース、運用保守を全てカバーできる事",
                     "",
                     "・場所",
                     " 東京メトロ 東陽町 徒歩１５分",
@@ -1891,7 +1820,7 @@
                     "・備考",
                     "詳細は面談にてお話致します。",
                 ].join("\n")
-            },
+            }
         ];
 
         window.switchView = function(viewType) {
@@ -1927,7 +1856,6 @@
                 const matchBadgeHtml = (matchState.active && p._match)
                     ? `<span class="match-badge ${p._match.level}">マッチ ${p._match.score}%</span>` : '';
 
-                // 判定できなかった場合は「NG」を初期値にしている（NG・OKの記載があればそちらを優先）
                 let foreignDisplay = "NG";
                 let foreignColor = "#dc2626";
                 if (p.id === 27) {
@@ -2620,7 +2548,6 @@
         function makeProposeButton(p) {
             const btn = document.createElement('button');
             btn.className = 'btn-propose';
-            // 送信アイコン＋文字
             btn.innerHTML = '<svg class="bp-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg><span>提案</span>';
             btn.onclick = (e) => {
                 pressFeedback(btn, e);
@@ -2629,9 +2556,8 @@
             return btn;
         }
 
-        // 押した瞬間の手応え：押した場所から広がる波紋と、スマホ（対応端末）の軽い振動
         function pressFeedback(btn, e) {
-            if (navigator.vibrate) { try { navigator.vibrate(8); } catch (err) { /* 非対応は無視 */ } }
+            if (navigator.vibrate) { try { navigator.vibrate(8); } catch (err) {} }
             if (prefersReducedMotion()) return;
             const r = btn.getBoundingClientRect();
             const size = Math.max(r.width, r.height) * 2;
@@ -2715,7 +2641,6 @@
                     [{ transform: 'scale(0.6)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }],
                     { duration: 220, easing: MODAL_EASE }
                 );
-                // 項目を上から順に、ふわっと表示する
                 Array.from(menu.querySelectorAll(':scope > button')).filter(b => b.style.display !== 'none').forEach((item, i) => {
                     item.animate(
                         [{ transform: 'translateY(8px)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }],
@@ -2786,7 +2711,6 @@
         window.addEventListener('scroll', closeProposeMenu, true);
         window.addEventListener('resize', closeProposeMenu);
 
-        // 背景の幾何学模様の回転オン／オフ（この端末のブラウザにだけ保存）
         (function() {
             let off = false;
             try { off = localStorage.getItem('icube_geo_anim') === 'off'; } catch (e) { off = false; }
@@ -2796,7 +2720,7 @@
         })();
         window.toggleGeo = function(on) {
             document.body.classList.toggle('geo-off', !on);
-            try { localStorage.setItem('icube_geo_anim', on ? 'on' : 'off'); } catch (e) { /* 保存できなくても動作には影響しない */ }
+            try { localStorage.setItem('icube_geo_anim', on ? 'on' : 'off'); } catch (e) {}
         }
 
         window.copyModalText = function() {
