@@ -520,6 +520,82 @@
 
         .project-list .project-row, .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)); -webkit-backdrop-filter: blur(5px) saturate(140%); backdrop-filter: blur(5px) saturate(140%); }
         .dark-mode .project-list .project-row, .dark-mode .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)); }
+
+        /* ================= マーキーのクリック・要員マッチの見やすさ ================= */
+        .marquee-container .proj-item { cursor: pointer; text-decoration: underline transparent; text-underline-offset: 4px; transition: text-decoration-color 0.2s, filter 0.2s; }
+        .marquee-container .proj-item:hover { text-decoration-color: currentColor; filter: brightness(1.15); }
+        body.spot-on .project-list .project-row:not(.spotlight), body.spot-on .card-grid .project-card:not(.spotlight) { opacity: 0.25; filter: saturate(0.6); transition: opacity 0.35s ease, filter 0.35s ease; }
+        .project-list .project-row.spotlight, .card-grid .project-card.spotlight { z-index: 5; opacity: 1 !important; filter: none !important; transform: scale(1.015); border-color: #f59e0b !important; box-shadow: 0 0 0 3px #f59e0b, 0 0 0 10px rgba(245, 158, 11, 0.28), 0 22px 54px rgba(245, 158, 11, 0.4) !important; animation: spot-pulse 1.2s ease-in-out 6; }
+        @keyframes spot-pulse { 0%, 100% { box-shadow: 0 0 0 3px #f59e0b, 0 0 0 8px rgba(245, 158, 11, 0.25), 0 22px 54px rgba(245, 158, 11, 0.35); } 50% { box-shadow: 0 0 0 3px #f59e0b, 0 0 0 18px rgba(245, 158, 11, 0.08), 0 22px 54px rgba(245, 158, 11, 0.55); } }
+        .spot-label { position: absolute; top: 0; right: 0; z-index: 6; padding: 7px 18px 7px 20px; background: linear-gradient(135deg, #f59e0b, #f97316); color: #1f1300; font-size: 13px; font-weight: 800; border-radius: 0 0 0 16px; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.5); animation: spot-bounce 0.7s ease-in-out infinite alternate; }
+        @keyframes spot-bounce { from { transform: translateX(0); } to { transform: translateX(-7px); } }
+
+        .calc-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: none; border-radius: 999px; background: linear-gradient(135deg, #3b82f6, #6366f1 55%, #8b5cf6); color: #ffffff; font-size: 13px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, filter 0.2s; }
+        .calc-btn:hover { transform: translateY(-2px) scale(1.03); }
+        .calc-btn:active { transform: scale(0.95); }
+        .calc-btn .spin { display: none; width: 14px; height: 14px; border: 2px solid rgba(255, 255, 255, 0.45); border-top-color: #ffffff; border-radius: 50%; animation: calc-spin 0.7s linear infinite; }
+        .calc-btn.busy { pointer-events: none; filter: saturate(0.75); }
+        .calc-btn.busy .spin { display: inline-block; }
+        .calc-btn.needs-calc { animation: calc-pulse 1.6s ease-in-out infinite; }
+        @keyframes calc-spin { to { transform: rotate(360deg); } }
+        @keyframes calc-pulse { 0%, 100% { box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4), 0 0 0 0 rgba(99, 102, 241, 0.55); } 50% { box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4), 0 0 0 12px rgba(99, 102, 241, 0); } }
+        .mp-hint { font-size: 12px; font-weight: 700; color: #4f46e5; }
+        .dark-mode .mp-hint { color: #a5b4fc; }
+        .mp-warn { margin-top: 10px; font-size: 12.5px; font-weight: 700; line-height: 1.6; color: #dc2626; }
+        .dark-mode .mp-warn { color: #fca5a5; }
+        #mp-text.shake { animation: mp-shake 0.45s ease; border-color: #dc2626; }
+        @keyframes mp-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); } }
+        .mp-file .fmain { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .fstatus { font-size: 11px; color: #64748b; }
+        .fstatus.ok { color: #059669; }
+        .fstatus.ng { color: #dc2626; }
+
+        .match-banner { margin: 0 0 16px; padding: 16px 20px; scroll-margin-top: 84px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-radius: 18px; box-shadow: var(--glass-shadow); }
+        .mb-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .mb-icon { font-size: 28px; }
+        .mb-text { flex: 1; min-width: 240px; }
+        .mb-title { font-size: 16px; font-weight: 800; }
+        .mb-sub { margin-top: 4px; font-size: 12.5px; line-height: 1.7; color: var(--sub); }
+        .mb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .mb-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-size: 11.5px; font-weight: 700; }
+        .mb-legend .lg { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+        .mb-legend .lg.high { background: #10b981; }
+        .mb-legend .lg.mid { background: #f59e0b; }
+        .mb-legend .lg.low { background: #94a3b8; }
+        .mb-note { margin-top: 10px; font-size: 12.5px; font-weight: 700; color: var(--sub); }
+        .mb-note.warn { color: #dc2626; }
+        .mb-note.ok { color: #059669; }
+        .dark-mode .mb-note.warn { color: #fca5a5; }
+
+        .pr-gauge { grid-area: gauge; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 76px; }
+        .pr-gauge .g-ring { --gc: #94a3b8; position: relative; width: 66px; height: 66px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: conic-gradient(var(--gc) calc(var(--p) * 1%), rgba(148, 163, 184, 0.25) 0); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1); }
+        .pr-gauge .g-ring::before { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: var(--glass-strong); }
+        .pr-gauge .g-num, .pr-gauge .g-pct { position: relative; font-weight: 800; }
+        .pr-gauge .g-num { font-size: 21px; line-height: 1; }
+        .pr-gauge .g-pct { font-size: 10px; margin: 7px 0 0 1px; }
+        .pr-gauge .g-label { font-size: 10px; font-weight: 700; line-height: 1.3; text-align: center; color: var(--sub); }
+        .pr-gauge.high .g-ring { --gc: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.45); }
+        .pr-gauge.high .g-label { color: #047857; }
+        .pr-gauge.mid .g-ring { --gc: #f59e0b; }
+        .pr-gauge.mid .g-label { color: #b45309; }
+        .dark-mode .pr-gauge.high .g-label { color: #6ee7b7; }
+        .dark-mode .pr-gauge.mid .g-label { color: #fcd34d; }
+        .pr-gauge.pop .g-ring { animation: g-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes g-pop { 0% { transform: scale(1); } 45% { transform: scale(1.18); } 100% { transform: scale(1); } }
+        .project-list.has-match .project-row { grid-template-columns: auto 1fr auto auto auto; grid-template-areas: "propose main gauge side detail"; }
+        .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+        .card-title-row h3 { flex: 1; }
+        .project-card .pr-gauge { min-width: 64px; }
+        .project-card .pr-gauge .g-ring { width: 58px; height: 58px; }
+        .match-reveal { animation: mr-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+        @keyframes mr-in { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+        @media (max-width: 760px) {
+            .project-list.has-match .project-row { grid-template-columns: auto 1fr; grid-template-areas: "main main" "gauge side" "propose detail"; }
+            .pr-gauge { align-self: start; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .project-list .project-row.spotlight, .card-grid .project-card.spotlight, .spot-label, .calc-btn.needs-calc, .calc-btn .spin, .match-reveal, .pr-gauge.pop .g-ring, #mp-text.shake { animation: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -604,19 +680,19 @@
         <div class="marquee-track">
             <!-- 1つ目のブロック -->
             <div class="marquee-content">
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／AWSクラウド移行・オンプレ環境構築支援（65万～70万）</span>
+                <span class="proj-item" data-id="35"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
+                <span class="proj-item" data-id="34"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
+                <span class="proj-item" data-id="33"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
+                <span class="proj-item" data-id="32"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
+                <span class="proj-item" data-id="31"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／AWSクラウド移行・オンプレ環境構築支援（65万～70万）</span>
             </div>
             <!-- 2つ目のブロック（ループ用） -->
             <div class="marquee-content" aria-hidden="true">
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
-                <span class="proj-item"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／AWSクラウド移行・オンプレ環境構築支援（65万～70万）</span>
+                <span class="proj-item" data-id="35"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
+                <span class="proj-item" data-id="34"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
+                <span class="proj-item" data-id="33"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
+                <span class="proj-item" data-id="32"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
+                <span class="proj-item" data-id="31"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／AWSクラウド移行・オンプレ環境構築支援（65万～70万）</span>
             </div>
         </div>
     </div>
@@ -672,10 +748,12 @@
                     <textarea id="mp-text" rows="10" oninput="scheduleMatch()" placeholder="【提案要員】&#10;氏名：i.C&#10;年齢：26歳&#10;性別：男性&#10;最寄り：総武線 秋葉原駅&#10;所属：アイキューブ正社員&#10;稼働：10月～&#10;単価：〇〇万&#10;スキル：JAVA、C#、SQL&#10;資格：ITパスポート、基本情報技術者&#10;その他：開発を希望&#10;並行：なし"></textarea>
                 </label>
                 <div class="mp-actions">
-                    <button class="tag" onclick="applyMatch()" style="padding: 8px 14px; background: var(--accent); color: var(--card-bg);">読み取ってマッチ度を計算</button>
+                    <button id="btn-calc" class="calc-btn" onclick="applyMatch(true)"><span class="spin"></span><span class="calc-label">読み取ってマッチ度を計算</span></button>
                     <button class="tag" onclick="clearMatch()" style="padding: 8px 14px;">クリア</button>
+                    <span id="mp-hint" class="mp-hint"></span>
                     <span id="mp-status" class="mp-status"></span>
                 </div>
+                <div class="mp-warn">⚠ 要員情報だけでもマッチ度は表示できますが、スキルシート（Word・Excel・PDF）を添付すると、より精度が上がります。</div>
                 <div id="mp-parsed" class="mp-parsed"></div>
                 <div id="mp-attach" class="mp-attach">
                     <div class="mp-label">📎 スキルシート（Word・Excel・PDF）
@@ -689,6 +767,25 @@
             </div>
 
             <main>
+                <div id="match-banner" class="match-banner" style="display: none;">
+                    <div class="mb-top">
+                        <span class="mb-icon">🎯</span>
+                        <div class="mb-text">
+                            <div id="mb-title" class="mb-title"></div>
+                            <div id="mb-sub" class="mb-sub"></div>
+                        </div>
+                        <div class="mb-actions">
+                            <button class="glass-btn" onclick="editMatch()">要員情報を編集</button>
+                            <button class="glass-btn" onclick="clearMatch()">マッチを解除</button>
+                        </div>
+                    </div>
+                    <div class="mb-legend">
+                        <span><i class="lg high"></i>70%以上：かなり合う</span>
+                        <span><i class="lg mid"></i>40〜69%：一部合う</span>
+                        <span><i class="lg low"></i>39%以下：あまり合わない</span>
+                    </div>
+                    <div id="mb-note" class="mb-note"></div>
+                </div>
                 <div id="table-view-container">
                     <div id="table-body" class="project-list"></div>
                 </div>
@@ -2039,13 +2136,15 @@
             const tbody = document.getElementById('table-body');
             const cardGrid = document.getElementById('card-grid');
             tbody.innerHTML = '';
+            tbody.classList.toggle('has-match', matchState.active);
             cardGrid.innerHTML = '';
 
             dataList.forEach((p) => {
                 const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
                 const textToCheck = (p.detailText).toLowerCase();
-                const matchBadgeHtml = (matchState.active && p._match)
-                    ? `<span class="match-badge ${p._match.level}">マッチ ${p._match.score}%</span>` : '';
+                const gaugeLabel = { high: 'かなり合う', mid: '一部合う', low: 'あまり合わない' };
+                const gaugeHtml = (matchState.active && p._match)
+                    ? `<div class="pr-gauge ${p._match.level}" data-score="${p._match.score}" style="--p:${p._match.score}"><div class="g-ring"><span class="g-num">${p._match.score}</span><span class="g-pct">%</span></div><div class="g-label">マッチ度<br>${gaugeLabel[p._match.level]}</div></div>` : '';
 
                 let foreignDisplay = "NG";
                 let foreignColor = "#dc2626";
@@ -2140,10 +2239,11 @@
                 row.className = `project-row ${rowColorClass}`;
                 row.dataset.tags = p.tags.join(',');
                 row.dataset.text = searchDatasetText;
+                row.dataset.id = p.id;
                 row.innerHTML = `
                     <div class="pr-propose"></div>
                     <div class="pr-main">
-                        <div class="pr-title-line"><span class="pr-title">${p.title}</span>${matchBadgeHtml}</div>
+                        <div class="pr-title-line"><span class="pr-title">${p.title}</span></div>
                         <div class="pr-skills">${tagHtml}</div>
                         <div class="pr-badges">
                             ${categoryHtml}${statusHtml}
@@ -2152,6 +2252,7 @@
                             ${remarkHtml}
                         </div>
                     </div>
+                    ${gaugeHtml}
                     <div class="pr-side">
                         <div class="pr-price">${p.price}</div>
                         <div class="pr-place">📍 ${p.location}</div>
@@ -2171,6 +2272,7 @@
                 card.className = `project-card ${cardColorClass}`;
                 card.dataset.tags = p.tags.join(',');
                 card.dataset.text = searchDatasetText;
+                card.dataset.id = p.id;
                 card.innerHTML = `
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -2178,8 +2280,7 @@
                             <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company || ''}</span>
                         </div>
                         <div style="margin-bottom: 10px;">${statusHtml} ${categoryHtml}</div>
-                        <h3 style="font-size: 15px; margin: 0 0 10px 0; line-height: 1.4;">${p.title}</h3>
-                        ${matchBadgeHtml ? `<div style="margin: -4px 0 10px 0;">${matchBadgeHtml}</div>` : ''}
+                        <div class="card-title-row"><h3 style="font-size: 15px; margin: 0; line-height: 1.4;">${p.title}</h3>${gaugeHtml}</div>
                         <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
                         <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
                             📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
@@ -2392,7 +2493,9 @@
         const candidate = { name: '', age: '', gender: '', station: '', affiliation: '', start: '', wage: '', skills: '', quals: '', parallel: '', other: '' };
         let attachedFiles = [];
         let matchTimer = null;
-        const matchState = { active: false, tokens: [] };
+        const matchState = { active: false, tokens: [], typedCount: 0, sheetCount: 0 };
+        let matchDirty = false;
+        let skillVocabCache = null;
 
         const TECH_WORDS = ["Java", "Spring Boot", "JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js", "PHP", "Python", "Ruby", "Go", "C#", ".NET", "C++", "COBOL", "RPG", "AS/400", "Oracle", "PL/SQL", "SQL", "MySQL", "PostgreSQL", "SQL Server", "Db2", "AWS", "GCP", "Azure", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "Linux", "Windows Server", "VMware", "Hyper-V", "Active Directory", "Okta", "SharePoint", "Power Automate", "Power Apps", "Microsoft 365", "SAP", "Salesforce", "ServiceNow", "要件定義", "基本設計", "詳細設計", "Cisco", "FortiGate", "BIG-IP", "ネットワーク"];
         const SKILL_ALIASES = { js: 'javascript', ts: 'typescript', k8s: 'kubernetes', node: 'node.js', nodejs: 'node.js', postgres: 'postgresql', sqlserver: 'sql server', ad: 'active directory', m365: 'microsoft 365', o365: 'microsoft 365', as400: 'as/400', ec2: 'aws', s3: 'aws', lambda: 'aws', dynamodb: 'aws', rds: 'aws', gke: 'gcp' };
@@ -2471,8 +2574,11 @@
             const stripped = text.replace(/[\s._\/\-]/g, '');
             const tagText = normText(p.title + ' ' + p.tags.join(' '));
             const tagStripped = tagText.replace(/[\s._\/\-]/g, '');
+            // 入力された要員情報のスキルを「主」にして一致度を見る（スキルシートから拾ったスキルは「補助」として、案件を満たす割合の判定にだけ使う）
+            let primary = tokens.filter(t => t.src !== 'sheet');
+            if (!primary.length) primary = tokens;
             let hitScore = 0;
-            tokens.forEach(t => {
+            primary.forEach(t => {
                 if (textHas(tagText, tagStripped, t.key)) hitScore += 1;
                 else if (textHas(text, stripped, t.key)) hitScore += 0.5;
             });
@@ -2485,7 +2591,7 @@
                 if (tokens.some(t => termCovers(x.term, t.key))) { covered += x.w; matched.push(x.term); }
                 else { missing.push(x.term); }
             });
-            const hitRate = tokens.length ? hitScore / tokens.length : 0;
+            const hitRate = primary.length ? hitScore / primary.length : 0;
             const coverage = total ? covered / total : 0;
             const score = Math.round(100 * (0.4 * hitRate + 0.6 * coverage));
             return { score, level: score >= 70 ? 'high' : (score >= 40 ? 'mid' : 'low'), matched, missing };
@@ -2524,28 +2630,128 @@
             return c;
         }
 
+        const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
         window.toggleMatchPanel = function() {
             const panel = document.getElementById('match-panel');
             panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
         }
 
-        window.scheduleMatch = function() {
-            clearTimeout(matchTimer);
-            matchTimer = setTimeout(applyMatch, 700);
+        window.editMatch = function() {
+            openMatchPanel();
+            document.getElementById('match-panel').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        window.applyMatch = function() {
+        // 入力中は「読み取り結果」だけを更新する（マッチ度の計算は、ボタンを押したときに行う）
+        window.scheduleMatch = function() {
             clearTimeout(matchTimer);
-            Object.assign(candidate, parseCandidate(document.getElementById('mp-text').value));
-            const tokens = parseSkills(candidate.skills);
-            matchState.tokens = tokens;
-            matchState.active = tokens.length > 0;
-            projects.forEach(p => {
-                if (matchState.active) p._match = matchProject(p, tokens);
-                else delete p._match;
+            matchTimer = setTimeout(() => {
+                Object.assign(candidate, parseCandidate(document.getElementById('mp-text').value));
+                renderParsedPreview();
+                markNeedsCalc();
+            }, 350);
+        }
+
+        // 計算ボタンの状態（計算中の表示）
+        function setCalcBusy(on, label) {
+            const btn = document.getElementById('btn-calc');
+            btn.classList.toggle('busy', on);
+            btn.querySelector('.calc-label').textContent = on ? (label || '計算中…') : '読み取ってマッチ度を計算';
+            if (on) btn.classList.remove('needs-calc');
+        }
+
+        function flashCalcDone() {
+            const label = document.querySelector('#btn-calc .calc-label');
+            label.textContent = '✓ 計算しました';
+            setTimeout(() => { label.textContent = '読み取ってマッチ度を計算'; }, 1800);
+        }
+
+        // 入力や添付が変わったのに、まだ計算していない状態：ボタンを脈打たせて「押してね」を伝える
+        function markNeedsCalc() {
+            matchDirty = true;
+            const has = document.getElementById('mp-text').value.trim() !== '' || attachedFiles.length > 0;
+            document.getElementById('btn-calc').classList.toggle('needs-calc', has);
+            document.getElementById('mp-hint').textContent = has ? '👈 入力したら、ここを押すと、マッチ度が各案件に表示されます' : '';
+        }
+
+        function matchInputError() {
+            const ta = document.getElementById('mp-text');
+            ta.classList.remove('shake');
+            void ta.offsetWidth;
+            ta.classList.add('shake');
+            showProposeToast('スキルを読み取れませんでした。「スキル：Java、AWS」のように入力してください');
+            ta.focus();
+        }
+
+        // 入力スキル（主）＋スキルシートから拾ったスキル（補助）
+        function sheetTokens(typed) {
+            const have = new Set(typed.map(t => t.key));
+            const out = [];
+            attachedFiles.forEach(f => {
+                const info = fileInfo.get(f);
+                if (!info || info.status !== 'ok') return;
+                info.skills.forEach(w => {
+                    const key = SKILL_ALIASES[compact(w)] || normText(w).trim();
+                    if (!key || have.has(key) || out.length >= 30) return;
+                    have.add(key);
+                    out.push({ raw: w, key, w: 0.6, src: 'sheet' });
+                });
             });
+            return out;
+        }
+
+        function bestMatch() {
+            let best = null;
+            projects.forEach(p => {
+                if (p._match && (!best || p._match.score > best.score)) best = { title: p.title, score: p._match.score };
+            });
+            return best || { title: '', score: 0 };
+        }
+
+        // mode: true＝ボタンを押した／'auto'＝スキルシートの読み取りが終わって自動で再計算
+        window.applyMatch = async function(mode) {
+            clearTimeout(matchTimer);
+            const fromButton = mode === true;
+            Object.assign(candidate, parseCandidate(document.getElementById('mp-text').value));
+            if (mode !== 'auto') setCalcBusy(true, parsePromises.size ? 'スキルシートを読み取り中…' : '計算中…');
+            await Promise.all(Array.from(parsePromises));
+            if (fromButton) await sleep(650);   // 「押したら処理した」ことが伝わるための、ほんの少しの間
+
+            const typed = parseSkills(candidate.skills);
+            const sheet = sheetTokens(typed);
+            const tokens = typed.concat(sheet);
+
+            if (!tokens.length) {
+                matchState.tokens = [];
+                matchState.active = false;
+                projects.forEach(p => { delete p._match; });
+                setCalcBusy(false);
+                refreshMatchUi();
+                handleSort();
+                if (mode !== 'auto') matchInputError();
+                return;
+            }
+
+            matchState.tokens = tokens;
+            matchState.typedCount = typed.length;
+            matchState.sheetCount = sheet.length;
+            matchState.active = true;
+            projects.forEach(p => { p._match = matchProject(p, tokens); });
+            matchDirty = false;
+            setCalcBusy(false);
+            document.getElementById('btn-calc').classList.remove('needs-calc');
+            document.getElementById('mp-hint').textContent = '';
+            if (fromButton) flashCalcDone();
             refreshMatchUi();
             handleSort();
+            revealMatch();
+
+            if (mode === 'auto') {
+                showProposeToast('スキルシートの内容を反映して、マッチ度を再計算しました');
+            } else {
+                showProposeToast('🎯 マッチ度を計算しました（最高 ' + bestMatch().score + '%）');
+                document.getElementById('match-banner').scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+            }
         }
 
         window.clearMatch = function() {
@@ -2555,32 +2761,53 @@
             attachedFiles = [];
             renderFileList();
             matchState.tokens = [];
+            matchState.typedCount = 0;
+            matchState.sheetCount = 0;
             matchState.active = false;
             projects.forEach(p => { delete p._match; });
+            markNeedsCalc();
+            matchDirty = false;
             refreshMatchUi();
             handleSort();
         }
 
-        function refreshMatchUi() {
-            const btn = document.getElementById('btn-match');
-            const status = document.getElementById('mp-status');
+        // 計算結果を「見て分かる」形で見せる：行が順に現れ、丸いメーターが0%から数字まで伸びる
+        function revealMatch() {
+            const container = currentView === 'table' ? document.getElementById('table-body') : document.getElementById('card-grid');
+            const items = Array.from(container.children);
+            items.forEach((el, i) => { el.style.setProperty('--i', Math.min(i, 14)); el.classList.add('match-reveal'); });
+            setTimeout(() => items.forEach(el => { el.classList.remove('match-reveal'); el.style.removeProperty('--i'); }), 1700);
+            animateGauges(container);
+        }
+
+        function animateGauges(container) {
+            if (prefersReducedMotion()) return;
+            Array.from(container.querySelectorAll('.pr-gauge')).forEach((g, i) => {
+                const target = Number(g.dataset.score) || 0;
+                const num = g.querySelector('.g-num');
+                g.style.setProperty('--p', 0);
+                num.textContent = '0';
+                const start = performance.now() + 150 + Math.min(i, 14) * 45;
+                const dur = 900;
+                const tick = (now) => {
+                    const t = Math.min(Math.max((now - start) / dur, 0), 1);
+                    const e = 1 - Math.pow(1 - t, 3);
+                    g.style.setProperty('--p', target * e);
+                    num.textContent = String(Math.round(target * e));
+                    if (t < 1) { requestAnimationFrame(tick); }
+                    else {
+                        g.style.setProperty('--p', target);
+                        num.textContent = String(target);
+                        g.classList.add('pop');
+                        setTimeout(() => g.classList.remove('pop'), 700);
+                    }
+                };
+                requestAnimationFrame(tick);
+            });
+        }
+
+        function renderParsedPreview() {
             const parsed = document.getElementById('mp-parsed');
-            const hasText = document.getElementById('mp-text').value.trim() !== '';
-
-            if (matchState.active) {
-                btn.textContent = '🎯 要員マッチ：ON';
-                btn.style.background = 'var(--accent)';
-                btn.style.color = 'var(--card-bg)';
-                status.style.color = '#059669';
-                status.textContent = '「' + matchState.tokens.map(t => t.raw).join(' / ') + '」でマッチ度の高い順に並べています';
-            } else {
-                btn.textContent = '🎯 要員マッチ';
-                btn.style.background = '';
-                btn.style.color = '';
-                status.style.color = '#d97706';
-                status.textContent = hasText ? 'スキルを読み取れませんでした（「スキル：」の行を入れてください）' : '';
-            }
-
             parsed.innerHTML = '';
             Object.keys(FIELD_NAMES).forEach(k => {
                 if (!candidate[k]) return;
@@ -2598,12 +2825,180 @@
             });
         }
 
+        function refreshMatchUi() {
+            const btn = document.getElementById('btn-match');
+            const status = document.getElementById('mp-status');
+            const hasText = document.getElementById('mp-text').value.trim() !== '';
+            if (matchState.active) {
+                btn.textContent = '🎯 要員マッチ：ON';
+                btn.style.background = 'var(--accent)';
+                btn.style.color = 'var(--card-bg)';
+                status.style.color = '#059669';
+                status.textContent = '✓ 各案件にマッチ度（％）を表示しました。下の一覧を見てください';
+            } else {
+                btn.textContent = '🎯 要員マッチ';
+                btn.style.background = '';
+                btn.style.color = '';
+                status.style.color = '#d97706';
+                status.textContent = hasText ? 'スキルを読み取れませんでした（「スキル：」の行を入れてください）' : '';
+            }
+            renderParsedPreview();
+            renderMatchBanner();
+        }
+
+        // 一覧の上に出す結果バナー：何が起きたか・どこを見ればよいか・結果の概要
+        function renderMatchBanner() {
+            const banner = document.getElementById('match-banner');
+            if (!matchState.active) { banner.style.display = 'none'; return; }
+            const typed = matchState.tokens.filter(t => t.src !== 'sheet').map(t => t.raw);
+            const scored = projects.filter(p => p._match);
+            const best = bestMatch();
+            const n70 = scored.filter(p => p._match.score >= 70).length;
+            const n40 = scored.filter(p => p._match.score >= 40).length;
+            document.getElementById('mb-title').textContent = 'マッチ度を計算しました。マッチ度の高い順に並べています';
+            const basis = (typed.length ? '「' + typed.join(' / ') + '」' : '') + (matchState.sheetCount ? (typed.length ? ' ＋ ' : '') + 'スキルシートから拾った' + matchState.sheetCount + '件のスキル' : '');
+            document.getElementById('mb-sub').textContent = basis + ' で計算。各案件の右側にある丸いメーターが、マッチ度（％）です。　最高 ' + best.score + '%（' + best.title + '）／ 70%以上 ' + n70 + '件・40%以上 ' + n40 + '件';
+
+            const note = document.getElementById('mb-note');
+            const okFiles = attachedFiles.filter(f => (fileInfo.get(f) || {}).status === 'ok');
+            note.className = 'mb-note';
+            if (!attachedFiles.length) {
+                note.classList.add('warn');
+                note.textContent = '📎 スキルシート（Word・Excel・PDF）を添付すると、さらに精度が上がります。';
+            } else if (okFiles.length) {
+                note.classList.add('ok');
+                note.textContent = '📎 スキルシート' + okFiles.length + '件の内容も反映しています（追加で拾ったスキル ' + matchState.sheetCount + '件）。';
+            } else if (attachedFiles.some(f => (fileInfo.get(f) || {}).status === 'parsing')) {
+                note.textContent = '📎 スキルシートを読み取り中です…';
+            } else {
+                note.classList.add('warn');
+                note.textContent = '📎 添付したスキルシートは読み取れませんでした（.docx / .xlsx / .pdf で、文字が入っているものをお試しください）。';
+            }
+            banner.style.display = 'block';
+        }
+
         function canShareFiles() {
             return !!(attachedFiles.length && navigator.canShare && navigator.canShare({ files: attachedFiles }));
         }
 
         function formatSize(n) {
             return n >= 1048576 ? (n / 1048576).toFixed(1) + 'MB' : Math.max(1, Math.round(n / 1024)) + 'KB';
+        }
+
+        // ----- スキルシートの読み取り（この端末のブラウザの中だけで処理。ファイルは送信しません）-----
+        const fileInfo = new WeakMap();
+        const parsePromises = new Set();
+        const LIB_URLS = {
+            mammoth: 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js',
+            xlsx: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+            pdf: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js'
+        };
+        const PDF_WORKER_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+        const libPromises = {};
+
+        // 読み取り用の部品は、スキルシートを添付したときだけ読み込む（普段のページは軽いまま）
+        function loadScript(url) {
+            if (!libPromises[url]) {
+                libPromises[url] = new Promise((resolve, reject) => {
+                    const el = document.createElement('script');
+                    el.src = url;
+                    el.onload = resolve;
+                    el.onerror = () => { delete libPromises[url]; reject(new Error('読み取り用の部品を読み込めませんでした（ネットワークをご確認ください）')); };
+                    document.head.appendChild(el);
+                });
+            }
+            return libPromises[url];
+        }
+
+        function readBuffer(file) {
+            if (file.arrayBuffer) return file.arrayBuffer();
+            return new Promise((resolve, reject) => {
+                const r = new FileReader();
+                r.onload = () => resolve(r.result);
+                r.onerror = () => reject(new Error('ファイルを開けませんでした'));
+                r.readAsArrayBuffer(file);
+            });
+        }
+
+        async function extractText(file) {
+            const ext = (file.name.split('.').pop() || '').toLowerCase();
+            if (ext === 'doc') throw new Error('旧形式の .doc は読み取れません（.docx で保存し直すと読み取れます）');
+            const buf = await readBuffer(file);
+            if (ext === 'docx') {
+                await loadScript(LIB_URLS.mammoth);
+                const r = await window.mammoth.extractRawText({ arrayBuffer: buf });
+                return r.value || '';
+            }
+            if (ext === 'xlsx' || ext === 'xlsm' || ext === 'xls') {
+                await loadScript(LIB_URLS.xlsx);
+                const wb = window.XLSX.read(buf, { type: 'array' });
+                return wb.SheetNames.map(n => window.XLSX.utils.sheet_to_csv(wb.Sheets[n])).join('\n');
+            }
+            if (ext === 'pdf') {
+                await loadScript(LIB_URLS.pdf);
+                const pdfjs = window.pdfjsLib;
+                pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
+                const doc = await pdfjs.getDocument({ data: new Uint8Array(buf) }).promise;
+                let out = '';
+                const n = Math.min(doc.numPages, 20);
+                for (let i = 1; i <= n; i++) {
+                    const page = await doc.getPage(i);
+                    const content = await page.getTextContent();
+                    out += content.items.map(it => it.str).join(' ') + '\n';
+                }
+                return out;
+            }
+            throw new Error('未対応の形式です');
+        }
+
+        // 案件側のタグ＋よく使う技術名を「スキルの辞書」にして、スキルシートの文章から拾う
+        function skillVocabulary() {
+            if (skillVocabCache) return skillVocabCache;
+            const set = new Set(TECH_WORDS);
+            projects.forEach(p => p.tags.forEach(t => { if (t && t.length >= 2) set.add(t); }));
+            skillVocabCache = Array.from(set);
+            return skillVocabCache;
+        }
+
+        function detectSkills(rawText) {
+            const text = normText(rawText);
+            const stripped = text.replace(/[\s._\/\-]/g, '');
+            const found = [];
+            skillVocabulary().forEach(w => {
+                const key = SKILL_ALIASES[compact(w)] || normText(w).trim();
+                if (key && textHas(text, stripped, key)) found.push(w);
+            });
+            return found;
+        }
+
+        function parseFile(file) {
+            fileInfo.set(file, { status: 'parsing', skills: [] });
+            const p = extractText(file)
+                .then(text => {
+                    const t = String(text || '').slice(0, 300000);
+                    if (t.replace(/\s/g, '').length < 20) throw new Error('文字を読み取れませんでした（画像だけのファイルの可能性があります）');
+                    fileInfo.set(file, { status: 'ok', skills: detectSkills(t) });
+                })
+                .catch(err => {
+                    fileInfo.set(file, { status: 'error', skills: [], error: (err && err.message) || '読み取れませんでした' });
+                })
+                .finally(() => {
+                    parsePromises.delete(p);
+                    renderFileList();
+                    onSheetParsed((fileInfo.get(file) || {}).status === 'ok');
+                });
+            parsePromises.add(p);
+            return p;
+        }
+
+        // 読み取りが終わった／ファイルを外した：すでにマッチ中なら自動で再計算、まだなら「押してね」を表示
+        function onSheetParsed(recalc = true) {
+            if (matchState.active) {
+                if (recalc) applyMatch('auto');
+                else renderMatchBanner();
+            } else {
+                markNeedsCalc();
+            }
         }
 
         function renderFileList() {
@@ -2613,17 +3008,34 @@
             attachedFiles.forEach((f, i) => {
                 const row = document.createElement('div');
                 row.className = 'mp-file';
+                const main = document.createElement('div');
+                main.className = 'fmain';
                 const name = document.createElement('span');
                 name.className = 'name';
                 name.textContent = '📄 ' + f.name;
+                const st = document.createElement('span');
+                st.className = 'fstatus';
+                const info = fileInfo.get(f);
+                if (!info || info.status === 'parsing') {
+                    st.textContent = '読み取り中…';
+                } else if (info.status === 'ok') {
+                    st.classList.add('ok');
+                    st.textContent = '✓ 内容を読み取りました（スキル ' + info.skills.length + '件を検出）';
+                    st.title = info.skills.join('、');
+                } else {
+                    st.classList.add('ng');
+                    st.textContent = '⚠ ' + info.error;
+                }
+                main.appendChild(name);
+                main.appendChild(st);
                 const size = document.createElement('span');
                 size.className = 'size';
                 size.textContent = formatSize(f.size);
                 const del = document.createElement('button');
                 del.textContent = '✕';
                 del.setAttribute('aria-label', '外す');
-                del.onclick = () => { attachedFiles.splice(i, 1); renderFileList(); };
-                row.appendChild(name);
+                del.onclick = () => { attachedFiles.splice(i, 1); renderFileList(); onSheetParsed(); };
+                row.appendChild(main);
                 row.appendChild(size);
                 row.appendChild(del);
                 list.appendChild(row);
@@ -2640,9 +3052,10 @@
             let rejected = 0;
             Array.from(fileList || []).forEach(f => {
                 if (!ACCEPT_FILE_RE.test(f.name)) { rejected++; return; }
-                if (!attachedFiles.some(x => x.name === f.name && x.size === f.size)) { attachedFiles.push(f); added++; }
+                if (!attachedFiles.some(x => x.name === f.name && x.size === f.size)) { attachedFiles.push(f); added++; parseFile(f); }
             });
             renderFileList();
+            if (added) markNeedsCalc();
             if (rejected) showProposeToast('添付できるのは Word・Excel・PDF のファイルです（対象外 ' + rejected + '件）');
             else if (added) showProposeToast(added + '件のスキルシートを添付しました');
             return added;
@@ -2706,7 +3119,8 @@
 
         function buildProposalBody(p) {
             const c = candidate;
-            const tokens = parseSkills(c.skills);
+            const typed = parseSkills(c.skills);
+            const tokens = typed.concat(sheetTokens(typed));
             const m = tokens.length ? matchProject(p, tokens) : null;
             const L = ['前田 様', '', 'お世話になっております。', '下記案件につきまして、要員をご提案いたします。', '', '■案件名：' + p.title, '', '【提案要員】'];
             const hasInfo = Object.keys(FIELD_NAMES).some(k => c[k]);
@@ -2916,6 +3330,69 @@
             document.body.classList.toggle('geo-off', !on);
             try { localStorage.setItem('icube_geo_anim', on ? 'on' : 'off'); } catch (e) {}
         }
+
+        // ===== マーキーの案件名をクリック → 一覧の中で「この案件です！」と分かりやすく表示 =====
+        function normMarquee(t) {
+            return normText(t).replace(/new!!/g, '').replace(/【[^】]*】/g, '').replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, '');
+        }
+
+        // data-id があればその案件。なければ、案件名の近さ（【】や（）を除いた名前）で探す
+        function findProjectForMarquee(el) {
+            const id = el.dataset && el.dataset.id;
+            if (id) {
+                const hit = projects.find(x => String(x.id) === String(id));
+                if (hit) return hit;
+            }
+            const key = normMarquee(el.textContent);
+            if (!key) return null;
+            let best = null;
+            let bestLen = 0;
+            projects.forEach(p => {
+                const t = normMarquee(p.title);
+                if (t && (key === t || key.startsWith(t) || t.startsWith(key)) && t.length > bestLen) { best = p; bestLen = t.length; }
+            });
+            return best;
+        }
+
+        let spotTimer = null;
+        function clearSpotlight() {
+            clearTimeout(spotTimer);
+            document.body.classList.remove('spot-on');
+            document.querySelectorAll('.spotlight').forEach(el => el.classList.remove('spotlight'));
+            document.querySelectorAll('.spot-label').forEach(el => el.remove());
+        }
+
+        function findListEl(id) {
+            const sel = currentView === 'table' ? '.project-row' : '.project-card';
+            return document.querySelector(sel + '[data-id="' + id + '"]');
+        }
+
+        window.jumpToProject = function(p) {
+            clearSpotlight();
+            let el = findListEl(p.id);
+            // 検索やタグの絞り込みで隠れていたら、絞り込みを解除して表示する
+            if (!el || el.style.display === 'none') { showAll(); el = findListEl(p.id); }
+            if (!el) { showProposeToast('この案件は一覧に見つかりませんでした'); return; }
+            el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center' });
+            document.body.classList.add('spot-on');
+            el.classList.add('spotlight');
+            const label = document.createElement('div');
+            label.className = 'spot-label';
+            label.textContent = '👈 この案件です！';
+            el.appendChild(label);
+            // どこかをクリックするか、しばらくたつと元に戻る
+            spotTimer = setTimeout(clearSpotlight, 7000);
+            setTimeout(() => document.addEventListener('click', clearSpotlight, { once: true }), 400);
+        }
+
+        document.addEventListener('click', (e) => {
+            const item = e.target.closest && e.target.closest('.marquee-container .proj-item');
+            if (!item) return;
+            const p = findProjectForMarquee(item);
+            if (p) jumpToProject(p);
+            else showProposeToast('この案件は一覧に見つかりませんでした');
+        });
+        document.querySelectorAll('.marquee-container .proj-item').forEach(el => { el.title = 'クリックすると、一覧でこの案件を表示します'; });
 
         window.copyModalText = function() {
             const text = document.getElementById('modal-content-text').innerText;
