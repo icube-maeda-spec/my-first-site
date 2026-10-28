@@ -596,6 +596,47 @@
         @media (prefers-reduced-motion: reduce) {
             .project-list .project-row.spotlight, .card-grid .project-card.spotlight, .spot-label, .calc-btn.needs-calc, .calc-btn .spin, .match-reveal, .pr-gauge.pop .g-ring, #mp-text.shake { animation: none !important; }
         }
+
+        /* ===== カテゴリ切り替えタブ ===== */
+        @property --ind-from { syntax: '<color>'; inherits: false; initial-value: #6366f1; }
+        @property --ind-to   { syntax: '<color>'; inherits: false; initial-value: #8b5cf6; }
+        @property --ind-glow { syntax: '<color>'; inherits: false; initial-value: rgba(99,102,241,0.45); }
+        .cat-tabs-wrap { padding: 16px 24px 0; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .cat-tabs { position: relative; display: inline-flex; gap: 2px; padding: 5px; max-width: 100%; box-sizing: border-box; overflow-x: auto; scrollbar-width: none; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(14px) saturate(150%); backdrop-filter: blur(14px) saturate(150%); box-shadow: var(--glass-shadow); }
+        .cat-tabs::-webkit-scrollbar { display: none; }
+        .cat-ind { position: absolute; top: 5px; bottom: 5px; left: 0; width: 0; z-index: 0; border-radius: 999px; pointer-events: none;
+            background: linear-gradient(135deg, var(--ind-from), var(--ind-to));
+            box-shadow: 0 6px 18px var(--ind-glow), inset 0 1px 0 rgba(255,255,255,0.4);
+            transition: transform 0.55s cubic-bezier(0.34, 1.45, 0.5, 1), width 0.55s cubic-bezier(0.34, 1.45, 0.5, 1), --ind-from 0.45s ease, --ind-to 0.45s ease, --ind-glow 0.45s ease; }
+        .cat-ind.no-anim { transition: none; }
+        .cat-tab { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 7px; border: none; background: transparent; color: var(--text); font-family: inherit; font-size: 13px; font-weight: 700; padding: 9px 16px; border-radius: 999px; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; transition: color 0.3s ease, transform 0.15s ease; }
+        .cat-tab:hover { transform: translateY(-1px); }
+        .cat-tab:active { transform: scale(0.95); }
+        .cat-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .cat-tab .ct-ico { font-size: 14px; line-height: 1; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .cat-tab:hover .ct-ico { transform: scale(1.25) rotate(-8deg); }
+        .cat-tab.active { color: #ffffff; }
+        .cat-tab.active .ct-ico { transform: scale(1.15); }
+        .cat-tab .ct-count { min-width: 20px; padding: 1px 7px; border-radius: 999px; text-align: center; font-size: 11px; font-weight: 800; background: var(--tag-bg); color: var(--tag-text); transition: background 0.3s ease, color 0.3s ease; }
+        .cat-tab.active .ct-count { background: rgba(255,255,255,0.26); color: #ffffff; }
+        .cat-hint { font-size: 12px; color: var(--sub); transition: opacity 0.18s ease, transform 0.18s ease; }
+        .cat-hint:empty { display: none; }
+        .cat-hint.swap { opacity: 0; transform: translateX(-6px); }
+
+        .project-row.cat-hidden, .project-card.cat-hidden { display: none !important; }
+        .project-row.cat-leave, .project-card.cat-leave { opacity: 0 !important; transform: translateY(-10px) scale(0.98) !important; filter: blur(4px); pointer-events: none; transition: opacity 0.16s ease, transform 0.16s ease, filter 0.16s ease !important; }
+        .cat-enter { animation: cat-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards; animation-delay: calc(var(--ci, 0) * 38ms); }
+        @keyframes cat-in { from { opacity: 0; transform: translateY(18px) scale(0.97); filter: blur(6px); } to { opacity: 1; transform: none; filter: blur(0); } }
+        @media (max-width: 760px) {
+            .cat-tabs-wrap { padding: 14px 16px 0; }
+            .cat-tab { padding: 8px 13px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .cat-ind { transition: none; }
+            .cat-enter { animation: none; }
+            .project-row.cat-leave, .project-card.cat-leave { transition: none !important; }
+            .cat-tab, .cat-tab .ct-ico, .cat-hint { transition: none; }
+        }
     </style>
 </head>
 <body>
@@ -741,6 +782,13 @@
                     <button class="glass-btn" onclick="showAll()">全て表示</button>
                     <button class="glass-btn primary" onclick="refreshData()">更新</button>
                 </div>
+            </div>
+
+            <div class="cat-tabs-wrap">
+                <div id="cat-tabs" class="cat-tabs" role="tablist" aria-label="案件カテゴリで絞り込み">
+                    <span id="cat-ind" class="cat-ind no-anim" aria-hidden="true"></span>
+                </div>
+                <span id="cat-hint" class="cat-hint" aria-live="polite"></span>
             </div>
 
             <div id="match-panel" class="match-panel" style="display: none;">
@@ -2160,6 +2208,7 @@
                 row.dataset.tags = p.tags.join(',');
                 row.dataset.text = searchDatasetText;
                 row.dataset.id = p.id;
+                row.dataset.cat = p.category;
                 row.innerHTML = `
                     <div class="pr-propose"></div>
                     <div class="pr-main">
@@ -2193,6 +2242,7 @@
                 card.dataset.tags = p.tags.join(',');
                 card.dataset.text = searchDatasetText;
                 card.dataset.id = p.id;
+                card.dataset.cat = p.category;
                 card.innerHTML = `
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -2222,6 +2272,7 @@
                 card.querySelector('.propose-slot').appendChild(makeProposeButton(p));
                 cardGrid.appendChild(card);
             });
+            if (window.applyCategoryFilter) window.applyCategoryFilter(false);
         }
 
         window.handleSort = function() {
@@ -3291,7 +3342,7 @@
             clearSpotlight();
             let el = findListEl(p.id);
             // 検索やタグの絞り込みで隠れていたら、絞り込みを解除して表示する
-            if (!el || el.style.display === 'none') { showAll(); el = findListEl(p.id); }
+            if (!el || el.style.display === 'none' || el.classList.contains('cat-hidden')) { showAll(); el = findListEl(p.id); }
             if (!el) { showProposeToast('この案件は一覧に見つかりませんでした'); return; }
             el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center' });
             document.body.classList.add('spot-on');
@@ -3328,6 +3379,7 @@
         }
 
         window.showAll = function() {
+            if (window.setCategory) window.setCategory('all', { instant: true });
             const selector = currentView === 'table' ? '.project-row' : '.project-card';
             document.querySelectorAll(selector).forEach(el => el.style.display = currentView === 'table' ? '' : 'flex');
             document.getElementById('searchInput').value = '';
@@ -3341,6 +3393,141 @@
                 el.style.display = match ? (currentView === 'table' ? '' : 'flex') : 'none';
             });
         });
+
+        /* ===== カテゴリ切り替え（開発 / インフラ / その他） =====
+           cats には案件データの category 値（dev / infra / lowcode / other）を並べます。
+           「ローコード」を独立させたい場合は、tabs に { key:'lowcode', cats:['lowcode'], ... } を足し、
+           「その他」の cats を ['other'] にするだけでOKです。 */
+        const CAT_TABS = [
+            { key: 'all',   label: 'すべて',   icon: '✨', cats: null,                  hint: '',                                          from: '#6366f1', to: '#8b5cf6', glow: 'rgba(99,102,241,0.45)' },
+            { key: 'dev',   label: '開発',     icon: '💻', cats: ['dev'],               hint: '',                                          from: '#3b82f6', to: '#06b6d4', glow: 'rgba(59,130,246,0.45)' },
+            { key: 'infra', label: 'インフラ', icon: '☁️', cats: ['infra'],             hint: '',                                          from: '#10b981', to: '#14b8a6', glow: 'rgba(16,185,129,0.45)' },
+            { key: 'other', label: 'その他',   icon: '🧩', cats: ['lowcode', 'other'],  hint: 'ローコード・PM／PMO・情シス代替 など',        from: '#a855f7', to: '#ec4899', glow: 'rgba(168,85,247,0.45)' }
+        ];
+        let currentCat = 'all';
+        let catTimer = null;
+
+        function catMatches(key, category) {
+            const t = CAT_TABS.find(x => x.key === key);
+            return !t || !t.cats || t.cats.includes(category);
+        }
+
+        function updateCatCounts() {
+            CAT_TABS.forEach(t => {
+                const el = document.querySelector('#cat-tabs .ct-count[data-count="' + t.key + '"]');
+                if (el) el.textContent = String(projects.filter(p => catMatches(t.key, p.category)).length);
+            });
+        }
+
+        function placeCatIndicator(animate) {
+            const act = document.querySelector('#cat-tabs .cat-tab.active');
+            const ind = document.getElementById('cat-ind');
+            const wrap = document.getElementById('cat-tabs');
+            if (!act || !ind || !act.offsetWidth) return;
+            const t = CAT_TABS.find(x => x.key === currentCat);
+            if (!animate) ind.classList.add('no-anim');
+            ind.style.width = act.offsetWidth + 'px';
+            ind.style.transform = 'translateX(' + act.offsetLeft + 'px)';
+            ind.style.setProperty('--ind-from', t.from);
+            ind.style.setProperty('--ind-to', t.to);
+            ind.style.setProperty('--ind-glow', t.glow);
+            if (!animate) { void ind.offsetWidth; ind.classList.remove('no-anim'); }
+            if (wrap.scrollWidth > wrap.clientWidth) {
+                wrap.scrollTo({ left: Math.max(0, act.offsetLeft - 16), behavior: animate ? 'smooth' : 'auto' });
+            }
+        }
+
+        function syncCatTabs(animate) {
+            const t = CAT_TABS.find(x => x.key === currentCat);
+            document.querySelectorAll('#cat-tabs .cat-tab').forEach(b => {
+                const on = b.dataset.key === currentCat;
+                b.classList.toggle('active', on);
+                b.setAttribute('aria-selected', on ? 'true' : 'false');
+                b.tabIndex = on ? 0 : -1;
+            });
+            placeCatIndicator(animate);
+            const hint = document.getElementById('cat-hint');
+            if (animate) {
+                hint.classList.add('swap');
+                setTimeout(() => { hint.textContent = t.hint || ''; hint.classList.remove('swap'); }, 140);
+            } else {
+                hint.textContent = t.hint || '';
+            }
+        }
+
+        // animate=true で「消える → 順に現れる」演出つきで切り替える。false なら即時に反映だけする
+        window.applyCategoryFilter = function (animate, instant) {
+            clearTimeout(catTimer);
+            const all = Array.from(document.querySelectorAll('#table-body .project-row, #card-grid .project-card'));
+            const sel = currentView === 'table' ? '.project-row' : '.project-card';
+            const inView = all.filter(el => el.matches(sel));
+            const isShown = el => !el.classList.contains('cat-hidden') && el.style.display !== 'none';
+
+            const apply = () => {
+                all.forEach(el => {
+                    el.classList.remove('cat-leave', 'cat-enter');
+                    el.classList.toggle('cat-hidden', !catMatches(currentCat, el.dataset.cat));
+                });
+                updateCatCounts();
+            };
+            if (!animate) { apply(); return; }
+
+            const run = () => {
+                apply();
+                const entering = inView.filter(isShown);
+                void document.body.offsetWidth;
+                entering.forEach((el, i) => { el.style.setProperty('--ci', Math.min(i, 12)); el.classList.add('cat-enter'); });
+                catTimer = setTimeout(() => entering.forEach(el => { el.classList.remove('cat-enter'); el.style.removeProperty('--ci'); }), 1200);
+            };
+            const leaving = instant ? [] : inView.filter(isShown);
+            if (!leaving.length) { run(); return; }
+            leaving.forEach(el => el.classList.add('cat-leave'));
+            catTimer = setTimeout(run, 170);
+        };
+
+        window.setCategory = function (key, opts) {
+            opts = opts || {};
+            if (!CAT_TABS.some(t => t.key === key)) return;
+            const changed = key !== currentCat;
+            currentCat = key;
+            const motion = !prefersReducedMotion();
+            syncCatTabs(motion && changed);
+            if (changed) window.applyCategoryFilter(motion, !!opts.instant);
+        };
+
+        (function initCatTabs() {
+            const tabsEl = document.getElementById('cat-tabs');
+            if (!tabsEl) return;
+            tabsEl.insertAdjacentHTML('beforeend', CAT_TABS.map(t =>
+                '<button type="button" class="cat-tab" role="tab" data-key="' + t.key + '" aria-selected="false"' +
+                (t.hint ? ' title="' + t.hint + '"' : '') + '>' +
+                '<span class="ct-ico" aria-hidden="true">' + t.icon + '</span>' +
+                '<span class="ct-label">' + t.label + '</span>' +
+                '<span class="ct-count" data-count="' + t.key + '">0</span></button>').join(''));
+            tabsEl.addEventListener('click', e => {
+                const b = e.target.closest('.cat-tab');
+                if (b) window.setCategory(b.dataset.key);
+            });
+            tabsEl.addEventListener('keydown', e => {
+                const keys = CAT_TABS.map(t => t.key);
+                let i = keys.indexOf(currentCat);
+                if (e.key === 'ArrowRight') i = (i + 1) % keys.length;
+                else if (e.key === 'ArrowLeft') i = (i - 1 + keys.length) % keys.length;
+                else if (e.key === 'Home') i = 0;
+                else if (e.key === 'End') i = keys.length - 1;
+                else return;
+                e.preventDefault();
+                window.setCategory(keys[i]);
+                const b = tabsEl.querySelector('.cat-tab.active');
+                if (b) b.focus();
+            });
+            updateCatCounts();
+            syncCatTabs(false);
+            // ログイン前は非表示でサイズが0のため、表示された時・画面サイズが変わった時に位置を取り直す
+            if (window.ResizeObserver) new ResizeObserver(() => placeCatIndicator(false)).observe(tabsEl);
+            else window.addEventListener('resize', () => placeCatIndicator(false));
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => placeCatIndicator(false));
+        })();
     </script>
 
     <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
