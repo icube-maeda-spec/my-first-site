@@ -682,7 +682,37 @@
         .sk.line { height: 12px; }
         .sk.chip { height: 22px; width: 64px; border-radius: 999px; }
         .eng-sk-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-        .eng-list { padding: 24px; }
+        .eng-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; align-items: start; padding: 24px; }
+        .eng-list.hidden, .mb-soon.hidden { display: none; }
+        .eng-list-head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 10px; font-size: 16px; font-weight: 800; }
+        .eng-list-head small { font-size: 12px; font-weight: 700; color: var(--sub); }
+        .eng-card { position: relative; padding: 22px; border-radius: 18px; background: var(--glass); border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(14px) saturate(150%); backdrop-filter: blur(14px) saturate(150%); box-shadow: var(--glass-shadow); display: flex; flex-direction: column; gap: 14px; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease; }
+        .eng-card:hover { transform: translateY(-4px); }
+        .eng-card::before { content: ''; position: absolute; left: 0; top: 18px; bottom: 18px; width: 4px; border-radius: 0 4px 4px 0; background: linear-gradient(180deg, #0ea5e9, #14b8a6); }
+        .eng-head { display: flex; align-items: center; gap: 14px; }
+        .eng-avatar { flex: none; width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #0ea5e9, #14b8a6); box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35); }
+        .eng-name { font-size: 18px; font-weight: 800; line-height: 1.3; }
+        .eng-sub { margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--sub); }
+        .eng-skills { display: flex; flex-wrap: wrap; gap: 8px; }
+        .eng-skills span { padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #0ea5e9, #14b8a6); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.28); }
+        .eng-info { display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; margin: 0; font-size: 13px; line-height: 1.6; }
+        .eng-info dt { font-weight: 700; color: var(--sub); white-space: nowrap; }
+        .eng-info dd { margin: 0; font-weight: 600; word-break: break-word; }
+        .eng-info dd.price { font-size: 16px; font-weight: 800; color: var(--accent); }
+        .eng-note { padding: 12px 14px; border-radius: 12px; font-size: 12.5px; line-height: 1.8; background: var(--tag-bg); color: var(--text); }
+        .eng-note b { display: block; margin-bottom: 2px; font-size: 11px; letter-spacing: 0.05em; color: var(--sub); }
+        .eng-parallel { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #b45309; background: rgba(245, 158, 11, 0.14); border: 1px solid rgba(245, 158, 11, 0.4); }
+        .dark-mode .eng-parallel { color: #fcd34d; }
+        .eng-foot { display: flex; justify-content: flex-end; margin-top: 2px; }
+        .em-resume { margin: -8px 0 24px; }
+        .em-resume-btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 999px; font-size: 14px; font-weight: 800; color: #fff; text-decoration: none; background: linear-gradient(135deg, #0ea5e9, #14b8a6); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.32); transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease; }
+        .em-resume-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(14, 165, 233, 0.42); }
+        .em-resume-btn:active { transform: scale(0.97); }
+        .em-resume-btn .em-dl-ico { display: inline-block; transition: transform 0.3s ease; }
+        .em-resume-btn:hover .em-dl-ico { transform: translateY(2px); }
+        @media (prefers-reduced-motion: reduce) { .em-resume-btn, .em-resume-btn .em-dl-ico { transition: none; } }
+        .eng-badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #0ea5e9, #14b8a6); }
+        @media (prefers-reduced-motion: reduce) { .eng-card { transition: none; } }
         @media (max-width: 760px) {
             .mode-switch-wrap { padding: 16px 12px 0; }
             .mode-btn { padding: 11px 20px; font-size: 14px; }
@@ -741,6 +771,39 @@
                     <button class="dm-copy" onclick="copyModalText()">コピー</button>
                 </div>
                 <pre id="modal-content-text" class="dm-detail"></pre>
+            </div>
+        </div>
+    </div>
+
+    <div id="eng-modal" class="modal-overlay" onclick="closeEngineerModal()">
+        <div class="modal-box detail-box" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="eng-modal-title">
+            <div class="dm-head">
+                <div>
+                    <div class="dm-meta">
+                        <span class="eng-badge">👤 技術者</span>
+                        <span id="em-status" class="dm-status tone-hold"></span>
+                    </div>
+                    <h3 id="eng-modal-title" class="dm-title"></h3>
+                </div>
+                <button class="dm-close" onclick="closeEngineerModal()" aria-label="閉じる">✕</button>
+            </div>
+            <div class="dm-body">
+                <div class="dm-info">
+                    <div><div class="dm-info-label">単価</div><div id="em-price" class="dm-info-value price"></div></div>
+                    <div><div class="dm-info-label">稼働</div><div id="em-available" class="dm-info-value"></div></div>
+                    <div><div class="dm-info-label">最寄り</div><div id="em-nearest" class="dm-info-value"></div></div>
+                    <div><div class="dm-info-label">所属</div><div id="em-company" class="dm-info-value"></div></div>
+                </div>
+                <div id="em-resume-wrap" class="em-resume" style="display: none;">
+                    <a id="em-resume" class="em-resume-btn" download><span class="em-dl-ico" aria-hidden="true">⬇</span>経歴書（Excel）をダウンロード</a>
+                </div>
+                <div class="dm-section-label">スキル</div>
+                <div id="em-tags" class="dm-tags"></div>
+                <div class="dm-section-head">
+                    <span class="dm-section-label">要員情報（コピー用テキスト）</span>
+                    <button id="em-copy" class="dm-copy" onclick="copyEngineerText()">コピー</button>
+                </div>
+                <pre id="em-text" class="dm-detail"></pre>
             </div>
         </div>
     </div>
@@ -833,7 +896,7 @@
             <div class="controls-container">
                 <h1 class="page-title">
                     <span>案件一覧</span>
-                    <span id="last-updated" class="last-updated">（最終更新日時：10/28 17:32）</span>
+                    <span id="last-updated" class="last-updated">（最終更新日時：10/23 13:32）</span>
                 </h1>
                 <div class="controls">
                     <div class="seg">
@@ -960,7 +1023,7 @@
                     </div>
                     </div>
                 </div>
-                <div id="eng-list" class="eng-list card-grid hidden"></div>
+                <div id="eng-list" class="eng-list hidden"></div>
             </div>
         </div>
     </div>
@@ -3651,12 +3714,24 @@
         })();
 
         /* ===== 案件／技術者 モード切り替え =====
-           技術者ページは骨子のみ。準備ができたら ENGINEER_PAGE.ready を true にして、
-           ENGINEERS にデータ（Excelから変換したもの）を入れてください。 */
-        const ENGINEER_PAGE = { ready: false };
-        // 想定する項目は、要員マッチの「提案要員」テンプレートに合わせています（実データに合わせて変更OK）
+           技術者を追加するときは、下の ENGINEERS に1人分ずつ { ... } を足してください。
+           ENGINEERS が空、または ENGINEER_PAGE.ready が false の間は「準備中」を表示します。
+           ※公開サイトなので、氏名はイニシャル（T.R のような形）で載せてください。 */
+        const ENGINEER_PAGE = { ready: true };
         const ENGINEERS = [
-            // { name: 'i.C', age: 26, nearest: '総武線 秋葉原駅', available: '10月～', price: '〇〇万', skills: ['JAVA', 'C#', 'SQL'] }
+            {
+                name: 'T.R',
+                age: 47,
+                gender: '男性',
+                nearest: '相鉄線　二俣川駅',
+                company: 'アイキューブ正社員（課長職）',
+                available: '11月～',
+                price: '82万',
+                skills: ['JAVA（基本設計～テスト）'],
+                resume: 'T.R.xlsx',   // 経歴書ファイル（index.html と同じ場所に置く。住所・本名などは消した版）
+                note: '子育て中の為、保育園の迎えがあり、\n出社・リモート半分程度の案件を探しております。',
+                parallel: '営業中（ご容赦ください）'
+            }
         ];
         const MODE_STYLE = {
             projects:  { from: '#6366f1', to: '#8b5cf6', glow: 'rgba(99,102,241,0.45)' },
@@ -3679,15 +3754,23 @@
             }
             prep.classList.add('hidden');
             list.classList.remove('hidden');
-            list.innerHTML = ENGINEERS.map(e =>
-                '<div class="project-card"><div>' +
-                '<h3 style="font-size:16px;margin:0 0 10px;">' + escEng(e.name) + (e.age ? '（' + escEng(e.age) + '歳）' : '') + '</h3>' +
-                '<div class="tag-container" style="margin-bottom:12px;">' + (e.skills || []).map(t => '<span class="tag">' + escEng(t) + '</span>').join(' ') + '</div>' +
-                '<div style="font-size:12px;line-height:1.8;">' +
-                (e.nearest ? '📍 <strong>最寄り:</strong> ' + escEng(e.nearest) + '<br>' : '') +
-                (e.available ? '🗓 <strong>稼働:</strong> ' + escEng(e.available) + '<br>' : '') +
-                (e.price ? '💰 <strong>単価:</strong> ' + escEng(e.price) : '') +
-                '</div></div></div>').join('');
+            const row = (label, val, cls) => val ? '<dt>' + label + '</dt><dd' + (cls ? ' class="' + cls + '"' : '') + '>' + escEng(val) + '</dd>' : '';
+            list.innerHTML =
+                '<div class="eng-list-head">👤 技術者一覧<small>' + ENGINEERS.length + '名</small></div>' +
+                ENGINEERS.map((e, i) => {
+                    const sub = [e.age ? e.age + '歳' : '', e.gender || ''].filter(Boolean).join('・');
+                    return '<article class="eng-card">' +
+                        '<div class="eng-head"><div class="eng-avatar">' + escEng(String(e.name || '?').charAt(0)) + '</div>' +
+                        '<div><div class="eng-name">' + escEng(e.name) + '</div>' + (sub ? '<div class="eng-sub">' + escEng(sub) + '</div>' : '') + '</div></div>' +
+                        ((e.skills && e.skills.length) ? '<div class="eng-skills">' + e.skills.map(t => '<span>' + escEng(t) + '</span>').join('') + '</div>' : '') +
+                        '<dl class="eng-info">' +
+                        row('📍 最寄り', e.nearest) + row('🏢 所属', e.company) + row('🗓 稼働', e.available) + row('💰 単価', e.price, 'price') +
+                        '</dl>' +
+                        (e.note ? '<div class=\"eng-note\"><b>その他</b>' + escEng(String(e.note).replace(/\n/g, '')) + '</div>' : '') +
+                        (e.parallel ? '<div class="eng-parallel">⏳ 並行：' + escEng(e.parallel) + '</div>' : '') +
+                        '<div class="eng-foot"><button type="button" class="btn-detail" data-eidx="' + i + '">詳細<span aria-hidden="true">›</span></button></div>' +
+                        '</article>';
+                }).join('');
         };
 
         function placeModeIndicator(animate) {
@@ -3744,6 +3827,132 @@
                 modeTimer = setTimeout(() => inn.classList.remove('pane-enter'), 700);
             }, 190);
         };
+
+        /* ----- 技術者の詳細モーダル（コピー用テキスト） ----- */
+        const ENG_HEAD = '要員情報--------------------------------------------';
+        const ENG_FOOT = '-----------------------------------------------------';
+        let engCurrent = null;
+        let engCopyTimer = null;
+
+        function buildEngineerText(e) {
+            const lines = [ENG_HEAD];
+            const add = (label, val) => { if (val !== undefined && val !== null && String(val) !== '') lines.push(label + '：' + val); };
+            add('氏名', e.name);
+            add('年齢', e.age ? e.age + '歳' : '');
+            add('性別', e.gender);
+            add('最寄り', e.nearest);
+            add('所属', e.company);
+            add('稼働', e.available);
+            add('単価', e.price);
+            add('スキル', (e.skills || []).join('、'));
+            add('その他', e.note);
+            add('並行', e.parallel);
+            lines.push(ENG_FOOT);
+            return lines.join('\n');
+        }
+
+        window.openEngineerModal = function (e, triggerEl) {
+            engCurrent = e;
+            const overlay = document.getElementById('eng-modal');
+            const box = overlay.querySelector('.modal-box');
+            modalSeq++;
+            modalTrigger = triggerEl || null;
+
+            const sub = [e.age ? e.age + '歳' : '', e.gender || ''].filter(Boolean).join('・');
+            document.getElementById('eng-modal-title').textContent = e.name + (sub ? '（' + sub + '）' : '');
+            const st = document.getElementById('em-status');
+            st.textContent = e.parallel ? '並行：' + e.parallel : '';
+            st.style.display = e.parallel ? '' : 'none';
+            document.getElementById('em-price').textContent = e.price || '-';
+            document.getElementById('em-available').textContent = e.available || '-';
+            document.getElementById('em-nearest').textContent = e.nearest || '-';
+            document.getElementById('em-company').textContent = e.company || '-';
+            const tags = document.getElementById('em-tags');
+            tags.innerHTML = '';
+            (e.skills || []).forEach(t => {
+                const chip = document.createElement('span');
+                chip.className = 'dm-chip';
+                chip.textContent = t;
+                tags.appendChild(chip);
+            });
+            const resumeWrap = document.getElementById('em-resume-wrap');
+            const resumeLink = document.getElementById('em-resume');
+            if (e.resume) {
+                const ext = (String(e.resume).match(/\.[A-Za-z0-9]+$/) || ['.xlsx'])[0];
+                resumeLink.href = encodeURI(e.resume);
+                resumeLink.setAttribute('download', e.name + '_経歴書' + ext);
+                resumeWrap.style.display = '';
+            } else {
+                resumeLink.removeAttribute('href');
+                resumeWrap.style.display = 'none';
+            }
+            document.getElementById('em-text').textContent = buildEngineerText(e);
+            clearTimeout(engCopyTimer);
+            document.getElementById('em-copy').textContent = 'コピー';
+
+            overlay.getAnimations().forEach(a => a.cancel());
+            box.getAnimations().forEach(a => a.cancel());
+            overlay.style.display = 'flex';
+            box.scrollTop = 0;
+
+            if (prefersReducedMotion()) {
+                overlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, fill: 'both' });
+                return;
+            }
+            const from = calcModalOrigin(box);
+            const home = 'translate(0px, 0px) scale(1)';
+            overlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: 'ease-out', fill: 'both' });
+            box.animate(
+                [{ transform: from, opacity: 0 }, { opacity: 1, offset: 0.25 }, { transform: home, opacity: 1 }],
+                { duration: 520, easing: MODAL_EASE, fill: 'both' }
+            );
+        };
+
+        window.closeEngineerModal = function () {
+            const overlay = document.getElementById('eng-modal');
+            if (getComputedStyle(overlay).display === 'none') return;
+            const box = overlay.querySelector('.modal-box');
+            const seq = ++modalSeq;
+            const finish = () => {
+                if (seq !== modalSeq) return;
+                overlay.style.display = 'none';
+                overlay.getAnimations().forEach(a => a.cancel());
+                box.getAnimations().forEach(a => a.cancel());
+            };
+            overlay.getAnimations().forEach(a => a.cancel());
+            box.getAnimations().forEach(a => a.cancel());
+            if (prefersReducedMotion()) {
+                overlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' }).onfinish = finish;
+                return;
+            }
+            const to = calcModalOrigin(box);
+            const home = 'translate(0px, 0px) scale(1)';
+            overlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, easing: 'ease-in', fill: 'forwards' });
+            box.animate(
+                [{ transform: home, opacity: 1 }, { opacity: 1, offset: 0.6 }, { transform: to, opacity: 0 }],
+                { duration: 420, easing: MODAL_EASE, fill: 'forwards' }
+            ).onfinish = finish;
+        };
+
+        window.copyEngineerText = function () {
+            if (!engCurrent) return;
+            const btn = document.getElementById('em-copy');
+            copyText(buildEngineerText(engCurrent)).then(ok => {
+                btn.textContent = ok ? '✓ コピーしました' : 'コピーできませんでした';
+                clearTimeout(engCopyTimer);
+                engCopyTimer = setTimeout(() => { btn.textContent = 'コピー'; }, 1800);
+            });
+        };
+
+        document.getElementById('eng-list').addEventListener('click', ev => {
+            const b = ev.target.closest('.btn-detail[data-eidx]');
+            if (!b) return;
+            const e = ENGINEERS[Number(b.dataset.eidx)];
+            if (e) window.openEngineerModal(e, b);
+        });
+        document.addEventListener('keydown', ev => {
+            if (ev.key === 'Escape') window.closeEngineerModal();
+        });
 
         (function initModeSwitch() {
             const sw = document.getElementById('mode-switch');
