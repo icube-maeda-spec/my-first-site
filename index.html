@@ -1,73 +1,3531 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>只今システムメンテナンス中です</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'Noto Sans JP', 'sans-serif'],
-          },
-          animation: {
-            'spin-slow': 'spin 10s linear infinite',
-            'spin-reverse': 'spin-reverse 12s linear infinite',
-          },
-          keyframes: {
-            'spin-reverse': {
-              '0%': { transform: 'rotate(0deg)' },
-              '100%': { transform: 'rotate(-360deg)' },
-            }
-          }
+    <meta charset="UTF-8">
+    <title>案件掲示板 | 株式会社アイキューブ</title>
+    <style>
+        :root { --accent: #0f172a; --header-bg: #003366; --bg: #f4f7f6; --text: #334155; --card-bg: white; --tag-bg: #f1f5f9; --tag-text: #0f172a; --panel-bg: #f8fafc; --border-color: #cbd5e1; }
+        .dark-mode { --accent: #e2e8f0; --header-bg: #020617; --bg: #0f172a; --text: #f1f5f9; --card-bg: #1e293b; --tag-bg: #334155; --tag-text: #f1f5f9; --panel-bg: #1e293b; --border-color: #334155; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; overflow-x: hidden; }
+        header { background: var(--header-bg); color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+        header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
+        header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
+        
+        /* ヘッダー中央の自動ログイン強調バッジ（サイバー感強化版） */
+        .header-auth-status {
+            background: rgba(0, 243, 255, 0.08);
+            border: 1px solid #00f3ff;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            font-weight: bold;
+            color: #00f3ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.4), inset 0 0 8px rgba(0, 243, 255, 0.2);
+            text-shadow: 0 0 6px rgba(0, 243, 255, 0.6);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
         }
-      }
-    }
-  </script>
+        .header-auth-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.25), transparent);
+            animation: cyber-scan 3s linear infinite;
+        }
+        @keyframes cyber-scan {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        .header-auth-status .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff66;
+            border-radius: 0;
+            display: inline-block;
+            box-shadow: 0 0 10px #00ff66, 0 0 20px #00ff66;
+            animation: cyber-pulse 1.5s infinite alternate;
+        }
+        @keyframes cyber-pulse {
+            0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 5px #00ff66; }
+            100% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66; }
+        }
+        
+        /* スムーズ・インフィニティ・マーキーのスタイル（上下ネオン走査線追加） */
+        .marquee-container {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 8px 0;
+            font-size: 13px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            border-top: 1px solid #334155;
+            border-bottom: 1px solid #334155;
+        }
+        .dark-mode .marquee-container { background: #020617; border-top: 1px solid #1e293b; border-bottom: 1px solid #1e293b; }
+
+        /* 上部ネオン（右に流れる） */
+        .marquee-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00f3ff, #ffffff);
+            box-shadow: 0 0 8px #00f3ff, 0 0 15px #00f3ff;
+            animation: neon-right 1.8s linear infinite;
+            z-index: 5;
+        }
+        @keyframes neon-right {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* 下部ネオン（左に流れる） */
+        .marquee-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, #ff007f, #ffffff);
+            box-shadow: 0 0 8px #ff007f, 0 0 15px #ff007f;
+            animation: neon-left 1.8s linear infinite;
+            z-index: 5;
+        }
+        @keyframes neon-left {
+            0% { right: -100%; }
+            100% { right: 100%; }
+        }
+        
+        .marquee-track {
+            display: inline-block;
+            white-space: nowrap;
+            will-change: transform;
+            animation: smoothMarquee 28s linear infinite;
+        }
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+        }
+        @keyframes smoothMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-content {
+            display: inline-block;
+            min-width: max(100vw, 900px);
+        }
+        .marquee-container .proj-item { color: #facc15; font-weight: bold; margin: 0 15px; }
+        
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        .blink-text { color: #ef4444; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
+        .blink-badge { animation: blink 1s infinite; }
+        .yellow-blink-item { color: #facc15 !important; animation: blink 1s infinite; display: inline-block; font-weight: bold; }
+
+        .hidden { display: none; }
+        
+        #main-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; box-sizing: border-box; }
+        .controls-container { padding: 20px 20px 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        
+        main { padding: 20px; }
+
+        /* テーブルビューのスタイル */
+        .compact-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 6px; overflow: hidden; font-size: 13px; text-align: left; }
+        .compact-table th, .compact-table td { border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); padding: 8px 10px; vertical-align: middle; }
+        .compact-table th { background: var(--panel-bg); font-weight: bold; color: var(--text); font-size: 12px; border-top: none; border-left: none; }
+        .compact-table tr td:last-child { border-right: none; }
+        
+        .project-row.cat-dev-row { background-color: rgba(59, 130, 246, 0.03); border-left: 6px solid #3b82f6; }
+        .project-row.cat-infra-row { background-color: rgba(16, 185, 129, 0.03); border-left: 6px solid #10b981; }
+        .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.03); border-left: 6px solid #a855f7; }
+        .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.03); border-left: 6px solid #64748b; }
+
+        .dark-mode .project-row.cat-dev-row { background-color: rgba(59, 130, 246, 0.08); }
+        .dark-mode .project-row.cat-infra-row { background-color: rgba(16, 185, 129, 0.08); }
+        .dark-mode .project-row.cat-lowcode-row { background-color: rgba(168, 85, 247, 0.08); }
+        .dark-mode .project-row.cat-other-row { background-color: rgba(100, 116, 139, 0.08); }
+
+        .project-row.postponed-row {
+            background-color: #f1f5f9 !important;
+            color: #94a3b8 !important;
+            opacity: 0.65;
+        }
+        .dark-mode .project-row.postponed-row {
+            background-color: #1e293b !important;
+            color: #64748b !important;
+            opacity: 0.5;
+        }
+        .project-row.postponed-row td {
+            color: inherit !important;
+        }
+        .project-row.postponed-row a, 
+        .project-row.postponed-row button {
+            opacity: 0.7;
+        }
+
+        .compact-table tbody tr {
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, background-color 0.2s ease;
+        }
+        .compact-table tbody tr:hover {
+            transform: translateY(-4px) scale(1.002);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+            background-color: rgba(59, 130, 246, 0.12) !important;
+            position: relative;
+            z-index: 10;
+        }
+        .dark-mode .compact-table tbody tr:hover {
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
+            background-color: rgba(56, 189, 248, 0.18) !important;
+        }
+
+        .flow-tooltip-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            font-weight: bold;
+            color: #0284c7;
+        }
+        .dark-mode .flow-tooltip-container {
+            color: #38bdf8;
+        }
+        .flow-tooltip-container .flow-tooltip-text {
+            visibility: hidden;
+            width: max-content;
+            max-width: 280px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 6px 10px;
+            position: absolute;
+            z-index: 100;
+            bottom: 135%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            font-size: 11px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            white-space: normal;
+            border: 1px solid #475569;
+        }
+        .dark-mode .flow-tooltip-container .flow-tooltip-text {
+            background-color: #f8fafc;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+        .flow-tooltip-container:hover .flow-tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .project-card.cat-dev-card { border-left: 6px solid #3b82f6; }
+        .project-card.cat-infra-card { border-left: 6px solid #10b981; }
+        .project-card.cat-lowcode-card { border-left: 6px solid #a855f7; }
+        .project-card.cat-other-card { border-left: 6px solid #64748b; }
+
+        .project-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 14px 30px rgba(59, 130, 246, 0.35);
+            z-index: 10;
+            border-color: #3b82f6;
+        }
+        .dark-mode .project-card:hover {
+            box-shadow: 0 14px 30px rgba(56, 189, 248, 0.4);
+            border-color: #38bdf8;
+        }
+
+        .tag-container { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 3px; }
+        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
+        .btn-toggle { border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; background: transparent; font-size: 11px; white-space: nowrap; }
+        .btn-toggle:hover { background: var(--accent); color: var(--card-bg); }
+        
+        :root { --dm-info-bg: #f8fafc; --dm-chip-bg: #eef2ff; --dm-chip-text: #4338ca; --dm-price: #4f46e5; --dm-label: #94a3b8; --dm-close-bg: #f1f5f9; --dm-close-text: #64748b; }
+        .dark-mode { --dm-info-bg: #0f172a; --dm-chip-bg: #312e81; --dm-chip-text: #c7d2fe; --dm-price: #a5b4fc; --dm-label: #94a3b8; --dm-close-bg: #334155; --dm-close-text: #cbd5e1; }
+        .modal-box.detail-box { width: 760px; max-width: 92%; max-height: 88vh; padding: 0; border-radius: 24px; }
+        .dm-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 24px 28px 20px; border-bottom: 1px solid var(--border-color); }
+        .dm-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .dm-status { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+        .dm-status.tone-open { background: #dcfce7; color: #166534; }
+        .dm-status.tone-hold { background: #fef9c3; color: #854d0e; }
+        .dm-status.tone-urgent { background: #fee2e2; color: #991b1b; }
+        .dark-mode .dm-status.tone-open { background: #14532d; color: #86efac; }
+        .dark-mode .dm-status.tone-hold { background: #713f12; color: #fde68a; }
+        .dark-mode .dm-status.tone-urgent { background: #7f1d1d; color: #fecaca; }
+        .dm-title { margin: 0; font-size: 22px; line-height: 1.4; color: var(--text); }
+        .dm-close { flex: none; width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--dm-close-bg); color: var(--dm-close-text); font-size: 16px; cursor: pointer; }
+        .dm-close:hover { filter: brightness(0.95); }
+        .dm-body { padding: 24px 28px 28px; }
+        .dm-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; align-items: start; background: var(--dm-info-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; }
+        .dm-info-label { font-size: 12px; font-weight: 700; color: var(--dm-label); margin-bottom: 4px; }
+        .dm-info-value { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.4; }
+        .dm-info-value.price { font-size: 22px; color: var(--dm-price); line-height: 1.2; }
+        .dm-section-label { font-size: 12px; font-weight: 700; color: var(--dm-label); margin-bottom: 10px; }
+        .dm-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+        .dm-chip { background: var(--dm-chip-bg); color: var(--dm-chip-text); padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+        .dm-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .dm-section-head .dm-section-label { margin-bottom: 0; }
+        .dm-copy { background: transparent; border: 1px solid var(--border-color); color: var(--dm-label); border-radius: 999px; padding: 4px 12px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .dm-copy:hover { background: var(--dm-info-bg); }
+        .dm-detail { margin: 0; white-space: pre-wrap; word-break: break-word; font-size: 13px; line-height: 1.9; color: var(--text); background: var(--dm-info-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px 28px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+        @media (max-width: 600px) {
+            .dm-head { padding: 18px 18px 16px; }
+            .dm-body { padding: 18px 18px 22px; }
+            .dm-title { font-size: 18px; }
+            .dm-info { padding: 16px; }
+            .dm-detail { padding: 18px; }
+        }
+
+        .match-panel { margin: 12px 20px 0; padding: 16px 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .match-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+        .match-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: #64748b; }
+        .match-grid .mp-wide { grid-column: 1 / -1; }
+        .match-grid input { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 400; }
+        .mp-label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: #64748b; }
+        .match-panel textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg); color: #94a3b8; font-size: 13px; font-weight: 400; font-family: inherit; line-height: 1.6; resize: vertical; }
+        .mp-parsed { margin-top: 10px; font-size: 12px; line-height: 1.9; }
+        .mp-parsed span { display: inline-block; margin: 0 14px 0 0; }
+        .mp-parsed b { color: #64748b; margin-right: 4px; }
+        .mp-parsed .warn { color: #d97706; font-weight: 700; }
+        .mp-attach { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-color); }
+        .mp-attach.dragover { outline: 2px dashed var(--accent); outline-offset: 4px; border-radius: 8px; background: rgba(59, 130, 246, 0.08); }
+        .mp-attach input[type=file] { font-size: 12px; margin-top: 4px; max-width: 100%; }
+        .mp-file-list { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+        .mp-file { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 6px 10px; background: var(--bg); border: 1px solid var(--border-color); border-radius: 8px; }
+        .mp-file .name { flex: 1; word-break: break-all; }
+        .mp-file .size { color: #64748b; white-space: nowrap; }
+        .mp-file button { border: none; background: transparent; color: #64748b; cursor: pointer; font-size: 14px; }
+        .mp-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+        .mp-status { font-size: 12px; color: #059669; font-weight: 600; }
+        .mp-note { margin-top: 10px; font-size: 11px; color: #64748b; line-height: 1.6; }
+        .match-badge { display: inline-block; margin-top: 4px; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+        .match-badge.high { background: #dcfce7; color: #166534; }
+        .match-badge.mid { background: #fef9c3; color: #854d0e; }
+        .match-badge.low { background: #f1f5f9; color: #64748b; }
+        .dark-mode .match-badge.high { background: #14532d; color: #86efac; }
+        .dark-mode .match-badge.mid { background: #713f12; color: #fde68a; }
+        .dark-mode .match-badge.low { background: #334155; color: #cbd5e1; }
+        .dm-chip.ok { background: #dcfce7; color: #166534; }
+        .dm-chip.miss { background: transparent; color: var(--dm-label); border: 1px dashed var(--border-color); }
+        .dark-mode .dm-chip.ok { background: #14532d; color: #86efac; }
+
+        .btn-propose { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px 7px 12px; border: none; border-radius: 999px; background: linear-gradient(135deg, #3b82f6 0%, #6366f1 55%, #8b5cf6 100%); color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; box-shadow: 0 3px 10px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, filter 0.2s ease; }
+        .btn-propose::before { content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent); transform: skewX(-20deg); transition: left 0.6s ease; pointer-events: none; }
+        .btn-propose:hover { transform: translateY(-2px) scale(1.05); filter: brightness(1.06); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+        .btn-propose:hover::before { left: 130%; }
+        .btn-propose:active { transform: translateY(0) scale(0.93); box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.22); transition-duration: 0.08s; }
+        .btn-propose.is-open { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.28), 0 6px 16px rgba(99, 102, 241, 0.45); }
+        .btn-propose .bp-icon { flex: none; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .btn-propose:hover .bp-icon { transform: translate(2px, -2px) rotate(-8deg); }
+        .btn-propose .ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.55); transform: scale(0); animation: propose-ripple 0.55s ease-out forwards; pointer-events: none; }
+        @keyframes propose-ripple { to { transform: scale(1); opacity: 0; } }
+        @media (prefers-reduced-motion: reduce) {
+            .btn-propose, .btn-propose::before, .btn-propose .bp-icon { transition: none; }
+            .btn-propose .ripple { display: none; }
+        }
+
+        .propose-menu { display: none; position: fixed; z-index: 10000; min-width: 200px; background: var(--card-bg); color: var(--text); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); padding: 6px; }
+        .propose-menu > button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; background: transparent; border: none; color: inherit; font-size: 14px; border-radius: 8px; cursor: pointer; text-align: left; }
+        .propose-menu > button { transition: background 0.15s ease, transform 0.1s ease; }
+        .propose-menu > button:hover { background: var(--panel-bg); }
+        .propose-menu > button:active { transform: scale(0.97); }
+        .propose-tel-box { padding: 10px 12px; }
+        .propose-tel-link, .propose-tel-num { display: block; font-size: 18px; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .propose-tel-link { padding: 4px 0; }
+        .propose-tel-note { margin-top: 4px; font-size: 11px; color: #64748b; line-height: 1.5; }
+        .propose-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); max-width: 90%; background: #1e293b; color: #ffffff; padding: 10px 16px; border-radius: 999px; font-size: 12px; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; text-align: center; }
+        .propose-toast.show { opacity: 1; }
+        .btn-copy { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 10px; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-box { background: var(--card-bg); color: var(--text); padding: 25px; width: 650px; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow-y: auto; border: 1px solid var(--border-color); transform-origin: center center; will-change: transform, opacity; }
+
+        #login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: url('2586330.jpg') center/cover no-repeat; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.6s ease; }
+        .login-box { background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 360px; color: #334155; border: 1px solid #cbd5e1; }
+        .login-box h2 { margin-top: 0; color: #0f172a; }
+        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; border-radius: 6px; box-sizing: border-box; }
+        .login-box button { width: 100%; padding: 12px; background: #003366; color: #ffffff; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
+        .login-box button:hover { background: #002244; }
+
+        #terminal-log { display: none; text-align: left; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #38bdf8; line-height: 1.6; background: #020617; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; height: 140px; overflow: hidden; margin-top: 10px; }
+        
+        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 350px; text-align: center; color: #334155; }
+        .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
+        .status-open { background-color: #3b82f6; color: white; }
+        .status-hold { background-color: #eab308; color: #000000; }
+        .status-urgent { background-color: #ef4444; color: white; }
+        .status-exclusive { background-color: #ef4444; color: white; }
+        .status-postponed { background-color: #eab308; color: #ffffff; margin-left: 4px; }
+
+        .cat-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; text-align: center; white-space: nowrap; }
+        .cat-dev { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .cat-infra { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .cat-lowcode { background-color: #fae8ff; color: #86198f; border: 1px solid #f5d0fe; }
+        .cat-other { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .dark-mode .cat-dev { background-color: #1e3a8a; color: #93c5fd; border-color: #1d4ed8; }
+        .dark-mode .cat-infra { background-color: #14532d; color: #86efac; border-color: #166534; }
+        .dark-mode .cat-lowcode { background-color: #701a75; color: #f0abfc; border-color: #86198f; }
+        .dark-mode .cat-other { background-color: #334155; color: #cbd5e1; border-color: #475569; }
+
+        /* ガラス調テーマ */
+        :root { --accent: #4f46e5; --text: #1e293b; --sub: #64748b; --bg: rgba(255,255,255,0.6); --panel-bg: rgba(255,255,255,0.45); --border-color: rgba(148,163,184,0.32); --tag-bg: rgba(99,102,241,0.12); --tag-text: #4338ca; --glass: rgba(255,255,255,0.55); --glass-strong: rgba(255,255,255,0.86); --glass-border: rgba(255,255,255,0.78); --glass-shadow: 0 10px 34px rgba(79,70,229,0.13); --dm-info-bg: rgba(255,255,255,0.55); --dm-chip-bg: rgba(99,102,241,0.14); --dm-chip-text: #4338ca; --dm-close-bg: rgba(255,255,255,0.75); --blob1: #a5b4fc; --blob2: #f0abfc; --blob3: #7dd3fc; }
+        .dark-mode { --accent: #a5b4fc; --text: #e2e8f0; --sub: #94a3b8; --bg: rgba(15,23,42,0.6); --panel-bg: rgba(255,255,255,0.05); --border-color: rgba(255,255,255,0.12); --tag-bg: rgba(165,180,252,0.16); --tag-text: #c7d2fe; --glass: rgba(30,41,59,0.5); --glass-strong: rgba(24,32,51,0.9); --glass-border: rgba(255,255,255,0.12); --glass-shadow: 0 10px 34px rgba(0,0,0,0.45); --dm-info-bg: rgba(255,255,255,0.06); --dm-chip-bg: rgba(165,180,252,0.18); --dm-chip-text: #c7d2fe; --dm-close-bg: rgba(255,255,255,0.1); --blob1: #4338ca; --blob2: #86198f; --blob3: #0e7490; }
+        body { font-family: 'Inter', 'Noto Sans JP', -apple-system, 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif; color: var(--text); min-height: 100vh; background: linear-gradient(135deg, #eef2ff 0%, #fdf2f8 50%, #e0f2fe 100%) fixed; }
+        body.dark-mode { background: linear-gradient(135deg, #090d1a 0%, #150f33 50%, #08182b 100%) fixed; }
+        body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.6; background: radial-gradient(60vmax 60vmax at 6% 0%, var(--blob1), transparent 60%), radial-gradient(55vmax 55vmax at 100% 100%, var(--blob2), transparent 60%), radial-gradient(40vmax 40vmax at 92% 6%, var(--blob3), transparent 60%); }
+
+        header { position: sticky; top: 0; z-index: 50; padding: 12px 32px; background: var(--glass); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); color: var(--text); border-bottom: 1px solid var(--glass-border); box-shadow: 0 4px 24px rgba(79, 70, 229, 0.08); }
+        header .logo { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; letter-spacing: 0.02em; }
+        .logo-mark { font-size: 20px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo-ver { font-size: 11px; font-weight: 500; color: var(--sub); }
+        header nav a { color: var(--text); opacity: 0.75; font-size: 13px; padding: 6px 10px; border-radius: 999px; margin-left: 6px; transition: background 0.2s, opacity 0.2s; }
+        header nav a:hover { opacity: 1; background: var(--tag-bg); }
+
+        .header-auth-status { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #047857; box-shadow: none; text-shadow: none; font-family: inherit; font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 999px; letter-spacing: 0; }
+        .dark-mode .header-auth-status { color: #6ee7b7; }
+        .header-auth-status::before { display: none; }
+        .header-auth-status .pulse-dot { border-radius: 50%; width: 7px; height: 7px; background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); animation: none; }
+
+        .marquee-container, .dark-mode .marquee-container { background: var(--glass); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); color: var(--text); border: none; border-bottom: 1px solid var(--glass-border); padding: 9px 0; }
+        .marquee-container::before, .marquee-container::after { display: none; }
+        .marquee-container .proj-item { color: #b45309; }
+        .dark-mode .marquee-container .proj-item { color: #fcd34d; }
+
+        #main-wrapper { max-width: 1180px; }
+        .controls-container { padding: 28px 24px 0; gap: 16px; }
+        .page-title { margin: 0; font-size: 22px; font-weight: 800; display: flex; align-items: baseline; gap: 12px; letter-spacing: 0.01em; }
+        .last-updated { font-size: 12px; font-weight: 500; color: var(--sub); }
+        .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .seg { display: flex; gap: 2px; padding: 3px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 999px; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+        .seg-btn { border: none; background: transparent; color: var(--text); padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; }
+        .seg-btn.active { background: var(--accent); color: var(--card-bg); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35); }
+        .glass-input { padding: 9px 14px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 13px; outline: none; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: box-shadow 0.2s, border-color 0.2s; }
+        .glass-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+        .glass-input.search { width: 240px; }
+        .glass-btn { padding: 9px 16px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: transform 0.15s, box-shadow 0.2s; }
+        .glass-btn:hover { transform: translateY(-1px); box-shadow: var(--glass-shadow); }
+        .glass-btn.primary { background: linear-gradient(135deg, #3b82f6, #6366f1); color: #ffffff; border-color: transparent; }
+        main { padding: 16px 24px 56px; }
+
+        .project-list { display: flex; flex-direction: column; gap: 12px; }
+        .project-list .project-row { --cat: #64748b; position: relative; overflow: hidden; display: grid; grid-template-columns: auto 1fr auto auto; grid-template-areas: "propose main side detail"; align-items: center; gap: 18px; padding: 16px 20px 16px 26px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border); border-radius: 18px; box-shadow: var(--glass-shadow); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease; }
+        .project-list .project-row.cat-dev-row { --cat: #3b82f6; }
+        .project-list .project-row.cat-infra-row { --cat: #10b981; }
+        .project-list .project-row.cat-lowcode-row { --cat: #a855f7; }
+        .project-list .project-row.cat-other-row { --cat: #64748b; }
+        .project-list .project-row::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 4px 4px 0; background: var(--cat); box-shadow: 0 0 12px var(--cat); }
+        .project-list .project-row:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(79, 70, 229, 0.2); border-color: rgba(99, 102, 241, 0.45); }
+        .project-list .project-row.postponed-row, .dark-mode .project-list .project-row.postponed-row { background: var(--glass) !important; color: var(--sub) !important; opacity: 0.55; }
+        .pr-propose { grid-area: propose; }
+        .pr-main { grid-area: main; min-width: 0; }
+        .pr-side { grid-area: side; text-align: right; min-width: 150px; }
+        .pr-detail { grid-area: detail; }
+        .pr-title-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .pr-title { font-size: 17px; font-weight: 800; line-height: 1.4; letter-spacing: 0.01em; }
+        .pr-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .pr-skills .tag, .project-card .tag { background: var(--tag-bg); color: var(--tag-text); padding: 4px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; transition: transform 0.15s, background 0.15s; }
+        .pr-skills .tag:hover, .project-card .tag:hover { transform: translateY(-1px); background: rgba(99, 102, 241, 0.25); }
+        .pr-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+        .pr-badges .cat-badge, .pr-badges .status-badge { font-size: 10.5px; padding: 3px 9px; border-radius: 999px; margin: 0; }
+        .pr-badges .blink-text { display: inline !important; margin: 0 !important; font-size: 11px !important; }
+        .pr-flag { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+        .pr-flag.ok { background: rgba(16, 185, 129, 0.14); color: #047857; }
+        .pr-flag.ng { background: rgba(239, 68, 68, 0.14); color: #b91c1c; }
+        .pr-flag.ask { background: rgba(245, 158, 11, 0.16); color: #b45309; }
+        .dark-mode .pr-flag.ok { color: #6ee7b7; }
+        .dark-mode .pr-flag.ng { color: #fca5a5; }
+        .dark-mode .pr-flag.ask { color: #fcd34d; }
+        .pr-price { font-size: 20px; font-weight: 800; color: var(--accent); line-height: 1.2; }
+        .pr-place { margin-top: 6px; font-size: 12px; font-weight: 700; }
+        .pr-remote { margin-top: 2px; font-size: 11px; color: var(--sub); }
+        .btn-detail { display: inline-flex; align-items: center; gap: 4px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--glass-strong); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-detail span { font-size: 15px; line-height: 1; transition: transform 0.2s; }
+        .btn-detail:hover { transform: translateY(-1px); box-shadow: var(--glass-shadow); }
+        .btn-detail:hover span { transform: translateX(3px); }
+        .status-open { background: rgba(59, 130, 246, 0.15); color: #1d4ed8; }
+        .status-hold { background: rgba(245, 158, 11, 0.18); color: #b45309; }
+        .status-urgent, .status-exclusive { background: rgba(239, 68, 68, 0.15); color: #b91c1c; }
+        .dark-mode .status-open { color: #93c5fd; }
+        .dark-mode .status-hold { color: #fcd34d; }
+        .dark-mode .status-urgent, .dark-mode .status-exclusive { color: #fca5a5; }
+
+        .card-grid { gap: 16px; }
+        .project-card { --cat: #64748b; position: relative; overflow: hidden; padding: 22px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-left: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
+        .project-card.cat-dev-card { --cat: #3b82f6; border-left: 1px solid var(--glass-border); }
+        .project-card.cat-infra-card { --cat: #10b981; border-left: 1px solid var(--glass-border); }
+        .project-card.cat-lowcode-card { --cat: #a855f7; border-left: 1px solid var(--glass-border); }
+        .project-card.cat-other-card { --cat: #64748b; border-left: 1px solid var(--glass-border); }
+        .project-card::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--cat), transparent); }
+        .project-card:hover, .dark-mode .project-card:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(79, 70, 229, 0.22); border-color: rgba(99, 102, 241, 0.45); }
+
+        .modal-overlay { background: rgba(15, 23, 42, 0.35); }
+        .modal-box { background: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); border: 1px solid var(--glass-border); box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35); }
+        .dm-title { font-weight: 800; }
+        #settings-modal > div, #pool-modal > div, #profile-modal .modal-content { background: var(--glass-strong) !important; color: var(--text) !important; border: 1px solid var(--glass-border) !important; border-radius: 20px !important; -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+        .match-panel { margin: 14px 24px 0; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
+        .propose-menu { background: var(--glass-strong); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; }
+        .login-box { background: rgba(255, 255, 255, 0.55); -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%); border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 24px; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3); }
+        .login-box input { background: rgba(255, 255, 255, 0.75); border-radius: 12px; }
+        .login-box button { background: linear-gradient(135deg, #3b82f6, #6366f1); border-radius: 12px; }
+
+        @media (max-width: 760px) {
+            header { padding: 10px 16px; }
+            .controls-container { padding: 20px 16px 0; }
+            main { padding: 14px 16px 48px; }
+            .match-panel { margin: 12px 16px 0; }
+            .glass-input.search { width: 100%; }
+            .project-list .project-row { grid-template-columns: auto 1fr; grid-template-areas: "main main" "side side" "propose detail"; gap: 12px; padding: 16px 16px 14px 22px; }
+            .pr-side { text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; min-width: 0; }
+            .pr-place, .pr-remote { margin-top: 0; }
+            .pr-detail { justify-self: end; }
+        }
+
+        /* 背景：3Dの幾何学模様（canvasに描画。奥ほど薄く消えていく） */
+        #circuit-bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000 30%); mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000 30%); }
+
+        .project-list .project-row, .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)); -webkit-backdrop-filter: blur(5px) saturate(140%); backdrop-filter: blur(5px) saturate(140%); }
+        .dark-mode .project-list .project-row, .dark-mode .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)); }
+
+        /* ================= マーキーのクリック・要員マッチの見やすさ ================= */
+        .marquee-container .proj-item { cursor: pointer; text-decoration: underline transparent; text-underline-offset: 4px; transition: text-decoration-color 0.2s, filter 0.2s; }
+        .marquee-container .proj-item:hover { text-decoration-color: currentColor; filter: brightness(1.15); }
+        body.spot-on .project-list .project-row:not(.spotlight), body.spot-on .card-grid .project-card:not(.spotlight) { opacity: 0.25; filter: saturate(0.6); transition: opacity 0.35s ease, filter 0.35s ease; }
+        .project-list .project-row.spotlight, .card-grid .project-card.spotlight { z-index: 5; opacity: 1 !important; filter: none !important; transform: scale(1.015); border-color: #f59e0b !important; box-shadow: 0 0 0 3px #f59e0b, 0 0 0 10px rgba(245, 158, 11, 0.28), 0 22px 54px rgba(245, 158, 11, 0.4) !important; animation: spot-pulse 1.2s ease-in-out 6; }
+        @keyframes spot-pulse { 0%, 100% { box-shadow: 0 0 0 3px #f59e0b, 0 0 0 8px rgba(245, 158, 11, 0.25), 0 22px 54px rgba(245, 158, 11, 0.35); } 50% { box-shadow: 0 0 0 3px #f59e0b, 0 0 0 18px rgba(245, 158, 11, 0.08), 0 22px 54px rgba(245, 158, 11, 0.55); } }
+        .spot-label { position: absolute; top: 0; right: 0; z-index: 6; padding: 7px 18px 7px 20px; background: linear-gradient(135deg, #f59e0b, #f97316); color: #1f1300; font-size: 13px; font-weight: 800; border-radius: 0 0 0 16px; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.5); animation: spot-bounce 0.7s ease-in-out infinite alternate; }
+        @keyframes spot-bounce { from { transform: translateX(0); } to { transform: translateX(-7px); } }
+
+        .calc-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: none; border-radius: 999px; background: linear-gradient(135deg, #3b82f6, #6366f1 55%, #8b5cf6); color: #ffffff; font-size: 13px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, filter 0.2s; }
+        .calc-btn:hover { transform: translateY(-2px) scale(1.03); }
+        .calc-btn:active { transform: scale(0.95); }
+        .calc-btn .spin { display: none; width: 14px; height: 14px; border: 2px solid rgba(255, 255, 255, 0.45); border-top-color: #ffffff; border-radius: 50%; animation: calc-spin 0.7s linear infinite; }
+        .calc-btn.busy { pointer-events: none; filter: saturate(0.75); }
+        .calc-btn.busy .spin { display: inline-block; }
+        .calc-btn.needs-calc { animation: calc-pulse 1.6s ease-in-out infinite; }
+        @keyframes calc-spin { to { transform: rotate(360deg); } }
+        @keyframes calc-pulse { 0%, 100% { box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4), 0 0 0 0 rgba(99, 102, 241, 0.55); } 50% { box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4), 0 0 0 12px rgba(99, 102, 241, 0); } }
+        .mp-hint { font-size: 12px; font-weight: 700; color: #4f46e5; }
+        .dark-mode .mp-hint { color: #a5b4fc; }
+        .mp-warn { margin-top: 10px; font-size: 12.5px; font-weight: 700; line-height: 1.6; color: #dc2626; }
+        .dark-mode .mp-warn { color: #fca5a5; }
+        #mp-text.shake { animation: mp-shake 0.45s ease; border-color: #dc2626; }
+        @keyframes mp-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); } }
+        .mp-file .fmain { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .fstatus { font-size: 11px; color: #64748b; }
+        .fstatus.ok { color: #059669; }
+        .fstatus.ng { color: #dc2626; }
+
+        .match-banner { margin: 0 0 16px; padding: 16px 20px; scroll-margin-top: 84px; background: var(--glass); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--glass-border); border-radius: 18px; box-shadow: var(--glass-shadow); }
+        .mb-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .mb-icon { font-size: 28px; }
+        .mb-text { flex: 1; min-width: 240px; }
+        .mb-title { font-size: 16px; font-weight: 800; }
+        .mb-sub { margin-top: 4px; font-size: 12.5px; line-height: 1.7; color: var(--sub); }
+        .mb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .mb-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-size: 11.5px; font-weight: 700; }
+        .mb-legend .lg { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+        .mb-legend .lg.high { background: #10b981; }
+        .mb-legend .lg.mid { background: #f59e0b; }
+        .mb-legend .lg.low { background: #94a3b8; }
+        .mb-note { margin-top: 10px; font-size: 12.5px; font-weight: 700; color: var(--sub); }
+        .mb-note.warn { color: #dc2626; }
+        .mb-note.ok { color: #059669; }
+        .dark-mode .mb-note.warn { color: #fca5a5; }
+
+        .pr-gauge { grid-area: gauge; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 76px; }
+        .pr-gauge .g-ring { --gc: #94a3b8; position: relative; width: 66px; height: 66px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: conic-gradient(var(--gc) calc(var(--p) * 1%), rgba(148, 163, 184, 0.25) 0); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1); }
+        .pr-gauge .g-ring::before { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: var(--glass-strong); }
+        .pr-gauge .g-num, .pr-gauge .g-pct { position: relative; font-weight: 800; }
+        .pr-gauge .g-num { font-size: 21px; line-height: 1; }
+        .pr-gauge .g-pct { font-size: 10px; margin: 7px 0 0 1px; }
+        .pr-gauge .g-label { font-size: 10px; font-weight: 700; line-height: 1.3; text-align: center; color: var(--sub); }
+        .pr-gauge.high .g-ring { --gc: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.45); }
+        .pr-gauge.high .g-label { color: #047857; }
+        .pr-gauge.mid .g-ring { --gc: #f59e0b; }
+        .pr-gauge.mid .g-label { color: #b45309; }
+        .dark-mode .pr-gauge.high .g-label { color: #6ee7b7; }
+        .dark-mode .pr-gauge.mid .g-label { color: #fcd34d; }
+        .pr-gauge.pop .g-ring { animation: g-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes g-pop { 0% { transform: scale(1); } 45% { transform: scale(1.18); } 100% { transform: scale(1); } }
+        .project-list.has-match .project-row { grid-template-columns: auto 1fr auto auto auto; grid-template-areas: "propose main gauge side detail"; }
+        .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+        .card-title-row h3 { flex: 1; }
+        .project-card .pr-gauge { min-width: 64px; }
+        .project-card .pr-gauge .g-ring { width: 58px; height: 58px; }
+        .match-reveal { animation: mr-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+        @keyframes mr-in { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+        @media (max-width: 760px) {
+            .project-list.has-match .project-row { grid-template-columns: auto 1fr; grid-template-areas: "main main" "gauge side" "propose detail"; }
+            .pr-gauge { align-self: start; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .project-list .project-row.spotlight, .card-grid .project-card.spotlight, .spot-label, .calc-btn.needs-calc, .calc-btn .spin, .match-reveal, .pr-gauge.pop .g-ring, #mp-text.shake { animation: none !important; }
+        }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex items-center justify-center p-6 relative overflow-hidden selection:bg-indigo-500 selection:text-white">
-
-  <!-- Background Ambient Glow -->
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
-
-  <!-- Main Container -->
-  <main class="w-full max-w-xl mx-auto flex flex-col items-center text-center z-10">
-    
-    <!-- Animated Rotating Logo / Gear Icon -->
-    <div class="relative w-28 h-28 mb-10 flex items-center justify-center">
-      <!-- Outer Rotating Gear -->
-      <i class="fa-solid fa-gear text-slate-800 text-6xl absolute animate-spin-slow"></i>
-      <!-- Inner Reverse Rotating Gear -->
-      <i class="fa-solid fa-gear text-indigo-500 text-4xl absolute animate-spin-reverse drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]"></i>
-      <!-- Center Icon -->
-      <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center z-10 border border-slate-700/60 shadow-inner">
-        <i class="fa-solid fa-screwdriver-wrench text-indigo-200 text-sm"></i>
-      </div>
+<body>
+    <canvas id="circuit-bg" aria-hidden="true"></canvas>
+    <div id="profile-modal" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3>前田 玄真 (Maeda Genma)</h3>
+            <p style="font-size: 14px; line-height: 1.6;">Phone: 070-1370-1870<br>Tell: 03-5651-0170<br>Address: 東京都千代田区岩本町3丁目4-6<br>トナカイタワーズ9階</p>
+        </div>
     </div>
 
-    <!-- Title -->
-    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white mb-6">
-      只今システムメンテナンス中です
-    </h1>
+    <div id="detail-modal" class="modal-overlay" onclick="closeDetailModal()">
+        <div class="modal-box detail-box" onclick="event.stopPropagation()">
+            <div class="dm-head">
+                <div>
+                    <div class="dm-meta">
+                        <span id="dm-cat" class="cat-badge"></span>
+                        <span id="dm-status" class="dm-status"></span>
+                    </div>
+                    <h3 id="modal-title" class="dm-title"></h3>
+                </div>
+                <button class="dm-close" onclick="closeDetailModal()" aria-label="閉じる">✕</button>
+            </div>
+            <div class="dm-body">
+                <div class="dm-info">
+                    <div><div class="dm-info-label">単金・報酬</div><div id="dm-price" class="dm-info-value price"></div></div>
+                    <div><div class="dm-info-label">勤務場所</div><div id="dm-location" class="dm-info-value"></div></div>
+                    <div><div class="dm-info-label">リモートワーク</div><div id="dm-remote" class="dm-info-value"></div></div>
+                    <div><div class="dm-info-label">商流・契約</div><div id="dm-contract" class="dm-info-value"></div></div>
+                </div>
+                <div id="dm-match" style="display: none; margin-bottom: 24px;">
+                    <div class="dm-section-label">要員とのマッチ度：<span id="dm-match-score"></span></div>
+                    <div id="dm-match-chips" class="dm-tags" style="margin-bottom: 0;"></div>
+                </div>
+                <div class="dm-section-label">関連キーワード・スキル</div>
+                <div id="dm-tags" class="dm-tags"></div>
+                <div class="dm-section-head">
+                    <span class="dm-section-label">案件詳細概要</span>
+                    <button class="dm-copy" onclick="copyModalText()">コピー</button>
+                </div>
+                <pre id="modal-content-text" class="dm-detail"></pre>
+            </div>
+        </div>
+    </div>
 
-    <!-- Text Body -->
-    <p class="text-slate-300 text-sm sm:text-base leading-relaxed whitespace-pre-line font-normal">
-いつもご利用いただき誠にありがとうございます。
-サービスの利便性向上およびシステムの安定化のため、現在定期メンテナンスを実施しております。
-ご不便をおかけいたしますが、ご理解とご協力のほどお願い申し上げます。
-    </p>
+    <div id="propose-menu" class="propose-menu" role="menu">
+        <button type="button" onclick="chooseProposal('mail')">✉️ メールで提案</button>
+        <button type="button" onclick="chooseProposal('line')">💬 LINEで提案</button>
+        <button type="button" id="propose-tel-btn" onclick="chooseProposal('tel')">📞 電話で提案</button>
+        <button type="button" id="propose-share-btn" style="display: none;" onclick="chooseProposal('share')">📎 要員情報を添付して提案</button>
+        <div id="propose-tel-box" class="propose-tel-box" style="display: none;"></div>
+    </div>
+    <div id="propose-toast" class="propose-toast"></div>
 
-  </main>
+    <header>
+        <div class="logo">
+            <span class="logo-mark">◆</span>
+            <span>Icube アイキューブ</span>
+            <span class="logo-ver">Prototype.Ver1.3</span>
+        </div>
 
+        <div id="header-auth-container">
+            <div class="header-auth-status">
+                <span class="pulse-dot"></span>
+                <span id="login-countdown-text">自動ログイン中（残30日）</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="https://gemini.google.com/app" target="_blank">Gemini</a>
+            <a href="https://www.icube-inc.com" target="_blank">会社概要</a>
+            <a onclick="document.getElementById('profile-modal').style.display='flex'" style="cursor:pointer">問合せ</a>
+            <a onclick="document.getElementById('settings-modal').style.display='flex'" style="cursor:pointer; font-size: 18px;">⚙️</a>
+        </nav>
+    </header>
+
+    <div class="marquee-container">
+        <div class="marquee-track">
+            <!-- 1つ目のブロック -->
+            <div class="marquee-content">
+                <span class="proj-item" data-id="35"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
+                <span class="proj-item" data-id="34"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
+                <span class="proj-item" data-id="33"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
+                <span class="proj-item" data-id="32"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
+            </div>
+            <!-- 2つ目のブロック（ループ用） -->
+            <div class="marquee-content" aria-hidden="true">
+                <span class="proj-item" data-id="35"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
+                <span class="proj-item" data-id="34"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
+                <span class="proj-item" data-id="33"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
+                <span class="proj-item" data-id="32"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
+        <div style="background:var(--card-bg); padding:20px; width:300px; border-radius:12px; color:var(--text); border: 1px solid var(--border-color);" onclick="event.stopPropagation()">
+            <h3>設定メニュー</h3>
+            <div style="display:flex; flex-direction:column; gap:15px;">
+                <label><input type="checkbox" id="darkModeToggle" onchange="document.body.classList.toggle('dark-mode')"> ダークモード</label>
+                <label><input type="checkbox" id="geoToggle" checked onchange="toggleGeo(this.checked)"> 背景の模様を動かす</label>
+            </div>
+            <button style="margin-top:20px; width:100%; background:var(--border-color); color:var(--text); border:none; padding:8px; border-radius:4px; cursor:pointer;" onclick="document.getElementById('settings-modal').style.display='none'">閉じる</button>
+        </div>
+    </div>
+
+    <div id="screen-container">
+        <div id="login-overlay">
+            <div class="login-box">
+                <div id="login-form-inner">
+                    <h2>システム認証</h2>
+                    <input type="password" id="password" placeholder="パスワードを入力" onkeydown="if(event.key === 'Enter') checkPassword()">
+                    <button onclick="checkPassword()">ログイン</button>
+                </div>
+                <div id="terminal-log"></div>
+            </div>
+        </div>
+
+        <div id="main-wrapper">
+            <div class="controls-container">
+                <h1 class="page-title">
+                    <span>案件一覧</span>
+                    <span id="last-updated" class="last-updated">（最終更新日時：10/22 13:59）</span>
+                </h1>
+                <div class="controls">
+                    <div class="seg">
+                        <button id="btn-view-table" class="seg-btn active" onclick="switchView('table')">☰ リスト</button>
+                        <button id="btn-view-card" class="seg-btn" onclick="switchView('card')">▦ カード</button>
+                    </div>
+                    <select id="sortSelect" class="glass-input" onchange="handleSort()">
+                        <option value="date_desc">掲載日：新しい順 (降順)</option>
+                        <option value="date_asc">掲載日：古い順 (昇順)</option>
+                        <option value="category">カテゴリー順 (開発 → インフラ → ローコード → その他)</option>
+                    </select>
+                    <input type="text" id="searchInput" class="glass-input search" placeholder="🔍 スキルやキーワードで探す">
+                    <button id="btn-match" class="glass-btn" onclick="toggleMatchPanel()">🎯 要員マッチ</button>
+                    <button class="glass-btn" onclick="showAll()">全て表示</button>
+                    <button class="glass-btn primary" onclick="refreshData()">更新</button>
+                </div>
+            </div>
+
+            <div id="match-panel" class="match-panel" style="display: none;">
+                <label class="mp-label">提案要員（情報を貼り付けるだけ）
+                    <textarea id="mp-text" rows="10" oninput="scheduleMatch()" placeholder="【提案要員】&#10;氏名：i.C&#10;年齢：26歳&#10;性別：男性&#10;最寄り：総武線 秋葉原駅&#10;所属：アイキューブ正社員&#10;稼働：10月～&#10;単価：〇〇万&#10;スキル：JAVA、C#、SQL&#10;資格：ITパスポート、基本情報技術者&#10;その他：開発を希望&#10;並行：なし"></textarea>
+                </label>
+                <div class="mp-actions">
+                    <button id="btn-calc" class="calc-btn" onclick="applyMatch(true)"><span class="spin"></span><span class="calc-label">読み取ってマッチ度を計算</span></button>
+                    <button class="tag" onclick="clearMatch()" style="padding: 8px 14px;">クリア</button>
+                    <span id="mp-hint" class="mp-hint"></span>
+                    <span id="mp-status" class="mp-status"></span>
+                </div>
+                <div class="mp-warn">⚠ 要員情報だけでもマッチ度は表示できますが、スキルシート（Word・Excel・PDF）を添付すると、より精度が上がります。</div>
+                <div id="mp-parsed" class="mp-parsed"></div>
+                <div id="mp-attach" class="mp-attach">
+                    <div class="mp-label">📎 スキルシート（Word・Excel・PDF）
+                        <input id="mp-files" type="file" multiple accept=".doc,.docx,.xls,.xlsx,.xlsm,.pdf" onchange="onFilesChosen()">
+                    </div>
+                    <div class="mp-note">ファイルをこの画面にドラッグ＆ドロップするか、コピーしたファイルを貼り付け（Ctrl+V／⌘V）でも添付できます。</div>
+                    <div id="mp-file-list" class="mp-file-list"></div>
+                    <div id="mp-file-note" class="mp-note"></div>
+                </div>
+                <div class="mp-note">貼り付けると、氏名・年齢・スキルなどを自動で読み取り、スキルから各案件の「マッチ度」を出して高い順に並べます。読み取った内容は、「提案」→「メールで提案／LINEで提案」の提案文に自動で入ります。入力内容とファイルは、この画面の中だけで保持され、保存・送信はされません（ページを閉じると消えます）。</div>
+            </div>
+
+            <main>
+                <div id="match-banner" class="match-banner" style="display: none;">
+                    <div class="mb-top">
+                        <span class="mb-icon">🎯</span>
+                        <div class="mb-text">
+                            <div id="mb-title" class="mb-title"></div>
+                            <div id="mb-sub" class="mb-sub"></div>
+                        </div>
+                        <div class="mb-actions">
+                            <button class="glass-btn" onclick="editMatch()">要員情報を編集</button>
+                            <button class="glass-btn" onclick="clearMatch()">マッチを解除</button>
+                        </div>
+                    </div>
+                    <div class="mb-legend">
+                        <span><i class="lg high"></i>70%以上：かなり合う</span>
+                        <span><i class="lg mid"></i>40〜69%：一部合う</span>
+                        <span><i class="lg low"></i>39%以下：あまり合わない</span>
+                    </div>
+                    <div id="mb-note" class="mb-note"></div>
+                </div>
+                <div id="table-view-container">
+                    <div id="table-body" class="project-list"></div>
+                </div>
+
+                <div id="card-view-container" class="hidden">
+                    <div id="card-grid" class="card-grid"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        let currentView = 'table';
+        const NEW_DAYS = 2;
+        const PROPOSAL_MAIL = "genma-maeda@icube-inc.com";
+        const PROPOSAL_TEL = "070-1370-1870";
+        const PROPOSAL_LINEWORKS_ID = "icube.maeda@icubecorporation-38";
+        const CORRECT_PASSWORD = "X4m9K2p7R5v1N8q3";
+        const AUTH_TOKEN_KEY = "icube_auth_token_2026";
+        const AUTH_EXPIRE_KEY = "icube_auth_expire_2026";
+
+        function generateToken(pass) {
+            return btoa(pass + "_icube_secure_2026");
+        }
+
+        function checkAndApplyLoginStatus() {
+            const expireTime = localStorage.getItem(AUTH_EXPIRE_KEY);
+            const savedToken = localStorage.getItem(AUTH_TOKEN_KEY);
+            const expectedToken = generateToken(CORRECT_PASSWORD);
+            const now = new Date().getTime();
+
+            if (!savedToken || savedToken !== expectedToken || !expireTime || now > expireTime) {
+                document.getElementById('login-overlay').style.display = 'flex';
+                return false;
+            }
+
+            const timeLeft = parseInt(expireTime, 10) - now;
+            const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+
+            const countdownEl = document.getElementById('login-countdown-text');
+            if (countdownEl) {
+                countdownEl.textContent = `自動ログイン中（残${daysLeft}日）`;
+            }
+
+            const overlay = document.getElementById('login-overlay');
+            overlay.style.display = 'none';
+            return true;
+        }
+
+        window.checkPassword = function() {
+            const pass = document.getElementById('password').value;
+            if (pass === CORRECT_PASSWORD) {
+                const existingExpire = localStorage.getItem(AUTH_EXPIRE_KEY);
+                const now = new Date().getTime();
+                
+                if (!existingExpire || now > parseInt(existingExpire, 10)) {
+                    const days = 30;
+                    const expireTime = now + (days * 24 * 60 * 60 * 1000);
+                    localStorage.setItem(AUTH_EXPIRE_KEY, expireTime);
+                }
+                
+                localStorage.setItem(AUTH_TOKEN_KEY, generateToken(pass));
+
+                document.getElementById('login-form-inner').style.display = 'none';
+                const terminal = document.getElementById('terminal-log');
+                terminal.style.display = 'block';
+
+                const logs = [
+                    "> user interface rock ... ok",
+                    "> password Authentication ... ok",
+                    "> decrypting secure session keys ... ok",
+                    "> mounting secure database socket ... ok",
+                    "> access granted. launching dashboard ... ok"
+                ];
+
+                let i = 0;
+                function showNextLog() {
+                    if (i < logs.length) {
+                        terminal.innerHTML += logs[i] + "<br>";
+                        i++;
+                        setTimeout(showNextLog, 180);
+                    } else {
+                        setTimeout(() => {
+                            const overlay = document.getElementById('login-overlay');
+                            overlay.style.opacity = '0';
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                                checkAndApplyLoginStatus();
+                            }, 600);
+                        }, 400);
+                    }
+                }
+                showNextLog();
+
+            } else {
+                alert('パスワードが違います');
+            }
+        }
+
+        const projects = [
+            {
+                id: 35,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "",
+                date: "2026/10/22",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）",
+                tags: ["Db2", "パッチ適用", "影響範囲検討", "データベース", "スペシャリスト", "水道橋"],
+                location: "水道橋駅 徒歩7〜8分",
+                remote: "出社（フルリモート不可）",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）",
+                    "- 概要",
+                    "  募集背景",
+                    "- 水道橋にてDb2へのパッチ適用作業および影響範囲検討を実施するため、対応可能なDb2スペシャリストを急募。",
+                    "- 業務内容",
+                    "  - Db2のパッチ適用作業",
+                    "  - パッチ適用に伴う影響範囲の検討・調査",
+                    "- 求める人材イメージ",
+                    "  - Db2のパッチ適用および影響範囲検討において豊富な経験をお持ちのスペシャリスト",
+                    "- 期間",
+                    "  - 2026年11月 ～ 2027年1月（延長の可能性あり）",
+                    "  - ※開始タイミングは相談可能",
+                    "- 募集人数",
+                    "  - 3名",
+                    "- 単価",
+                    "  - スキル見合い（要相談）",
+                    "- 作業場所・働き方",
+                    "  - 勤務地: JR中央・総武緩行線「水道橋駅」徒歩7〜8分",
+                    "    - ※東京メトロ半蔵門線／都営新宿線「神保町駅」「九段下駅」も利用可能",
+                    "  - 働き方: 出社（※フルリモート不可）",
+                    "- 応募・契約条件",
+                    "  - 商流：貴社まで",
+                    "  - 個人事業主：可",
+                    "  - 外国籍：不可",
+                    "- 選考プロセス",
+                    "  - 面談回数: 1回（元請様のみ／前田同席）",
+                    "- 対応方法・連絡先",
+                    "  - スキルマッチする方がいらっしゃる場合は、スキルシートを添付の上、ご連絡ください。今後の対応方法を相談させていただきます。"
+                ].join("\n")
+            },
+            {
+                id: 34,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "",
+                date: "2026/10/21",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "IBMiモダナイゼーションPoC Step2",
+                tags: ["RPG開発", "RPGⅢ", "RPGⅣ", "SQL", "IBM Bob", "AI開発"],
+                location: "元請品川オフィス／客先（半蔵門）",
+                remote: "要確認",
+                price: "スキル見合い",
+                flow: "元請１回",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件名】IBMiモダナイゼーションPoC Step2",
+                    "【案件概要】RPG（RPGⅢ）プログラムをIBM Bobを利用してモダナイゼーション（RPGⅣ＋SQL化）を実施する案件",
+                    "【募集人数】１名",
+                    "【必須スキル】 RPG開発経験５年以上（RPGⅢ、Ⅳどちらも経験していると尚良し）",
+                    "       ※要件定義～リリースまで経験していること",
+                    "【任意スキル】 AIを利用した開発経験（AIの種類は問わず）",
+                    "【作業期間】  2026年11月～2027年01月",
+                    "【作業場所】  元請品川オフィス、客先オフィス（半蔵門）",
+                    "【勤務時間】  09:30～18:30",
+                    "【標準時間】  140h～180h（精算あり）",
+                    "【面談回数】  元請１回",
+                    "【単価】スキル見合い",
+                    "【その他】   2027年2月以降の当プロジェクト顧客のシステム保守要員として長期参画も想定しています。",
+                    "       客先（半蔵門）常駐が可能な方。",
+                    "個人事業主：可",
+                    "外国籍：不可"
+                ].join("\n")
+            },
+            {
+                id: 33,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "",
+                date: "2026/10/21",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "給与システムオペレーション業務対応",
+                tags: ["給与システム", "GUI-PACK", "オペレーション", "チェックシート作成"],
+                location: "水天宮前 or 京王永山",
+                remote: "リモート前提（週1回程度出社予定あり）",
+                price: "60万",
+                flow: "元請様・エンド様2回（web予定）",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件名】給与システムオペレーション業務対応",
+                    "【案件概要】マニュアルをもとに給与システムのオペレーション業務をご担当いただきます。",
+                    "＜月次作業＞",
+                    " GUI-PACK 給与に関するオペレーション",
+                    " 月に5.6回 顧客との計算結果確認のMTGあり",
+                    " 給与/賞与の作業内容のCheck Sheet作成",
+                    "＜一時作業＞",
+                    " 法改正対応後のオペレーションテスト実施",
+                    " 各社からの要望対応後のオペレーションテスト実施",
+                    "【募集人数】2名",
+                    "【必須スキル】",
+                    " ・給与/賞与計算作業のご経験",
+                    "【尚可】",
+                    " ・GUI-PACK 給与に関するオペレーション経験",
+                    " ・客先システムのオペレーション経験",
+                    "【作業期間】 2026年11月～2027年04（延長の可能性あり）",
+                    "【作業場所】 リモート前提",
+                    "      ※週に1回程度水天宮前 or京王永山への出社予定あり",
+                    "【希望単価】 60万",
+                    "【勤務時間】 09:00～18:00",
+                    "【標準時間】 140h～180h（精算あり）",
+                    "【面談回数】 元請様・エンド様2回（web予定）",
+                    "【個人事業主】可",
+                    "【外国籍】   不可"
+                ].join("\n")
+            },
+            {
+                id: 32,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "",
+                date: "2026/10/19",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "柏／ネットワーク基盤 設計・構築・運用保守支援",
+                tags: ["ネットワーク", "Cisco", "FortiGate", "BIG-IP", "Linux", "要件定義"],
+                location: "柏駅 徒歩13分",
+                remote: "週1回程度",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件名】柏／ネットワーク基盤 設計・構築・運用保守支援",
+                    "",
+                    "1. 作業概要",
+                    "  ネットワーク基盤チームにメンバーとして入って頂き、チームが実施する各種作業に対応して頂きます。",
+                    "  作業は大きく定常運用と案件対応に分かれます。",
+                    "  ・定常運用：セキュリティ関連システムへのユーザー登録、各種ネットワーク機器のログ収集や分析、障害対応など",
+                    "  ・案件対応：Wi-Fi機器全国更改、本社NW増速、コアスイッチ更改などの設計、検証、構築、テストリリースといった一連のフェーズ",
+                    "  ※技術習得に積極的で能動的に動けるモチベーション、チーム内外との円滑なコミュニケーション力を重視します。",
+                    "  ※Linux系のサーバー業務に対応できるスキルがあればさらに評価されます。",
+                    "",
+                    "2. 期間",
+                    "  12月～（開始時期調整可能、長期想定）",
+                    "",
+                    "3. 人数・年齢層",
+                    "  ・募集人数：1名",
+                    "  ・年齢制限：30歳～40代前半まで",
+                    "",
+                    "4. 場所・働き方",
+                    "  ・場所：JR常磐線／東武野田線 柏駅 徒歩13分",
+                    "  ・勤務時間：9:00～18:00（フレックス無、土日祝休み）",
+                    "  ・テレワーク：週1回程度",
+                    "  ・超過勤務：平均10～20時間程度（ピーク時30時間可能性あり）",
+                    "  ※業務の性格上、土日祝日や夜間の不規則勤務が発生する場合がありますが、代休は必ず取得できます。",
+                    "",
+                    "5. 必須スキル",
+                    "  ・ネットワーク案件に対し、要件定義、設計、検証環境構成検討、構築、テスト、運用、保守の経験（5年以上）",
+                    "  ・CISCO機器（L2、L3、ルータ等）の機器選定、Config作成、構築、検証経験",
+                    "  ・BIG-IP、Fortigateなどネットワーク関連製品の設計、検証環境構成検討、構築、テスト、運用、保守スキル",
+                    "  ・積極的、能動的に動くモチベーション、円滑なコミュニケーション能力",
+                    "  ・資料作成スキル（計画書、手順書など）",
+                    "  ・CCNA、CCNP、ネットワークスペシャリストなどの資格保持",
+                    "",
+                    "6. 尚可スキル",
+                    "  ・RHELサーバーで動作する各種ミドルウェアの設計・構築・テスト・保守経験",
+                    "  ・シェル解析、作成スキル",
+                    "  ・Squid（プロキシ）、ネットワークセキュリティ製品各種の設計・構築・テスト・保守経験",
+                    "",
+                    "7. 面談回数",
+                    "  2回（元請様・お客様）",
+                    "",
+                    "8. 単価",
+                    "  スキル見合い",
+                    "",
+                    "9. 条件補足",
+                    "  ・個人事業主：OK",
+                    "  ・外国籍：NG"
+                ].join("\n")
+            },
+
+            {
+                id: 30,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "",
+                date: "2026/10/07",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "AS/400移行作業",
+                tags: ["AS/400", "Power-i", "システム移行", "バージョンアップ"],
+                location: "未定（東日本エリア）",
+                remote: "長期常駐",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "貴社まで",
+                foreign: "OK",
+                remark: "-",
+                detailText: [
+                    "案件名: AS/400移行作業",
+                    "",
+                    "作業場所:",
+                    "作業場所未定（東日本エリア／西日本エリアどちらか ご相談）" +
+                      "※西日本は今回対象外",
+                    "",
+                    "作業期間: 開始日ご相談～長期予定",
+                    "",
+                    "スキル要件 (必要スキル・作業内容・その他備考):",
+                    "<業務内容>",
+                    "・ＳＩベンダーの社員代替（長期常駐）",
+                    "・ＩＢＭ Power-iのシステム移行／バージョンアップ作業",
+                    "",
+                    "<必須スキル(Must)／必須経験>",
+                    "・AS/400の移行作業の実務経験",
+                    "",
+                    "希望単価: スキル見合い",
+                    "",
+                    "勤務時間 (精算): 9:00～18:00（休憩1時間）",
+                    "",
+                    "人数: 複数名",
+                    "",
+                    "中心となる年齢層: 40～50歳代",
+                    "",
+                    "商流制限: 貴社まで",
+                    "",
+                    "国籍: 外国籍可 ただし日本語が流暢であること",
+                    "",
+                    "面談回数: 1回目元請様 2回目お客様（Web予定）",
+                ].join("\n")
+            },
+
+            {
+                id: 29,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "A社",
+                date: "2026/10/05",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "生保向け システム基盤更改対応",
+                tags: ["チームリーダー", "AIX", "AWS", "GitLab", "基盤構築"],
+                location: "大崎",
+                remote: "週2～3日テレワーク",
+                price: "75～80万",
+                flow: "貴社1社先まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "生保向け システム基盤更改対応",
+                    "",
+                    "案件概要 ：生保系ユーザー様における、" +
+                      "システム基盤更改対応案件です。",
+                    "",
+                    "【主な業務】",
+                    "  チームリーダーとして、案件概要（要件定義、設計・構築、" +
+                      "各種テスト(計画/実施/レビュー、リリース対応 など）" +
+                      "に対応するため、ユーザー様との調整、及び開発作業を担当します。",
+                    "",
+                    "【環境】",
+                    "  開発環境、ユーザー打鍵環境、本番環境",
+                    "",
+                    "【使用製品】",
+                    "  Unix(AIX)、AWS、オブジェクトストレージ、ClearCase、GitLab、" +
+                      "JP1/PFM、Instana、ILMT、Flexera、RPT (DTP)、Gatling、Chef、" +
+                      "AnsibleChef、開発PC（Windows）",
+                    "",
+                    "期間 ：11月 ～ 2027年3月 ※業務実績により継続の可能性あり",
+                    "  ※勤務時間 9:00～18:00（OTあり）",
+                    "  ※本番移行時は休日出勤が発生します。",
+                    "",
+                    "人数 ：チームリーダー １名",
+                    "",
+                    "場所 ：最寄駅 JR各線 大崎駅 徒歩10分",
+                    "  ※テレワークあり（２～３日／週の見込み）",
+                    "  ※出社時の服装はノーネクタイ可",
+                    "",
+                    "スキル ：",
+                    "【必須】",
+                    "  １．チームリーダーとしての業務経験（更改／管理業務）",
+                    "  ２．要件定義、基本設計など上流工程業務経験",
+                    "  ３．要件におけるテスト計画／実施経験（技術言語不問／" +
+                      "5年以上が目安）",
+                    "  ４．基盤ミドルウェア構築経験",
+                    "【尚可】",
+                    "  ５．生保業界での業務経験",
+                    "  ６．WAS,Db2など、IBMミドルウェア構築経験",
+                    "",
+                    "職場見学 ：２回（元請様／お客様） ※Web面談を予定",
+                    "",
+                    "その他 ：",
+                    "  ・単金条件は750K～800Kまでを想定しております。（応相談）",
+                    "  ・時間清算なし（月額固定となります）。",
+                    "  ・外国籍の方のご応募はご遠慮ください。",
+                    "  ・業務用PCは貸与されます。",
+                    "  ・テレワーク勤務時には、自宅Wi-Fiが必須となります。",
+                ].join("\n")
+            },
+            {
+                id: 28,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "",
+                date: "2026/10/05",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "エンタメ系/新商品情報管理システム開発",
+                tags: ["RPG開発", "現行システム調査", "設計"],
+                location: "大崎",
+                remote: "常駐（稀にリモート）",
+                price: "60～63万",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件概要】",
+                    "",
+                    "案件名： エンタメ系/新商品情報管理システム開発",
+                    "",
+                    "契約形態 ：準委任",
+                    "",
+                    "作業範囲 ：",
+                    "  商品情報管理システムのリプレイスに伴うASシステムの開発業務。",
+                    "  現行は、フロントはWEBシステムでバックエンドがASシステムだが、",
+                    "  新システムではバックエンドもWEBシステムになり、",
+                    "  データフロー変更に伴うASシステムの改修を行う。",
+                    "",
+                    "期間 ： 2026年10月～2027年9月（延長の可能性あり）",
+                    "",
+                    "募集人数 ： 1名",
+                    "",
+                    "必須スキル：",
+                    "  ・RPG開発経験",
+                    "  ・現行システムの調査や設計経験",
+                    "",
+                    "作業場所 ：客先（大崎）、たまに在宅",
+                    "",
+                    "勤務時間 ：10:00～19:00",
+                    "",
+                    "標準時間 ：140－180h（精算あり）",
+                    "",
+                    "面談回数 ：2回（元請様、エンド様）",
+                    "",
+                    "年齢制限 ：50代まで（※60代は土台に乗りません）",
+                    "",
+                    "希望単価 ：600～630K",
+                    "",
+                    "外国籍 ：不可",
+                ].join("\n")
+            },
+            {
+                id: 26,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "T社",
+                date: "2026/09/15",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "EC受注出荷システム業務支援",
+                tags: ["Java", "Spring Boot", "JavaScript", "在庫管理"],
+                location: "静岡駅",
+                remote: "常駐",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "案件名: EC受注出荷システム業務支援",
+                    "",
+                    "内容（業務内容）:",
+                    "基本設計・製造・単体試験・結合試験",
+                    "",
+                    "スキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:",
+                    "・在庫管理業務に詳しい方",
+                    "受発注業務を前提とした在庫管理・倉庫管理の要件定義を主体的に対応できる",
+                    "・EC受注出荷システム業務に精通している方",
+                    "・Javaによる基本設計工程を1年以上経験",
+                    "・Java（Spring Boot）、JavaScriptの実務経験を1年以上経験",
+                    "",
+                    "描いただく案件により、SE・PGそれぞれの役割を担当する",
+                    "",
+                    "人数: 1名",
+                    "",
+                    "単価：経験とスキル見合いで応相談",
+                    "",
+                    "プロジェクト体制: 2名（内元請様社員1名）",
+                    "",
+                    "今後の稼働見込み（チーム作り）: 参画期間以降も継続の可能性あり",
+                    "体制拡大の可能性あり",
+                    "",
+                    "その他、参画メリット等:",
+                    "・事前打合せ回数: 2回（元請様面談、顧客面談）",
+                    "・外国籍: 不可",
+                    "・個人事業主：可",
+                    "・勤務形態: フル常駐（静岡駅）",
+                ].join("\n")
+            },
+            {
+                id: 25,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "J社",
+                date: "2026/09/15",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "会議室デバイス導入支援",
+                tags: ["PM", "英語", "インベントリ", "サプライヤーマネジメント"],
+                location: "平間駅/新川崎駅",
+                remote: "業務習得後相談",
+                price: "85～88万",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "OK",
+                remark: "-",
+                detailText: [
+                    "案件名: 会議室デバイス導入支援",
+                    "",
+                    "作業場所:",
+                    "JR南武線 平間駅 徒歩12分",
+                    "JR横須賀線・総武線 新川崎駅 徒歩15分",
+                    "シャトルバスあり",
+                    "業務習得後は相談の上でリモート併用",
+                    "",
+                    "作業期間: 10月～初回 '27年3月 延長可能性あり",
+                    "",
+                    "スキル要件 (必要スキル・作業内容・その他備考):",
+                    "<業務内容>",
+                    "・弊社の会議室要件（IT機器/ビデオカンファレンスシステム）を関連所轄部門と整理した上で、必要な導入機器や関連サプライヤーからのサービス提案に向けたサポートを実施頂く",
+                    "・インベントリの整理",
+                    "・見積もりサポート（サプライヤーマネジメント）",
+                    "・機器導入サポート",
+                    "",
+                    "<必須スキル(Must)/必須経験>",
+                    "・異なる部署間での必要な調整/コミュニケーションをとり、要件を適切に把握してインプリまで持っていくことができる",
+                    "・プロジェクトをリードするPMである事",
+                    "・関連部門（施設管理部）が日本語でのコミュニケーション不可のため英語必須(会話・メールともに上級レベル)",
+                    "・日本語 ネイティブまたは上級",
+                    "",
+                    "<あれば好ましいスキル>",
+                    "・会議室機器またはその他エンドポイント端末の管理/運用/導入をした業務経験がある",
+                    "・複雑性の高いタスクを自力で完遂まで持っていくことができる",
+                    "",
+                    "希望単価: スキル見合い（85～88万円程度）",
+                    "",
+                    "勤務時間 (精算): 9:00～18:00（休憩1時間）",
+                    "",
+                    "人数: 1",
+                    "",
+                    "中心となる年齢層: 30歳～50歳くらいまで",
+                    "",
+                    "商流制限: 貴社まで（エンド様商流制限有）",
+                    "",
+                    "国籍: 外国籍可 ただし日本語が流暢であること",
+                    "",
+                    "面談回数: 1回目元請様 2回目お客様(Web予定)",
+                ].join("\n")
+            },
+            {
+                id: 23,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "CJ社",
+                date: "2026/09/10",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "エンタメ系/新商品情報管理システム開発",
+                tags: ["RPG開発", "要件定義", "詳細設計"],
+                location: "大崎",
+                remote: "常駐主体（稀にリモート）",
+                price: "60万～",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "CJ社様案件",
+                    "",
+                    "【案件概要】",
+                    "",
+                    "案件名： エンタメ系/新商品情報管理システム開発",
+                    "",
+                    "契約形態 ： 準委任",
+                    "",
+                    "作業範囲 ：",
+                    "       商品情報管理システムのリプレイスに伴うASシステムの開発業務。",
+                    "       現行は、フロントはWEBシステムでバックエンドがASシステムだが、",
+                    "       新システムではバックエンドもWEBシステムになり、",
+                    "       データフロー変更に伴うASシステムの改修を行う。",
+                    "",
+                    "期間   ： 2026/10月～2027年9月（延長の可能性あり）",
+                    "",
+                    "募集人数 ： 1名",
+                    "",
+                    "必須スキル：",
+                    "         ・RPG開発経験",
+                    "      ・現行システムの調査や設計経験",
+                    "",
+                    "作業場所 ：客先（大崎）基本出社：たまに在宅",
+                    "",
+                    "勤務時間 ：10:00～19:00",
+                    "",
+                    "標準時間 ：140－180h（精算あり）",
+                    "",
+                    "面談回数 ：2回（元請様、エンド様）web予定",
+                    "",
+                    "年齢制限 ：50代まで",
+                    "",
+                    "希望単価 ：60万（スキルによる）",
+                    "",
+                    "【単価上振れについて】",
+                    "上振れ1万～5万が限度⇒上記必須スキルに加え、特筆すべき事項が在る場合のみ",
+                    "     ",
+                    "外国籍  ：不可",
+                    "",
+                    "個人事業主：可",
+                ].join("\n")
+            },
+            {
+                id: 13,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "J社",
+                date: "2026/09/07",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "専門商社での情報システム部門・社員代替",
+                tags: ["AS/400", "RPG", "情シス"],
+                location: "北松戸",
+                remote: "常駐",
+                price: "55-60万円",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【専門商社での情報システム部門・社員代替】",
+                    "",
+                    "募集人数：",
+                    "・1名",
+                    "",
+                    "期間：",
+                    "・開始 ： 2026年10月〜長期（1〜3ヶ月程度のお試し期間・良ければ長期）",
+                    "",
+                    "業務内容：",
+                    "・基幹システム（AS/400）運用保守",
+                    "・プログラム改修・保守、ユーザとの要件確認・基本設計・詳細設計・開発・テスト",
+                    "",
+                    "＜必須スキル(Must)／必須経験＞",
+                    "・RPG開発を上流から下流まで1人称でできる方",
+                    "",
+                    "勤務時間：",
+                    "・9:00〜17:45（休憩45分、実働8時間）",
+                    "",
+                    "年齢層：",
+                    "・60歳くらいまで",
+                    "",
+                    "商流制限：",
+                    "・貴社まで",
+                    "",
+                    "国籍：",
+                    "・外国籍不可",
+                    "",
+                    "面談回数：",
+                    "・2回（1回目元請様、2回目お客様 ※お客様面談は9月中旬の予定）",
+                ].join("\n")
+            },
+            {
+                id: 2,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "T社",
+                date: "2026/09/15",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "クラウド構築（人財プール）",
+                tags: ["AWS", "GCP", "Docker", "Terraform"],
+                location: "豊洲／在宅中心",
+                remote: "基本在宅",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
+                detailText: [
+                    "案件名: クラウド構築（人財プール）",
+                    "",
+                    "内容（業務内容）:",
+                    "AWS・GCPを利用したクラウド環境構築",
+                    "社内横断で様々なプロジェクトのクラウド基盤構築を支援する",
+                    "・環境構築（GCP, AWS, Docker, Jenkins, Terraform 等）",
+                    "",
+                    "スキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:",
+                    "<必要なスキル・経験>",
+                    "・GCP, AWSを利用したクラウド基盤の設計、構築作業、検証など実務経験が3年以上あること。",
+                    "設計:クラウド基盤の非機能要件定義、システム全体構成、ネットワーク設計、サーバ設計、監視設計、セキュリティ設計の経験がある",
+                    "構築・テスト:IaC（CloudFormation, AWS CDK, Azure Bicep, Terraform）を使った基盤構築、基盤テストの経験がある",
+                    "-全て必須ではないが、様々なPJの支援を担当するため幅広く広い方が良い。",
+                    "AWS: EC2、S3、IAM、Security Group、Secrets Manager",
+                    "コンテナ: Docker、ECR",
+                    "DB/データ基盤: RDS for Oracle、Aurora、Redshift等",
+                    "",
+                    "<求める人材像、役割>",
+                    "・AWS基盤構築のエンジニアであること",
+                    "・自発的にIT技術の最新技術知見を高めるための自己研鑽を行っている方",
+                    "・新たな技術へのアンテナが高く、情報展開やコミュニケーションを問わない方",
+                    "・支援先への技術的説明やソリューション支援を一人称で行うマインドを持つ方",
+                    "",
+                    "<あれば尚良>",
+                    "・チームをまとめるリーダー経験がある",
+                    "・OSSサポート（Apache/Tomcat）の知見がある",
+                    "・オンプレ（VMware）/仮想ネットワーク（SDN）の経験がある",
+                    "・クラウド関連ベンダ系認定資格者（AWS, Azure, GoogleCloud, etc.）",
+                    "",
+                    "人数: 若干名（※1名でも可）",
+                    "",
+                    "商流: 経験とスキル見合いで応相談",
+                    "",
+                    "プロジェクト体制: 3名体制（内社員3名）",
+                    "",
+                    "今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能",
+                    "随時募集もあるため、BPでの体制の構築も可能",
+                    "",
+                    "その他、参画メリット等:",
+                    "・事前打合せ回数: 2回（元請及びエンド様）",
+                    "· 外国籍: 不可",
+                    "・個人事業主：可",
+                    "・在宅勤務: 有（基本在宅）",
+                ].join("\n")
+            },
+            {
+                id: 3,
+                category: "other",
+                categoryName: "📁 その他",
+                company: "T社",
+                date: "2026/09/15",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "プロジェクトマネージャ支援（人財プール）",
+                tags: ["PM", "PMO", "品質管理"],
+                location: "豊洲／在宅中心",
+                remote: "基本在宅",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: `<a href="#" onclick="document.getElementById('pool-modal').style.display='flex'; return false;" style="color:#ef4444; font-size:11px; font-weight:bold; cursor:pointer;">【注】</a>`,
+                detailText: [
+                    "案件名: プロジェクトマネージャ支援（人財プール）",
+                    "",
+                    "内容（業務内容）:",
+                    "様々なプロジェクトにおいて、プロジェクトマネージャを支援する。",
+                    "（管理ツールの導入支援やアドバイス等）",
+                    "",
+                    "スキル（技術、担当工程、面談回数年齢、担当役割（PM/PMO/L/SL））:",
+                    "<必須>",
+                    "・開発を一通り実施した経験がある方。",
+                    "・管理系の業務経験がある方。",
+                    "※PM/PMOやプロジェクトの問題分析の実務経験",
+                    "品質管理、課題管理、仕様書管理といった管理作業の実務ルールの策定経験",
+                    "・PMとして複数プロジェクトの実務経験がある方。",
+                    "・要員提案の際、以下の情報を手下さい。",
+                    "・年金機構案件の業務経験がある方（最近、年金案件でニーズが高い）",
+                    "",
+                    "■PJ管理のスキル",
+                    "①品質管理、進捗管理、問題課題管理の管理作業に携わったご経験",
+                    "②PMOまたはPM/Lとして",
+                    "③管理(①)の実務要員の作成（管理ルール作成、管理簿/チケット管理ツールの導入運用）など、各管理の実務についてPJメンバーの支援/指導のご経験",
+                    "④品質分析、品質評価報告書の作成のご経験",
+                    "⑤利内計画の作成に関わったご経験",
+                    "⑥テスト計画の作成、テスト推進に関わったご経験",
+                    "",
+                    "人数: 若干名（※1名でも可）",
+                    "",
+                    "商流: 経験とスキル見合いで応相談",
+                    "",
+                    "プロジェクト体制: 6名体制（内社員2名）",
+                    "",
+                    "今後の稼働見込み（チーム作り）: 人財プール案件のため、プロジェクトの終了後も、次のプロジェクトへアサインされるため、長期参画が可能",
+                    "人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々はほとんど無い",
+                    "",
+                    "その他、参画メリット等:",
+                    "・事前打合せ回数: 2回（元請及びエンド様）",
+                    "・外国籍: 不可",
+                    "・個人事業主：可",
+                    "・在宅勤務: 実務により週数かフルリモート",
+                    "※人財プール案件の支援プロジェクトとしてオープン系が大半で、汎用系の方々はほとんど無い",
+                ].join("\n")
+            },
+            {
+                id: 4,
+                category: "lowcode",
+                categoryName: "⚡ ローコード",
+                company: "J社",
+                date: "2026/07/27",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "業務基盤再構築支援（Oracle代替）",
+                tags: ["SharePoint", "Microsoft365"],
+                location: "西日暮里",
+                remote: "常駐",
+                price: "70~80万円",
+                flow: "貴社社員まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件名】",
+                    "業務基盤再構築支援（Oracle代替）",
+                    "【作業場所】",
+                    "三河島（JR常磐線）徒歩６分、西日暮里（JR・メトロ舎人ライナー）徒歩９分（出社主体）",
+                    "",
+                    "【作業期間】",
+                    "即日〜長期予定",
+                    "",
+                    "【スキル要件】",
+                    "＜案件概要＞",
+                    "既存Oracleシステムの復旧が困難な状況を受け、SharePoint Onlineを活用した業務基盤再構築プロジェクトを推進する担当。",
+                    "文書・データ管理基盤の設計から構築、データ移行、運用設計までを担当し、SharePointを活用した業務環境の整備を行う。",
+                    "",
+                    "＜業務内容＞",
+                    "・SharePoint Onlineサイト設計・構築、ドキュメントライブラリ設計",
+                    "・SharePointリスト設計、メタデータ・フォルダ構成設計",
+                    "・権限設計・アクセス制御、ユーザー部門との要件整理",
+                    "・Oracle管理データの移行支援、運用ルール・管理手順策定",
+                    "・Teams連携連携検討・実装支援、利用部門向け説明・定着化支援",
+                    "",
+                    "＜必須スキル(Must)／必須経験＞",
+                    "・SharePoint Onlineの設計・構築経験、SharePointサイト／リスト設計経験",
+                    "・権限設計・アクセス管理経験、ユーザー要件ヒアリング経験",
+                    "・顧客折衝経験、ドキュメント作成経験",
+                    "",
+                    "＜あれば好ましいスキル(Want)／経験＞",
+                    "・Power Automate開発経験、Power Apps開発経験",
+                    "・Microsoft 365導入経験、Oracle／DBデータ移行経験",
+                    "・ファイルサーバー移行経験、業務改善・DX推進経験",
+                    "・情報セキュリティ・権限管理知識",
+                    "",
+                    "＜求める人物像＞",
+                    "SharePointを用いた業務基盤構築を主体的に推進できる方、ユーザー部門との調整ができる方",
+                    "業務要件を整理し設計に落とし込める方、手を動かしながら設計・構築まで対応できる方",
+                    "",
+                    "【希望単価】",
+                    "70~80万円（スキル見合い）",
+                    "",
+                    "【勤務時間】",
+                    "8:30〜17:00（休憩1:00）",
+                    "",
+                    "【（精算）人数】",
+                    "1名",
+                    "",
+                    "【中心となる年齢層】",
+                    "30〜50代",
+                    "",
+                    "【商流制限】",
+                    "貴社社員まで。フリーランスはNG",
+                    "",
+                    "【国籍】",
+                    "外国籍不可",
+                    "",
+                    "【面談回数】",
+                    "1回目：元請様(Web･対面)、2回目：お客様(対面)",
+                ].join("\n")
+            },
+          {
+  id: 6,
+  category: "dev",
+  categoryName: "💻 開発",
+  company: "M社",
+  date: "2026/10/19",
+  status: "募集中",
+  statusClass: "status-open",
+  title: "SAP（アクセンチュア様）案件",
+  tags: ["SAP"],
+  location: "都内",
+  remote: "案件による",
+  price: "スキル見合い",
+  flow: "貴社まで",
+  contract: "準委任",
+  foreign: "NG",
+  remark: "-",
+  detailText: [
+    "応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。",
+    "",
+    " 1. 応募案件ID （案件番号）：",
+    "",
+    " 2. 面談可能日 ：",
+    "",
+    " 3. 開始可能日 ：",
+    "",
+    " 4. 希望単金 ：",
+    "",
+    " 5．国籍 ：",
+    "",
+    " 6. アクセンチュア社稼働歴有無 ：",
+    "",
+    "* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。",
+    "",
+    "* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。",
+    "",
+    "",
+    "【SAP案件リスト】",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "AD-405（Leader相当）",
+    "業界: 製薬",
+    "内容: S/4 Global Roll in、運用保守フェーズに向けた計画策定チームリーダー",
+    "必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）",
+    "場所: 週3日都内（週5回出社検討優先）",
+    "開始: 即日",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "AC-453（-）",
+    "業界: エネルギー",
+    "内容: SAP FI/CO、バイリンガルSAPスペシャリスト、クライアントグローバルマネージャとの折衝",
+    "必須: SAP S/4HANA FI/CO領域全般のナレッジ、クライアントフェイシング",
+    "場所: 都内",
+    "開始: 11月",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "A4-465（-）",
+    "業界: エンターテインメント",
+    "内容: 【11月開始案件】:AMS日英バイリンガルSAPスペシャリスト クライアント側グローバルマネージャとのソリューション検討・各種調整を担当",
+    "必須: S/4 HANA FI/CO/SDMMの全体的なナレッジ、クライアントフェイシング、ドキュメンテーション、日本語、英語",
+    "場所: 都内",
+    "開始: 11月",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "AH-466（-）",
+    "業界: SAPロールアウトPJ",
+    "内容: テストフェーズにおけるテストスクリプト作成および実テスト",
+    "必須: テスト実行者としての経験",
+    "場所: 都内",
+    "開始: 11月",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "AB-447（-）",
+    "業界: 製造",
+    "内容: S/4HANA CO-PC導入、現行データ連携・BOM製造",
+    "必須: SAP S/4HANA CO-PC導入、現行システムとの整合性知識",
+    "場所: 都内",
+    "開始: 11月",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "AC-468（-）",
+    "業界: -",
+    "内容: S/4MM保守",
+    "必須: 日本語コミュニケーション（ネイティブレベル）、ABAPの知識",
+    "場所: 都内",
+    "開始: 11月",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+    "AD-459（メンバー）",
+    "業界: -",
+    "内容: BPCメンバー、エンドユーザーサポートチーム対応",
+    "必須: BPCに関する知識・経験",
+    "場所: 都内",
+    "開始: 即日",
+    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝"
+  ].join("\n")
+          },
+            {
+                id: 7,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "M社",
+                date: "2026/07/14",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "MF運用保守",
+                tags: ["運用保守", "IBMメインフレーム", "SQL"],
+                location: "新宿",
+                remote: "常駐主軸",
+                price: "75万程度",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件概要】",
+                    "作業内容",
+                    "電力・ガス領域における基幹システムの維持管理を担っており、",
+                    "契約・料金計算・請求・回収領域を中心に、問い合わせ対応・障害対応・ 小～中規模の改修を行っている",
+                    "",
+                    "【概要】",
+                    "ガス料金領域および総合請求回収領域の運用保守作業者",
+                    "【ロール】",
+                    "・問い合わせ／障害対応（ユーザー調整含む）／定常作業の対応・推進",
+                    "・小～中規模の改修案件の推進",
+                    "",
+                    "【必須スキル】",
+                    "・アプリ領域の運用保守における問い合わせ・障害対応経験",
+                    "· 自走して業務を進められる方",
+                    "・IBMメインフレーム、SQLの経験・知識",
+                    "【尚可】",
+                    "・ガス料金・請求回収業務知識",
+                    "",
+                    "【期間】                     ",
+                    "即日～長期予定",
+                    "        ",
+                    "【人数】",
+                    " 1名                 ",
+                    "",
+                    "【面談】                ",
+                    " 2回（元請様/エンド様）web予定",
+                ].join("\n")
+            },
+            {
+               id: 21,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "CJ社",
+                date: "2026/08/31",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "ICTセンター支援（IDM担当）",
+                tags: ["IDM", "Okta", "PL"],
+                location: "弁天橋／ハイブリッド",
+                remote: "リモート含む",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件概要】",
+                    "案件名： ICTセンター支援 （IDM（ID管理システム）担当）",
+                    "",
+                    "契約形態 ： 派遣・準委任",
+                    "作業範囲 ：",
+                    "  ・IDM（ID管理システム）を中心とした関連システム（PAM、OKTA等）の運用・保守支援",
+                    "    ・IDM関連の提出資料の客観的レビュー、品質管理",
+                    "    ・IDMからのデータ連携に関する関連性の把握と整理、来年度以降の実装に向けた要件定義、設計",
+                    "    ・プロジェクト全体のPLとしてのリード",
+                    "期間   ： 2026/10月～長期",
+                    "募集人数 ： 1名",
+                    "必須スキル：",
+                    " 【必須】",
+                    "    ・アプリケーション寄りの要件定義経験（豊富な経験を有すること）",
+                    "    ・提出資料やドキュメントを客観的にレビューできる能力",
+                    "    ・プロジェクトをリードできるPLスキル",
+                    " 【尚可】",
+                    "    ・IDM（ID管理システム）に関する知識・経験",
+                    "    ・PAM（Privileged Access Management：特権アクセス管理）、Okta等の関連システムの知識・経験",
+                    "    ・データ連携設計の経験",
+                    "    ・複数システムを横断的に見ることができる俯瞰力",
+                    "作業場所 ：出社、リモートを含むハイブリッド勤務 出社時の最寄り駅：弁天橋駅",
+                    "勤務時間 ：08:00～17:00",
+                    "標準時間 ：140－180h（精算あり）",
+                    "面談回数 ：2回",
+                    "年齢制限 ：なし",
+                    "希望単価 ：応相談",
+                    "外国籍  ：不可",
+                ].join("\n")
+            },
+            {
+                id: 14,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "IT",
+                date: "2026/10/16",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "証券系EUCシステムの開発サポート作業・技術調査要員",
+                tags: ["Access", "ExcelVBA", ".NET", "AWS", "Azure"],
+                location: "茅場町",
+                remote: "週1～2出社",
+                price: "スキル見合い",
+                flow: "1社先正社員のみ",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【証券系EUCシステムの開発サポート作業・技術調査要員】",
+                    "",
+                    "募集人数：",
+                    "・1名",
+                    "",
+                    "求める人材イメージ：",
+                    "・自発的に問題点や疑問点を見出し、質問等のコミュニケーションが気軽に取れる方",
+                    "",
+                    "期間：",
+                    "・開始：2026年11月",
+                    "・終了：2027年3月",
+                    "",
+                    "年齢希望：",
+                    "・40代前半まで",
+                    "",
+                    "開発場所：",
+                    "・週1～2程度の出社をお願いしており、出社場所は元請東京オフィス（※）となります。ただし、時期によっては出社頻度を増やす可能性もあります。",
+                    "※茅場町駅徒歩3分程度",
+                    "・なお、キャッチアップ期間中（1カ月程度を想定）については、出社の頻度を上げていただく事もあります。",
+                    "",
+                    "業務時間：",
+                    "・当チーム標準は 09:00～17:30（休憩1時間）の7.5時間が所定時間になります。",
+                    "・元請担当者は 7:30～16:00勤務をしているため、コアタイムは 9:00～16:00 になります。",
+                    "",
+                    "業務内容：",
+                    "今回、開発エンジニアとしてではなく、以下のサポートをお願い致します。",
+                    "1. Microsoft Access、ExcelVBA、.NETで開発したEUCツールにおいて、",
+                    "2. 設計書が存在していない稼働中システムの把握・調査",
+                    "3. 別メンバーにて要件定義や調査を実施する際、技術的な調査があれば実施し、",
+                    "4. 調査結果をまとめて報告",
+                    "5. ⇒ Microsoft Access、ExcelVBA、.NETによるEUCツールの技術調査や、",
+                    "6. Azure・AWS構築関連の技術調査をお願いする予定",
+                    "7. 開発中のEUCツールのテストサポート",
+                    "8. （主に打鍵、エビデンス収集、成形、結果検証を想定）",
+                    "",
+                    "チーム体制：",
+                    "・現在の開発チームは5名です。",
+                    "・基本は上記1の作業をベースとしつつ、2・3の作業が発生した際はそれぞれ割り込みで実施していただく流れとなります。",
+                    "・コミュニケーションツールは、チャット、電話、WEB会議を利用します。",
+                    "",
+                    "スキル情報：",
+                    "＜必須要件＞",
+                    "・VBAやAccessでの技術知見がある方（エラー発生時の調査や解決方法の提案、改善確認ができるレベル）",
+                    "・.NET(C#)での技術知見がある方（エラー発生時の調査や解決方法の提案、改善確認ができるレベル）",
+                    "・開発エンジニアと密に会話を進められる方（相手の求めている事を理解し、的確に整理して報告できるスキル）",
+                    "・AWSもしくはAzureでの構築・利用経験がある方（Windowsサーバで稼働するPGMをクラウドへ移植する際の技術調査・検証など）",
+                    "・受け身ではなく、能動的に活躍できる方",
+                    "",
+                    "＜歓迎要件＞",
+                    "・Oracleの基本知識がある方",
+                    "・AWS、Azureどちらとも知見が深い方",
+                    "",
+                    "商流制限：",
+                    "・1社先※正社員のみ",
+                    "",
+                    "国籍：",
+                    "・外国籍不可",
+                    "",
+                    "面談回数：",
+                    "・面談はWebにて行わせていただきます（1回面談・前田同席）。"
+                ].join("\n")
+            },
+            {
+                id: 22,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "A社",
+                date: "2026/09/03",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "銀行系 設計・構築・運用",
+                tags: ["WindowsServer", "AD", "SEP", "ArcServe", "Hyper-V"],
+                location: "東陽町",
+                remote: "週2～3回",
+                price: "70～80万",
+                flow: "貴社1社先まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "【案件名】銀行系 設計・構築・運用",
+                    "",
+                    "・業種",
+                    " 銀行系",
+                    "",
+                    "・期間",
+                    " 面談合格から１か月後～長期",
+                    "",
+                    "・担当",
+                    " WindowsServerインフラ",
+                    "",
+                    "・スキルエリア（全てできることがMUST）",
+                    " AD、SEP、ArcServe等BKUP、Hyper-Vによる仮想化、クラスター化など。設計、構築、テスト、リリース、運用保守を全てカバーできる事",
+                    "",
+                    "・場所",
+                    " 東京メトロ 東陽町 徒歩１５分",
+                    "",
+                    "・勤務時間、テレワーク",
+                    " 9:00～18:00 フレックス無 土日祝日休み",
+                    " テレワークは週２，３回",
+                    "",
+                    "・面談回数",
+                    " 2回（元請様・お客様）",
+                    "",
+                    "・外国籍",
+                    "NG",
+                    "",
+                    "・個人事業主",
+                    "OK",
+                    "",
+                    "・単価",
+                    "70万～80万（スキル見合い）",
+                    "",
+                    "・備考",
+                    "詳細は面談にてお話致します。",
+                ].join("\n")
+            }
+        ];
+
+        window.switchView = function(viewType) {
+            currentView = viewType;
+            const btnTable = document.getElementById('btn-view-table');
+            const btnCard = document.getElementById('btn-view-card');
+            const tableContainer = document.getElementById('table-view-container');
+            const cardContainer = document.getElementById('card-view-container');
+
+            if (viewType === 'table') {
+                btnTable.classList.add('active');
+                btnCard.classList.remove('active');
+                tableContainer.classList.remove('hidden');
+                cardContainer.classList.add('hidden');
+            } else {
+                btnCard.classList.add('active');
+                btnTable.classList.remove('active');
+                cardContainer.classList.remove('hidden');
+                tableContainer.classList.add('hidden');
+            }
+            renderProjects(projects);
+        }
+
+        function renderProjects(dataList) {
+            const tbody = document.getElementById('table-body');
+            const cardGrid = document.getElementById('card-grid');
+            tbody.innerHTML = '';
+            tbody.classList.toggle('has-match', matchState.active);
+            cardGrid.innerHTML = '';
+
+            dataList.forEach((p) => {
+                const tagHtml = p.tags.map(t => `<span class="tag" onclick="filterByTag('${t}')">${t}</span>`).join(' ');
+                const textToCheck = (p.detailText).toLowerCase();
+                const gaugeLabel = { high: 'かなり合う', mid: '一部合う', low: 'あまり合わない' };
+                const gaugeHtml = (matchState.active && p._match)
+                    ? `<div class="pr-gauge ${p._match.level}" data-score="${p._match.score}" style="--p:${p._match.score}"><div class="g-ring"><span class="g-num">${p._match.score}</span><span class="g-pct">%</span></div><div class="g-label">マッチ度<br>${gaugeLabel[p._match.level]}</div></div>` : '';
+
+                let foreignDisplay = "NG";
+                let foreignColor = "#dc2626";
+                if (p.id === 27 || p.id === 32 || p.id === 34 || p.id === 33 || p.id === 35) {
+                    foreignDisplay = "NG";
+                    foreignColor = "#dc2626";
+                } else {
+                    const foreignMatch = textToCheck.match(/外国籍[\s:：・·WMat]*([不可ng×✕可ok○◯])/);
+                    if (foreignMatch) {
+                        const v = foreignMatch[1];
+                        if (v === "不可" || v === "ng" || v === "×" || v === "✕") {
+                            foreignDisplay = "NG";
+                            foreignColor = "#dc2626";
+                        } else {
+                            foreignDisplay = "OK";
+                            foreignColor = "#059669";
+                        }
+                    } else if (/外国籍[^\n。]{0,12}(ご遠慮|お断り|不可|ng)/.test(textToCheck)) {
+                        foreignDisplay = "NG";
+                        foreignColor = "#dc2626";
+                    }
+                }
+
+                let soloDisplay = "OK";
+                let soloColor = "#059669";
+                if (p.id === 27) {
+                    soloDisplay = "NG";
+                    soloColor = "#dc2626";
+                } else if (p.id === 18 || p.id === 19) {
+                    soloDisplay = "OK";
+                    soloColor = "#059669";
+                } else if (p.id === 20) {
+                    soloDisplay = "相談";
+                    soloColor = "#d97706";
+                } else if (p.id === 32 || p.id === 34 || p.id === 33 || p.id === 35) {
+                    soloDisplay = "OK";
+                    soloColor = "#059669";
+                } else {
+                    if (textToCheck.includes("個人事業主：確認中") || textToCheck.includes("個人事業主確認中")) {
+                        soloDisplay = "確認中";
+                        soloColor = "var(--text)";
+                    } else {
+                        if (textToCheck.includes("個人事業主：不可") || textToCheck.includes("個人事業主不可") || textToCheck.includes("フリーランスはng") || textToCheck.includes("個人事業主は不可") || textToCheck.includes("個人事業主：ng") || textToCheck.includes("個人事業主・フリーランスは原則ng")) {
+                            soloDisplay = "NG";
+                            soloColor = "#dc2626";
+                        }
+                        if (textToCheck.includes("個人事業主：可") || textToCheck.includes("個人事業主可") || textToCheck.includes("雇用形態不問") || textToCheck.includes("フリーランス可") || textToCheck.includes("個人：可") || textToCheck.includes("個人事業主：ok") || textToCheck.includes("個人事業主\nok")) {
+                            soloDisplay = "OK";
+                            soloColor = "#059669";
+                        }
+                    }
+                }
+
+                const postedAt = new Date(p.date);
+                const todayMidnight = new Date();
+                todayMidnight.setHours(0, 0, 0, 0);
+                const ageDays = Math.floor((todayMidnight - postedAt) / 86400000);
+                const isNew = !isNaN(ageDays) && ageDays <= NEW_DAYS;
+                
+                let statusHtml = `<span class="status-badge ${p.statusClass}">${p.status}</span>`;
+                if (p.isPostponed) {
+                    statusHtml += `<span class="status-badge status-postponed">【延期】</span>`;
+                }
+                if (isNew && !p.isPostponed) {
+                    statusHtml = `<span class="blink-text" style="font-size: 10px; display: block; margin-bottom: 2px;">NEW!!</span>` + statusHtml;
+                }
+
+                let rowColorClass = "cat-other-row";
+                let cardColorClass = "cat-other-card";
+                let badgeClass = "cat-other";
+                if (p.category === "dev") { rowColorClass = "cat-dev-row"; cardColorClass = "cat-dev-card"; badgeClass = "cat-dev"; }
+                else if (p.category === "infra") { rowColorClass = "cat-infra-row"; cardColorClass = "cat-infra-card"; badgeClass = "cat-infra"; }
+                else if (p.category === "lowcode") { rowColorClass = "cat-lowcode-row"; cardColorClass = "cat-lowcode-card"; badgeClass = "cat-lowcode"; }
+
+                if (p.isPostponed) {
+                    rowColorClass += " postponed-row";
+                }
+
+                const categoryHtml = `<span class="cat-badge ${badgeClass}">${p.categoryName}</span>`;
+                
+                let flowCellHtml = p.flow;
+                if (p.flow !== "貴社まで") {
+                    flowCellHtml = `<span class="flow-tooltip-container">ⓘ<span class="flow-tooltip-text">${p.flow}</span></span>`;
+                }
+
+                const searchDatasetText = `${p.date} ${p.company || ''} ${p.title} ${p.categoryName} ${p.tags.join(' ')} ${p.location} ${p.remote} ${p.price} ${p.flow} ${p.contract} ${soloDisplay} ${foreignDisplay}`.toLowerCase();
+
+                const flagClass = (v) => v === 'OK' ? 'ok' : (v === 'NG' ? 'ng' : 'ask');
+                const remarkHtml = (p.remark && p.remark !== '-') ? `<span class="pr-remark">${p.remark}</span>` : '';
+
+                const row = document.createElement('div');
+                row.className = `project-row ${rowColorClass}`;
+                row.dataset.tags = p.tags.join(',');
+                row.dataset.text = searchDatasetText;
+                row.dataset.id = p.id;
+                row.innerHTML = `
+                    <div class="pr-propose"></div>
+                    <div class="pr-main">
+                        <div class="pr-title-line"><span class="pr-title">${p.title}</span></div>
+                        <div class="pr-skills">${tagHtml}</div>
+                        <div class="pr-badges">
+                            ${categoryHtml}${statusHtml}
+                            <span class="pr-flag ${flagClass(soloDisplay)}">個人 ${soloDisplay}</span>
+                            <span class="pr-flag ${flagClass(foreignDisplay)}">外国籍 ${foreignDisplay}</span>
+                            ${remarkHtml}
+                        </div>
+                    </div>
+                    ${gaugeHtml}
+                    <div class="pr-side">
+                        <div class="pr-price">${p.price}</div>
+                        <div class="pr-place">📍 ${p.location}</div>
+                        <div class="pr-remote">${p.remote}</div>
+                    </div>
+                    <div class="pr-detail"></div>
+                `;
+                const detailBtn = document.createElement('button');
+                detailBtn.className = 'btn-detail';
+                detailBtn.innerHTML = '詳細<span aria-hidden="true">›</span>';
+                detailBtn.onclick = () => openDetailModal(p, detailBtn);
+                row.querySelector('.pr-detail').appendChild(detailBtn);
+                row.querySelector('.pr-propose').appendChild(makeProposeButton(p));
+                tbody.appendChild(row);
+
+                const card = document.createElement('div');
+                card.className = `project-card ${cardColorClass}`;
+                card.dataset.tags = p.tags.join(',');
+                card.dataset.text = searchDatasetText;
+                card.dataset.id = p.id;
+                card.innerHTML = `
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span class="propose-slot"></span>
+                            <span style="font-size: 12px; font-weight: bold; color: #64748b;">${p.company || ''}</span>
+                        </div>
+                        <div style="margin-bottom: 10px;">${statusHtml} ${categoryHtml}</div>
+                        <div class="card-title-row"><h3 style="font-size: 15px; margin: 0; line-height: 1.4;">${p.title}</h3>${gaugeHtml}</div>
+                        <div class="tag-container" style="margin-bottom: 12px;">${tagHtml}</div>
+                        <div style="font-size: 12px; margin-bottom: 8px; color: var(--text);">
+                            📍 <strong>場所:</strong> ${p.location} (${p.remote})<br>
+                            💰 <strong>単価:</strong> ${p.price} / <strong>商流:</strong> ${p.flow}<br>
+                            📝 <strong>契約:</strong> ${p.contract} | <strong>個人:</strong> <span style="color: ${soloColor}; font-weight: bold;">${soloDisplay}</span> | <strong>外国籍:</strong> <span style="color: ${foreignColor}; font-weight: bold;">${foreignDisplay}</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;" class="card-footer">
+                        <span style="font-size: 11px; color: #64748b;">掲載日: ${p.date}</span>
+                    </div>
+                `;
+                const cardFooter = card.querySelector('.card-footer');
+                const cardDetailBtn = document.createElement('button');
+                cardDetailBtn.className = 'btn-toggle';
+                cardDetailBtn.innerText = '詳細を見る';
+                cardDetailBtn.onclick = () => openDetailModal(p, cardDetailBtn);
+                cardFooter.appendChild(cardDetailBtn);
+
+                card.querySelector('.propose-slot').appendChild(makeProposeButton(p));
+                cardGrid.appendChild(card);
+            });
+        }
+
+        window.handleSort = function() {
+            const sortOrder = document.getElementById('sortSelect').value;
+            projects.sort((a, b) => {
+                if (matchState.active && a._match && b._match) {
+                    const d = b._match.score - a._match.score;
+                    if (d) return d;
+                }
+                if (sortOrder === 'category') {
+                    const order = { dev: 1, infra: 2, lowcode: 3, other: 4 };
+                    return (order[a.category] || 99) - (order[b.category] || 99);
+                } else {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+                    return sortOrder === 'date_desc' ? dateB - dateA : dateA - dateB;
+                }
+            });
+            renderProjects(projects);
+        }
+
+        window.refreshData = function() {
+            const now = new Date();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('last-updated').innerText = `（最終更新日時：${month}/${day} ${hours}:${minutes}）`;
+            handleSort();
+            alert('最新情報を取得しました');
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (checkAndApplyLoginStatus()) {
+                handleSort();
+            }
+        });
+
+        let modalTrigger = null;
+        let modalSeq = 0;
+        const MODAL_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
+
+        function prefersReducedMotion() {
+            return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        function calcModalOrigin(box) {
+            const b = box.getBoundingClientRect();
+            if (!modalTrigger || !document.body.contains(modalTrigger)) {
+                return 'translate(0px, 0px) scale(0.85)';
+            }
+            const t = modalTrigger.getBoundingClientRect();
+            const dx = (t.left + t.width / 2) - (b.left + b.width / 2);
+            const dy = (t.top + t.height / 2) - (b.top + b.height / 2);
+            const s = Math.min(Math.max(t.width / b.width, t.height / b.height, 0.05), 0.3);
+            return `translate(${dx}px, ${dy}px) scale(${s})`;
+        }
+
+        function fillDetailModal(p) {
+            const badgeMap = { dev: 'cat-dev', infra: 'cat-infra', lowcode: 'cat-lowcode', other: 'cat-other' };
+            const toneMap = { 'status-open': 'tone-open', 'status-hold': 'tone-hold', 'status-urgent': 'tone-urgent', 'status-exclusive': 'tone-urgent' };
+
+            const cat = document.getElementById('dm-cat');
+            cat.className = 'cat-badge ' + (badgeMap[p.category] || 'cat-other');
+            cat.textContent = p.categoryName;
+
+            const st = document.getElementById('dm-status');
+            st.className = 'dm-status ' + (toneMap[p.statusClass] || 'tone-open');
+            st.textContent = p.status + (p.isPostponed ? '（延期）' : '');
+
+            document.getElementById('modal-title').textContent = p.title;
+            document.getElementById('dm-price').textContent = p.price;
+            document.getElementById('dm-location').textContent = p.location;
+            document.getElementById('dm-remote').textContent = p.remote;
+            const flowText = (p.flow || '').replace(/（/g, ' / ').replace(/）/g, '');
+            document.getElementById('dm-contract').textContent =
+                (flowText && flowText !== p.contract) ? `${p.contract} (${flowText})` : p.contract;
+
+            const tags = document.getElementById('dm-tags');
+            tags.innerHTML = '';
+            p.tags.forEach(t => {
+                const chip = document.createElement('span');
+                chip.className = 'dm-chip';
+                chip.textContent = t;
+                tags.appendChild(chip);
+            });
+
+            const matchBox = document.getElementById('dm-match');
+            if (matchState.active && p._match) {
+                document.getElementById('dm-match-score').textContent = p._match.score + '%';
+                const chips = document.getElementById('dm-match-chips');
+                chips.innerHTML = '';
+                p._match.matched.forEach(t => {
+                    const c = document.createElement('span');
+                    c.className = 'dm-chip ok';
+                    c.textContent = '✓ ' + t;
+                    chips.appendChild(c);
+                });
+                p._match.missing.forEach(t => {
+                    const c = document.createElement('span');
+                    c.className = 'dm-chip miss';
+                    c.textContent = t;
+                    chips.appendChild(c);
+                });
+                matchBox.style.display = 'block';
+            } else {
+                matchBox.style.display = 'none';
+            }
+
+            document.getElementById('modal-content-text').textContent = p.detailText;
+        }
+
+        window.openDetailModal = function(p, triggerEl) {
+            const overlay = document.getElementById('detail-modal');
+            const box = overlay.querySelector('.modal-box');
+            modalSeq++;
+            modalTrigger = triggerEl || null;
+
+            fillDetailModal(p);
+
+            overlay.getAnimations().forEach(a => a.cancel());
+            box.getAnimations().forEach(a => a.cancel());
+            overlay.style.display = 'flex';
+            box.scrollTop = 0;
+
+            if (prefersReducedMotion()) {
+                overlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, fill: 'both' });
+                return;
+            }
+
+            const from = calcModalOrigin(box);
+            const home = 'translate(0px, 0px) scale(1)';
+
+            overlay.animate(
+                [{ opacity: 0 }, { opacity: 1 }],
+                { duration: 320, easing: 'ease-out', fill: 'both' }
+            );
+            box.animate(
+                [
+                    { transform: from, opacity: 0 },
+                    { opacity: 1, offset: 0.25 },
+                    { transform: home, opacity: 1 }
+                ],
+                { duration: 520, easing: MODAL_EASE, fill: 'both' }
+            );
+        }
+
+        window.closeDetailModal = function() {
+            const overlay = document.getElementById('detail-modal');
+            if (getComputedStyle(overlay).display === 'none') return;
+            const box = overlay.querySelector('.modal-box');
+            const seq = ++modalSeq;
+
+            const finish = () => {
+                if (seq !== modalSeq) return;
+                overlay.style.display = 'none';
+                overlay.getAnimations().forEach(a => a.cancel());
+                box.getAnimations().forEach(a => a.cancel());
+            };
+
+            overlay.getAnimations().forEach(a => a.cancel());
+            box.getAnimations().forEach(a => a.cancel());
+
+            if (prefersReducedMotion()) {
+                const fade = overlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' });
+                fade.onfinish = finish;
+                return;
+            }
+
+            const to = calcModalOrigin(box);
+            const home = 'translate(0px, 0px) scale(1)';
+
+            overlay.animate(
+                [{ opacity: 1 }, { opacity: 0 }],
+                { duration: 380, easing: 'ease-in', fill: 'forwards' }
+            );
+            const closing = box.animate(
+                [
+                    { transform: home, opacity: 1 },
+                    { opacity: 1, offset: 0.6 },
+                    { transform: to, opacity: 0 }
+                ],
+                { duration: 420, easing: MODAL_EASE, fill: 'forwards' }
+            );
+            closing.onfinish = finish;
+        }
+
+        const candidate = { name: '', age: '', gender: '', station: '', affiliation: '', start: '', wage: '', skills: '', quals: '', parallel: '', other: '' };
+        let attachedFiles = [];
+        let matchTimer = null;
+        const matchState = { active: false, tokens: [], typedCount: 0, sheetCount: 0 };
+        let matchDirty = false;
+        let skillVocabCache = null;
+
+        const TECH_WORDS = ["Java", "Spring Boot", "JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js", "PHP", "Python", "Ruby", "Go", "C#", ".NET", "C++", "COBOL", "RPG", "AS/400", "Oracle", "PL/SQL", "SQL", "MySQL", "PostgreSQL", "SQL Server", "Db2", "AWS", "GCP", "Azure", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "Linux", "Windows Server", "VMware", "Hyper-V", "Active Directory", "Okta", "SharePoint", "Power Automate", "Power Apps", "Microsoft 365", "SAP", "Salesforce", "ServiceNow", "要件定義", "基本設計", "詳細設計", "Cisco", "FortiGate", "BIG-IP", "ネットワーク"];
+        const SKILL_ALIASES = { js: 'javascript', ts: 'typescript', k8s: 'kubernetes', node: 'node.js', nodejs: 'node.js', postgres: 'postgresql', sqlserver: 'sql server', ad: 'active directory', m365: 'microsoft 365', o365: 'microsoft 365', as400: 'as/400', ec2: 'aws', s3: 'aws', lambda: 'aws', dynamodb: 'aws', rds: 'aws', gke: 'gcp' };
+
+        function normText(s) { return String(s || '').normalize('NFKC').toLowerCase(); }
+        function compact(s) { return normText(s).replace(/[^a-z0-9#+\u3040-\u30ff\u4e00-\u9fff]/g, ''); }
+        function isAscii(s) { return /^[\x20-\x7e]+$/.test(s); }
+
+        function boundaryFind(text, token) {
+            let i = text.indexOf(token);
+            while (i !== -1) {
+                const prev = i > 0 ? text[i - 1] : '';
+                const next = text[i + token.length] || '';
+                if (!/[a-z0-9]/.test(prev) && !/[a-z0-9]/.test(next)) return true;
+                i = text.indexOf(token, i + 1);
+            }
+            return false;
+        }
+
+        function textHas(text, stripped, token) {
+            if (!token) return false;
+            if (!isAscii(token)) return text.includes(token);
+            if (boundaryFind(text, token)) return true;
+            const ts = token.replace(/[\s._\/\-]/g, '');
+            return ts.length >= 2 && boundaryFind(stripped, ts);
+        }
+
+        function parseSkills(input) {
+            const src = String(input || '').trim();
+            if (!src) return [];
+            const parts = /[,、，\n]/.test(src) ? src.split(/[,、，\n]+/) : src.split(/[\s・]+/);
+            const seen = new Set();
+            const out = [];
+            parts.map(t => t.trim()).filter(Boolean).forEach(raw => {
+                const key = SKILL_ALIASES[compact(raw)] || normText(raw).trim();
+                if (key && !seen.has(key)) { seen.add(key); out.push({ raw, key }); }
+            });
+            return out;
+        }
+
+        function projectTerms(p) {
+            if (p._terms) return p._terms;
+            const terms = [];
+            const seen = new Set();
+            p.tags.forEach(t => {
+                const k = compact(t);
+                if (k && !seen.has(k)) { seen.add(k); terms.push({ term: t, w: 2 }); }
+            });
+            const text = normText(p.title + ' ' + p.tags.join(' ') + ' ' + p.detailText);
+            const stripped = text.replace(/[\s._\/\-]/g, '');
+            let extra = 0;
+            for (const w of TECH_WORDS) {
+                if (extra >= 6) break;
+                const k = compact(w);
+                if (seen.has(k)) continue;
+                if (textHas(text, stripped, normText(w))) { seen.add(k); terms.push({ term: w, w: 1 }); extra++; }
+            }
+            p._terms = terms;
+            return terms;
+        }
+
+        function termCovers(term, key) {
+            const tk = compact(term);
+            const kk = compact(key);
+            if (!kk) return false;
+            if (tk === kk) return true;
+            if (isAscii(key)) {
+                return kk.length >= 2 && normText(term).split(/[^a-z0-9#+]+/).some(w => w === kk);
+            }
+            return kk.length >= 2 && (tk.includes(kk) || kk.includes(tk));
+        }
+
+        function matchProject(p, tokens) {
+            const terms = projectTerms(p);
+            const text = normText(p.title + ' ' + p.tags.join(' ') + ' ' + p.detailText);
+            const stripped = text.replace(/[\s._\/\-]/g, '');
+            const tagText = normText(p.title + ' ' + p.tags.join(' '));
+            const tagStripped = tagText.replace(/[\s._\/\-]/g, '');
+            // 入力された要員情報のスキルを「主」にして一致度を見る（スキルシートから拾ったスキルは「補助」として、案件を満たす割合の判定にだけ使う）
+            let primary = tokens.filter(t => t.src !== 'sheet');
+            if (!primary.length) primary = tokens;
+            let hitScore = 0;
+            primary.forEach(t => {
+                if (textHas(tagText, tagStripped, t.key)) hitScore += 1;
+                else if (textHas(text, stripped, t.key)) hitScore += 0.5;
+            });
+            const matched = [];
+            const missing = [];
+            let total = 0;
+            let covered = 0;
+            terms.forEach(x => {
+                total += x.w;
+                if (tokens.some(t => termCovers(x.term, t.key))) { covered += x.w; matched.push(x.term); }
+                else { missing.push(x.term); }
+            });
+            const hitRate = primary.length ? hitScore / primary.length : 0;
+            const coverage = total ? covered / total : 0;
+            const score = Math.round(100 * (0.4 * hitRate + 0.6 * coverage));
+            return { score, level: score >= 70 ? 'high' : (score >= 40 ? 'mid' : 'low'), matched, missing };
+        }
+
+        const FIELD_LABELS = [
+            ['name', /氏名|名前|イニシャル/], ['age', /年齢/], ['gender', /性別/], ['station', /最寄/],
+            ['affiliation', /所属|雇用|会社/], ['start', /稼働|開始|参画/], ['wage', /単価|金額/],
+            ['skills', /スキル|技術|言語/], ['quals', /資格/], ['parallel', /並行|他社|面談状況/],
+            ['other', /その他|備考|PR|アピール|希望/]
+        ];
+        const FIELD_NAMES = { name: '氏名', age: '年齢', gender: '性別', station: '最寄り', affiliation: '所属', start: '稼働', wage: '単価', skills: 'スキル', quals: '資格', parallel: '並行', other: 'その他' };
+
+        function parseCandidate(text) {
+            const c = {};
+            Object.keys(FIELD_NAMES).forEach(k => { c[k] = ''; });
+            let last = null;
+            String(text || '').split(/\r?\n/).forEach(line => {
+                const t = line.trim();
+                if (!t || /^[-－ー─━=études_＿\s]+$/.test(t)) return;
+                if (/^[【\[].*[】\]]$/.test(t)) return;
+                const m = t.match(/^([^:：]{1,12}?)\s*[:：]\s*(.*)$/);
+                if (m) {
+                    const hit = FIELD_LABELS.find(f => f[1].test(m[1]));
+                    if (hit) {
+                        last = hit[0];
+                        c[last] = c[last] ? c[last] + ' ' + m[2].trim() : m[2].trim();
+                    } else {
+                        last = 'other';
+                        c.other = (c.other ? c.other + ' / ' : '') + t;
+                    }
+                } else if (last) {
+                    c[last] = (c[last] ? c[last] + ' ' : '') + t;
+                }
+            });
+            return c;
+        }
+
+        const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+        window.toggleMatchPanel = function() {
+            const panel = document.getElementById('match-panel');
+            panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+        }
+
+        window.editMatch = function() {
+            openMatchPanel();
+            document.getElementById('match-panel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // 入力中は「読み取り結果」だけを更新する（マッチ度の計算は、ボタンを押したときに行う）
+        window.scheduleMatch = function() {
+            clearTimeout(matchTimer);
+            matchTimer = setTimeout(() => {
+                Object.assign(candidate, parseCandidate(document.getElementById('mp-text').value));
+                renderParsedPreview();
+                markNeedsCalc();
+            }, 350);
+        }
+
+        // 計算ボタンの状態（計算中の表示）
+        function setCalcBusy(on, label) {
+            const btn = document.getElementById('btn-calc');
+            btn.classList.toggle('busy', on);
+            btn.querySelector('.calc-label').textContent = on ? (label || '計算中…') : '読み取ってマッチ度を計算';
+            if (on) btn.classList.remove('needs-calc');
+        }
+
+        function flashCalcDone() {
+            const label = document.querySelector('#btn-calc .calc-label');
+            label.textContent = '✓ 計算しました';
+            setTimeout(() => { label.textContent = '読み取ってマッチ度を計算'; }, 1800);
+        }
+
+        // 入力や添付が変わったのに、まだ計算していない状態：ボタンを脈打たせて「押してね」を伝える
+        function markNeedsCalc() {
+            matchDirty = true;
+            const has = document.getElementById('mp-text').value.trim() !== '' || attachedFiles.length > 0;
+            document.getElementById('btn-calc').classList.toggle('needs-calc', has);
+            document.getElementById('mp-hint').textContent = has ? '👈 入力したら、ここを押すと、マッチ度が各案件に表示されます' : '';
+        }
+
+        function matchInputError() {
+            const ta = document.getElementById('mp-text');
+            ta.classList.remove('shake');
+            void ta.offsetWidth;
+            ta.classList.add('shake');
+            showProposeToast('スキルを読み取れませんでした。「スキル：Java、AWS」のように入力してください');
+            ta.focus();
+        }
+
+        // 入力スキル（主）＋スキルシートから拾ったスキル（補助）
+        function sheetTokens(typed) {
+            const have = new Set(typed.map(t => t.key));
+            const out = [];
+            attachedFiles.forEach(f => {
+                const info = fileInfo.get(f);
+                if (!info || info.status !== 'ok') return;
+                info.skills.forEach(w => {
+                    const key = SKILL_ALIASES[compact(w)] || normText(w).trim();
+                    if (!key || have.has(key) || out.length >= 30) return;
+                    have.add(key);
+                    out.push({ raw: w, key, w: 0.6, src: 'sheet' });
+                });
+            });
+            return out;
+        }
+
+        function bestMatch() {
+            let best = null;
+            projects.forEach(p => {
+                if (p._match && (!best || p._match.score > best.score)) best = { title: p.title, score: p._match.score };
+            });
+            return best || { title: '', score: 0 };
+        }
+
+        // mode: true＝ボタンを押した／'auto'＝スキルシートの読み取りが終わって自動で再計算
+        window.applyMatch = async function(mode) {
+            clearTimeout(matchTimer);
+            const fromButton = mode === true;
+            Object.assign(candidate, parseCandidate(document.getElementById('mp-text').value));
+            if (mode !== 'auto') setCalcBusy(true, parsePromises.size ? 'スキルシートを読み取り中…' : '計算中…');
+            await Promise.all(Array.from(parsePromises));
+            if (fromButton) await sleep(650);   // 「押したら処理した」ことが伝わるための、ほんの少しの間
+
+            const typed = parseSkills(candidate.skills);
+            const sheet = sheetTokens(typed);
+            const tokens = typed.concat(sheet);
+
+            if (!tokens.length) {
+                matchState.tokens = [];
+                matchState.active = false;
+                projects.forEach(p => { delete p._match; });
+                setCalcBusy(false);
+                refreshMatchUi();
+                handleSort();
+                if (mode !== 'auto') matchInputError();
+                return;
+            }
+
+            matchState.tokens = tokens;
+            matchState.typedCount = typed.length;
+            matchState.sheetCount = sheet.length;
+            matchState.active = true;
+            projects.forEach(p => { p._match = matchProject(p, tokens); });
+            matchDirty = false;
+            setCalcBusy(false);
+            document.getElementById('btn-calc').classList.remove('needs-calc');
+            document.getElementById('mp-hint').textContent = '';
+            if (fromButton) flashCalcDone();
+            refreshMatchUi();
+            handleSort();
+            revealMatch();
+
+            if (mode === 'auto') {
+                showProposeToast('スキルシートの内容を反映して、マッチ度を再計算しました');
+            } else {
+                showProposeToast('🎯 マッチ度を計算しました（最高 ' + bestMatch().score + '%）');
+                document.getElementById('match-banner').scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+            }
+        }
+
+        window.clearMatch = function() {
+            clearTimeout(matchTimer);
+            document.getElementById('mp-text').value = '';
+            Object.keys(FIELD_NAMES).forEach(k => { candidate[k] = ''; });
+            attachedFiles = [];
+            renderFileList();
+            matchState.tokens = [];
+            matchState.typedCount = 0;
+            matchState.sheetCount = 0;
+            matchState.active = false;
+            projects.forEach(p => { delete p._match; });
+            markNeedsCalc();
+            matchDirty = false;
+            refreshMatchUi();
+            handleSort();
+        }
+
+        // 計算結果を「見て分かる」形で見せる：行が順に現れ、丸いメーターが0%から数字まで伸びる
+        function revealMatch() {
+            const container = currentView === 'table' ? document.getElementById('table-body') : document.getElementById('card-grid');
+            const items = Array.from(container.children);
+            items.forEach((el, i) => { el.style.setProperty('--i', Math.min(i, 14)); el.classList.add('match-reveal'); });
+            setTimeout(() => items.forEach(el => { el.classList.remove('match-reveal'); el.style.removeProperty('--i'); }), 1700);
+            animateGauges(container);
+        }
+
+        function animateGauges(container) {
+            if (prefersReducedMotion()) return;
+            Array.from(container.querySelectorAll('.pr-gauge')).forEach((g, i) => {
+                const target = Number(g.dataset.score) || 0;
+                const num = g.querySelector('.g-num');
+                g.style.setProperty('--p', 0);
+                num.textContent = '0';
+                const start = performance.now() + 150 + Math.min(i, 14) * 45;
+                const dur = 900;
+                const tick = (now) => {
+                    const t = Math.min(Math.max((now - start) / dur, 0), 1);
+                    const e = 1 - Math.pow(1 - t, 3);
+                    g.style.setProperty('--p', target * e);
+                    num.textContent = String(Math.round(target * e));
+                    if (t < 1) { requestAnimationFrame(tick); }
+                    else {
+                        g.style.setProperty('--p', target);
+                        num.textContent = String(target);
+                        g.classList.add('pop');
+                        setTimeout(() => g.classList.remove('pop'), 700);
+                    }
+                };
+                requestAnimationFrame(tick);
+            });
+        }
+
+        function renderParsedPreview() {
+            const parsed = document.getElementById('mp-parsed');
+            parsed.innerHTML = '';
+            Object.keys(FIELD_NAMES).forEach(k => {
+                if (!candidate[k]) return;
+                const span = document.createElement('span');
+                const label = document.createElement('b');
+                label.textContent = FIELD_NAMES[k];
+                span.appendChild(label);
+                const unfilled = /[〇○◯]{2}|[xｘXＸ×]{2}/.test(candidate[k]);
+                const val = document.createElement('i');
+                val.style.fontStyle = 'normal';
+                val.textContent = candidate[k] + (unfilled ? '（未入力のままです）' : '');
+                if (unfilled) span.className = 'warn';
+                span.appendChild(val);
+                parsed.appendChild(span);
+            });
+        }
+
+        function refreshMatchUi() {
+            const btn = document.getElementById('btn-match');
+            const status = document.getElementById('mp-status');
+            const hasText = document.getElementById('mp-text').value.trim() !== '';
+            if (matchState.active) {
+                btn.textContent = '🎯 要員マッチ：ON';
+                btn.style.background = 'var(--accent)';
+                btn.style.color = 'var(--card-bg)';
+                status.style.color = '#059669';
+                status.textContent = '✓ 各案件にマッチ度（％）を表示しました。下の一覧を見てください';
+            } else {
+                btn.textContent = '🎯 要員マッチ';
+                btn.style.background = '';
+                btn.style.color = '';
+                status.style.color = '#d97706';
+                status.textContent = hasText ? 'スキルを読み取れませんでした（「スキル：」の行を入れてください）' : '';
+            }
+            renderParsedPreview();
+            renderMatchBanner();
+        }
+
+        // 一覧の上に出す結果バナー：何が起きたか・どこを見ればよいか・結果の概要
+        function renderMatchBanner() {
+            const banner = document.getElementById('match-banner');
+            if (!matchState.active) { banner.style.display = 'none'; return; }
+            const typed = matchState.tokens.filter(t => t.src !== 'sheet').map(t => t.raw);
+            const scored = projects.filter(p => p._match);
+            const best = bestMatch();
+            const n70 = scored.filter(p => p._match.score >= 70).length;
+            const n40 = scored.filter(p => p._match.score >= 40).length;
+            document.getElementById('mb-title').textContent = 'マッチ度を計算しました。マッチ度の高い順に並べています';
+            const basis = (typed.length ? '「' + typed.join(' / ') + '」' : '') + (matchState.sheetCount ? (typed.length ? ' ＋ ' : '') + 'スキルシートから拾った' + matchState.sheetCount + '件のスキル' : '');
+            document.getElementById('mb-sub').textContent = basis + ' で計算。各案件の右側にある丸いメーターが、マッチ度（％）です。 最高 ' + best.score + '%（' + best.title + '）／ 70%以上 ' + n70 + '件・40%以上 ' + n40 + '件';
+
+            const note = document.getElementById('mb-note');
+            const okFiles = attachedFiles.filter(f => (fileInfo.get(f) || {}).status === 'ok');
+            note.className = 'mb-note';
+            if (!attachedFiles.length) {
+                note.classList.add('warn');
+                note.textContent = '📎 スキルシート（Word・Excel・PDF）を添付すると、さらに精度が上がります。';
+            } else if (okFiles.length) {
+                note.classList.add('ok');
+                note.textContent = '📎 スキルシート' + okFiles.length + '件の内容も反映しています（追加で拾ったスキル ' + matchState.sheetCount + '件）。';
+            } else if (attachedFiles.some(f => (fileInfo.get(f) || {}).status === 'parsing')) {
+                note.textContent = '📎 スキルシートを読み取り中です…';
+            } else {
+                note.classList.add('warn');
+                note.textContent = '📎 添付したスキルシートは読み取れませんでした（.docx / .xlsx / .pdf で、文字が入っているものをお試しください）。';
+            }
+            banner.style.display = 'block';
+        }
+
+        function canShareFiles() {
+            return !!(attachedFiles.length && navigator.canShare && navigator.canShare({ files: attachedFiles }));
+        }
+
+        function formatSize(n) {
+            return n >= 1048576 ? (n / 1048576).toFixed(1) + 'MB' : Math.max(1, Math.round(n / 1024)) + 'KB';
+        }
+
+        // ----- スキルシートの読み取り（この端末のブラウザの中だけで処理。ファイルは送信しません）-----
+        const fileInfo = new WeakMap();
+        const parsePromises = new Set();
+        const LIB_URLS = {
+            mammoth: 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js',
+            xlsx: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+            pdf: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js'
+        };
+        const PDF_WORKER_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+        const libPromises = {};
+
+        // 読み取り用の部品は、スキルシートを添付したときだけ読み込む（普段のページは軽いまま）
+        function loadScript(url) {
+            if (!libPromises[url]) {
+                libPromises[url] = new Promise((resolve, reject) => {
+                    const el = document.createElement('script');
+                    el.src = url;
+                    el.onload = resolve;
+                    el.onerror = () => { delete libPromises[url]; reject(new Error('読み取り用の部品を読み込めませんでした（ネットワークをご確認ください）')); };
+                    document.head.appendChild(el);
+                });
+            }
+            return libPromises[url];
+        }
+
+        function readBuffer(file) {
+            if (file.arrayBuffer) return file.arrayBuffer();
+            return new Promise((resolve, reject) => {
+                const r = new FileReader();
+                r.onload = () => resolve(r.result);
+                r.onerror = () => reject(new Error('ファイルを開けませんでした'));
+                r.readAsArrayBuffer(file);
+            });
+        }
+
+        async function extractText(file) {
+            const ext = (file.name.split('.').pop() || '').toLowerCase();
+            if (ext === 'doc') throw new Error('旧形式の .doc は読み取れません（.docx で保存し直すと読み取れます）');
+            const buf = await readBuffer(file);
+            if (ext === 'docx') {
+                await loadScript(LIB_URLS.mammoth);
+                const r = await window.mammoth.extractRawText({ arrayBuffer: buf });
+                return r.value || '';
+            }
+            if (ext === 'xlsx' || ext === 'xlsm' || ext === 'xls') {
+                await loadScript(LIB_URLS.xlsx);
+                const wb = window.XLSX.read(buf, { type: 'array' });
+                return wb.SheetNames.map(n => window.XLSX.utils.sheet_to_csv(wb.Sheets[n])).join('\n');
+            }
+            if (ext === 'pdf') {
+                await loadScript(LIB_URLS.pdf);
+                const pdfjs = window.pdfjsLib;
+                pdfjs.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
+                const doc = await pdfjs.getDocument({ data: new Uint8Array(buf) }).promise;
+                let out = '';
+                const n = Math.min(doc.numPages, 20);
+                for (let i = 1; i <= n; i++) {
+                    const page = await doc.getPage(i);
+                    const content = await page.getTextContent();
+                    out += content.items.map(it => it.str).join(' ') + '\n';
+                }
+                return out;
+            }
+            throw new Error('未対応の形式です');
+        }
+
+        // 案件側のタグ＋よく使う技術名を「スキルの辞書」にして、スキルシートの文章から拾う
+        function skillVocabulary() {
+            if (skillVocabCache) return skillVocabCache;
+            const set = new Set(TECH_WORDS);
+            projects.forEach(p => p.tags.forEach(t => { if (t && t.length >= 2) set.add(t); }));
+            skillVocabCache = Array.from(set);
+            return skillVocabCache;
+        }
+
+        function detectSkills(rawText) {
+            const text = normText(rawText);
+            const stripped = text.replace(/[\s._\/\-]/g, '');
+            const found = [];
+            skillVocabulary().forEach(w => {
+                const key = SKILL_ALIASES[compact(w)] || normText(w).trim();
+                if (key && textHas(text, stripped, key)) found.push(w);
+            });
+            return found;
+        }
+
+        function parseFile(file) {
+            fileInfo.set(file, { status: 'parsing', skills: [] });
+            const p = extractText(file)
+                .then(text => {
+                    const t = String(text || '').slice(0, 300000);
+                    if (t.replace(/\s/g, '').length < 20) throw new Error('文字を読み取れませんでした（画像だけのファイルの可能性があります）');
+                    fileInfo.set(file, { status: 'ok', skills: detectSkills(t) });
+                })
+                .catch(err => {
+                    fileInfo.set(file, { status: 'error', skills: [], error: (err && err.message) || '読み取れませんでした' });
+                })
+                .finally(() => {
+                    parsePromises.delete(p);
+                    renderFileList();
+                    onSheetParsed((fileInfo.get(file) || {}).status === 'ok');
+                });
+            parsePromises.add(p);
+            return p;
+        }
+
+        // 読み取りが終わった／ファイルを外した：すでにマッチ中なら自動で再計算、まだなら「押してね」を表示
+        function onSheetParsed(recalc = true) {
+            if (matchState.active) {
+                if (recalc) applyMatch('auto');
+                else renderMatchBanner();
+            } else {
+                markNeedsCalc();
+            }
+        }
+
+        function renderFileList() {
+            const list = document.getElementById('mp-file-list');
+            const note = document.getElementById('mp-file-note');
+            list.innerHTML = '';
+            attachedFiles.forEach((f, i) => {
+                const row = document.createElement('div');
+                row.className = 'mp-file';
+                const main = document.createElement('div');
+                main.className = 'fmain';
+                const name = document.createElement('span');
+                name.className = 'name';
+                name.textContent = '📄 ' + f.name;
+                const st = document.createElement('span');
+                st.className = 'fstatus';
+                const info = fileInfo.get(f);
+                if (!info || info.status === 'parsing') {
+                    st.textContent = '読み取り中…';
+                } else if (info.status === 'ok') {
+                    st.classList.add('ok');
+                    st.textContent = '✓ 内容を読み取りました（スキル ' + info.skills.length + '件を検出）';
+                    st.title = info.skills.join('、');
+                } else {
+                    st.classList.add('ng');
+                    st.textContent = '⚠ ' + info.error;
+                }
+                main.appendChild(name);
+                main.appendChild(st);
+                const size = document.createElement('span');
+                size.className = 'size';
+                size.textContent = formatSize(f.size);
+                const del = document.createElement('button');
+                del.textContent = '✕';
+                del.setAttribute('aria-label', '外す');
+                del.onclick = () => { attachedFiles.splice(i, 1); renderFileList(); onSheetParsed(); };
+                row.appendChild(main);
+                row.appendChild(size);
+                row.appendChild(del);
+                list.appendChild(row);
+            });
+            if (!attachedFiles.length) note.textContent = '';
+            else if (canShareFiles()) note.textContent = '「提案」→「スキルシートを添付して提案」で、メールやLINE WORKSのアプリにファイルごと渡せます。';
+            else note.textContent = 'この端末では、ファイルの自動添付はできません。メールが開いたあと、ファイルを手動で添付してください。';
+        }
+
+        const ACCEPT_FILE_RE = /\.(docx?|xlsx?|xlsm|pdf)$/i;
+
+        function addFiles(fileList) {
+            let added = 0;
+            let rejected = 0;
+            Array.from(fileList || []).forEach(f => {
+                if (!ACCEPT_FILE_RE.test(f.name)) { rejected++; return; }
+                if (!attachedFiles.some(x => x.name === f.name && x.size === f.size)) { attachedFiles.push(f); added++; parseFile(f); }
+            });
+            renderFileList();
+            if (added) markNeedsCalc();
+            if (rejected) showProposeToast('添付できるのは Word・Excel・PDF のファイルです（対象外 ' + rejected + '件）');
+            else if (added) showProposeToast(added + '件のスキルシートを添付しました');
+            return added;
+        }
+
+        window.onFilesChosen = function() {
+            const input = document.getElementById('mp-files');
+            addFiles(input.files);
+            input.value = '';
+        }
+
+        function openMatchPanel() {
+            document.getElementById('match-panel').style.display = 'block';
+        }
+
+        function isLoggedIn() {
+            return getComputedStyle(document.getElementById('login-overlay')).display === 'none';
+        }
+
+        function dragHasFiles(e) {
+            return !!(e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files'));
+        }
+
+        let dragDepth = 0;
+        function setDropHighlight(on) {
+            document.getElementById('mp-attach').classList.toggle('dragover', on);
+        }
+        window.addEventListener('dragenter', (e) => {
+            if (!dragHasFiles(e)) return;
+            e.preventDefault();
+            dragDepth++;
+            if (isLoggedIn()) { openMatchPanel(); setDropHighlight(true); }
+        });
+        window.addEventListener('dragover', (e) => {
+            if (!dragHasFiles(e)) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        });
+        window.addEventListener('dragleave', (e) => {
+            if (!dragHasFiles(e)) return;
+            dragDepth = Math.max(0, dragDepth - 1);
+            if (dragDepth === 0) setDropHighlight(false);
+        });
+        window.addEventListener('drop', (e) => {
+            if (!dragHasFiles(e)) return;
+            e.preventDefault();
+            dragDepth = 0;
+            setDropHighlight(false);
+            if (isLoggedIn()) addFiles(e.dataTransfer.files);
+        });
+
+        document.addEventListener('paste', (e) => {
+            if (!isLoggedIn()) return;
+            const files = e.clipboardData && e.clipboardData.files;
+            if (!files || !files.length) return;
+            if (!Array.from(files).some(f => ACCEPT_FILE_RE.test(f.name))) return;
+            e.preventDefault();
+            openMatchPanel();
+            addFiles(files);
+        });
+
+        function buildProposalBody(p) {
+            const c = candidate;
+            const typed = parseSkills(c.skills);
+            const tokens = typed.concat(sheetTokens(typed));
+            const m = tokens.length ? matchProject(p, tokens) : null;
+            const L = ['前田 様', '', 'お世話になっております。', '下記案件につきまして、要員をご提案いたします。', '', '■案件名：' + p.title, '', '【提案要員】'];
+            const hasInfo = Object.keys(FIELD_NAMES).some(k => c[k]);
+            if (hasInfo) {
+                ['name', 'age', 'gender', 'station', 'affiliation', 'start', 'wage', 'skills', 'quals'].forEach(k => {
+                    if (c[k]) L.push(FIELD_NAMES[k] + '：' + c[k]);
+                });
+                if (m) {
+                    L.push('案件との一致スキル：' + (m.matched.join('、') || 'なし'));
+                    L.push('不足・要確認スキル：' + (m.missing.join('、') || 'なし'));
+                }
+                if (c.other) L.push('その他：' + c.other);
+                if (c.parallel) L.push('並行：' + c.parallel);
+            } else {
+                ['氏名', '年齢', '所属', '稼働', '単価', 'スキル'].forEach(l => L.push(l + '：'));
+            }
+            if (attachedFiles.length) L.push('スキルシート：' + attachedFiles.map(f => f.name).join('、'));
+            L.push('', 'ご確認のほど、よろしくお願いいたします。');
+            return L.join('\n');
+        }
+
+        let proposeCurrent = null;
+        let proposeToastTimer = null;
+
+        function goTo(url) {
+            window.location.href = url;
+        }
+
+        function isPhone() {
+            return /iPhone|iPod|Android.*Mobile|Windows Phone/i.test(navigator.userAgent);
+        }
+
+        function makeProposeButton(p) {
+            const btn = document.createElement('button');
+            btn.className = 'btn-propose';
+            btn.innerHTML = '<svg class="bp-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg><span>提案</span>';
+            btn.onclick = (e) => {
+                pressFeedback(btn, e);
+                openProposeMenu(e, p, btn);
+            };
+            return btn;
+        }
+
+        function pressFeedback(btn, e) {
+            if (navigator.vibrate) { try { navigator.vibrate(8); } catch (err) {} }
+            if (prefersReducedMotion()) return;
+            const r = btn.getBoundingClientRect();
+            const size = Math.max(r.width, r.height) * 2;
+            const x = (e.clientX ? e.clientX - r.left : r.width / 2) - size / 2;
+            const y = (e.clientY ? e.clientY - r.top : r.height / 2) - size / 2;
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        function proposalSubject(title) {
+            return `要員提案【${title}】`;
+        }
+
+        function showProposeToast(message) {
+            const toast = document.getElementById('propose-toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(proposeToastTimer);
+            proposeToastTimer = setTimeout(() => toast.classList.remove('show'), 4500);
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+            document.body.removeChild(ta);
+            return ok;
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text).then(() => true).catch(() => fallbackCopy(text));
+            }
+            return Promise.resolve(fallbackCopy(text));
+        }
+
+        window.openProposeMenu = function(ev, p, btn) {
+            ev.stopPropagation();
+            const menu = document.getElementById('propose-menu');
+            if (menu.style.display === 'block' && proposeCurrent && proposeCurrent.btn === btn) {
+                closeProposeMenu();
+                return;
+            }
+            document.querySelectorAll('.btn-propose.is-open').forEach(b => b.classList.remove('is-open'));
+            btn.classList.add('is-open');
+            proposeCurrent = { p, btn };
+
+            document.getElementById('propose-tel-btn').style.display = 'flex';
+            document.getElementById('propose-share-btn').style.display = canShareFiles() ? 'flex' : 'none';
+            const telBox = document.getElementById('propose-tel-box');
+            telBox.style.display = 'none';
+            telBox.innerHTML = '';
+
+            menu.style.display = 'block';
+            const r = btn.getBoundingClientRect();
+            const m = menu.getBoundingClientRect();
+            let left = r.left;
+            let top = r.bottom + 6;
+            let originY = 'top';
+            if (left + m.width > window.innerWidth - 8) left = window.innerWidth - m.width - 8;
+            if (left < 8) left = 8;
+            if (top + m.height > window.innerHeight - 8) {
+                top = r.top - m.height - 6;
+                originY = 'bottom';
+            }
+            menu.style.left = left + 'px';
+            menu.style.top = top + 'px';
+            menu.style.transformOrigin = `${Math.max(0, r.left + r.width / 2 - left)}px ${originY}`;
+
+            menu.getAnimations().forEach(a => a.cancel());
+            if (!prefersReducedMotion()) {
+                menu.animate(
+                    [{ transform: 'scale(0.6)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }],
+                    { duration: 220, easing: MODAL_EASE }
+                );
+                Array.from(menu.querySelectorAll(':scope > button')).filter(b => b.style.display !== 'none').forEach((item, i) => {
+                    item.animate(
+                        [{ transform: 'translateY(8px)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }],
+                        { duration: 260, delay: 60 + i * 45, easing: MODAL_EASE, fill: 'backwards' }
+                    );
+                });
+            }
+        }
+
+        window.closeProposeMenu = function() {
+            const menu = document.getElementById('propose-menu');
+            if (menu.style.display !== 'block') return;
+            menu.style.display = 'none';
+            document.querySelectorAll('.btn-propose.is-open').forEach(b => b.classList.remove('is-open'));
+        }
+
+        window.chooseProposal = function(kind) {
+            const cur = proposeCurrent;
+            if (!cur) return;
+            const subject = proposalSubject(cur.p.title);
+
+            if (kind === 'mail') {
+                closeProposeMenu();
+                const body = buildProposalBody(cur.p).replace(/\n/g, '\r\n');
+                goTo('mailto:' + PROPOSAL_MAIL + '?subject=' + encodeURIComponent(subject)
+                    + '&body=' + encodeURIComponent(body));
+                if (attachedFiles.length) showProposeToast('スキルシートは手動で添付してください：' + attachedFiles.map(f => f.name).join('、'));
+
+            } else if (kind === 'line') {
+                closeProposeMenu();
+                const message = subject + '\n\n' + buildProposalBody(cur.p);
+                copyText(message);
+                showProposeToast('文章をコピーしました。LINE WORKSが開かない場合は貼り付けてください');
+                goTo('https://line.worksmobile.com/message/send?version=18'
+                    + '&emailList=' + encodeURIComponent(PROPOSAL_LINEWORKS_ID)
+                    + '&message=' + encodeURIComponent(message));
+
+            } else if (kind === 'share') {
+                closeProposeMenu();
+                navigator.share({ files: attachedFiles, title: subject, text: subject + '\n\n' + buildProposalBody(cur.p) })
+                    .catch(() => { });
+
+            } else if (kind === 'tel') {
+                document.getElementById('propose-tel-btn').style.display = 'none';
+                const box = document.getElementById('propose-tel-box');
+                box.innerHTML = '';
+                const num = document.createElement(isPhone() ? 'a' : 'div');
+                num.textContent = '📞 ' + PROPOSAL_TEL;
+                if (isPhone()) {
+                    num.className = 'propose-tel-link';
+                    num.href = 'tel:' + PROPOSAL_TEL.replace(/[^0-9+]/g, '');
+                } else {
+                    num.className = 'propose-tel-num';
+                }
+                const note = document.createElement('div');
+                note.className = 'propose-tel-note';
+                note.textContent = isPhone() ? '番号を押すと発信します' : 'スマートフォンでは、番号を押すと発信できます';
+                box.appendChild(num);
+                box.appendChild(note);
+                box.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('propose-menu');
+            if (!menu.contains(e.target)) closeProposeMenu();
+        });
+        window.addEventListener('scroll', closeProposeMenu, true);
+        window.addEventListener('resize', closeProposeMenu);
+
+        // ===== 背景：3Dの幾何学模様（回転する正多面体・超立方体・天球の輪。線だけで描き、余白を残す）-----
+        (function () {
+            const canvas = document.getElementById('circuit-bg');
+            if (!canvas || !canvas.getContext) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            // ---------- 立体のデータ ----------
+            const PHI = (1 + Math.sqrt(5)) / 2;
+            const norm = (v) => { const l = Math.hypot(v[0], v[1], v[2]); return [v[0] / l, v[1] / l, v[2] / l]; };
+            // 一番短い距離でつながっている頂点どうしを、辺とする
+            function edgesByMinDist(v) {
+                let dmin = 1e9;
+                for (let i = 0; i < v.length; i++) for (let j = i + 1; j < v.length; j++) {
+                    const d = Math.hypot(v[i][0] - v[j][0], v[i][1] - v[j][1], v[i][2] - v[j][2]);
+                    if (d < dmin) dmin = d;
+                }
+                const e = [];
+                for (let i = 0; i < v.length; i++) for (let j = i + 1; j < v.length; j++) {
+                    const d = Math.hypot(v[i][0] - v[j][0], v[i][1] - v[j][1], v[i][2] - v[j][2]);
+                    if (d < dmin * 1.02) e.push([i, j]);
+                }
+                return e;
+            }
+            function solid(verts) { const v = verts.map(norm); return { v, e: edgesByMinDist(v) }; }
+            const ICO = solid([[-1, PHI, 0], [1, PHI, 0], [-1, -PHI, 0], [1, -PHI, 0], [0, -1, PHI], [0, 1, PHI], [0, -1, -PHI], [0, 1, -PHI], [PHI, 0, -1], [PHI, 0, 1], [-PHI, 0, -1], [-PHI, 0, 1]]);
+            const dodV = [];
+            [-1, 1].forEach(a => [-1, 1].forEach(b => [-1, 1].forEach(c => dodV.push([a, b, c]))));
+            [-1, 1].forEach(a => [-1, 1].forEach(b => { dodV.push([0, a / PHI, b * PHI]); dodV.push([a / PHI, b * PHI, 0]); dodV.push([b * PHI, 0, a / PHI]); }));
+            const DOD = solid(dodV);
+            const OCT = solid([[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]]);
+            // 4次元の立方体（超立方体）
+            const tesV = [], tesE = [];
+            for (let i = 0; i < 16; i++) tesV.push([(i & 1) ? 1 : -1, (i & 2) ? 1 : -1, (i & 4) ? 1 : -1, (i & 8) ? 1 : -1]);
+            for (let i = 0; i < 16; i++) for (let b = 0; b < 4; b++) { const j = i ^ (1 << b); if (j > i) tesE.push([i, j]); }
+            // 天球の輪（3つの大円＋やや小さい輪）
+            const RING_N = 96;
+            const ringV = [], ringE = [];
+            [[0, 0], [Math.PI / 2, 0], [0, Math.PI / 2], [Math.PI / 3, Math.PI / 3]].forEach((tilt, r) => {
+                const base = ringV.length;
+                for (let i = 0; i < RING_N; i++) {
+                    const a = i / RING_N * Math.PI * 2;
+                    let x = Math.cos(a), y = Math.sin(a), z = 0;
+                    // x軸まわり→y軸まわりに傾ける
+                    let y1 = y * Math.cos(tilt[0]) - z * Math.sin(tilt[0]), z1 = y * Math.sin(tilt[0]) + z * Math.cos(tilt[0]);
+                    let x2 = x * Math.cos(tilt[1]) + z1 * Math.sin(tilt[1]), z2 = -x * Math.sin(tilt[1]) + z1 * Math.cos(tilt[1]);
+                    ringV.push([x2, y1, z2]);
+                    ringE.push([base + i, base + (i + 1) % RING_N]);
+                }
+            });
+            // 奥にうっすら広がる立体格子
+            const latV = [], latE = [];
+            const LX = 6, LY = 4, LZ = 4, LS = 330;
+            const idx = (i, j, k) => (i * (LY + 1) + j) * (LZ + 1) + k;
+            for (let i = 0; i <= LX; i++) for (let j = 0; j <= LY; j++) for (let k = 0; k <= LZ; k++) latV.push([(i - LX / 2) * LS, (j - LY / 2) * LS, (k - LZ / 2) * LS]);
+            for (let i = 0; i <= LX; i++) for (let j = 0; j <= LY; j++) for (let k = 0; k <= LZ; k++) {
+                if (i < LX) latE.push([idx(i, j, k), idx(i + 1, j, k)]);
+                if (j < LY) latE.push([idx(i, j, k), idx(i, j + 1, k)]);
+                if (k < LZ) latE.push([idx(i, j, k), idx(i, j, k + 1)]);
+            }
+
+            // 画面の中の置き場所（world座標）と、回る速さ（rad/秒）
+            const shapes = [
+                { id: 'lat', kind: 'lat', v: latV, e: latE, c: [0, 0, 700], s: 1, rot: [0.05, -0.04, 0.0], spd: [0.012, 0.02, 0.0], a: 0.5, nodes: false },
+                { id: 'ring', kind: 'ring', v: ringV, e: ringE, c: [40, 10, 500], s: 520, rot: [0.4, 0.2, 0], spd: [0.05, 0.035, 0.02], a: 0.9, nodes: false, ring: true },
+                // 左上：入れ子の正多面体（正二十面体・正十二面体・正八面体）
+                { id: 'oct', kind: 'poly', v: OCT.v, e: OCT.e, c: [-430, -200, 100], s: 140, rot: [0.5, 0.3, 0.1], spd: [0.12, -0.07, 0.04], a: 1, nodes: true },
+                { id: 'dod', kind: 'poly', v: DOD.v, e: DOD.e, c: [-430, -200, 100], s: 222, rot: [0.2, 0.8, 0.3], spd: [-0.06, 0.05, 0.03], a: 1, nodes: true },
+                { id: 'ico', kind: 'poly', v: ICO.v, e: ICO.e, c: [-430, -200, 100], s: 300, rot: [0.7, 0.1, 0.5], spd: [0.04, 0.07, -0.02], a: 1, nodes: true },
+                // 右下：超立方体（4次元の立方体）
+                { id: 'tes', kind: 'tes', v: tesV, e: tesE, c: [470, 210, 100], s: 145, rot: [0.3, 0.5, 0.0], spd: [0.03, 0.06, 0.0], a: 1, nodes: true, s4: [0.16, 0.11, 0.07] },
+                // 小さな立体を、ところどころに
+                { id: 'dod2', kind: 'poly', v: DOD.v, e: DOD.e, c: [380, -250, 350], s: 120, rot: [0.9, 0.2, 0.6], spd: [0.07, 0.1, -0.03], a: 0.9, nodes: true },
+                { id: 'ico2', kind: 'poly', v: ICO.v, e: ICO.e, c: [-330, 270, 380], s: 105, rot: [0.1, 0.6, 0.9], spd: [-0.09, 0.06, 0.05], a: 0.9, nodes: true }
+            ];
+            shapes.forEach(sh => { sh.p = sh.v.map(() => [0, 0, 0, 0]); });   // 画面上の位置（x, y, 奥行き, 拡大率）
+
+            // ---------- 色 ----------
+            const THEMES = {
+                dark: { line: [150, 205, 255], k: 1 },
+                light: { line: [55, 65, 105], k: 0.8 }
+            };
+            // ---------- カメラ・回転・投影 ----------
+            let W = 0, H = 0, DPR = 1, F = 1800, CX = 0, CY = 0;
+            const DIST = 1800;
+            let swY = 0, swP = 0;
+            function rotMat(rx, ry, rz) {
+                const cx = Math.cos(rx), sx = Math.sin(rx), cy = Math.cos(ry), sy = Math.sin(ry), cz = Math.cos(rz), sz = Math.sin(rz);
+                return [cy * cz, -cy * sz, sy, sx * sy * cz + cx * sz, -sx * sy * sz + cx * cz, -sx * cy, -cx * sy * cz + sx * sz, cx * sy * sz + sx * cz, cx * cy];
+            }
+            function projectShape(sh, t) {
+                const m = rotMat(sh.rot[0] + sh.spd[0] * t, sh.rot[1] + sh.spd[1] * t, sh.rot[2] + sh.spd[2] * t);
+                const cyw = Math.cos(swY), syw = Math.sin(swY), cpw = Math.cos(swP), spw = Math.sin(swP);
+                for (let i = 0; i < sh.v.length; i++) {
+                    let x, y, z;
+                    const v = sh.v[i];
+                    if (sh.kind === 'tes') {
+                        // 4次元の回転（x-w, y-w, z-w）のあと、3次元へ投影
+                        let a = v[0], b = v[1], c = v[2], d = v[3];
+                        const t1 = t * sh.s4[0] + 0.4, t2 = t * sh.s4[1] + 1.1, t3 = t * sh.s4[2] + 2;
+                        let na = a * Math.cos(t1) - d * Math.sin(t1); d = a * Math.sin(t1) + d * Math.cos(t1); a = na;
+                        let nb = b * Math.cos(t2) - d * Math.sin(t2); d = b * Math.sin(t2) + d * Math.cos(t2); b = nb;
+                        let nc = c * Math.cos(t3) - d * Math.sin(t3); d = c * Math.sin(t3) + d * Math.cos(t3); c = nc;
+                        const f4 = 1 / (2.6 - d);
+                        x = a * f4 * 1.9; y = b * f4 * 1.9; z = c * f4 * 1.9;
+                    } else { x = v[0]; y = v[1]; z = v[2]; }
+                    let X = (m[0] * x + m[1] * y + m[2] * z) * sh.s + sh.c[0];
+                    let Y = (m[3] * x + m[4] * y + m[5] * z) * sh.s + sh.c[1];
+                    let Z = (m[6] * x + m[7] * y + m[8] * z) * sh.s + sh.c[2];
+                    // 視点のゆっくりした揺れ
+                    const X2 = X * cyw + (Z - 400) * syw, Z2 = -X * syw + (Z - 400) * cyw + 400;
+                    const Y2 = Y * cpw - Z2 * spw * 0.35, Z3 = Z2 + Y * spw * 0.35;
+                    const d2 = Math.max(Z3 + DIST, 200);
+                    const k = F / d2;
+                    const p = sh.p[i];
+                    p[0] = CX + X2 * k; p[1] = CY + Y2 * k; p[2] = Z3; p[3] = k;
+                }
+            }
+
+            // ---------- 描画 ----------
+            let theme = 'light';
+            const fade = (z) => Math.max(0.25, Math.min(1, 1.15 - (z + 300) / 1300));    // 奥ほど薄く
+            function drawShape(sh, th) {
+                const lc = th.line.join(',');
+                const base = (sh.a || 1) * th.k;
+                if (sh.kind === 'lat') {
+                    ctx.beginPath();
+                    sh.e.forEach(ed => { const a = sh.p[ed[0]], b = sh.p[ed[1]]; ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); });
+                    ctx.strokeStyle = 'rgba(' + lc + ',' + 0.07 * base + ')';
+                    ctx.lineWidth = DPR * 0.8;
+                    ctx.stroke();
+                    return;
+                }
+                if (sh.ring) {
+                    for (let r = 0; r < 4; r++) {
+                        ctx.beginPath();
+                        for (let i = 0; i <= RING_N; i++) {
+                            const q = sh.p[r * RING_N + (i % RING_N)];
+                            if (i === 0) ctx.moveTo(q[0], q[1]); else ctx.lineTo(q[0], q[1]);
+                        }
+                        ctx.strokeStyle = 'rgba(' + lc + ',' + 0.22 * base + ')';
+                        ctx.lineWidth = DPR * 1;
+                        ctx.stroke();
+                    }
+                    return;
+                }
+                sh.e.forEach(ed => {
+                    const a = sh.p[ed[0]], b = sh.p[ed[1]];
+                    const al = 0.42 * base * fade((a[2] + b[2]) / 2);
+                    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+                    ctx.strokeStyle = 'rgba(' + lc + ',' + al + ')';
+                    ctx.lineWidth = DPR * (1.1 + 0.7 * fade((a[2] + b[2]) / 2));
+                    ctx.stroke();
+                });
+                if (sh.nodes) {
+                    sh.p.forEach(q => {
+                        ctx.beginPath(); ctx.arc(q[0], q[1], 2.6 * q[3] * DPR, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(' + lc + ',' + 0.55 * base * fade(q[2]) + ')';
+                        ctx.fill();
+                    });
+                }
+            }
+            function draw() {
+                const th = THEMES[theme];
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.globalAlpha = 1;
+                ctx.lineCap = 'round';
+                shapes.forEach(sh => drawShape(sh, th));
+                ctx.globalCompositeOperation = 'source-over';
+            }
+            function update(dt) {
+                // 立体の回転は、時間（time）から計算するので、ここでは何もしない
+            }
+
+            // ---------- 動かす・止める ----------
+            let time = 0, running = false, raf = 0, last = 0, interval = 33, ema = 6;
+            function resize() {
+                DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+                W = window.innerWidth; H = window.innerHeight;
+                canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+            }
+            function frame() {
+                theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+                const s = Math.max(W, H) / 1400 * DPR;
+                F = DIST * s; CX = W * DPR * 0.5; CY = H * DPR * 0.5;
+                swY = 0.12 * Math.sin(time * 0.09) + 0.04 * Math.sin(time * 0.031 + 1);
+                swP = 0.1 * Math.sin(time * 0.067 + 0.5);
+                shapes.forEach(sh => projectShape(sh, time));
+                draw();
+            }
+            function loop(ts) {
+                if (!running) return;
+                raf = window.requestAnimationFrame(loop);
+                if (ts - last < interval) return;
+                const dt = Math.min((ts - last) / 1000, 0.1);
+                last = ts;
+                const clock = window.performance || Date;
+                const t0 = clock.now();
+                time += dt; update(dt); frame();
+                ema = ema * 0.9 + (clock.now() - t0) * 0.1;
+                interval = ema > 60 ? 100 : (ema > 28 ? 66 : 33);      // 重い端末では、コマ数を自動で減らす
+            }
+            function setRunning(on) {
+                if (on && !running) { running = true; last = 0; raf = window.requestAnimationFrame(loop); }
+                else if (!on) { running = false; if (raf) window.cancelAnimationFrame(raf); frame(); }
+            }
+            let rt = null;
+            window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { resize(); frame(); }, 150); });
+            const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            resize();
+            time = 20;
+            window.circuitBg = { setRunning: (on) => setRunning(on && !reduce), _frame: (dt) => { time += dt; update(dt); frame(); }, _resize: resize };
+            if (document.body.classList.contains('geo-off') || reduce) frame(); else setRunning(true);
+        })();
+
+        (function() {
+            let off = false;
+            try { off = localStorage.getItem('icube_geo_anim') === 'off'; } catch (e) { off = false; }
+            document.body.classList.toggle('geo-off', off);
+            if (window.circuitBg) window.circuitBg.setRunning(!off);
+            const cb = document.getElementById('geoToggle');
+            if (cb) cb.checked = !off;
+        })();
+        window.toggleGeo = function(on) {
+            document.body.classList.toggle('geo-off', !on);
+            if (window.circuitBg) window.circuitBg.setRunning(on);
+            try { localStorage.setItem('icube_geo_anim', on ? 'on' : 'off'); } catch (e) {}
+        }
+
+        // ===== マーキーの案件名をクリック → 一覧の中で「この案件です！」と分かりやすく表示 =====
+        function normMarquee(t) {
+            return normText(t).replace(/new!!/g, '').replace(/【[^】]*】/g, '').replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, '');
+        }
+
+        // data-id があればその案件。なければ、案件名の近さ（【】や（）を除いた名前）で探す
+        function findProjectForMarquee(el) {
+            const id = el.dataset && el.dataset.id;
+            if (id) {
+                const hit = projects.find(x => String(x.id) === String(id));
+                if (hit) return hit;
+            }
+            const key = normMarquee(el.textContent);
+            if (!key) return null;
+            let best = null;
+            let bestLen = 0;
+            projects.forEach(p => {
+                const t = normMarquee(p.title);
+                if (t && (key === t || key.startsWith(t) || t.startsWith(key)) && t.length > bestLen) { best = p; bestLen = t.length; }
+            });
+            return best;
+        }
+
+        let spotTimer = null;
+        function clearSpotlight() {
+            clearTimeout(spotTimer);
+            document.body.classList.remove('spot-on');
+            document.querySelectorAll('.spotlight').forEach(el => el.classList.remove('spotlight'));
+            document.querySelectorAll('.spot-label').forEach(el => el.remove());
+        }
+
+        function findListEl(id) {
+            const sel = currentView === 'table' ? '.project-row' : '.project-card';
+            return document.querySelector(sel + '[data-id="' + id + '"]');
+        }
+
+        window.jumpToProject = function(p) {
+            clearSpotlight();
+            let el = findListEl(p.id);
+            // 検索やタグの絞り込みで隠れていたら、絞り込みを解除して表示する
+            if (!el || el.style.display === 'none') { showAll(); el = findListEl(p.id); }
+            if (!el) { showProposeToast('この案件は一覧に見つかりませんでした'); return; }
+            el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center' });
+            document.body.classList.add('spot-on');
+            el.classList.add('spotlight');
+            const label = document.createElement('div');
+            label.className = 'spot-label';
+            label.textContent = '👈 この案件です！';
+            el.appendChild(label);
+            // どこかをクリックするか、しばらくたつと元に戻る
+            spotTimer = setTimeout(clearSpotlight, 7000);
+            setTimeout(() => document.addEventListener('click', clearSpotlight, { once: true }), 400);
+        }
+
+        document.addEventListener('click', (e) => {
+            const item = e.target.closest && e.target.closest('.marquee-container .proj-item');
+            if (!item) return;
+            const p = findProjectForMarquee(item);
+            if (p) jumpToProject(p);
+            else showProposeToast('この案件は一覧に見つかりませんでした');
+        });
+        document.querySelectorAll('.marquee-container .proj-item').forEach(el => { el.title = 'クリックすると、一覧でこの案件を表示します'; });
+
+        window.copyModalText = function() {
+            const text = document.getElementById('modal-content-text').innerText;
+            navigator.clipboard.writeText(text).then(() => alert('コピーしました'));
+        }
+
+        window.filterByTag = function(tag) {
+            const selector = currentView === 'table' ? '.project-row' : '.project-card';
+            document.querySelectorAll(selector).forEach(el => {
+                const match = el.dataset.tags.split(',').includes(tag);
+                el.style.display = match ? (currentView === 'table' ? '' : 'flex') : 'none';
+            });
+        }
+
+        window.showAll = function() {
+            const selector = currentView === 'table' ? '.project-row' : '.project-card';
+            document.querySelectorAll(selector).forEach(el => el.style.display = currentView === 'table' ? '' : 'flex');
+            document.getElementById('searchInput').value = '';
+        }
+        
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const selector = currentView === 'table' ? '.project-row' : '.project-card';
+            document.querySelectorAll(selector).forEach(el => {
+                const match = el.dataset.text.includes(filter);
+                el.style.display = match ? (currentView === 'table' ? '' : 'flex') : 'none';
+            });
+        });
+    </script>
+
+    <div id="pool-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;" onclick="this.style.display='none'">
+        <div style="background:var(--card-bg); padding:30px; width:450px; border-radius:12px; color:var(--text); max-height:80vh; overflow-y:auto; border: 1px solid var(--border-color);" onclick="event.stopPropagation()">
+            <h3 style="color:#dc2626;">【※人財プール案件の注意事項】</h3>
+            <div style="text-align:left; font-size:14px; line-height:1.6;">
+                <p>■エンドはN社様<br>
+                ■本案件は体制不可、単独での提案となります。<br>
+                ■ビッグプロジェクト経験者のみとなります。<br>
+                官公庁、金融、航空など、様々な業界の100名～1000名のビッグプロジェクトに次々入って頂く案件となり、終わりはありません。案件が終わったら次の案件が入り、案件と案件の間のブランクが生まれた場合、そのブランク期間も単価が支払われます。（スポットで他の商流案件に入ることは禁止）<br>
+                ブランク期間はN社様のR&D（研究開発）や次の案件の技能開発期間としてN社様が用意して頂いております。</p>
+                <p>以上となります。<br>ご不明点がありましたら、前田までご連絡ください。<br>Phone：070-1370-1870</p>
+            </div>
+            <button style="margin-top:20px; width:100%; padding:10px; background:var(--border-color); color:var(--text); border:none; border-radius:4px; cursor:pointer;" onclick="document.getElementById('pool-modal').style.display='none'">閉じる</button>
+        </div>
+    </div>
 </body>
 </html>
