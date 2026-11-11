@@ -11,7 +11,7 @@
         header .logo { font-weight: bold; font-size: 20px; display: flex; align-items: center; gap: 20px; }
         header nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; cursor: pointer; }
         
-        /* ヘッダー中央の自動ログイン強調バッジ（サイバー感強化版） */
+        /* ヘッダー中央の自動ログイン強調バッジ */
         .header-auth-status {
             background: rgba(0, 243, 255, 0.08);
             border: 1px solid #00f3ff;
@@ -58,7 +58,7 @@
             100% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66; }
         }
         
-        /* スムーズ・インフィニティ・マーキーのスタイル（上下ネオン走査線追加） */
+        /* スムーズ・インフィニティ・マーキーのスタイル */
         .marquee-container {
             background: #0f172a;
             color: #ffffff;
@@ -72,7 +72,6 @@
         }
         .dark-mode .marquee-container { background: #020617; border-top: 1px solid #1e293b; border-bottom: 1px solid #1e293b; }
 
-        /* 上部ネオン（右に流れる） */
         .marquee-container::before {
             content: '';
             position: absolute;
@@ -90,7 +89,6 @@
             100% { left: 100%; }
         }
 
-        /* 下部ネオン（左に流れる） */
         .marquee-container::after {
             content: '';
             position: absolute;
@@ -112,7 +110,7 @@
             display: inline-block;
             white-space: nowrap;
             will-change: transform;
-            animation: smoothMarquee 28s linear infinite;
+            animation: smoothMarquee 35s linear infinite;
         }
         .marquee-container:hover .marquee-track {
             animation-play-state: paused;
@@ -505,13 +503,13 @@
             .pr-detail { justify-self: end; }
         }
 
-        /* 背景：3Dの幾何学模様（canvasに描画。奥ほど薄く消えていく） */
+        /* 背景：3Dの幾何学模様 */
         #circuit-bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000 30%); mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000 30%); }
 
         .project-list .project-row, .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)); -webkit-backdrop-filter: blur(5px) saturate(140%); backdrop-filter: blur(5px) saturate(140%); }
         .dark-mode .project-list .project-row, .dark-mode .project-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)); }
 
-        /* ================= マーキーのクリック・要員マッチの見やすさ ================= */
+        /* マーキーのクリック・要員マッチの強調表示 */
         .marquee-container .proj-item { cursor: pointer; text-decoration: underline transparent; text-underline-offset: 4px; transition: text-decoration-color 0.2s, filter 0.2s; }
         .marquee-container .proj-item:hover { text-decoration-color: currentColor; filter: brightness(1.15); }
         body.spot-on .project-list .project-row:not(.spotlight), body.spot-on .card-grid .project-card:not(.spotlight) { opacity: 0.25; filter: saturate(0.6); transition: opacity 0.35s ease, filter 0.35s ease; }
@@ -666,17 +664,19 @@
         <div class="marquee-track">
             <!-- 1つ目のブロック -->
             <div class="marquee-content">
+                <span class="proj-item" data-id="38"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】柏／スキャナ・OCRスペシャリスト（VB.Net開発・保守）</span>
+                <span class="proj-item" data-id="37"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／WAS・IHS インフラ上流エンジニア（アプリサーバー構築）</span>
+                <span class="proj-item" data-id="36"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】水道橋／DB2スペシャリスト（VerUp・パッチ適用・AWS OpenShift）</span>
                 <span class="proj-item" data-id="35"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
                 <span class="proj-item" data-id="34"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
-                <span class="proj-item" data-id="33"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
-                <span class="proj-item" data-id="32"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
             </div>
             <!-- 2つ目のブロック（ループ用） -->
             <div class="marquee-content" aria-hidden="true">
+                <span class="proj-item" data-id="38"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】柏／スキャナ・OCRスペシャリスト（VB.Net開発・保守）</span>
+                <span class="proj-item" data-id="37"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／WAS・IHS インフラ上流エンジニア（アプリサーバー構築）</span>
+                <span class="proj-item" data-id="36"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】水道橋／DB2スペシャリスト（VerUp・パッチ適用・AWS OpenShift）</span>
                 <span class="proj-item" data-id="35"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【急募】水道橋／Db2パッチ適用作業（Db2スペシャリスト）</span>
                 <span class="proj-item" data-id="34"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】IBMiモダナイゼーションPoC Step2（スキル見合い）</span>
-                <span class="proj-item" data-id="33"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】給与システムオペレーション業務対応（60万）</span>
-                <span class="proj-item" data-id="32"><span class="blink-text"><span class="blink-badge">NEW!!</span></span> 【新着案件】柏／ネットワーク基盤 設計・構築・運用保守支援（スキル見合い）</span>
             </div>
         </div>
     </div>
@@ -708,7 +708,7 @@
             <div class="controls-container">
                 <h1 class="page-title">
                     <span>案件一覧</span>
-                    <span id="last-updated" class="last-updated">（最終更新日時：11/6 15:59）</span>
+                    <span id="last-updated" class="last-updated">（最終更新日時：11/11 13:56）</span>
                 </h1>
                 <div class="controls">
                     <div class="seg">
@@ -870,6 +870,182 @@
         }
 
         const projects = [
+            {
+                id: 38,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "A社",
+                date: "2026/11/11",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "柏／スキャナ・OCRスペシャリスト（VB.Net開発・保守）",
+                tags: ["VB.Net", "OCR", "スキャナコントロール", "バッチファイル", "PowerShell", "柏"],
+                location: "柏駅 徒歩13分",
+                remote: "週1日程度（基本オンサイト）",
+                price: "要相談",
+                flow: "元請様・エンド様2回（前田同席）",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "柏でスキャナ、ＯＣＲのスペシャリストを探しております。",
+                    "お客様が記載した手書きの書類をスキャナで読み込み、それをＯＣＲ認識を行い、業務処理を進める仕組みがあるため、この部分のスペシャリストを必要とします。",
+                    "",
+                    "１．作業概要",
+                    "  イメージワークフローシステムを保守開発するチームがあり、各種基盤系機能のうち、ワークフローの入り口となる、書類スキャン、スキャンイメージ操作と編集、OCR認識、DB格納といった範囲が、VB.Netで構築されております。この部分について、開発、運用、保守をご担当頂きます。",
+                    "",
+                    "２．期間",
+                    "  要ご相談",
+                    "",
+                    "３．場所",
+                    "  JR常磐線／東武アーバンパークライン 柏駅 徒歩13分",
+                    "",
+                    "４．勤務時間",
+                    "  9:00～18:00 フレックス無 土日祝日休み。",
+                    "  ※超過勤務は平均して5～15時間程度を想定。",
+                    "  ※テレワークはできて週1日程度。基本的にはオンサイト業務。",
+                    "",
+                    "５．スキル",
+                    "  ・VB.Netを用いた開発経験",
+                    "  ・OCR処理チューニング、スキャナコントロール",
+                    "  ・Windows上のスクリプト言語(バッチファイル、パワーシェル）が読めて内容を理解でき、修正ができる事",
+                    "  ・コミュニケーション能力",
+                    "",
+                    "６．面談回数",
+                    "  2回（元請様、エンド様）元請様面談は前田同席",
+                    "",
+                    "７．その他",
+                    "  ・日本国籍の方のみ（外国籍NG）",
+                    "  ・個人事業主：可"
+                ].join("\n")
+            },
+            {
+                id: 37,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "A社",
+                date: "2026/11/11",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "柏／WAS・IHS インフラ上流エンジニア（アプリサーバー構築）",
+                tags: ["WAS", "IHS", "WebLogic", "Tomcat", "AIX", "Linux", "Windows Server", "柏"],
+                location: "柏駅 徒歩13分",
+                remote: "週1回程度",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "柏でWAS、IHSといった、アプリケーションサーバーを構成する各種MWと、サーバーOSに強みのある上流工程から関われるインフラ要員を募集致します。主に取り扱うのはWASですが、WAS経験がなくても他アプリケーションサーバーの経験があれば検討致します。",
+                    "若返りも目的の１つとなっておりますので、年齢は４５才未満であることを最優先とします。このため、経験値については、ある程度少なくなっても検討致します。是非、ご検討の程、よろしくお願い致します。",
+                    "",
+                    "１．案件概要",
+                    "  生保のお客様における、保守開発案件です。想定している作業は以下の通りです。",
+                    "    ①アプリケーションサーバ設計、構築、運用",
+                    "      運用保守の一環で案件の基本設計フェーズからの主担当",
+                    "    ②インフラ全般の運用保守。",
+                    "      データセンター（オペレータ、CE）への作業指示。",
+                    "      障害対応（サポートセンター問い合わせ、CEコール等）",
+                    "      HW定期点検（サーバ落とし上げ） 1回/年",
+                    "      災害対策訓練 1回/年",
+                    "      定期キャパシティ（サーバ使用率）調査",
+                    "",
+                    "２．役割",
+                    "  メンバー。習熟が進むと案件リーダーとしての役割を担う場合もある。",
+                    "",
+                    "３．業務で活用する主な製品、知識",
+                    "  AIX, Linux（RHT）, Windows Server, WAS, Tomcat，DB2",
+                    "",
+                    "４．期間、人数",
+                    "  １名。長期",
+                    "",
+                    "５．単価",
+                    "  スキル見合いでご相談",
+                    "",
+                    "６．場所",
+                    "  JR常磐線／東武野田線 柏駅 徒歩１３分",
+                    "",
+                    "７．勤務時間",
+                    "  9:00～18:00 フレックス無、土日祝日は暦通り、テレワークは使えます（週１回程度）",
+                    "  ※超過勤務は平均して５～１０時間程度を想定。ピーク時は２０～３０時間の可能性あり",
+                    "  ※業務の性格上、土日祝日や夜間の不規則勤務が発生しますが、代休は必ず取得できます",
+                    "",
+                    "８．スキル",
+                    "  ・以下に記載のアプリケーションサーバーいずれかについて、要件定義、基本設計、詳細設計、構築、テストの経験。",
+                    "    若手の場合は先輩の下で実施した経験でも良い。",
+                    "      WebSphere Application Server (WAS)",
+                    "      WebLogic Server / JBoss EAP / WildFly / WebSphere Liberty",
+                    "      Apache TomEE / GlassFish / Jetty / Payara Server / WebOTXNEC",
+                    "      uCosminexus Application Server / Interstage Application Server",
+                    "",
+                    "９．その他",
+                    "  ・日本国籍の方のみ（外国籍NG）",
+                    "  ・個人事業主：可"
+                ].join("\n")
+            },
+            {
+                id: 36,
+                category: "infra",
+                categoryName: "☁️ インフラ",
+                company: "A社",
+                date: "2026/11/11",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "水道橋／DB2スペシャリスト（VerUp・パッチ適用・AWS OpenShift）",
+                tags: ["DB2", "バージョンアップ", "パッチ適用", "SQLレプリケーション", "Linux", "AWS OpenShift", "ROSA", "水道橋"],
+                location: "水道橋駅 徒歩7〜8分",
+                remote: "出社（フルリモート不可）",
+                price: "スキル見合い",
+                flow: "元請1社先まで（前田同席）",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "水道橋でDB2のスペシャリストを募集致します。VerUp、パッチ適用を行うため、これらについて、一人称で上流から下流まで対応できる人材を求めております。",
+                    "但し、商流制限があり、当社から１社先まで、となっております。難しいご相談ですが、スキルマッチする方がいた場合に、その会社さんを当社へご紹介頂く形も検討可能です。",
+                    "是非、ご協力をお願い致します。",
+                    "",
+                    "１．概要",
+                    "  現行保守体制の増員要員として、DB2に特化した技術者を募集いたします。",
+                    "  AWS OpenShift（ROSA）上で稼働中のDB2に対するバージョンアップ、パッチ適用を主たる業務として対応いただきます。",
+                    "",
+                    "  以下作業が想定されております。",
+                    "  前提： Db211.5.8.0 → Db211.5.9.0 SPへのバージョンアップ",
+                    "        開発・検証環境を含め69台",
+                    "  ①バージョンアップ作業における適用手順およびフォールバックの手順の作成および検証",
+                    "  ②非互換性に対する既存MWおよびプログラムの影響調査",
+                    "  ③②の影響調査結果の対応、およびリリース",
+                    "  ④バージョンアップ適用作業（フォールバックを含めた移行リハーサルと本番 ※土日祝日対応）",
+                    "",
+                    "２．場所",
+                    "  JR中央総武緩行線 水道橋駅から徒歩７～８分。",
+                    "  東京メトロ半蔵門線／都営地下鉄新宿線 神保町駅・九段下駅も利用可",
+                    "",
+                    "３．期間",
+                    "  ２０２６年１２月～２０２７年３月※延長の可能性あり",
+                    "",
+                    "４．人数",
+                    "  ３名",
+                    "",
+                    "５．スキル",
+                    "  ・（必須）DB2構築/バージョンアップ作業/パッチ適用の実務経験",
+                    "        但し、上流フェーズ必須。適用作業経験のみはNG",
+                    "  ・（必須）SQLレプリケーション設計、構築の実務経験",
+                    "  ・（必須）Linux環境での設計・構築経験",
+                    "  ・（必須）インフラ／ミドルウェア領域での設計経験",
+                    "  ・（必須）能動的に動き、指示待ちにならない方",
+                    "  ・（必須）コミニュケーション能力が高い方",
+                    "  ・（尚可）AWS OpenShift（ROSA）の実務経験",
+                    "  ・（尚可）High Availability Disaster Recovery（HADR）環境での構築経験",
+                    "",
+                    "６．その他",
+                    "  ・外国籍ＮＧ",
+                    "  ・個人事業主：可",
+                    "  ・面談回数 １回（元請様のみ）前田同席",
+                    "  ・勤務時間 ９：００～１８：００（フルリモート不可）"
+                ].join("\n")
+            },
             {
                 id: 35,
                 category: "infra",
@@ -1116,73 +1292,6 @@
             },
 
             {
-                id: 29,
-                category: "infra",
-                categoryName: "☁️ インフラ",
-                company: "A社",
-                date: "2026/10/05",
-                status: "募集中",
-                statusClass: "status-open",
-                title: "生保向け システム基盤更改対応",
-                tags: ["チームリーダー", "AIX", "AWS", "GitLab", "基盤構築"],
-                location: "大崎",
-                remote: "週2～3日テレワーク",
-                price: "75～80万",
-                flow: "貴社1社先まで",
-                contract: "準委任",
-                foreign: "NG",
-                remark: "-",
-                detailText: [
-                    "生保向け システム基盤更改対応",
-                    "",
-                    "案件概要 ：生保系ユーザー様における、" +
-                      "システム基盤更改対応案件です。",
-                    "",
-                    "【主な業務】",
-                    "  チームリーダーとして、案件概要（要件定義、設計・構築、" +
-                      "各種テスト(計画/実施/レビュー、リリース対応 など）" +
-                      "に対応するため、ユーザー様との調整、及び開発作業を担当します。",
-                    "",
-                    "【環境】",
-                    "  開発環境、ユーザー打鍵環境、本番環境",
-                    "",
-                    "【使用製品】",
-                    "  Unix(AIX)、AWS、オブジェクトストレージ、ClearCase、GitLab、" +
-                      "JP1/PFM、Instana、ILMT、Flexera、RPT (DTP)、Gatling、Chef、" +
-                      "AnsibleChef、開発PC（Windows）",
-                    "",
-                    "期間 ：11月 ～ 2027年3月 ※業務実績により継続の可能性あり",
-                    "  ※勤務時間 9:00～18:00（OTあり）",
-                    "  ※本番移行時は休日出勤が発生します。",
-                    "",
-                    "人数 ：チームリーダー １名",
-                    "",
-                    "場所 ：最寄駅 JR各線 大崎駅 徒歩10分",
-                    "  ※テレワークあり（２～３日／週の見込み）",
-                    "  ※出社時の服装はノーネクタイ可",
-                    "",
-                    "スキル ：",
-                    "【必須】",
-                    "  １．チームリーダーとしての業務経験（更改／管理業務）",
-                    "  ２．要件定義、基本設計など上流工程業務経験",
-                    "  ３．要件におけるテスト計画／実施経験（技術言語不問／" +
-                      "5年以上が目安）",
-                    "  ４．基盤ミドルウェア構築経験",
-                    "【尚可】",
-                    "  ５．生保業界での業務経験",
-                    "  ６．WAS,Db2など、IBMミドルウェア構築経験",
-                    "",
-                    "職場見学 ：２回（元請様／お客様） ※Web面談を予定",
-                    "",
-                    "その他 ：",
-                    "  ・単金条件は750K～800Kまでを想定しております。（応相談）",
-                    "  ・時間清算なし（月額固定となります）。",
-                    "  ・外国籍の方のご応募はご遠慮ください。",
-                    "  ・業務用PCは貸与されます。",
-                    "  ・テレワーク勤務時には、自宅Wi-Fiが必須となります。",
-                ].join("\n")
-            },
-            {
                 id: 28,
                 category: "dev",
                 categoryName: "💻 開発",
@@ -1396,7 +1505,7 @@
                     "希望単価 ：60万（スキルによる）",
                     "",
                     "【単価上振れについて】",
-                    "上振れ1万～5万が限度⇒上記必須スキルに加え、特筆すべき事項が在る場合のみ",
+                    "上振れ1万～5万が限度⇒上記必須スキルに加え、特筆事項が在る場合のみ",
                     "     ",
                     "外国籍  ：不可",
                     "",
@@ -1649,108 +1758,108 @@
                     "1回目：元請様(Web･対面)、2回目：お客様(対面)",
                 ].join("\n")
             },
-          {
-  id: 6,
-  category: "dev",
-  categoryName: "💻 開発",
-  company: "M社",
-  date: "2026/10/19",
-  status: "募集中",
-  statusClass: "status-open",
-  title: "SAP（アクセンチュア様）案件",
-  tags: ["SAP"],
-  location: "都内",
-  remote: "案件による",
-  price: "スキル見合い",
-  flow: "貴社まで",
-  contract: "準委任",
-  foreign: "NG",
-  remark: "-",
-  detailText: [
-    "応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。",
-    "",
-    " 1. 応募案件ID （案件番号）：",
-    "",
-    " 2. 面談可能日 ：",
-    "",
-    " 3. 開始可能日 ：",
-    "",
-    " 4. 希望単金 ：",
-    "",
-    " 5．国籍 ：",
-    "",
-    " 6. アクセンチュア社稼働歴有無 ：",
-    "",
-    "* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。",
-    "",
-    "* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。",
-    "",
-    "",
-    "【SAP案件リスト】",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "AD-405（Leader相当）",
-    "業界: 製薬",
-    "内容: S/4 Global Roll in、運用保守フェーズに向けた計画策定チームリーダー",
-    "必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）",
-    "場所: 週3日都内（週5回出社検討優先）",
-    "開始: 即日",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "AC-453（-）",
-    "業界: エネルギー",
-    "内容: SAP FI/CO、バイリンガルSAPスペシャリスト、クライアントグローバルマネージャとの折衝",
-    "必須: SAP S/4HANA FI/CO領域全般のナレッジ、クライアントフェイシング",
-    "場所: 都内",
-    "開始: 11月",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "A4-465（-）",
-    "業界: エンターテインメント",
-    "内容: 【11月開始案件】:AMS日英バイリンガルSAPスペシャリスト クライアント側グローバルマネージャとのソリューション検討・各種調整を担当",
-    "必須: S/4 HANA FI/CO/SDMMの全体的なナレッジ、クライアントフェイシング、ドキュメンテーション、日本語、英語",
-    "場所: 都内",
-    "開始: 11月",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "AH-466（-）",
-    "業界: SAPロールアウトPJ",
-    "内容: テストフェーズにおけるテストスクリプト作成および実テスト",
-    "必須: テスト実行者としての経験",
-    "場所: 都内",
-    "開始: 11月",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "AB-447（-）",
-    "業界: 製造",
-    "内容: S/4HANA CO-PC導入、現行データ連携・BOM製造",
-    "必須: SAP S/4HANA CO-PC導入、現行システムとの整合性知識",
-    "場所: 都内",
-    "開始: 11月",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "AC-468（-）",
-    "業界: -",
-    "内容: S/4MM保守",
-    "必須: 日本語コミュニケーション（ネイティブレベル）、ABAPの知識",
-    "場所: 都内",
-    "開始: 11月",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
-    "AD-459（メンバー）",
-    "業界: -",
-    "内容: BPCメンバー、エンドユーザーサポートチーム対応",
-    "必須: BPCに関する知識・経験",
-    "場所: 都内",
-    "開始: 即日",
-    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝"
-  ].join("\n")
-          },
+            {
+                id: 6,
+                category: "dev",
+                categoryName: "💻 開発",
+                company: "M社",
+                date: "2026/10/19",
+                status: "募集中",
+                statusClass: "status-open",
+                title: "SAP（アクセンチュア様）案件",
+                tags: ["SAP"],
+                location: "都内",
+                remote: "案件による",
+                price: "スキル見合い",
+                flow: "貴社まで",
+                contract: "準委任",
+                foreign: "NG",
+                remark: "-",
+                detailText: [
+                    "応募の場合は、以下1～6をご回答頂きましてお知らせくださいませ。",
+                    "",
+                    " 1. 応募案件ID （案件番号）：",
+                    "",
+                    " 2. 面談可能日 ：",
+                    "",
+                    " 3. 開始可能日 ：",
+                    "",
+                    " 4. 希望単金 ：",
+                    "",
+                    " 5．国籍 ：",
+                    "",
+                    " 6. アクセンチュア社稼働歴有無 ：",
+                    "",
+                    "* 中国籍の方については、アクセンチュア社での（中国拠点含む）社員としての在籍歴および案件での稼働有無をご記載ください。",
+                    "",
+                    "* その他の方については、日本アクセンチュア社での社員としての在籍歴および案件での稼働有無をご記載ください。",
+                    "",
+                    "",
+                    "【SAP案件リスト】",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "AD-405（Leader相当）",
+                    "業界: 製薬",
+                    "内容: S/4 Global Roll in、運用保守フェーズに向けた計画策定チームリーダー",
+                    "必須: リーダー経験、SCM知識、英語（ビジネス会話レベル）",
+                    "場所: 週3日都内（週5回出社検討優先）",
+                    "開始: 即日",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "AC-453（-）",
+                    "業界: エネルギー",
+                    "内容: SAP FI/CO、バイリンガルSAPスペシャリスト、クライアントグローバルマネージャとの折衝",
+                    "必須: SAP S/4HANA FI/CO領域全般のナレッジ、クライアントフェイシング",
+                    "場所: 都内",
+                    "開始: 11月",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "A4-465（-）",
+                    "業界: エンターテインメント",
+                    "内容: 【11月開始案件】:AMS日英バイリンガルSAPスペシャリスト クライアント側グローバルマネージャとのソリューション検討・各種調整を担当",
+                    "必須: S/4 HANA FI/CO/SDMMの全体的なナレッジ、クライアントフェイシング、ドキュメンテーション、日本語、英語",
+                    "場所: 都内",
+                    "開始: 11月",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "AH-466（-）",
+                    "業界: SAPロールアウトPJ",
+                    "内容: テストフェーズにおけるテストスクリプト作成および実テスト",
+                    "必須: テスト実行者としての経験",
+                    "場所: 都内",
+                    "開始: 11月",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "AB-447（-）",
+                    "業界: 製造",
+                    "内容: S/4HANA CO-PC導入、現行データ連携・BOM製造",
+                    "必須: SAP S/4HANA CO-PC導入、現行システムとの整合性知識",
+                    "場所: 都内",
+                    "開始: 11月",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "AC-468（-）",
+                    "業界: -",
+                    "内容: S/4MM保守",
+                    "必須: 日本語コミュニケーション（ネイティブレベル）、ABAPの知識",
+                    "場所: 都内",
+                    "開始: 11月",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝",
+                    "AD-459（メンバー）",
+                    "業界: -",
+                    "内容: BPCメンバー、エンドユーザーサポートチーム対応",
+                    "必須: BPCに関する知識・経験",
+                    "場所: 都内",
+                    "開始: 即日",
+                    "＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝"
+                ].join("\n")
+            },
             {
                 id: 7,
                 category: "infra",
@@ -1798,7 +1907,7 @@
                 ].join("\n")
             },
             {
-               id: 21,
+                id: 21,
                 category: "infra",
                 categoryName: "☁️ インフラ",
                 company: "CJ社",
@@ -1924,61 +2033,6 @@
                     "面談回数：",
                     "・面談はWebにて行わせていただきます（1回面談・前田同席）。"
                 ].join("\n")
-            },
-            {
-                id: 22,
-                category: "infra",
-                categoryName: "☁️ インフラ",
-                company: "A社",
-                date: "2026/09/03",
-                status: "募集中",
-                statusClass: "status-open",
-                title: "銀行系 設計・構築・運用",
-                tags: ["WindowsServer", "AD", "SEP", "ArcServe", "Hyper-V"],
-                location: "東陽町",
-                remote: "週2～3回",
-                price: "70～80万",
-                flow: "貴社1社先まで",
-                contract: "準委任",
-                foreign: "NG",
-                remark: "-",
-                detailText: [
-                    "【案件名】銀行系 設計・構築・運用",
-                    "",
-                    "・業種",
-                    " 銀行系",
-                    "",
-                    "・期間",
-                    " 面談合格から１か月後～長期",
-                    "",
-                    "・担当",
-                    " WindowsServerインフラ",
-                    "",
-                    "・スキルエリア（全てできることがMUST）",
-                    " AD、SEP、ArcServe等BKUP、Hyper-Vによる仮想化、クラスター化など。設計、構築、テスト、リリース、運用保守を全てカバーできる事",
-                    "",
-                    "・場所",
-                    " 東京メトロ 東陽町 徒歩１５分",
-                    "",
-                    "・勤務時間、テレワーク",
-                    " 9:00～18:00 フレックス無 土日祝日休み",
-                    " テレワークは週２，３回",
-                    "",
-                    "・面談回数",
-                    " 2回（元請様・お客様）",
-                    "",
-                    "・外国籍",
-                    "NG",
-                    "",
-                    "・個人事業主",
-                    "OK",
-                    "",
-                    "・単価",
-                    "70万～80万（スキル見合い）",
-                    "",
-                    "・備考",
-                    "詳細は面談にてお話致します。",
-                ].join("\n")
             }
         ];
 
@@ -2019,7 +2073,7 @@
 
                 let foreignDisplay = "NG";
                 let foreignColor = "#dc2626";
-                if (p.id === 27 || p.id === 32 || p.id === 34 || p.id === 33 || p.id === 35) {
+                if (p.id === 27 || p.id === 32 || p.id === 34 || p.id === 33 || p.id === 35 || p.id === 36 || p.id === 37 || p.id === 38) {
                     foreignDisplay = "NG";
                     foreignColor = "#dc2626";
                 } else {
@@ -2050,7 +2104,7 @@
                 } else if (p.id === 20) {
                     soloDisplay = "相談";
                     soloColor = "#d97706";
-                } else if (p.id === 32 || p.id === 34 || p.id === 33 || p.id === 35) {
+                } else if (p.id === 32 || p.id === 34 || p.id === 33 || p.id === 35 || p.id === 36 || p.id === 37 || p.id === 38) {
                     soloDisplay = "OK";
                     soloColor = "#059669";
                 } else {
@@ -2368,8 +2422,8 @@
         let matchDirty = false;
         let skillVocabCache = null;
 
-        const TECH_WORDS = ["Java", "Spring Boot", "JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js", "PHP", "Python", "Ruby", "Go", "C#", ".NET", "C++", "COBOL", "RPG", "AS/400", "Oracle", "PL/SQL", "SQL", "MySQL", "PostgreSQL", "SQL Server", "Db2", "AWS", "GCP", "Azure", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "Linux", "Windows Server", "VMware", "Hyper-V", "Active Directory", "Okta", "SharePoint", "Power Automate", "Power Apps", "Microsoft 365", "SAP", "Salesforce", "ServiceNow", "要件定義", "基本設計", "詳細設計", "Cisco", "FortiGate", "BIG-IP", "ネットワーク"];
-        const SKILL_ALIASES = { js: 'javascript', ts: 'typescript', k8s: 'kubernetes', node: 'node.js', nodejs: 'node.js', postgres: 'postgresql', sqlserver: 'sql server', ad: 'active directory', m365: 'microsoft 365', o365: 'microsoft 365', as400: 'as/400', ec2: 'aws', s3: 'aws', lambda: 'aws', dynamodb: 'aws', rds: 'aws', gke: 'gcp' };
+        const TECH_WORDS = ["Java", "Spring Boot", "JavaScript", "TypeScript", "React", "Vue", "Angular", "Node.js", "PHP", "Python", "Ruby", "Go", "C#", ".NET", "VB.Net", "C++", "COBOL", "RPG", "AS/400", "Oracle", "PL/SQL", "SQL", "MySQL", "PostgreSQL", "SQL Server", "Db2", "AWS", "GCP", "Azure", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "Linux", "Windows Server", "VMware", "Hyper-V", "Active Directory", "Okta", "SharePoint", "Power Automate", "Power Apps", "Microsoft 365", "SAP", "Salesforce", "ServiceNow", "要件定義", "基本設計", "詳細設計", "Cisco", "FortiGate", "BIG-IP", "ネットワーク", "WAS", "IHS", "WebLogic", "Tomcat", "OCR", "PowerShell"];
+        const SKILL_ALIASES = { js: 'javascript', ts: 'typescript', k8s: 'kubernetes', node: 'node.js', nodejs: 'node.js', postgres: 'postgresql', sqlserver: 'sql server', ad: 'active directory', m365: 'microsoft 365', o365: 'microsoft 365', as400: 'as/400', ec2: 'aws', s3: 'aws', lambda: 'aws', dynamodb: 'aws', rds: 'aws', gke: 'gcp', vbnet: 'vb.net', vb: 'vb.net' };
 
         function normText(s) { return String(s || '').normalize('NFKC').toLowerCase(); }
         function compact(s) { return normText(s).replace(/[^a-z0-9#+\u3040-\u30ff\u4e00-\u9fff]/g, ''); }
@@ -2445,7 +2499,6 @@
             const stripped = text.replace(/[\s._\/\-]/g, '');
             const tagText = normText(p.title + ' ' + p.tags.join(' '));
             const tagStripped = tagText.replace(/[\s._\/\-]/g, '');
-            // 入力された要員情報のスキルを「主」にして一致度を見る（スキルシートから拾ったスキルは「補助」として、案件を満たす割合の判定にだけ使う）
             let primary = tokens.filter(t => t.src !== 'sheet');
             if (!primary.length) primary = tokens;
             let hitScore = 0;
@@ -2513,7 +2566,6 @@
             document.getElementById('match-panel').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // 入力中は「読み取り結果」だけを更新する（マッチ度の計算は、ボタンを押したときに行う）
         window.scheduleMatch = function() {
             clearTimeout(matchTimer);
             matchTimer = setTimeout(() => {
@@ -2523,7 +2575,6 @@
             }, 350);
         }
 
-        // 計算ボタンの状態（計算中の表示）
         function setCalcBusy(on, label) {
             const btn = document.getElementById('btn-calc');
             btn.classList.toggle('busy', on);
@@ -2537,7 +2588,6 @@
             setTimeout(() => { label.textContent = '読み取ってマッチ度を計算'; }, 1800);
         }
 
-        // 入力や添付が変わったのに、まだ計算していない状態：ボタンを脈打たせて「押してね」を伝える
         function markNeedsCalc() {
             matchDirty = true;
             const has = document.getElementById('mp-text').value.trim() !== '' || attachedFiles.length > 0;
@@ -2554,7 +2604,6 @@
             ta.focus();
         }
 
-        // 入力スキル（主）＋スキルシートから拾ったスキル（補助）
         function sheetTokens(typed) {
             const have = new Set(typed.map(t => t.key));
             const out = [];
@@ -2579,14 +2628,13 @@
             return best || { title: '', score: 0 };
         }
 
-        // mode: true＝ボタンを押した／'auto'＝スキルシートの読み取りが終わって自動で再計算
         window.applyMatch = async function(mode) {
             clearTimeout(matchTimer);
             const fromButton = mode === true;
             Object.assign(candidate, parseCandidate(document.getElementById('mp-text').value));
             if (mode !== 'auto') setCalcBusy(true, parsePromises.size ? 'スキルシートを読み取り中…' : '計算中…');
             await Promise.all(Array.from(parsePromises));
-            if (fromButton) await sleep(650);   // 「押したら処理した」ことが伝わるための、ほんの少しの間
+            if (fromButton) await sleep(650);
 
             const typed = parseSkills(candidate.skills);
             const sheet = sheetTokens(typed);
@@ -2642,7 +2690,6 @@
             handleSort();
         }
 
-        // 計算結果を「見て分かる」形で見せる：行が順に現れ、丸いメーターが0%から数字まで伸びる
         function revealMatch() {
             const container = currentView === 'table' ? document.getElementById('table-body') : document.getElementById('card-grid');
             const items = Array.from(container.children);
@@ -2717,7 +2764,6 @@
             renderMatchBanner();
         }
 
-        // 一覧の上に出す結果バナー：何が起きたか・どこを見ればよいか・結果の概要
         function renderMatchBanner() {
             const banner = document.getElementById('match-banner');
             if (!matchState.active) { banner.style.display = 'none'; return; }
@@ -2756,7 +2802,6 @@
             return n >= 1048576 ? (n / 1048576).toFixed(1) + 'MB' : Math.max(1, Math.round(n / 1024)) + 'KB';
         }
 
-        // ----- スキルシートの読み取り（この端末のブラウザの中だけで処理。ファイルは送信しません）-----
         const fileInfo = new WeakMap();
         const parsePromises = new Set();
         const LIB_URLS = {
@@ -2767,7 +2812,6 @@
         const PDF_WORKER_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
         const libPromises = {};
 
-        // 読み取り用の部品は、スキルシートを添付したときだけ読み込む（普段のページは軽いまま）
         function loadScript(url) {
             if (!libPromises[url]) {
                 libPromises[url] = new Promise((resolve, reject) => {
@@ -2822,7 +2866,6 @@
             throw new Error('未対応の形式です');
         }
 
-        // 案件側のタグ＋よく使う技術名を「スキルの辞書」にして、スキルシートの文章から拾う
         function skillVocabulary() {
             if (skillVocabCache) return skillVocabCache;
             const set = new Set(TECH_WORDS);
@@ -2862,7 +2905,6 @@
             return p;
         }
 
-        // 読み取りが終わった／ファイルを外した：すでにマッチ中なら自動で再計算、まだなら「押してね」を表示
         function onSheetParsed(recalc = true) {
             if (matchState.active) {
                 if (recalc) applyMatch('auto');
@@ -3190,17 +3232,15 @@
         window.addEventListener('scroll', closeProposeMenu, true);
         window.addEventListener('resize', closeProposeMenu);
 
-        // ===== 背景：3Dの幾何学模様（回転する正多面体・超立方体・天球の輪。線だけで描き、余白を残す）-----
+        /* 背景：3Dの幾何学模様 */
         (function () {
             const canvas = document.getElementById('circuit-bg');
             if (!canvas || !canvas.getContext) return;
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
 
-            // ---------- 立体のデータ ----------
             const PHI = (1 + Math.sqrt(5)) / 2;
             const norm = (v) => { const l = Math.hypot(v[0], v[1], v[2]); return [v[0] / l, v[1] / l, v[2] / l]; };
-            // 一番短い距離でつながっている頂点どうしを、辺とする
             function edgesByMinDist(v) {
                 let dmin = 1e9;
                 for (let i = 0; i < v.length; i++) for (let j = i + 1; j < v.length; j++) {
@@ -3221,11 +3261,9 @@
             [-1, 1].forEach(a => [-1, 1].forEach(b => { dodV.push([0, a / PHI, b * PHI]); dodV.push([a / PHI, b * PHI, 0]); dodV.push([b * PHI, 0, a / PHI]); }));
             const DOD = solid(dodV);
             const OCT = solid([[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]]);
-            // 4次元の立方体（超立方体）
             const tesV = [], tesE = [];
             for (let i = 0; i < 16; i++) tesV.push([(i & 1) ? 1 : -1, (i & 2) ? 1 : -1, (i & 4) ? 1 : -1, (i & 8) ? 1 : -1]);
             for (let i = 0; i < 16; i++) for (let b = 0; b < 4; b++) { const j = i ^ (1 << b); if (j > i) tesE.push([i, j]); }
-            // 天球の輪（3つの大円＋やや小さい輪）
             const RING_N = 96;
             const ringV = [], ringE = [];
             [[0, 0], [Math.PI / 2, 0], [0, Math.PI / 2], [Math.PI / 3, Math.PI / 3]].forEach((tilt, r) => {
@@ -3233,14 +3271,12 @@
                 for (let i = 0; i < RING_N; i++) {
                     const a = i / RING_N * Math.PI * 2;
                     let x = Math.cos(a), y = Math.sin(a), z = 0;
-                    // x軸まわり→y軸まわりに傾ける
                     let y1 = y * Math.cos(tilt[0]) - z * Math.sin(tilt[0]), z1 = y * Math.sin(tilt[0]) + z * Math.cos(tilt[0]);
                     let x2 = x * Math.cos(tilt[1]) + z1 * Math.sin(tilt[1]), z2 = -x * Math.sin(tilt[1]) + z1 * Math.cos(tilt[1]);
                     ringV.push([x2, y1, z2]);
                     ringE.push([base + i, base + (i + 1) % RING_N]);
                 }
             });
-            // 奥にうっすら広がる立体格子
             const latV = [], latE = [];
             const LX = 6, LY = 4, LZ = 4, LS = 330;
             const idx = (i, j, k) => (i * (LY + 1) + j) * (LZ + 1) + k;
@@ -3251,28 +3287,22 @@
                 if (k < LZ) latE.push([idx(i, j, k), idx(i, j, k + 1)]);
             }
 
-            // 画面の中の置き場所（world座標）と、回る速さ（rad/秒）
             const shapes = [
                 { id: 'lat', kind: 'lat', v: latV, e: latE, c: [0, 0, 700], s: 1, rot: [0.05, -0.04, 0.0], spd: [0.012, 0.02, 0.0], a: 0.5, nodes: false },
                 { id: 'ring', kind: 'ring', v: ringV, e: ringE, c: [40, 10, 500], s: 520, rot: [0.4, 0.2, 0], spd: [0.05, 0.035, 0.02], a: 0.9, nodes: false, ring: true },
-                // 左上：入れ子の正多面体（正二十面体・正十二面体・正八面体）
                 { id: 'oct', kind: 'poly', v: OCT.v, e: OCT.e, c: [-430, -200, 100], s: 140, rot: [0.5, 0.3, 0.1], spd: [0.12, -0.07, 0.04], a: 1, nodes: true },
                 { id: 'dod', kind: 'poly', v: DOD.v, e: DOD.e, c: [-430, -200, 100], s: 222, rot: [0.2, 0.8, 0.3], spd: [-0.06, 0.05, 0.03], a: 1, nodes: true },
                 { id: 'ico', kind: 'poly', v: ICO.v, e: ICO.e, c: [-430, -200, 100], s: 300, rot: [0.7, 0.1, 0.5], spd: [0.04, 0.07, -0.02], a: 1, nodes: true },
-                // 右下：超立方体（4次元の立方体）
                 { id: 'tes', kind: 'tes', v: tesV, e: tesE, c: [470, 210, 100], s: 145, rot: [0.3, 0.5, 0.0], spd: [0.03, 0.06, 0.0], a: 1, nodes: true, s4: [0.16, 0.11, 0.07] },
-                // 小さな立体を、ところどころに
                 { id: 'dod2', kind: 'poly', v: DOD.v, e: DOD.e, c: [380, -250, 350], s: 120, rot: [0.9, 0.2, 0.6], spd: [0.07, 0.1, -0.03], a: 0.9, nodes: true },
                 { id: 'ico2', kind: 'poly', v: ICO.v, e: ICO.e, c: [-330, 270, 380], s: 105, rot: [0.1, 0.6, 0.9], spd: [-0.09, 0.06, 0.05], a: 0.9, nodes: true }
             ];
-            shapes.forEach(sh => { sh.p = sh.v.map(() => [0, 0, 0, 0]); });   // 画面上の位置（x, y, 奥行き, 拡大率）
+            shapes.forEach(sh => { sh.p = sh.v.map(() => [0, 0, 0, 0]); });
 
-            // ---------- 色 ----------
             const THEMES = {
                 dark: { line: [150, 205, 255], k: 1 },
                 light: { line: [55, 65, 105], k: 0.8 }
             };
-            // ---------- カメラ・回転・投影 ----------
             let W = 0, H = 0, DPR = 1, F = 1800, CX = 0, CY = 0;
             const DIST = 1800;
             let swY = 0, swP = 0;
@@ -3287,7 +3317,6 @@
                     let x, y, z;
                     const v = sh.v[i];
                     if (sh.kind === 'tes') {
-                        // 4次元の回転（x-w, y-w, z-w）のあと、3次元へ投影
                         let a = v[0], b = v[1], c = v[2], d = v[3];
                         const t1 = t * sh.s4[0] + 0.4, t2 = t * sh.s4[1] + 1.1, t3 = t * sh.s4[2] + 2;
                         let na = a * Math.cos(t1) - d * Math.sin(t1); d = a * Math.sin(t1) + d * Math.cos(t1); a = na;
@@ -3299,7 +3328,6 @@
                     let X = (m[0] * x + m[1] * y + m[2] * z) * sh.s + sh.c[0];
                     let Y = (m[3] * x + m[4] * y + m[5] * z) * sh.s + sh.c[1];
                     let Z = (m[6] * x + m[7] * y + m[8] * z) * sh.s + sh.c[2];
-                    // 視点のゆっくりした揺れ
                     const X2 = X * cyw + (Z - 400) * syw, Z2 = -X * syw + (Z - 400) * cyw + 400;
                     const Y2 = Y * cpw - Z2 * spw * 0.35, Z3 = Z2 + Y * spw * 0.35;
                     const d2 = Math.max(Z3 + DIST, 200);
@@ -3309,9 +3337,8 @@
                 }
             }
 
-            // ---------- 描画 ----------
             let theme = 'light';
-            const fade = (z) => Math.max(0.25, Math.min(1, 1.15 - (z + 300) / 1300));    // 奥ほど薄く
+            const fade = (z) => Math.max(0.25, Math.min(1, 1.15 - (z + 300) / 1300));
             function drawShape(sh, th) {
                 const lc = th.line.join(',');
                 const base = (sh.a || 1) * th.k;
@@ -3362,11 +3389,8 @@
                 shapes.forEach(sh => drawShape(sh, th));
                 ctx.globalCompositeOperation = 'source-over';
             }
-            function update(dt) {
-                // 立体の回転は、時間（time）から計算するので、ここでは何もしない
-            }
+            function update(dt) { }
 
-            // ---------- 動かす・止める ----------
             let time = 0, running = false, raf = 0, last = 0, interval = 33, ema = 6;
             function resize() {
                 DPR = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -3392,7 +3416,7 @@
                 const t0 = clock.now();
                 time += dt; update(dt); frame();
                 ema = ema * 0.9 + (clock.now() - t0) * 0.1;
-                interval = ema > 60 ? 100 : (ema > 28 ? 66 : 33);      // 重い端末では、コマ数を自動で減らす
+                interval = ema > 60 ? 100 : (ema > 28 ? 66 : 33);
             }
             function setRunning(on) {
                 if (on && !running) { running = true; last = 0; raf = window.requestAnimationFrame(loop); }
@@ -3421,12 +3445,11 @@
             try { localStorage.setItem('icube_geo_anim', on ? 'on' : 'off'); } catch (e) {}
         }
 
-        // ===== マーキーの案件名をクリック → 一覧の中で「この案件です！」と分かりやすく表示 =====
+        /* マーキーの案件名をクリック → 一覧でハイライト表示 */
         function normMarquee(t) {
             return normText(t).replace(/new!!/g, '').replace(/【[^】]*】/g, '').replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, '');
         }
 
-        // data-id があればその案件。なければ、案件名の近さ（【】や（）を除いた名前）で探す
         function findProjectForMarquee(el) {
             const id = el.dataset && el.dataset.id;
             if (id) {
@@ -3460,7 +3483,6 @@
         window.jumpToProject = function(p) {
             clearSpotlight();
             let el = findListEl(p.id);
-            // 検索やタグの絞り込みで隠れていたら、絞り込みを解除して表示する
             if (!el || el.style.display === 'none') { showAll(); el = findListEl(p.id); }
             if (!el) { showProposeToast('この案件は一覧に見つかりませんでした'); return; }
             el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center' });
@@ -3470,7 +3492,6 @@
             label.className = 'spot-label';
             label.textContent = '👈 この案件です！';
             el.appendChild(label);
-            // どこかをクリックするか、しばらくたつと元に戻る
             spotTimer = setTimeout(clearSpotlight, 7000);
             setTimeout(() => document.addEventListener('click', clearSpotlight, { once: true }), 400);
         }
